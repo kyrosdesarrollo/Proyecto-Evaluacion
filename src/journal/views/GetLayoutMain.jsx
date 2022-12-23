@@ -1,9 +1,11 @@
 import React from 'react'
 import { RegisterPage } from '../../auth/pages/RegisterPage';
+import { CampanaPage } from '../pages/campana/CampanaPage';
 import CargaPage from '../pages/cargaexcel/CargaPage';
 import { DashboardPage } from '../pages/dashboard/DashboardPage';
 import { EjecutivoPage } from '../pages/ejecutivo/EjecutivoPage';
 import { FormularioPage } from '../pages/formulario/FormularioPage';
+import { PautaPage } from '../pages/pauta/PautaPage';
 import { RolPage } from '../pages/rol/RolPage';
 import { NoteView } from './NoteView';
 
@@ -28,6 +30,12 @@ const GetLayoutMain = ({ pagina }) => {
 
         case 'Formulario': 
           return <FormularioPage />;
+
+        case 'Campaña': 
+          return <CampanaPage />;
+
+        case 'Pauta': 
+          return <PautaPage />;
 
         default: 
           return < NoteView />;
