@@ -3,6 +3,7 @@ import { RegisterPage } from '../../auth/pages/RegisterPage';
 import CargaPage from '../pages/cargaexcel/CargaPage';
 import { DashboardPage } from '../pages/dashboard/DashboardPage';
 import { EjecutivoPage } from '../pages/ejecutivo/EjecutivoPage';
+import { FormularioPage } from '../pages/formulario/FormularioPage';
 import { RolPage } from '../pages/rol/RolPage';
 import { NoteView } from './NoteView';
 
@@ -24,6 +25,9 @@ const GetLayoutMain = ({ pagina }) => {
 
         case 'Ejecutivo': 
           return <EjecutivoPage />;
+
+        case 'Formulario': 
+          return <FormularioPage />;
 
         default: 
           return < NoteView />;
