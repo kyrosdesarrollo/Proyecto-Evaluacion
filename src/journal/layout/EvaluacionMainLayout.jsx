@@ -100,6 +100,10 @@ export const EvaluacionMainLayout = () => {
 
   const { displayName } = useSelector( state => state.auth);
   const { notes , active, isSaving } = useSelector(state => state.journal);
+
+  const numero = notes;
+  console.log("numero");
+  console.log(numero.length);
   
   const dispatch = useDispatch();
 
@@ -187,9 +191,17 @@ export const EvaluacionMainLayout = () => {
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
         {
-            (!!active)
-            ?  <GetLayoutMain pagina = { active.title }  />
-            : <NothingSelectedView />
+            // (!!active)
+            // ? 
+            //    (numero.length > 0) 
+            //      ? <GetLayoutMain pagina = { active.title }  />
+            //      : <GetLayoutMain pagina = "Inicio"  />
+            // : <NothingSelectedView />
+            (numero.length > 0) 
+                 ?   (!!active) 
+                      ? <GetLayoutMain pagina = { active.title }  />
+                      : <NothingSelectedView />
+                 : <GetLayoutMain pagina = "Inicio"  />
           }
        
       </Box>

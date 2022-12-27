@@ -6,7 +6,9 @@ import { EjecutivoToolbarList } from '../../components/ejecutivo/EjecutivoToolba
 export const EjecutivoPage = () => {
   return (
     <>
+    
         <EjecutivoToolbar/>
+        
         <EjecutivoToolbarList />
     </>
   )
