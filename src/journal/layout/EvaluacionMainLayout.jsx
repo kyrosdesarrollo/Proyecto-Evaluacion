@@ -97,14 +97,12 @@ export const EvaluacionMainLayout = () => {
 
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  
 
   const { displayName } = useSelector( state => state.auth);
   const { notes , active, isSaving } = useSelector(state => state.journal);
-
   const numero = notes;
-  console.log("numero");
-  console.log(numero.length);
-  
+
   const dispatch = useDispatch();
 
   const handleDrawerOpen = () => {

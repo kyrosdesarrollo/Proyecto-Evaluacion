@@ -1,2 +1,2 @@
-export * from './journalSlice';
+export * from './menuSlice';
 export * from './thunks';
