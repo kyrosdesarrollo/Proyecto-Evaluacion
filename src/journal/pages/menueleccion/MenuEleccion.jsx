@@ -62,25 +62,28 @@ import { DespliegaMenu } from '../../components/menueleccion/DespliegaMenu';
                               onChange= { handleChange }
                              
                             />
+                            <Grid item 
+                                  xs={2} 
+                                  sx= {{ mt:2 }}>
+                                    <Button
+                                    disabled={botonImport}
+                                    variant="contained"
+                                    component="label"
+                                    startIcon={(<PersonAddAlt1Icon fontSize="small" />)}
+                                    sx={{ width: 150 }}>
+
+                                  Aceptar
+                                
+                                  </Button>
+                              </Grid>
         </Grid>
+        
         <Grid item 
               xs={6} 
-              sx= {{ mt:2 }}>
+              sx= {{ mt:0 }}>
                           <DespliegaMenu  menu = { seleccionMenu } />
         </Grid>
-        <Grid item 
-              xs={2} sx= {{ mt:2 }}>
-                          <Button
-                          disabled={botonImport}
-                          variant="contained"
-                          component="label"
-                          startIcon={(<PersonAddAlt1Icon fontSize="small" />)}
-                          sx={{ width: 150 }}>
-
-                        Aceptar
-                      
-                        </Button>
-        </Grid>
+        
         
       </Grid>
 

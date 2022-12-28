@@ -189,12 +189,6 @@ export const EvaluacionMainLayout = () => {
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
         {
-            // (!!active)
-            // ? 
-            //    (numero.length > 0) 
-            //      ? <GetLayoutMain pagina = { active.title }  />
-            //      : <GetLayoutMain pagina = "Inicio"  />
-            // : <NothingSelectedView />
             (numero.length > 0) 
                  ?   (!!active) 
                       ? <GetLayoutMain pagina = { active.title }  />
