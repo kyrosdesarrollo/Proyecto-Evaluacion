@@ -3,38 +3,46 @@ export const menuTotal = [
     {
         'id': '1',
         'nombre':'ADMINISTRADOR',
-        'menuInicio': [
+        menuInicio: [
             {
                 'id': '1',
-                'nombre': 'Dashboard'
+                'nombre': 'Dashboard',
+                'detalle': 'Menu que cuenta con informacón de analisis monitorizada , y visualiza los indicadors claves'
             },
             {
                 'id': '2',
-                'nombre': 'Registro de Usuario'
+                'nombre': 'Registro de Usuario',
+                'detalle': 'Menu para crear una nueva cuenta de usuario,posterior a la creación se deberá asignar perfil de usuario y restablecer credencial a este.'
             },
             {
                 'id': '3',
-                'nombre': 'Acceso'
+                'nombre': 'Acceso',
+                'detalle': 'Menu que cuenta con informacón de analisis monitorizada , y visualiza los indicadors claves'
             },
             {
                 'id': '4',
-                'nombre': 'Formulario'
+                'nombre': 'Formulario',
+                'detalle': 'Menu para ingresar nuevo formato de planilla Excel'
             },
             {
                 'id': '5',
-                'nombre': 'Pauta'
+                'nombre': 'Pauta',
+                'detalle': 'Menu para ingresar nueva pauta con el fin de realizar con estos parametros las encuestas reespectivas '
             },
             {
                 'id': '6',
-                'nombre': 'Ejecutivo'
+                'nombre': 'Ejecutivo',
+                'detalle': 'Menu para ingresar nuevos ejecutivos'
             },
             {
                 'id': '7',
-                'nombre': 'Campaña'
+                'nombre': 'Campaña',
+                'detalle': 'Menu para ingresar nueva campaña'
             },
             {
                 'id': '8',
-                'nombre': 'Carga Excel'
+                'nombre': 'Carga Excel',
+                'detalle': 'Menu para el ingresar de carga en formato Excel'
             },
 
 
@@ -43,14 +51,36 @@ export const menuTotal = [
     {
         'id': '2',
         'nombre':'MONITOR',
-        'menuInicio': [
+        menuInicio: [
             {
                 'id': '1',
-                'nombre': 'Dashboard'
+                'nombre': 'Dashboard',
+                'detalle': 'Menu que cuenta con informacón de analisis monitorizada , y visualiza los indicadors claves'
             },
             {
                 'id': '2',
-                'nombre': 'Carga Excel'
+                'nombre': 'Formulario',
+                'detalle': 'Menu para ingresar nuevo formato de planilla Excel'
+            },
+            {
+                'id': '3',
+                'nombre': 'Pauta',
+                'detalle': 'Menu para ingresar nueva pauta con el fin de realizar con estos parametros las encuestas reespectivas '
+            },
+            {
+                'id': '4',
+                'nombre': 'Ejecutivo',
+                'detalle': 'Menu para ingresar nuevos ejecutivos'
+            },
+            {
+                'id': '5',
+                'nombre': 'Campaña',
+                'detalle': 'Menu para ingresar nueva campaña'
+            },
+            {
+                'id': '6',
+                'nombre': 'Carga Excel',
+                'detalle': 'Menu para el ingresar de carga en formato Excel'
             },
 
 
@@ -59,30 +89,16 @@ export const menuTotal = [
     {
         'id': '3',
         'nombre':'EJECUTIVO',
-        'menuInicio': [
+        menuInicio: [
             {
                 'id': '1',
-                'nombre': 'Dashboard'
+                'nombre': 'Dashboard',
+                'detalle': 'Menu que cuenta con informacón de analisis monitorizada , y visualiza los indicadors claves'
             },
             {
                 'id': '2',
-                'nombre': 'Formulario'
-            },
-            {
-                'id': '3',
-                'nombre': 'Pauta'
-            },
-            {
-                'id': '4',
-                'nombre': 'Ejecutivo'
-            },
-            {
-                'id': '5',
-                'nombre': 'Campaña'
-            },
-            {
-                'id': '6',
-                'nombre': 'Carga Excel'
+                'nombre': 'Carga Excel',
+                'detalle': 'Menu para el ingresar de carga en formato Excel'
             },
 
         ]

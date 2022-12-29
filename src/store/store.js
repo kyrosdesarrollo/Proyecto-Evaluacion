@@ -7,6 +7,6 @@ export const store = configureStore({
   reducer: {
      auth    : authSlice.reducer,
      journal : journalSlice.reducer,
-     rol     : rolSlice.reducer,
+     //rol     : rolSlice.reducer,
   },
 });
