@@ -2,44 +2,39 @@ import React from 'react'
 import  { useState, useEffect } from 'react'; 
 import { Autocomplete, Box, Button, Grid, TextField, Typography } from '@mui/material'
 
-import * as XLSX from 'xlsx';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import { useSelector } from 'react-redux';
 import { DespliegaMenu } from '../../components/menueleccion/DespliegaMenu';
 
  const MenuEleccion = () => {
 
-  const [lista, setLista] = useState([]);
+
   const [formato, setFormato] = useState();
   const [seleccionMenu, setSeleccionMenu] = useState();
-
-
-  const [botonImport, setBotonimport] = useState(true);
+  const [botonImport, setBotonImport] = useState(true);
 
   const { displayName } = useSelector(state=> state.auth);
 
   useEffect(() => {
+    if (!seleccionMenu){ setBotonImport (false) ; console.log(botonImport)}
+
   }, [seleccionMenu])
 
   
-  
+
   const options = ['ADMINISTRADOR', 'EJECUTIVO', 'MONITOR'];
-
   const handleChange = (event) => {
-
-    
-     if (event.target.id != 'combo-box-demo') {
-      setBotonimport (false) ;
-      setSeleccionMenu (event.target.innerText);
-      
-     }
-     else { setBotonimport (true)}
-     
+      if(!event.target.id){
+          setBotonImport (true);
+          setSeleccionMenu ('-');
+        } else {
+          if (event.target.id != 'combo-box-demo') {
+                setBotonImport (false) ;
+                setSeleccionMenu (event.target.innerText);
+            }
+      } 
    
   };
-
-  
-
   return (
 <>
     <Box>
@@ -72,7 +67,7 @@ import { DespliegaMenu } from '../../components/menueleccion/DespliegaMenu';
                                     startIcon={(<PersonAddAlt1Icon fontSize="small" />)}
                                     sx={{ width: 150 }}>
 
-                                  Aceptar
+                                    Aceptar
                                 
                                   </Button>
                               </Grid>
