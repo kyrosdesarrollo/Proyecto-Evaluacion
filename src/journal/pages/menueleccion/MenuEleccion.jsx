@@ -6,23 +6,40 @@ import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import { useSelector } from 'react-redux';
 import { DespliegaMenu } from '../../components/menueleccion/DespliegaMenu';
 
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+
  const MenuEleccion = () => {
 
-
-  const [formato, setFormato] = useState();
+  const [formato, setFormato]             = useState();
   const [seleccionMenu, setSeleccionMenu] = useState();
-  const [botonImport, setBotonImport] = useState(true);
+  const [botonImport, setBotonImport]     = useState(true);
+  const [open, setOpen]                   = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleAceptar = () => {
+    setOpen(false);
+    console.log('first')
+  };
 
   const { displayName } = useSelector(state=> state.auth);
 
   useEffect(() => {
-    if (!seleccionMenu){ setBotonImport (false) ; console.log(botonImport)}
-
+    if (!seleccionMenu){ setBotonImport (true) ;}
   }, [seleccionMenu])
 
-  
-
   const options = ['ADMINISTRADOR', 'EJECUTIVO', 'MONITOR'];
+
   const handleChange = (event) => {
       if(!event.target.id){
           setBotonImport (true);
@@ -61,6 +78,7 @@ import { DespliegaMenu } from '../../components/menueleccion/DespliegaMenu';
                                   xs={2} 
                                   sx= {{ mt:2 }}>
                                     <Button
+                                    onClick={handleClickOpen}
                                     disabled={botonImport}
                                     variant="contained"
                                     component="label"
@@ -70,6 +88,19 @@ import { DespliegaMenu } from '../../components/menueleccion/DespliegaMenu';
                                     Aceptar
                                 
                                   </Button>
+                                  <Dialog open={open} onClose={handleClose}>
+                                      <DialogTitle>Aceptación  de perfil  </DialogTitle>
+                                      <DialogContent>
+                                        <DialogContentText>
+                                          ¿ Estás seguro de agregar perfil seleccionado ?
+                                        </DialogContentText>
+                                
+                                      </DialogContent>
+                                      <DialogActions>
+                                        <Button onClick={handleClose}>Cancelar</Button>
+                                        <Button onClick={handleAceptar}>Aceptar</Button>
+                                      </DialogActions>
+                                </Dialog>
                               </Grid>
         </Grid>
         
@@ -86,5 +117,4 @@ import { DespliegaMenu } from '../../components/menueleccion/DespliegaMenu';
     </>
   )
 }
-
 export default MenuEleccion

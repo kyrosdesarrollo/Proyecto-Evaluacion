@@ -32,7 +32,7 @@ export default function DespliegueDetalle({ nombre = '' }) {
          variant="h6" 
          color="primary"
          >
-        { nombre }
+         { nombre }
      </Typography>
 
     <List sx={{ width: '100%', maxWidth: 560, bgcolor: 'background.paper' }}>
