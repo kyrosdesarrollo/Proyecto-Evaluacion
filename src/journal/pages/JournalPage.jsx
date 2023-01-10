@@ -1,12 +1,7 @@
-
-import { AddBoxOutlined } from '@mui/icons-material'
-import { IconButton } from '@mui/material'
-import { orange } from '@mui/material/colors'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { startNewNote } from '../../store/journal/thunks'
 import { EvaluacionMainLayout } from '../layout/EvaluacionMainLayout'
-import { JournalLayout } from '../layout/JournalLayout'
 import GetLayoutMain from '../views/GetLayoutMain'
 import { NothingSelectedView } from '../views/NothingSelectedView'
 

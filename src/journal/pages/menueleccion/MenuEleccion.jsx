@@ -3,7 +3,7 @@ import  { useState, useEffect } from 'react';
 import { Autocomplete, Box, Button, Grid, TextField, Typography } from '@mui/material'
 
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { DespliegaMenu } from '../../components/menueleccion/DespliegaMenu';
 
 import Dialog from '@mui/material/Dialog';
@@ -11,6 +11,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import { startNewMenu } from '../../../store/menu/thunks';
 
  const MenuEleccion = () => {
 
@@ -18,6 +19,8 @@ import DialogTitle from '@mui/material/DialogTitle';
   const [seleccionMenu, setSeleccionMenu] = useState();
   const [botonImport, setBotonImport]     = useState(true);
   const [open, setOpen]                   = useState(false);
+
+  const dispatch = useDispatch();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -29,7 +32,11 @@ import DialogTitle from '@mui/material/DialogTitle';
 
   const handleAceptar = () => {
     setOpen(false);
-    console.log('first')
+    console.log(seleccionMenu)
+
+    const nombre = seleccionMenu;
+    dispatch(startNewMenu( nombre ))
+   
   };
 
   const { displayName } = useSelector(state=> state.auth);

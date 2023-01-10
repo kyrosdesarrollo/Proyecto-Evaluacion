@@ -1,5 +1,4 @@
 import { singWithGoogle , registerUserWithEmailPassword, loginWithEmailPassword, logoutFirebase} from "../../firebase/providers";
-import { loadUsers } from "../../helpers/loadUsers";
 import { chekingCredentials, login, logout } from "./authSlice";
 
 export const checkingAuthentication = (email , password) =>{
@@ -25,13 +24,9 @@ export const startGoogleSignIn = () =>{
 
 export const startCreatingUserWithEmailPassword = ({ email, password, displayName }) => {
     return async( dispatch ) => {
-
         dispatch( chekingCredentials() );
-
         const {ok, uid, photoURL, errorMessage, } = await registerUserWithEmailPassword({ email, password, displayName });
-
         if ( !ok ) return dispatch( logout( { errorMessage } ) );
-
         dispatch( login( {uid, displayName, email, photoURL} ));
 
     }
@@ -61,7 +56,6 @@ export const startLoadingUser = ()=>{
         if(!uid) throw new Error('El UID del usuario no existe');
        
         const notes = await loadUsers (uid);
-console.log(notes.currentUser);
         //dispatch(setNotes(notes));
     }
 }

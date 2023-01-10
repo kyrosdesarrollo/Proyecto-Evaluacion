@@ -12,7 +12,7 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import { Grid } from '@mui/material';
+import { Grid, ListItemText } from '@mui/material';
 import { AddBoxOutlined, LogoutOutlined } from '@mui/icons-material'
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -101,7 +101,41 @@ export const EvaluacionMainLayout = () => {
 
   const { displayName } = useSelector( state => state.auth);
   const { notes , active, isSaving } = useSelector(state => state.journal);
+  // //const posicion = useSelector(state => state.menu.menus);
+
+  // console.log( '----LIMPIO--------');
+  // console.log( posicion);
+
+  // console.log( '----PROCESADO--------');
+  // console.log( posicion[0]);
+
+
+  // const menus =  delete posicion["id"];
+
+  // console.log( '----MENU--------');
+  // console.log( menus);
+
+  // const menuslimpio = Object.values(posicion[0]);
+  // console.log( '----LIMPIO CON OBJETO--------');
+  // console.log( menuslimpio);
+  //delete arreglo['id'];
+  //const menuslimpio = Object.values(posicion);
+
+
+//   console.log( '----LIMPIO--------');
+//   console.log( menuslimpio);
+//  // if(menus){ menus = arreglo}
+//  console.log( '------MENU------');
+//  console.log( menus);
+
+//  const orginal = Object.values(menus);
+//  console.log( '------ORIGINAL------');
+//  console.log( orginal);
+
+  //if(menus){console.log( menus)}
+  
   const numero = notes;
+  
 
   const dispatch = useDispatch();
 
@@ -184,7 +218,14 @@ export const EvaluacionMainLayout = () => {
                 }
             </List>
         <Divider />
-      
+
+        {/* {
+        (!!menus) 
+              ? ( <List>
+                   Hola
+                 </List> )
+              : <ListItemText> Chao</ListItemText>
+        } */}
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />

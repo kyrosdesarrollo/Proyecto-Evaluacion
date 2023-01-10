@@ -1,16 +1,18 @@
 import React from 'react'
 import { useSelector } from 'react-redux';
-
-import { Box, Divider, Drawer, List, 
-        ListItem, ListItemButton, ListItemIcon, ListItemText, 
-        Toolbar, Typography, Grid } from '@mui/material'
-import { TurnedInNot } from '@mui/icons-material'
+import { Box, Divider, Drawer, List, ListItemText, 
+        Toolbar, Typography } from '@mui/material'
 import { SideBarItem } from '.';
 
 
 export const SideBar = ({ drawerWidth = 240 }) => {
     const { displayName } = useSelector( state => state.auth);
     const { notes } = useSelector(state => state.journal);
+    const { menus } = useSelector(state => state.menu);
+
+    console.log('first')
+    console.log(notes);
+    console.log(menus);
 
   return (
     <Box
@@ -28,7 +30,7 @@ export const SideBar = ({ drawerWidth = 240 }) => {
 
            <Toolbar>
                <Typography variant='h6' noWrap component='div' >
-                 { displayName }
+                 { displayName } 
                </Typography>
            </Toolbar>
 
@@ -41,6 +43,14 @@ export const SideBar = ({ drawerWidth = 240 }) => {
                 }
             </List>
 
+            <List>
+                {
+                    menus.map( note => (
+                        <ListItemText key={note.id}> {nombre} </ListItemText>
+                        
+                    ))
+                }
+            </List>
 
         </Drawer>
 

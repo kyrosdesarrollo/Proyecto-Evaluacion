@@ -60,17 +60,17 @@ export const menuTotal = [
             {
                 'id': '2',
                 'nombre': 'Formulario',
-                'detalle': 'Menu para ingresar nuevo formato de planilla Excel'
+                'detalle': 'Menú para ingresar nuevo formato de planilla Excel'
             },
             {
                 'id': '3',
                 'nombre': 'Pauta',
-                'detalle': 'Menu para ingresar nueva pauta con el fin de realizar con estos parametros las encuestas reespectivas '
+                'detalle': 'Menú para ingresar nueva pauta con el fin de realizar con estos parametros las encuestas reespectivas '
             },
             {
                 'id': '4',
                 'nombre': 'Ejecutivo',
-                'detalle': 'Menu para ingresar nuevos ejecutivos'
+                'detalle': 'Menú para ingresar nuevos ejecutivos'
             },
             {
                 'id': '5',
@@ -80,7 +80,7 @@ export const menuTotal = [
             {
                 'id': '6',
                 'nombre': 'Carga Excel',
-                'detalle': 'Menu para el ingresar de carga en formato Excel'
+                'detalle': 'Menú para el ingresar de carga en formato Excel'
             },
 
 

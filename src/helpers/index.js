@@ -1,3 +1,3 @@
 export * from './loadNotes';
-export * from './loadRols';
+export * from './loadMenus';
 export * from './getMenuByName';
