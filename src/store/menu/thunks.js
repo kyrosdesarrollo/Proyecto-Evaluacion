@@ -1,61 +1,100 @@
-import { collection, doc, setDoc } from "@firebase/firestore/lite";
+import { collection, doc, setDoc, getDocs } from "@firebase/firestore/lite";
 import { FirebaseDB } from "../../firebase/config";
+import { loadMenus } from "../../helpers/loadMenus";
+import { addNewEmptyMenu, savingNewMenu, setActiveMenu, setMenus } from "./menuSlice";
+import { seleccionMenu } from "./seleccionMenu";
+import { thunkmenu } from "./thunksmenu";
 
-import { loadNotes } from "../../helpers";
-import { addNewEmptyNote, setActiveNote ,savingNewNote} from ".";
-import { setNotes, setSaving, updateNote } from "./journalSlice";
-
-export const startNewNote =()=>{
+export const startNewMenu = ( nombre )=>{
     return async (dispatch, getSate) =>{
-        dispatch(savingNewNote());
-        const { uid } = getSate().auth;
-        //uid este lo genera solo firebase database
-        //Estructrura de información
-        const newNote = {
-
-            title:'',
-            body:'',
+        dispatch(savingNewMenu);
+        //Rescate de informción de redux en auth
+        const { displayName, email, uid } = getSate().auth;
+        const newUser = {
+            nombre: displayName,
+            email: email,
+            perfil: nombre,
             date: new Date().getTime(),
-
+            estado: 'Activo'
         }
-        const newDoc = doc (collection(FirebaseDB, `${ uid }/journal/notes`));
-        const set = await setDoc(newDoc, newNote);
-        
-        newNote.id = newDoc.id;
+
+        // //Verificación de menu de usuario     
+        // const verificaMenu = collection(FirebaseDB,`${ uid }/evaluacion/menu`);
+        // const datoMenu = await getDocs(verificaMenu);
+        // let valida = '';
+        // datoMenu.forEach(doc => {
+        //     valida = doc.data();
+        // });
+        // console.log('valida');
+        // console.log(valida);
+        // if (!valida){return};
+        //Verificación de datos de usuario     
+        const verificaUser = collection(FirebaseDB,`${ uid }/evaluacion/usuario`);
+        const datoUser = await getDocs(verificaUser);
+        let valida = '';
+        datoUser.forEach(doc => {
+            valida = doc.data();
+        });
+        if (valida){return};
+        //Ingreso de datos Usuario
+        const newDoc = doc (collection(FirebaseDB, `${ uid }/evaluacion/usuario`));
+        await setDoc(newDoc, newUser);
+        //Ingreso de datos Menu, búsqueda de parametros de seleccion directo a FireBase
+        const collectionRef = collection(FirebaseDB,`menu/MyhIglVpgD6g2AkXQdxu/${ nombre }`);
+        const docs = await getDocs(collectionRef);
+        let newMenu = ''
+        docs.forEach(doc => {
+            newMenu = {
+                title: doc.data().title,
+                body:  doc.data().body,
+                date:  new Date().getTime(),
+            }
+                const retorno = thunkmenu(newMenu, uid);
+          
+            //menus.push({ id: doc.id, ...doc.data() });
+           // console.log({ id: doc.id, ...doc.data() });
+    
+        });
        
-        //Dispatch
-        dispatch(addNewEmptyNote(newNote));
-        dispatch(setActiveNote(newNote));
-        //Dispatch activación de nota
+
+        //     //Dispatch
+        //     dispatch(addNewEmptyMenu(newUser));
+        //     dispatch(setActiveMenu(newUser));
+            //Dispatch activación de nota}
+       // }
+        
+      
+
+       
     }
 }
 
 
-export const startLoadingNotes = ()=>{
+export const startLoadingMenus = ()=>{
     return async (dispatch, getState) =>{
         const { uid } = getState().auth;
         if(!uid) throw new Error('El UID del usuario no existe');
        
-        const notes = await loadNotes (uid);
+        const menus = await loadMenus (uid);
 
-        dispatch(setNotes(notes));
+        dispatch(setMenus(menus));
     }
 }
 
-export const startSaveNote = ()=>{
+// export const startSaveNote = ()=>{
 
-    return async(dispatch, getState) =>{
-        dispatch(setSaving);
+//     return async(dispatch, getState) =>{
+//         dispatch(setSaving);
 
-        const { uid } = getState().auth;
-        const { active:note } = getState().journal;
+//         const { uid } = getState().auth;
+//         const { active:note } = getState().journal;
 
-        const noteToFireStore = { ...note };
-        delete noteToFireStore.id;
+//         const noteToFireStore = { ...note };
+//         delete noteToFireStore.id;
 
-        const docRef = doc(FirebaseDB, `${ uid }/journal/notes/${ note.id }` );
-        await setDoc (docRef, noteToFireStore, {merge: true})
+//         const docRef = doc(FirebaseDB, `${ uid }/journal/notes/${ note.id }` );
+//         await setDoc (docRef, noteToFireStore, {merge: true})
         
-        dispatch( updateNote( note ));
-    }
-}
+//         dispatch( updateNote( note ));
+//     }
+// }
