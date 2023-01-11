@@ -1,6 +1,8 @@
 import { collection, doc, setDoc, getDocs } from "@firebase/firestore/lite";
 import { FirebaseDB } from "../../firebase/config";
+import { loadNotes } from "../../helpers";
 import { loadMenus } from "../../helpers/loadMenus";
+import { setActiveNote, setNotes } from "../journal";
 import { addNewEmptyMenu, savingNewMenu, setActiveMenu, setMenus } from "./menuSlice";
 import { seleccionMenu } from "./seleccionMenu";
 import { thunkmenu } from "./thunksmenu";
@@ -55,12 +57,13 @@ export const startNewMenu = ( nombre )=>{
            // console.log({ id: doc.id, ...doc.data() });
     
         });
-       
 
-        //     //Dispatch
-        //     dispatch(addNewEmptyMenu(newUser));
-        //     dispatch(setActiveMenu(newUser));
-            //Dispatch activación de nota}
+        // const notes = await loadNotes (uid);
+        // dispatch(setNotes(notes));
+        //Dispatch
+        // dispatch(addNewEmptyMenu(newUser));
+        // dispatch(setActiveMenu(newUser));
+        //dispatch(setActiveNote());
        // }
         
       
@@ -77,7 +80,8 @@ export const startLoadingMenus = ()=>{
        
         const menus = await loadMenus (uid);
 
-        dispatch(setMenus(menus));
+        dispatch(setNotes(menus));
+        //dispatch(setMenus(menus));
     }
 }
 

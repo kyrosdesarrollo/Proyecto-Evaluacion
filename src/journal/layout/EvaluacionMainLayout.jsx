@@ -101,38 +101,7 @@ export const EvaluacionMainLayout = () => {
 
   const { displayName } = useSelector( state => state.auth);
   const { notes , active, isSaving } = useSelector(state => state.journal);
-  // //const posicion = useSelector(state => state.menu.menus);
-
-  // console.log( '----LIMPIO--------');
-  // console.log( posicion);
-
-  // console.log( '----PROCESADO--------');
-  // console.log( posicion[0]);
-
-
-  // const menus =  delete posicion["id"];
-
-  // console.log( '----MENU--------');
-  // console.log( menus);
-
-  // const menuslimpio = Object.values(posicion[0]);
-  // console.log( '----LIMPIO CON OBJETO--------');
-  // console.log( menuslimpio);
-  //delete arreglo['id'];
-  //const menuslimpio = Object.values(posicion);
-
-
-//   console.log( '----LIMPIO--------');
-//   console.log( menuslimpio);
-//  // if(menus){ menus = arreglo}
-//  console.log( '------MENU------');
-//  console.log( menus);
-
-//  const orginal = Object.values(menus);
-//  console.log( '------ORIGINAL------');
-//  console.log( orginal);
-
-  //if(menus){console.log( menus)}
+  
   
   const numero = notes;
   
