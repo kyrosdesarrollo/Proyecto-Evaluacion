@@ -4,7 +4,6 @@ import { loadNotes } from "../../helpers";
 import { loadMenus } from "../../helpers/loadMenus";
 import { setActiveNote, setNotes } from "../journal";
 import { addNewEmptyMenu, savingNewMenu, setActiveMenu, setMenus } from "./menuSlice";
-import { seleccionMenu } from "./seleccionMenu";
 import { thunkmenu } from "./thunksmenu";
 
 export const startNewMenu = ( nombre )=>{
@@ -71,8 +70,6 @@ export const startNewMenu = ( nombre )=>{
        
     }
 }
-
-
 export const startLoadingMenus = ()=>{
     return async (dispatch, getState) =>{
         const { uid } = getState().auth;
