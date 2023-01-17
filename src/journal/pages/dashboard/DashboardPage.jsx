@@ -1,15 +1,14 @@
-// import React from 'react'
 
-// export const DashboardPage = () => {
-//   return (
-//     <div>DashboardPage</div>
-//   )
-// }
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
+import { Budget } from '../../components/dashboard/budget';
+import { Container } from '@mui/material';
+import { TotalCustomers } from '../../components/dashboard/total-customers';
+import { TasksProgress } from '../../components/dashboard/tasks-progress';
+import { TotalProfit } from '../../components/dashboard/total-profit';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -21,21 +20,72 @@ const Item = styled(Paper)(({ theme }) => ({
 
 export const DashboardPage = () => {
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <Grid container spacing={2}>
-        <Grid item xs={8}>
-          <Item>xs=8</Item>
-        </Grid>
-        <Grid item xs={4}>
-          <Item>xs=4</Item>
-        </Grid>
-        <Grid item xs={4}>
-          <Item>xs=4</Item>
-        </Grid>
-        <Grid item xs={8}>
-          <Item>xs=8</Item>
-        </Grid>
-      </Grid>
-    </Box>
+    <>
+  
+      <Box
+      sx={{
+        flexGrow: 1,
+        py: 8
+      }}>
+        <Container maxWidth={false}>
+          <Grid
+            container
+            spacing={3}
+            >
+              <Grid
+              item
+              lg={3}
+              sm={6}
+              xl={3}
+              xs={12}
+              >
+                <Budget />
+              </Grid>
+              <Grid
+              item
+              lg={3}
+              sm={6}
+              xl={3}
+              xs={12}
+              >
+                <TotalCustomers />
+              </Grid>
+              <Grid
+              item
+              lg={3}
+              sm={6}
+              xl={3}
+              xs={12}
+              >
+                <TasksProgress />
+              </Grid>
+          <Grid
+            item
+            xl={3}
+            lg={3}
+            sm={6}
+            xs={12}
+          >
+            <TotalProfit sx={{ height: '100%' }} />
+          </Grid>
+
+          {/* <Grid
+            item
+            xl={3}
+            lg={3}
+            sm={6}
+            xs={12}
+          >
+            <TrafficByDevice sx={{ height: '100%' }} />
+          </Grid> */}
+             
+          </Grid>
+         
+        </Container>
+            
+          
+      </Box>
+   
+    </>
   );
 }
