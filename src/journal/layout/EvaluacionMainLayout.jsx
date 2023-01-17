@@ -22,6 +22,7 @@ import GetLayoutMain from '../views/GetLayoutMain';
 import { NothingSelectedView } from '../views/NothingSelectedView';
 import { orange } from '@mui/material/colors'
 import { startNewNote } from '../../store/journal';
+import { DashboardPage } from '../pages/dashboard/DashboardPage';
 
 const drawerWidth = 240;
 
@@ -200,8 +201,9 @@ export const EvaluacionMainLayout = () => {
             (numero.length > 0) 
                  ?   (!!active) 
                       ? <GetLayoutMain pagina = { active.title }  />
-                      : <NothingSelectedView />
-                 : <GetLayoutMain pagina = "Inicio"  />
+                      : <DashboardPage />
+                //  : <GetLayoutMain pagina = "Inicio"  />
+                 : <DashboardPage  />
           }
        
       </Box>
