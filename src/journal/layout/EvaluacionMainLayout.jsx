@@ -12,7 +12,7 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import { Grid, ListItemText } from '@mui/material';
+import { Grid } from '@mui/material';
 import { AddBoxOutlined, LogoutOutlined } from '@mui/icons-material'
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -23,6 +23,7 @@ import { NothingSelectedView } from '../views/NothingSelectedView';
 import { orange } from '@mui/material/colors'
 import { startNewNote } from '../../store/journal';
 import { DashboardPage } from '../pages/dashboard/DashboardPage';
+
 
 const drawerWidth = 240;
 
@@ -99,13 +100,14 @@ export const EvaluacionMainLayout = () => {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   
-  const { displayName } = useSelector( state => state.auth);
+  const { displayName, uid } = useSelector( state => state.auth);
   const { notes , active, isSaving } = useSelector(state => state.journal);
   
   
   const numero = notes;
   
   const dispatch = useDispatch();
+  //dispatch(loadMenus(uid));
 
   const handleDrawerOpen = () => {
     setOpen(true);
