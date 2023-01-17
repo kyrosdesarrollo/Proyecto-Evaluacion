@@ -16,7 +16,8 @@ export const startNewMenu = ( nombre )=>{
             email: email,
             perfil: nombre,
             date: new Date().getTime(),
-            estado: 'Activo'
+            estado: 'Activo',
+            iniciado:'Si',
         }
         //Verificación de datos de usuario    
         console.log(uid) ;

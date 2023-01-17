@@ -202,8 +202,8 @@ export const EvaluacionMainLayout = () => {
                  ?   (!!active) 
                       ? <GetLayoutMain pagina = { active.title }  />
                       : <DashboardPage />
-                //  : <GetLayoutMain pagina = "Inicio"  />
-                 : <DashboardPage  />
+                  : <GetLayoutMain pagina = "Inicio"  />
+                //  : <DashboardPage  />
           }
        
       </Box>
