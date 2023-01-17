@@ -11,7 +11,9 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { startNewMenu } from '../../../store/menu/thunks';
+import { startLoadingMenus, startNewMenu } from '../../../store/menu/thunks';
+import { reload } from 'firebase/auth';
+import { startLogout } from '../../../store/auth';
 
  const MenuEleccion = () => {
 
@@ -19,6 +21,7 @@ import { startNewMenu } from '../../../store/menu/thunks';
   const [seleccionMenu, setSeleccionMenu] = useState();
   const [botonImport, setBotonImport]     = useState(true);
   const [open, setOpen]                   = useState(false);
+
 
   const dispatch = useDispatch();
 
@@ -32,11 +35,8 @@ import { startNewMenu } from '../../../store/menu/thunks';
 
   const handleAceptar = () => {
     setOpen(false);
-    console.log(seleccionMenu)
-
-    const nombre = seleccionMenu;
-    dispatch(startNewMenu( nombre ))
-   
+    dispatch(startNewMenu( seleccionMenu ))
+    //dispatch(startLogout());
   };
 
   const { displayName } = useSelector(state=> state.auth);
@@ -44,6 +44,8 @@ import { startNewMenu } from '../../../store/menu/thunks';
   useEffect(() => {
     if (!seleccionMenu){ setBotonImport (true) ;}
   }, [seleccionMenu])
+
+  
 
   const options = ['ADMINISTRADOR', 'EJECUTIVO', 'MONITOR'];
 

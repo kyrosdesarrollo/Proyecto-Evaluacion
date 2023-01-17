@@ -73,7 +73,7 @@
                              item
                              xs={ 12 }
                              >
-                            <Alert severity='error'>{ errorMessage }</Alert>
+                            <Alert severity='error'> El nombre de usuario o contraseña es incorrecto </Alert>
                           </Grid>
 
                       </Grid>

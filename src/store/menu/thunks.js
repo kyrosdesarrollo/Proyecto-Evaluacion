@@ -18,18 +18,8 @@ export const startNewMenu = ( nombre )=>{
             date: new Date().getTime(),
             estado: 'Activo'
         }
-
-        // //Verificación de menu de usuario     
-        // const verificaMenu = collection(FirebaseDB,`${ uid }/evaluacion/menu`);
-        // const datoMenu = await getDocs(verificaMenu);
-        // let valida = '';
-        // datoMenu.forEach(doc => {
-        //     valida = doc.data();
-        // });
-        // console.log('valida');
-        // console.log(valida);
-        // if (!valida){return};
-        //Verificación de datos de usuario     
+        //Verificación de datos de usuario    
+        console.log(uid) ;
         const verificaUser = collection(FirebaseDB,`${ uid }/evaluacion/usuario`);
         const datoUser = await getDocs(verificaUser);
         let valida = '';
@@ -37,9 +27,15 @@ export const startNewMenu = ( nombre )=>{
             valida = doc.data();
         });
         if (valida){return};
-        //Ingreso de datos Usuario
-        const newDoc = doc (collection(FirebaseDB, `${ uid }/evaluacion/usuario`));
-        await setDoc(newDoc, newUser);
+        try {
+            //Ingreso de datos Usuario
+            console.log(newUser);
+            const newDoc = doc (collection(FirebaseDB, `${ uid }/evaluacion/usuario`));
+            await setDoc(newDoc, newUser);
+        } catch (error) {
+            console.log('problema con ingreso : ' + error)
+        }
+        
         //Ingreso de datos Menu, búsqueda de parametros de seleccion directo a FireBase
         const collectionRef = collection(FirebaseDB,`menu/MyhIglVpgD6g2AkXQdxu/${ nombre }`);
         const docs = await getDocs(collectionRef);
@@ -78,7 +74,7 @@ export const startLoadingMenus = ()=>{
         const menus = await loadMenus (uid);
 
         dispatch(setNotes(menus));
-        //dispatch(setMenus(menus));
+        
     }
 }
 
