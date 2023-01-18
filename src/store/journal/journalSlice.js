@@ -26,6 +26,10 @@ export const journalSlice = createSlice({
             state.active = action.payload;
             state.messageSaved = ''
         },
+        setDesActiveNote: (state ) => {
+            state.active ='';
+            state.messageSaved = ''
+        },
         setNotes: (state,  action ) => {
             state.notes = action.payload;
         },
@@ -55,4 +59,4 @@ export const journalSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { addNewEmptyNote,setActiveNote ,setNotes, setSaving, updateNote, deleteNoteById, savingNewNote} = journalSlice.actions;
+export const { addNewEmptyNote,setActiveNote ,setDesActiveNote,setNotes, setSaving, updateNote, deleteNoteById, savingNewNote} = journalSlice.actions;

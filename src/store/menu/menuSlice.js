@@ -26,6 +26,10 @@ export const menuSlice = createSlice({
             state.active = action.payload;
             state.messageSaved = ''
         },
+        setDesActiveMenu: (state,  action ) => {
+            state.active = '';
+            state.messageSaved = ''
+        },
         setMenus: (state,  action ) => {
             state.menus = action.payload;
         },
@@ -43,4 +47,4 @@ export const menuSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { addNewEmptyMenu,setActiveMenu ,setMenus, setSaving, updateMenu, deleteMenuById, savingNewMenu} = menuSlice.actions;
+export const { addNewEmptyMenu,setActiveMenu, setDesActiveMenu ,setMenus, setSaving, updateMenu, deleteMenuById, savingNewMenu} = menuSlice.actions;

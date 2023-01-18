@@ -1,4 +1,5 @@
 import { singWithGoogle , registerUserWithEmailPassword, loginWithEmailPassword, logoutFirebase} from "../../firebase/providers";
+import { setDesActiveNote } from "../journal";
 import { chekingCredentials, login, logout } from "./authSlice";
 
 export const checkingAuthentication = (email , password) =>{
@@ -46,7 +47,8 @@ export const startLogout = () => {
     return async( dispatch ) => {
         await logoutFirebase();
         dispatch( logout() );
-
+        console.log('Paso por aqui')
+        dispatch(setDesActiveNote());
     }
 }
 
