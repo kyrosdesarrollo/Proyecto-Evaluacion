@@ -20,7 +20,6 @@ export const startNewMenu = ( nombre )=>{
             iniciado:'Si',
         }
         //Verificación de datos de usuario    
-        console.log(uid) ;
         const verificaUser = collection(FirebaseDB,`${ uid }/evaluacion/usuario`);
         const datoUser = await getDocs(verificaUser);
         let valida = '';
@@ -30,7 +29,6 @@ export const startNewMenu = ( nombre )=>{
         if (valida){return};
         try {
             //Ingreso de datos Usuario
-            console.log(newUser);
             const newDoc = doc (collection(FirebaseDB, `${ uid }/evaluacion/usuario`));
             await setDoc(newDoc, newUser);
         } catch (error) {

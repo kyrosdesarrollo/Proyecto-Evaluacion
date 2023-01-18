@@ -47,7 +47,6 @@ export const startLogout = () => {
     return async( dispatch ) => {
         await logoutFirebase();
         dispatch( logout() );
-        console.log('Paso por aqui')
         dispatch(setDesActiveNote());
     }
 }
