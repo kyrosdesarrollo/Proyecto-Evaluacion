@@ -9,8 +9,6 @@ const CargaListToolbar = () => {
   const [lista, setLista] = useState([]);
   const [formato, setFormato] = useState();
   const [botonImport, setBotonimport] = useState(true);
-  const [botonExport, setBotonExport] = useState(true);
-
 
   const options = ['PARLO', 'VOZ', 'OTRO'];
   const handleChange = (event) => {
