@@ -77,7 +77,7 @@ const CargaListToolbar = () => {
       </Typography>;
     </Box>
 
-    <Grid container spacing= { 2 } sx= {{ mb:2 , mt: 2}}>
+    <Grid container spacing= { 0 } sx= {{ mb:2 , mt: 2}}>
        <Grid item 
               xs={12} sx= {{ mt:2 }}>
                           <Autocomplete

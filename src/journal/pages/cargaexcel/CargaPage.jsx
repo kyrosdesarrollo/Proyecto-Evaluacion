@@ -6,10 +6,6 @@ const CargaPage = () => {
   return (
     <>
      
-        <title>
-          Carga Excel | Material Kit
-        </title>
-     
       <Box
         component="main"
         sx={{

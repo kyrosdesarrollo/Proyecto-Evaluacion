@@ -1,8 +1,8 @@
 import React from 'react'
-import PautaCargaListToolbar from '../../components/pauta/PautaCargaListToolbar'
+import PautaMenuEleccion from '../../components/pauta/PautaMenuEleccion'
 
 export const PautaPage = () => {
   return (
-     <PautaCargaListToolbar />
+     <PautaMenuEleccion />
   )
 }
