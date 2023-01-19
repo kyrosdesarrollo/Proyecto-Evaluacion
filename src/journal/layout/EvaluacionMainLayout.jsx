@@ -210,7 +210,7 @@ export const EvaluacionMainLayout = () => {
        
       </Box>
 
-       <IconButton
+       {/* <IconButton
             onClick = { onClickNewNote }
             size='large'
             disabled= { isSaving }
@@ -225,7 +225,7 @@ export const EvaluacionMainLayout = () => {
            >
             <AddBoxOutlined sx={{ fontSize: 55 }} />
            
-          </IconButton>
+          </IconButton> */}
     </Box>
     </>
   );

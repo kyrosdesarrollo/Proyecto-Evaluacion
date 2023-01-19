@@ -14,6 +14,7 @@ import BroadcastOnPersonalIcon from '@mui/icons-material/BroadcastOnPersonal';
 import FileOpenIcon from '@mui/icons-material/FileOpen';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import { purple } from '@mui/material/colors';
+import { purpleTheme } from '../../theme/purpleTheme';
 
 
 export const SideBarItem = ({ title = '', body, id , date, imageUrls = []}) => {
@@ -36,7 +37,7 @@ export const SideBarItem = ({ title = '', body, id , date, imageUrls = []}) => {
     <ListItem  disablePadding>
     <ListItemButton onClick = { onClickNote }>
         
-        <ListItemIcon color="success" sx={{ color: purple[300] }} >
+        <ListItemIcon color="success" sx={{ color: purple[400] }} >
         {  newTitle == 'Dashboard' ?         <DashboardIcon  /> : '' }
         {  newTitle == 'Registro Usuario' ?  <SupervisedUserCircleIcon  /> : '' }
         {  newTitle == 'Acceso' ?            <SettingsApplicationsIcon  /> : '' }

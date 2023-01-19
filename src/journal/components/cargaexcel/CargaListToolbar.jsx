@@ -4,22 +4,23 @@ import { Autocomplete, Box, Button, Grid, TextField, Typography } from '@mui/mat
 
 import * as XLSX from 'xlsx';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import CargaListDetalleGrid from './CargaListDetalleTable';
+import BasicTable from './CargaListDetalleBasic';
+import DataTable from './CargaListDetalleTableNew';
 
 const CargaListToolbar = () => {
   const [lista, setLista] = useState([]);
+  const [habilitaTabla, setHabilitaTabla] = useState(true);
   const [formato, setFormato] = useState();
   const [botonImport, setBotonimport] = useState(true);
 
-  const options = ['PARLO', 'VOZ', 'OTRO'];
-  const handleChange = (event) => {
-    console.log(event.target.id);
-    
+  const options = ['PARLO', 'VOZ'];
+
+  const handleChange = (event) => {    
      if (event.target.id != 'combo-box-demo') {
       setBotonimport (false) ;
      }
      else { setBotonimport (true)}
-     
-   
   };
 
   const readExcel = (file) => {
@@ -33,7 +34,6 @@ const CargaListToolbar = () => {
 
         const bufferArray = e.target.result;
         const wb = XLSX.read(bufferArray, { type: "buffer" });
-        console.log(wb)
         const wsname = wb.SheetNames[0];
         console.log(wsname);
         const ws = wb.Sheets[wsname];
@@ -59,8 +59,8 @@ const CargaListToolbar = () => {
     });
   
     promise.then((d) => {
+      setHabilitaTabla(false)
       setLista(d);
-      console.log(lista);
     });
   };
   // ********* Excel JSON ********
@@ -70,7 +70,7 @@ const CargaListToolbar = () => {
     <Box>
       <Typography variant="h4" component="h2">
        Cargar archivo en formato Excel
-      </Typography>
+      </Typography>;
     </Box>
 
     <Grid container spacing= { 0 } sx= {{ mb:2 , mt: 2}}>
@@ -110,8 +110,14 @@ const CargaListToolbar = () => {
                         </Button>
         </Grid>
       </Grid>
+     {
+      
+        (!!!habilitaTabla)
+          ? <DataTable lista = {lista}/>
+          : <Typography></Typography>
 
-     
+     }
+    
     </>
   )
 }
