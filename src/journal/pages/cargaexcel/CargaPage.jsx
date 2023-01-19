@@ -1,6 +1,6 @@
 import { Box, Container } from '@mui/material'
 import React from 'react'
-import CargaListToolbar from './CargaListToolbar'
+import CargaListToolbar from '../../components/cargaexcel/CargaListToolbar'
 
 const CargaPage = () => {
   return (
@@ -10,7 +10,7 @@ const CargaPage = () => {
         component="main"
         sx={{
           flexGrow: 1,
-          py: 8
+          py: 2
         }}
       >
         <Container maxWidth={false}>
