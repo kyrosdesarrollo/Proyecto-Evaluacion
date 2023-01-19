@@ -7,6 +7,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import CargaListDetalleGrid from './CargaListDetalleTable';
 import BasicTable from './CargaListDetalleBasic';
 import DataTable from './CargaListDetalleTableNew';
+import { OfflineBoltTwoTone } from '@mui/icons-material';
 
 const CargaListToolbar = () => {
   const [lista, setLista] = useState([]);
@@ -17,6 +18,7 @@ const CargaListToolbar = () => {
   const options = ['PARLO', 'VOZ'];
 
   const handleChange = (event) => {    
+    setHabilitaTabla(true);
      if (event.target.id != 'combo-box-demo') {
       setBotonimport (false) ;
      }
@@ -24,6 +26,7 @@ const CargaListToolbar = () => {
   };
 
   const readExcel = (file) => {
+    setHabilitaTabla(true);
     const promise = new Promise((resolve, reject) => {
 
       const fileReader = new FileReader();
@@ -90,11 +93,12 @@ const CargaListToolbar = () => {
         <Grid item 
               xs={2} sx= {{ mt:2 }}>
                           <Button
-                          disabled={botonImport}
-                          variant="contained"
-                          component="label"
-                          startIcon={(<CloudUploadIcon fontSize="small" />)}
-                          sx={{ width: 150 }}>
+                              disabled={botonImport}
+                              variant="contained"
+                              component="label"
+                              startIcon={(<CloudUploadIcon fontSize="small" />)}
+                              sx={{ width: 150 }}
+                          >
 
                         Importar
                         <input
