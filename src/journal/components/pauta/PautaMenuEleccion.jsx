@@ -76,18 +76,11 @@ import { PautaDespliegaMenu } from './PautaDespliegaMenu';
                             
         </Grid>
         </Grid> 
-
-        
         <Grid item 
               xs={6} 
               sx= {{ mt:0 }}>
                           <PautaDespliegaMenu menu = { seleccionMenu } />
         </Grid>
-        
-        
-    
-
-     
     </>
   )
 }

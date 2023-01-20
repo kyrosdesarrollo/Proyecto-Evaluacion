@@ -1,6 +1,8 @@
 import { Box, Container } from '@mui/material'
 import React from 'react'
+import ComplexGrid from '../../components/pauta/PautaGrid'
 import PautaMenuEleccion from '../../components/pauta/PautaMenuEleccion'
+
 
 export const PautaPage = () => {
   return (
