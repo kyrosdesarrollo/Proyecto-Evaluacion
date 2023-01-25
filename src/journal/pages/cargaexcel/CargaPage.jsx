@@ -1,5 +1,6 @@
 import { Box, Container } from '@mui/material'
 import React from 'react'
+import AsigncionLinea from '../../components/asignacion/AsignacionPage1'
 import CargaListToolbar from '../../components/cargaexcel/CargaListToolbar'
 
 const CargaPage = () => {
@@ -13,6 +14,8 @@ const CargaPage = () => {
           py: 2
         }}
       >
+        <AsigncionLinea  etapa ={'1'}  />
+
         <Container maxWidth={false}>
           <CargaListToolbar />
 

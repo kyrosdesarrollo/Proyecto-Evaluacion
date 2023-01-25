@@ -6,7 +6,7 @@ import {
   CardContent,
   TextField,
   InputAdornment,
-  SvgIcon, Typography
+  Typography,
 } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import { EjecutivoCrear } from './ejecutivo-list-crear';
@@ -30,7 +30,7 @@ export const EjecutivosListToolbar = () => {
   const handleClose = () => setOpen(false);
 
   return(
-
+<>
   <Box >
     <Box
       sx={{
@@ -61,7 +61,7 @@ export const EjecutivosListToolbar = () => {
           }}
           onClick={handleOpen}
         >
-          Crear Ejecutvo
+          Crear 
         </Button>
         <Modal
               open={open}
@@ -90,7 +90,7 @@ export const EjecutivosListToolbar = () => {
             m: 3
           }}
         >
-          Eliminar Ejecutivo
+          Desactivar
         </Button>
       </Box>
     </Box>
@@ -120,6 +120,7 @@ export const EjecutivosListToolbar = () => {
       </Card>
     </Box>
   </Box>
+  </>
 )
 
 }

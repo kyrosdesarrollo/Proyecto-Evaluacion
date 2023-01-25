@@ -12,7 +12,7 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import { Grid } from '@mui/material';
+import { Badge, Grid, MenuItem } from '@mui/material';
 import { AddBoxOutlined, LogoutOutlined } from '@mui/icons-material'
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -23,6 +23,7 @@ import { NothingSelectedView } from '../views/NothingSelectedView';
 import { orange } from '@mui/material/colors'
 import { startNewNote } from '../../store/journal';
 import { DashboardPage } from '../pages/dashboard/DashboardPage';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 
 
 const drawerWidth = 240;
@@ -142,14 +143,33 @@ export const EvaluacionMainLayout = () => {
             <MenuIcon />
           </IconButton>
           <Grid container direction='row' justifyContent='space-between' alignItems='center'>
-                    <Typography variant='h6' noWrap component='div'> Aplicación Evaluación</Typography>
-                        <IconButton 
-						   onClick = { onLogout }
-						   color='secondary'>
-                            <LogoutOutlined/>
-							<Typography>Salir</Typography>
-                        </IconButton>
-                 </Grid>
+                    <Typography 
+                      variant='h6' 
+                      noWrap component='div'>
+                     Aplicación Evaluación</Typography>
+
+                   
+                    <IconButton
+                      size="large"
+                      aria-label="show 17 new notifications"
+                      color="inherit"
+                      
+                    >
+                      <Badge badgeContent={10} color="error">
+                        <NotificationsIcon />
+                      </Badge>
+                    </IconButton>
+                  
+                    {/* <p>Notifications</p> */}
+                   
+                    <IconButton 
+                    onClick = { onLogout }
+                    color='secondary'>
+                      <LogoutOutlined/>
+                    <Typography>Salir</Typography>
+                              </IconButton>
+                      </Grid>
+                
         
         </Toolbar>
         

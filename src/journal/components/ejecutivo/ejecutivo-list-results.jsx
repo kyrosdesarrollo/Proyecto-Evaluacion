@@ -38,6 +38,7 @@ const rows = [
 
 export default function DataTableEjecutivo() {
   return (
+    <>
     <div style={{ height: 500, width: '70%' }}>
       <DataGrid
         rows={rows}
@@ -47,5 +48,6 @@ export default function DataTableEjecutivo() {
         checkboxSelection
       />
     </div>
+    </>
   );
 }

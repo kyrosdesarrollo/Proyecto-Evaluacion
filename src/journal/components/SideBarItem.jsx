@@ -13,8 +13,9 @@ import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver';
 import BroadcastOnPersonalIcon from '@mui/icons-material/BroadcastOnPersonal';
 import FileOpenIcon from '@mui/icons-material/FileOpen';
 import AssignmentIcon from '@mui/icons-material/Assignment';
+import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import { purple } from '@mui/material/colors';
-import { purpleTheme } from '../../theme/purpleTheme';
+
 
 
 export const SideBarItem = ({ title = '', body, id , date, imageUrls = []}) => {
@@ -46,6 +47,7 @@ export const SideBarItem = ({ title = '', body, id , date, imageUrls = []}) => {
         {  newTitle == 'Campaña' ?           <BroadcastOnPersonalIcon  /> : '' }
         {  newTitle == 'Carga Excel' ?       <FileOpenIcon  /> : '' }
         {  newTitle == 'Pauta' ?             <AssignmentIcon  /> : '' }
+        {  newTitle == 'Asignación' ?        <GroupAddIcon  /> : '' }
 
         </ListItemIcon>
         <Grid container>

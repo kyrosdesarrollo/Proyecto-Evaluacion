@@ -10,16 +10,16 @@ export default function CargaAlert() {
   return(
     <Fade
        in={alertVisibility} //Write the needed condition here to make it appear
-       timeout={{ enter: 100, exit: 1500 }} //Edit these two values to change the duration of transition when the element is getting appeared and disappeard
+       timeout={{ enter: 100, exit: 2500 }} //Edit these two values to change the duration of transition when the element is getting appeared and disappeard
        addEndListener={() => {
          setTimeout(() => {
            setAlertVisibility(false)
-         }, 2000);
+         }, 2500);
        }}
        >
        <Alert severity="success" variant="standard" className="alert">
           <AlertTitle>Carga de archivo</AlertTitle>
-             Registro cargado con éxito !!!!!
+             Registro cargado con éxito, próximo paso es la asignación a ejecutivo.
           </Alert>
     </Fade>
   )

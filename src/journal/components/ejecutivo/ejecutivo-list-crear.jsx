@@ -79,7 +79,7 @@ export const EjecutivoCrear = () => {
       </Grid>
       <Typography >.</Typography>
 
-        <Divider />
+       
       <Grid  container spacing= {6} >
             <Grid  item xs={4} >
                     <Button  variant="contained">Crear</Button>

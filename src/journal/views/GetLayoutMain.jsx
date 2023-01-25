@@ -1,5 +1,6 @@
 import React from 'react'
 import { RegisterPage } from '../../auth/pages/RegisterPage';
+import { AsignacionPage } from '../pages/asignacion/AsignacionPage';
 import { CampanaPage } from '../pages/campana/CampanaPage';
 import CargaPage from '../pages/cargaexcel/CargaPage';
 import { DashboardPage } from '../pages/dashboard/DashboardPage';
@@ -41,6 +42,9 @@ const GetLayoutMain = ({ pagina }) => {
 
         case 'Pauta': 
           return <PautaPage />;
+
+        case 'Asignación': 
+          return <AsignacionPage />;
 
         default: 
           return < NoteView />;
