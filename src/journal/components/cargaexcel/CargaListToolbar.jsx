@@ -1,24 +1,48 @@
-import React from 'react'
-import  { useState } from 'react'; 
-import { Autocomplete, Box, Button, Grid, TextField, Typography } from '@mui/material'
+import React ,{ useState }from 'react'
+import { useDispatch } from 'react-redux';
 
 import * as XLSX from 'xlsx';
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import CargaListDetalleGrid from './CargaListDetalleTable';
-import BasicTable from './CargaListDetalleBasic';
 import DataTable from './CargaListDetalleTableNew';
-import { OfflineBoltTwoTone } from '@mui/icons-material';
+
+import { Autocomplete, Box, Button, Grid, TextField, Typography } from '@mui/material'
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import SaveAltIcon from '@mui/icons-material/SaveAlt';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import { startNewExcel } from '../../../store/excel';
+
+import CargaAlert from './CargaAlert';
+
 
 const CargaListToolbar = () => {
+
+  const [open, setOpen] = React.useState(false);
   const [lista, setLista] = useState([]);
   const [habilitaTabla, setHabilitaTabla] = useState(true);
   const [formato, setFormato] = useState();
   const [botonImport, setBotonimport] = useState(true);
+  const [cargaExcel, setCargaExcel] = useState(true);
+ 
+
+  const dispatch = useDispatch();
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const options = ['PARLO', 'VOZ'];
 
   const handleChange = (event) => {    
+    
     setHabilitaTabla(true);
+    setCargaExcel(true);
+
      if (event.target.id != 'combo-box-demo') {
       setBotonimport (false) ;
      }
@@ -26,19 +50,18 @@ const CargaListToolbar = () => {
   };
 
   const readExcel = (file) => {
+
     setHabilitaTabla(true);
+    setCargaExcel(true);
+
     const promise = new Promise((resolve, reject) => {
 
       const fileReader = new FileReader();
       fileReader.readAsArrayBuffer(file);
-
-  
       fileReader.onload = (e) => {
-
         const bufferArray = e.target.result;
         const wb = XLSX.read(bufferArray, { type: "buffer" });
         const wsname = wb.SheetNames[0];
-        console.log(wsname);
         const ws = wb.Sheets[wsname];
         const data = XLSX.utils.sheet_to_json(ws);
         // VALIDACION
@@ -68,17 +91,31 @@ const CargaListToolbar = () => {
   };
   // ********* Excel JSON ********
 
+
+  const onGuardarExcel = () =>{
+    setHabilitaTabla(true);
+    setBotonimport (false) ;
+    setCargaExcel(false);
+    handleClose()
+    dispatch(startNewExcel(lista));
+    console.log('paso por startNewExcel')
+    //window.location.reload(false);
+  
+    
+    // dispatch ( startGoogleSignIn() );
+  }
+
   return (
 <>
     <Box>
       <Typography variant="h4" component="h2">
        Cargar archivo en formato Excel
-      </Typography>;
+      </Typography>
     </Box>
 
-    <Grid container spacing= { 0 } sx= {{ mb:2 , mt: 2}}>
+    <Grid container spacing= { 2 } sx= {{ mb:2 , mt: 2}}>
        <Grid item 
-              xs={12} sx= {{ mt:2 }}>
+              xs={12} sx= {{ mt:2 }} >
                           <Autocomplete
                               disablePortal
                               id="combo-box-demo"
@@ -91,13 +128,14 @@ const CargaListToolbar = () => {
                             />
         </Grid>
         <Grid item 
-              xs={2} sx= {{ mt:2 }}>
+              xs={6} sx= {{ mt:2 }} sm={4} md={3}>
                           <Button
                               disabled={botonImport}
                               variant="contained"
                               component="label"
                               startIcon={(<CloudUploadIcon fontSize="small" />)}
                               sx={{ width: 150 }}
+                             
                           >
 
                         Importar
@@ -113,6 +151,46 @@ const CargaListToolbar = () => {
         />
                         </Button>
         </Grid>
+        <Grid item 
+              xs={6} sx= {{ mt:2 }} sm={4} md={2}>
+                          <Button
+                              
+                              disabled={habilitaTabla}
+                              color="success"
+                              variant="contained"
+                              component="label"
+                              startIcon={(<SaveAltIcon fontSize="small" />)}
+                              sx={{ width: 150 }}
+                              onClick={handleClickOpen}
+                          >
+
+                        Guardar
+                       
+                        </Button>
+                        <Dialog
+                            open={open}
+                            onClose={handleClose}
+                            aria-labelledby="alert-dialog-title"
+                            aria-describedby="alert-dialog-description"
+                          >
+                            <DialogTitle id="alert-dialog-title">
+                              {"¿ Desea guardar archivo Excel ?"}
+                            </DialogTitle>
+                            <DialogContent>
+                              {/* <DialogContentText id="alert-dialog-description">
+                                Let Google help apps determine location. This means sending anonymous
+                                location data to Google, even when no apps are running.
+                              </DialogContentText> */}
+                            </DialogContent>
+                            <DialogActions>
+                              <Button onClick={handleClose}>No</Button>
+                              <Button onClick={onGuardarExcel} autoFocus>
+                                Si
+                              </Button>
+                            </DialogActions>
+                          </Dialog>
+                        
+        </Grid>
       </Grid>
      {
       
@@ -120,6 +198,11 @@ const CargaListToolbar = () => {
           ? <DataTable lista = {lista}/>
           : <Typography></Typography>
 
+     }
+     {
+        (!!!cargaExcel)
+        ? <CargaAlert /> 
+        : <Typography></Typography>
      }
     
     </>

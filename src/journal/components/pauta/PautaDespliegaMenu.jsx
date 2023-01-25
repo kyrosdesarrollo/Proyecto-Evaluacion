@@ -1,7 +1,10 @@
 
 import { Typography } from '@mui/material';
 import React  from 'react';
-import PautaGridConcepto from './PautaGrid';
+import { Pauta1ConceptCatg } from './Pauta1ConcepCatg';
+import { PautaGridTest2 } from './PautaGridTest2';
+import CollapsibleTable from './PautaGridTest3';
+
 
 export const PautaDespliegaMenu = ( { menu }) => {
 
@@ -14,7 +17,7 @@ export const PautaDespliegaMenu = ( { menu }) => {
     <>  
     {
       (menu === 'PARLO')
-         ? <PautaGridConcepto />
+         ?  <PautaGridTest2 /> 
          : <Typography> Hola</Typography>
     } 
      

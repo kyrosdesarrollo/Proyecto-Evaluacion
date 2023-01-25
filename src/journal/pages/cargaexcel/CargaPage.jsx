@@ -15,9 +15,11 @@ const CargaPage = () => {
       >
         <Container maxWidth={false}>
           <CargaListToolbar />
+
           <Box sx={{ mt: 3 }}>
           {/* <CargaListResults lista={carga} formato = "VOZ" /> */}
           </Box>
+          
         </Container>
       </Box>
     </>

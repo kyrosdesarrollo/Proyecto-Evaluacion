@@ -3,6 +3,8 @@ import { experimentalStyled as styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography'
+import { Container } from '@mui/material';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -40,7 +42,74 @@ export default function PautaGridConcepto() {
                 sm={4} 
                 md={4} 
             key={concepto.name}>
-            <Item> { concepto.name }</Item>
+    <Box
+      sx={{
+        flexGrow: 1,
+        py: 8
+      }}>
+        <Container maxWidth={false}>
+          <Grid
+            container
+            spacing={3}
+            >
+              <Grid
+              item
+              lg={3}
+              sm={6}
+              xl={3}
+              xs={12}
+              >
+                <Typography variant="h1" color="initial"> 
+                  <Item> 
+                        { concepto.name }
+                  </Item>
+                </Typography>
+              </Grid>
+              <Grid
+              item
+              lg={3}
+              sm={6}
+              xl={3}
+              xs={12}
+              >
+                <Typography variant="h1" color="initial"> Hola 1</Typography>
+              </Grid>
+              <Grid
+              item
+              lg={3}
+              sm={6}
+              xl={3}
+              xs={12}
+              >
+                <Typography variant="h1" color="initial"> Hola 1</Typography>
+              </Grid>
+          <Grid
+            item
+            xl={3}
+            lg={3}
+            sm={6}
+            xs={12}
+          >
+            <Typography variant="h1" color="initial"> Hola 1</Typography>
+          </Grid>
+
+          {/* <Grid
+            item
+            xl={3}
+            lg={3}
+            sm={6}
+            xs={12}
+          >
+            <TrafficByDevice sx={{ height: '100%' }} />
+          </Grid> */}
+             
+          </Grid>
+         
+        </Container>
+            
+          
+      </Box>
+            
           </Grid>
         ))}
       </Grid>
