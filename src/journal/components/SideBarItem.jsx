@@ -14,7 +14,8 @@ import BroadcastOnPersonalIcon from '@mui/icons-material/BroadcastOnPersonal';
 import FileOpenIcon from '@mui/icons-material/FileOpen';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
-import { purple } from '@mui/material/colors';
+import MobileFriendlyIcon from '@mui/icons-material/MobileFriendly';
+import { blue } from '@mui/material/colors';
 
 
 
@@ -38,7 +39,7 @@ export const SideBarItem = ({ title = '', body, id , date, imageUrls = []}) => {
     <ListItem  disablePadding>
     <ListItemButton onClick = { onClickNote }>
         
-        <ListItemIcon color="success" sx={{ color: purple[400] }} >
+        <ListItemIcon color="success" sx={{ color: blue[400] }} >
         {  newTitle == 'Dashboard' ?         <DashboardIcon  /> : '' }
         {  newTitle == 'Registro Usuario' ?  <SupervisedUserCircleIcon  /> : '' }
         {  newTitle == 'Acceso' ?            <SettingsApplicationsIcon  /> : '' }
@@ -48,6 +49,7 @@ export const SideBarItem = ({ title = '', body, id , date, imageUrls = []}) => {
         {  newTitle == 'Carga Excel' ?       <FileOpenIcon  /> : '' }
         {  newTitle == 'Pauta' ?             <AssignmentIcon  /> : '' }
         {  newTitle == 'Asignación' ?        <GroupAddIcon  /> : '' }
+        {  newTitle == 'Cierre' ?            <MobileFriendlyIcon  /> : '' }
 
         </ListItemIcon>
         <Grid container>

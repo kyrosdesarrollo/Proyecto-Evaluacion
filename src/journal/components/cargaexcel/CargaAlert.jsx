@@ -17,9 +17,9 @@ export default function CargaAlert() {
          }, 2500);
        }}
        >
-       <Alert severity="success" variant="standard" className="alert">
+       <Alert severity="info" variant="standard" className="alert">
           <AlertTitle>Carga de archivo</AlertTitle>
-             Registro cargado con éxito, próximo paso es la asignación a ejecutivo.
+             Registro cargando ......, próximo paso es la asignación a ejecutivo.
           </Alert>
     </Fade>
   )

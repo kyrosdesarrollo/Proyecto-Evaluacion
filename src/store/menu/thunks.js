@@ -23,17 +23,21 @@ export const startNewMenu = ( nombre )=>{
         const verificaUser = collection(FirebaseDB,`${ uid }/evaluacion/usuario`);
         const datoUser = await getDocs(verificaUser);
         let valida = '';
+        let activoUser='';
         datoUser.forEach(doc => {
             valida = doc.data();
+            activoUser = valida.estado;
         });
-        if (valida){return};
-        try {
+        //Valida información
+        if (!valida){ 
+            try {
             //Ingreso de datos Usuario
             const newDoc = doc (collection(FirebaseDB, `${ uid }/evaluacion/usuario`));
             await setDoc(newDoc, newUser);
-        } catch (error) {
-            console.log('problema con ingreso : ' + error)
-        }
+            } catch (error) {
+                console.log('problema con ingreso : ' + error)
+        }};
+               
         
         //Ingreso de datos Menu, búsqueda de parametros de seleccion directo a FireBase
         const collectionRef = collection(FirebaseDB,`menu/MyhIglVpgD6g2AkXQdxu/${ nombre }`);
@@ -44,6 +48,7 @@ export const startNewMenu = ( nombre )=>{
                 title: doc.data().title,
                 body:  doc.data().body,
                 date:  new Date().getTime(),
+                order: doc.data().order,
             }
                 const retorno = thunkmenu(newMenu, uid);
           

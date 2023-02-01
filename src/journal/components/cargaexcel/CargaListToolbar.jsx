@@ -60,10 +60,22 @@ const CargaListToolbar = () => {
       fileReader.readAsArrayBuffer(file);
       fileReader.onload = (e) => {
         const bufferArray = e.target.result;
-        const wb = XLSX.read(bufferArray, { type: "buffer" });
+        //const wb = XLSX.read(bufferArray, { type: "buffer" });
+        const wb = XLSX.read(bufferArray, { type: "binary" });
         const wsname = wb.SheetNames[0];
         const ws = wb.Sheets[wsname];
+
+       
+
         const data = XLSX.utils.sheet_to_json(ws);
+        //const data = XLSX.utils.sheet_to_json(ws,{header:1});
+        // //Considerar Encabezado
+        // const headers = data[0];
+        // console.log(headers)
+        // //Considerar solo Data 0 eliminar y comenzar en 1 iinformación.
+        // data.splice(0,1);
+        // console.log(data);
+        // return
         // VALIDACION
         // const jDatos = [];
         // for(let i = 0; i < data.length; i++){

@@ -6,7 +6,7 @@ export const purpleTheme = createTheme({
     palette: {
    
       primary: {
-        main: purple.A400,
+        main: blue[500],
       },
       secondary: {
         main: blue[50],

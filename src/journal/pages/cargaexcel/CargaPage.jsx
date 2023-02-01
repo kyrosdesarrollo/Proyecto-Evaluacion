@@ -14,11 +14,10 @@ const CargaPage = () => {
           py: 2
         }}
       >
-        <AsigncionLinea  etapa ={'1'}  />
+        <AsigncionLinea  etapa ={1}  />
 
         <Container maxWidth={false}>
           <CargaListToolbar />
-
           <Box sx={{ mt: 3 }}>
           {/* <CargaListResults lista={carga} formato = "VOZ" /> */}
           </Box>

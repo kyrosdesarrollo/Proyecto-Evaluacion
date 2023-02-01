@@ -17,6 +17,14 @@ const columns = [
 export default function DataTable({lista = ''}) {
 const rows = lista;
 
+const headers = rows[0];
+console.log('Cabeza')
+console.log(headers)
+
+//Considerar solo Data 0 eliminar y comenzar en 1 iinformación.
+// data.splice(0,1);
+// console.log(data);
+
 console.log(lista);
   return (
     <div style={{ height: 400, width: '100%' }}>

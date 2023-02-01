@@ -88,7 +88,7 @@ export const menuTotal = [
     },
     {
         'id': '3',
-        'nombre':'EJECUTIVO',
+        'nombre':'CALIDAD',
         menuInicio: [
             {
                 'id': '1',
@@ -99,6 +99,33 @@ export const menuTotal = [
                 'id': '2',
                 'nombre': 'Carga Excel',
                 'detalle': 'Menu para el ingresar de carga en formato Excel'
+            },
+            {
+                'id': '3',
+                'nombre': 'Asignación',
+                'detalle': 'Menu para el asignar monitor'
+            },
+            {
+                'id': '4',
+                'nombre': 'Cierre',
+                'detalle': 'Menu para el cierre'
+            },
+
+        ]
+    },
+    {
+        'id': '3',
+        'nombre':'PLATAFORMA',
+        menuInicio: [
+            {
+                'id': '1',
+                'nombre': 'Dashboard',
+                'detalle': 'Menu que cuenta con informacón de analisis monitorizada , y visualiza los indicadors claves'
+            },
+            {
+                'id': '2',
+                'nombre': 'Cierre',
+                'detalle': 'Menu para el cierre'
             },
 
         ]

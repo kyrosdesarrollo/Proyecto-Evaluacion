@@ -8,11 +8,13 @@ export const loadMenus = async ( uid = '') => {
     console.log(uid)
     const cargaMenu = collection(FirebaseDB,`${ uid }/evaluacion/menu`);
     const docs = await getDocs(cargaMenu);
+    
     const notes = [];
    
     docs.forEach(doc => {
         notes.push({ id: doc.id, ...doc.data() });
     });
+    console.log(notes.sort((a,b) => a.order - b.order));
     
     return notes;
 

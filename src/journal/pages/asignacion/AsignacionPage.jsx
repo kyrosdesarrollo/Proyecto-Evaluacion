@@ -4,7 +4,7 @@ import AsigncionLinea from '../../components/asignacion/AsignacionPage1'
 export const AsignacionPage = () => {
   return (
     <>
-      <AsigncionLinea etapa = {'2'} />
+      <AsigncionLinea etapa = {2} />
     </>
   )
 }

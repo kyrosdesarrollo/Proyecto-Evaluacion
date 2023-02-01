@@ -47,7 +47,7 @@ import { startLogout } from '../../../store/auth';
 
   
 
-  const options = ['ADMINISTRADOR', 'EJECUTIVO', 'MONITOR'];
+  const options = ['ADMINISTRADOR', 'CALIDAD', 'MONITOR','PLATAFORMA'];
 
   const handleChange = (event) => {
       if(!event.target.id){
