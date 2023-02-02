@@ -2,7 +2,7 @@ import React from 'react'
 import { Box  } from '@mui/material'
 import AsigncionLinea from '../../components/asignacion/AsignacionPage1'
 
-export const AsignacionPage = () => {
+export const CierrePage = () => {
   return (
     <>
      <Box
@@ -13,10 +13,9 @@ export const AsignacionPage = () => {
         }}
       >
           <Box>
-            <AsigncionLinea etapa = {1} />
+            <AsigncionLinea etapa = {3} />
           </Box>
       </Box>
     </>
   )
 }
-

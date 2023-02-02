@@ -9,6 +9,7 @@ import Check from '@mui/icons-material/Check';
 import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import VideoLabelIcon from '@mui/icons-material/VideoLabel';
+import HiveIcon from '@mui/icons-material/Hive';
 import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector';
 
 const QontoConnector = styled(StepConnector)(({ theme }) => ({
@@ -136,6 +137,7 @@ function ColorlibStepIcon(props) {
     1: <CloudDownloadIcon />,
     2: <GroupAddIcon />,
     3: <VideoLabelIcon />,
+    4: <HiveIcon />,
   };
 
   return (
@@ -163,7 +165,7 @@ ColorlibStepIcon.propTypes = {
   icon: PropTypes.node,
 };
 
-const steps = ['Carga archivo Excel', 'Asignación de actividad', 'Cierre'];
+const steps = ['Carga archivo Excel', 'Asignación de actividad','Auditoria', 'Cierre'];
 
 export default function AsigncionLinea( etapa  ) {
   const toma = etapa;

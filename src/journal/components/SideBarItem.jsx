@@ -15,6 +15,9 @@ import FileOpenIcon from '@mui/icons-material/FileOpen';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import MobileFriendlyIcon from '@mui/icons-material/MobileFriendly';
+import AssessmentTwoToneIcon from '@mui/icons-material/AssessmentTwoTone';
+import VideoLabelIcon from '@mui/icons-material/VideoLabel';
+
 import { blue } from '@mui/material/colors';
 
 
@@ -50,6 +53,8 @@ export const SideBarItem = ({ title = '', body, id , date, imageUrls = []}) => {
         {  newTitle == 'Pauta' ?             <AssignmentIcon  /> : '' }
         {  newTitle == 'Asignación' ?        <GroupAddIcon  /> : '' }
         {  newTitle == 'Cierre' ?            <MobileFriendlyIcon  /> : '' }
+        {  newTitle == 'Informes' ?          <AssessmentTwoToneIcon  /> : '' }
+        {  newTitle == 'Auditoría' ?         <VideoLabelIcon  /> : '' }
 
         </ListItemIcon>
         <Grid container>
