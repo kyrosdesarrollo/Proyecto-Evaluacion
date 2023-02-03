@@ -11,11 +11,11 @@ import SettingsApplicationsIcon from '@mui/icons-material/SettingsApplications';
 import DescriptionIcon from '@mui/icons-material/Description';
 import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver';
 import BroadcastOnPersonalIcon from '@mui/icons-material/BroadcastOnPersonal';
-import FileOpenIcon from '@mui/icons-material/FileOpen';
-import AssignmentIcon from '@mui/icons-material/Assignment';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
-import MobileFriendlyIcon from '@mui/icons-material/MobileFriendly';
 import AssessmentTwoToneIcon from '@mui/icons-material/AssessmentTwoTone';
+import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
+import HiveIcon from '@mui/icons-material/Hive';
+import AccountTreeIcon from '@mui/icons-material/AccountTree';
 import VideoLabelIcon from '@mui/icons-material/VideoLabel';
 
 import { blue } from '@mui/material/colors';
@@ -49,10 +49,10 @@ export const SideBarItem = ({ title = '', body, id , date, imageUrls = []}) => {
         {  newTitle == 'Formulario' ?        <DescriptionIcon  /> : '' }
         {  newTitle == 'Ejecutivo' ?         <RecordVoiceOverIcon  /> : '' }
         {  newTitle == 'Campaña' ?           <BroadcastOnPersonalIcon  /> : '' }
-        {  newTitle == 'Carga Excel' ?       <FileOpenIcon  /> : '' }
-        {  newTitle == 'Pauta' ?             <AssignmentIcon  /> : '' }
+        {  newTitle == 'Carga Excel' ?       <CloudDownloadIcon  /> : '' }
+        {  newTitle == 'Pauta' ?             <AccountTreeIcon  /> : '' }
         {  newTitle == 'Asignación' ?        <GroupAddIcon  /> : '' }
-        {  newTitle == 'Cierre' ?            <MobileFriendlyIcon  /> : '' }
+        {  newTitle == 'Cierre' ?            <HiveIcon  /> : '' }
         {  newTitle == 'Informes' ?          <AssessmentTwoToneIcon  /> : '' }
         {  newTitle == 'Auditoría' ?         <VideoLabelIcon  /> : '' }
 
