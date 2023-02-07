@@ -147,9 +147,9 @@ export const EvaluacionMainLayout = () => {
                     <Typography 
                       variant='h6' 
                       noWrap component='div'>
-                     Aplicación Evaluación</Typography>
+                      Auditoria 2CALL</Typography>
                      <Typography 
-                      variant='h6' 
+                      variant='h7' 
                       noWrap component='div'>
                       {perfil} </Typography>
 
