@@ -3,7 +3,10 @@ import { createUserWithEmailAndPassword,
          signInWithPopup, 
          updateProfile,
          signInWithEmailAndPassword } from "@firebase/auth";
+import { loadPerfil } from "../helpers/loadPerfil";
 import { FirebaseAuth } from "./config";
+// import { collection, getDocs } from "@firebase/firestore/lite";
+// import { FirebaseDB } from "../firebase/config";
 
 
 const googleProvider = new GoogleAuthProvider ();
@@ -63,6 +66,21 @@ export const loginWithEmailPassword = async({ email, password }) => {
     try {
         const resp = await signInWithEmailAndPassword( FirebaseAuth, email, password );
         const { uid, photoURL, displayName } = resp.user;
+
+      //  let perfil = loadPerfil(uid);
+      //  const perfil = 'ADMINISTRADOR';
+
+        // console.log('LoadPerfil')
+        // const usuarioPerfil = [];
+        // docs.forEach(doc => {
+        //     usuarioPerfil.push({ id: doc.id, ...doc.data() });
+        // });
+        // console.log(perfi.perfil);
+        //  perfil = perfil.perfil;
+
+        // console.log('Extraer perfil en Login coon email y password');
+        // const perfil = loadPerfil(uid);
+        // console.log(perfil)
 
         return {
             ok: true,

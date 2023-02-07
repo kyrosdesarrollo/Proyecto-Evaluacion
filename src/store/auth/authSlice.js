@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { loadPerfil } from '../../helpers/loadPerfil';
 
 export const authSlice = createSlice({
     name: 'auth',
@@ -9,6 +10,7 @@ export const authSlice = createSlice({
         displayName: null,
         photoURL: null,
         errorMessage:null,
+        perfil:null,
     },
     reducers: {
         login: (state, {payload} ) => {
@@ -18,6 +20,7 @@ export const authSlice = createSlice({
             state.displayName=payload.displayName;
             state.photoURL   =payload.photoURL;
             state.errorMessage = null;
+            state.perfil   =null;
         },
         logout: (state, {payload} ) => {
             state.status = 'not-authenticated',
@@ -26,12 +29,23 @@ export const authSlice = createSlice({
             state.displayName=null;
             state.photoURL=null;
             state.errorMessage = payload?.errorMessage;
+            state.perfil=null;
         },
         chekingCredentials: (state, action ) => {
 
             state.status = 'checking';
         },
+        chekingPerfil: (state,  {payload} ) => {
+
+            console.log('cheking Perfil' )
+            console.log(payload)
+            state.perfil = payload;
+        },
+        ingresoPerfil: (state, action ) => {
+           
+            state.perfil = 'Listo...';
+        },
     }
 });
 // Action creators are generated for each case reducer function
-export const { login, logout, chekingCredentials } = authSlice.actions;
+export const { login, logout, chekingCredentials, chekingPerfil, ingresoPerfil } = authSlice.actions;

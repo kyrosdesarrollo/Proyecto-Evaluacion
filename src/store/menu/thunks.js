@@ -76,7 +76,7 @@ export const startLoadingMenus = ()=>{
         if(!uid) throw new Error('El UID del usuario no existe');
        
         const menus = await loadMenus (uid);
-
+        
         dispatch(setNotes(menus));
         
     }

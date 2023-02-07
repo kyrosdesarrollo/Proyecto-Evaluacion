@@ -59,29 +59,9 @@ export const menuTotal = [
             },
             {
                 'id': '2',
-                'nombre': 'Formulario',
-                'detalle': 'Menú para ingresar nuevo formato de planilla Excel'
-            },
-            {
-                'id': '3',
-                'nombre': 'Pauta',
-                'detalle': 'Menú para ingresar nueva pauta con el fin de realizar con estos parametros las encuestas reespectivas '
-            },
-            {
-                'id': '4',
-                'nombre': 'Ejecutivo',
-                'detalle': 'Menú para ingresar nuevos ejecutivos'
-            },
-            {
-                'id': '5',
-                'nombre': 'Campaña',
-                'detalle': 'Menu para ingresar nueva campaña'
-            },
-            {
-                'id': '6',
-                'nombre': 'Carga Excel',
-                'detalle': 'Menú para el ingresar de carga en formato Excel'
-            },
+                'nombre': 'Auditoría',
+                'detalle': 'Menú para ingresar datos a pauta asociada'
+            }
 
 
         ]

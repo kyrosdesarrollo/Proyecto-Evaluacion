@@ -5,6 +5,7 @@ import { login, logout } from '../store/auth';
 import { FirebaseAuth } from "../firebase/config";
 import { startLoadingNotes } from "../store/journal";
 import { startLoadingMenus } from "../store/menu/thunks";
+import { loadPerfil } from "../helpers/loadPerfil";
 
 export const useCheckAuth = () => {
   
@@ -21,7 +22,7 @@ export const useCheckAuth = () => {
 
        // dispatch( startLoadingNotes());
         dispatch( startLoadingMenus());
-  
+        
       })
     }, []);
 

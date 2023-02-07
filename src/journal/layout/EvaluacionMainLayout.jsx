@@ -12,6 +12,7 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import ExitToAppTwoToneIcon from '@mui/icons-material/ExitToAppTwoTone';
 import { Badge, Grid, MenuItem } from '@mui/material';
 import { AddBoxOutlined, LogoutOutlined } from '@mui/icons-material'
 
@@ -101,7 +102,7 @@ export const EvaluacionMainLayout = () => {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   
-  const { displayName, uid } = useSelector( state => state.auth);
+  const { displayName, uid, perfil } = useSelector( state => state.auth);
   const { notes , active, isSaving } = useSelector(state => state.journal);
   
   
@@ -147,28 +148,35 @@ export const EvaluacionMainLayout = () => {
                       variant='h6' 
                       noWrap component='div'>
                      Aplicación Evaluación</Typography>
+                     <Typography 
+                      variant='h6' 
+                      noWrap component='div'>
+                      {perfil} </Typography>
 
-                   
+                   <Box
+                    mt={2}
+                   >
                     <IconButton
                       size="large"
                       aria-label="show 17 new notifications"
                       color="inherit"
                       
                     >
-                      <Badge badgeContent={10} color="error">
+                    <Badge badgeContent={10} color="error">
                         <NotificationsIcon />
                       </Badge>
                     </IconButton>
+                    </Box>
                   
                     {/* <p>Notifications</p> */}
                    
                     <IconButton 
                     onClick = { onLogout }
                     color='secondary'>
-                      <LogoutOutlined/>
+                      <ExitToAppTwoToneIcon/>
                     <Typography>Salir</Typography>
                               </IconButton>
-                      </Grid>
+        </Grid>
                 
         
         </Toolbar>
@@ -192,10 +200,11 @@ export const EvaluacionMainLayout = () => {
               py: '11px',
               borderRadius: 1
             }}>
-                <Typography variant= 'inherit' align= 'justify' color= 'black' >{ displayName }</Typography>
+                <Typography variant= 'inherit' align= 'center' color= 'black' >{ displayName } </Typography>
                   <IconButton onClick={handleDrawerClose} align = 'left'>
                     {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
                   </IconButton>
+                  
              </Box>
           </Box>
         </DrawerHeader>
