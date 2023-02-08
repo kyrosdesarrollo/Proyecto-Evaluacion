@@ -13,19 +13,19 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ExitToAppTwoToneIcon from '@mui/icons-material/ExitToAppTwoTone';
-import { Badge, Grid, MenuItem } from '@mui/material';
-import { AddBoxOutlined, LogoutOutlined } from '@mui/icons-material'
+import { Badge, Grid } from '@mui/material';
+
 
 import { useDispatch, useSelector } from 'react-redux';
 import { startLogout } from '../../store/auth';
 import { SideBarItem } from '../components';
 import GetLayoutMain from '../views/GetLayoutMain';
-import { NothingSelectedView } from '../views/NothingSelectedView';
-import { orange } from '@mui/material/colors'
+
 import { startNewNote } from '../../store/journal';
 import { DashboardPage } from '../pages/dashboard/DashboardPage';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 
+import Logo from '../../assets/image/Logo.png'
 
 const drawerWidth = 240;
 
@@ -189,6 +189,9 @@ export const EvaluacionMainLayout = () => {
               
         <DrawerHeader>
         <Box sx={{ px: 2 }}>
+            <Box>
+            <img src={Logo} />
+            </Box>
             <Box
             sx={{
               alignItems: 'center',
@@ -200,6 +203,7 @@ export const EvaluacionMainLayout = () => {
               py: '11px',
               borderRadius: 1
             }}>
+               
                 <Typography variant= 'inherit' align= 'center' color= 'black' >{ displayName } </Typography>
                   <IconButton onClick={handleDrawerClose} align = 'left'>
                     {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}

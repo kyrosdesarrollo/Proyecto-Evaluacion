@@ -14,6 +14,9 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { startNewExcel } from '../../../store/excel';
 
 import CargaAlert from './CargaAlert';
+import CargaListDetalleBasic from './CargaListDetalleBasic';
+import AppMaterial from './CargaListDetalleTableMaterial';
+
 
 
 const CargaListToolbar = () => {
@@ -36,7 +39,7 @@ const CargaListToolbar = () => {
     setOpen(false);
   };
 
-  const options = ['PARLO', 'VOZ'];
+  const options = ['PARLO 1 LINEA', 'PARLO FRAUDE','PARLO FRAUDE MONITOREO','PARLO EQUIPO ESP.','PARLO FIDELIZACION','PARLO VENTAS'];
 
   const handleChange = (event) => {    
     
@@ -217,7 +220,7 @@ const CargaListToolbar = () => {
         ? <CargaAlert /> 
         : <Typography></Typography>
      }
-    
+     
     </>
   )
 }
