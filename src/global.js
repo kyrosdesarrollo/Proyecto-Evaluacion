@@ -1,1 +1,1 @@
-export let perfilUsuario = '';
+export let ListaHeaders = [];

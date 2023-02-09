@@ -14,8 +14,8 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { startNewExcel } from '../../../store/excel';
 
 import CargaAlert from './CargaAlert';
-import CargaListDetalleBasic from './CargaListDetalleBasic';
-import AppMaterial from './CargaListDetalleTableMaterial';
+import * as VariableGlobal from '../../../global'
+
 
 
 
@@ -71,14 +71,22 @@ const CargaListToolbar = () => {
        
 
         const data = XLSX.utils.sheet_to_json(ws);
-        //const data = XLSX.utils.sheet_to_json(ws,{header:1});
-        // //Considerar Encabezado
-        // const headers = data[0];
+        const data1 = XLSX.utils.sheet_to_json(ws,{header:1});
+
+
+        VariableGlobal.ListaHeaders.FileReader = data1[0];
+        //Considerar Encabezado
+        // const headers = data1[0];
+        // console.log('Inicio carga encabezado')
         // console.log(headers)
-        // //Considerar solo Data 0 eliminar y comenzar en 1 iinformación.
-        // data.splice(0,1);
+        // console.log('Fin carga encabezado')
+        // //Considerar solo Data 0 eliminar y comenzar en 1 información.
+        // data1.splice(0,1);
+
+        // console.log('Solo Data 833')
+        // console.log(data1);
+        // console.log('Solo Data1 833')
         // console.log(data);
-        // return
         // VALIDACION
         // const jDatos = [];
         // for(let i = 0; i < data.length; i++){
@@ -220,6 +228,7 @@ const CargaListToolbar = () => {
         ? <CargaAlert /> 
         : <Typography></Typography>
      }
+     
      
     </>
   )

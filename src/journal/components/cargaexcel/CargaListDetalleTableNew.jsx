@@ -1,5 +1,7 @@
 import * as React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
+import * as VariableGlobal from '../../../global';
+import { HeadsetRounded } from '@mui/icons-material';
 
 const columns = [
   { field: 'id', headerName: 'Id', width: 70 },
@@ -17,12 +19,16 @@ const columns = [
 export default function DataTable({lista = ''}) {
 const rows = lista;
 
-const headers = rows[0];
-console.log('Cabeza')
+const headers = VariableGlobal.ListaHeaders.FileReader;
+console.log('Cabeza con Varable Global')
 console.log(headers)
+let i = 0;
+for (i = 0; i < headers.length; i++) {
+  console.log(headers[i]);
+} 
 
 //Considerar solo Data 0 eliminar y comenzar en 1 iinformación.
-// data.splice(0,1);
+//lista.splice(0,1);
 // console.log(data);
 
 console.log(lista);
