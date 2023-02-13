@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import * as VariableGlobal from '../../../global';
-import { HeadsetRounded } from '@mui/icons-material';
+
 
 const columns = [
   { field: 'id', headerName: 'Id', width: 70 },
@@ -20,12 +20,49 @@ export default function DataTable({lista = ''}) {
 const rows = lista;
 
 const headers = VariableGlobal.ListaHeaders.FileReader;
-console.log('Cabeza con Varable Global')
-console.log(headers)
-let i = 0;
+const columnasEditadas = [];
+
+let i = 0; let linea='';let linea1=''; let cabeza = [];let cabeza1 = []
 for (i = 0; i < headers.length; i++) {
-  console.log(headers[i]);
+  linea  = ('field: '+'\''+ headers[i] +'\', headerName: '+ '\''+ headers[i] +'\''+ ', width: 100' );
+  linea1 = ('{field: '+'\''+ headers[i] +'\', headerName: '+ '\''+ headers[i] +'\''+ ', width: 100 },' );
+  console.log(linea)
+  console.log(linea1)
+  cabeza.push(Object.assign({},linea));
+  cabeza1.push(linea1);
+  columnasEditadas.push('{'+linea+'},');
+  linea = '';
 } 
+console.log('1) Columnas No Editadas');
+console.log(columns);
+
+console.log('2) Columnas Editadas Objeto');
+console.log(columnasEditadas);
+
+
+console.log('3) Columnas Editadas Cabeza');
+console.log(cabeza);
+
+console.log('4) Columnas Editadas Cabeza1');
+console.log(Object.assign(cabeza1));
+
+console.log('5) Columnas Editadas Cabeza');
+console.log(JSON.parse(JSON.stringify(cabeza)));
+
+
+
+
+// console.log('4) Columnas Editadas JSON');
+// console.log(JSON.parse(linea));
+
+// const columnasObject = Object.assign({}, columns);
+// console.log('3) Columnas Editadas con Objeto');
+// console.log(columnasObject);
+
+// let arreglin = [];
+// arreglin = Object.values(columnasObject);
+// console.log('4) Columnas Editadas con Objeto a Arrglo');
+// console.log(arreglin);
 
 //Considerar solo Data 0 eliminar y comenzar en 1 iinformación.
 //lista.splice(0,1);
