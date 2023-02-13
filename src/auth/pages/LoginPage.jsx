@@ -1,12 +1,15 @@
 	import React , { useMemo } from 'react'
   import { useDispatch, useSelector } from 'react-redux';
   import { Link as RouterLink } from 'react-router-dom';
-	import { Alert, Grid, TextField, Typography, Button, Link }  from '@mui/material'
+	import { Alert, Grid, TextField, Typography, Button, Link, Box }  from '@mui/material'
   import { Google } from '@mui/icons-material'
   import { AuthLayout } from '../layout/AuthLayout';
   import { useForm } from '../../hooks';
   import {  starLoginWithEmailPassword, startGoogleSignIn } from '../../store/auth';
   
+
+  import Logo from '../../assets/image/Logo.png'
+
 
 	const formData = 
     {
@@ -37,8 +40,14 @@
 
 	  return (
 	    <>
-	     
+      
       <AuthLayout title = 'Inicio de sessión'>
+        
+      <Box sx={{ display: 'flex' }}>
+          <Box>
+                <img  src={Logo} />
+          </Box>
+      </Box>
               <form onSubmit={ onSubmit } className='animate__animated animate__fadeIn animate__faster'>
 	                 <Grid container>
                           <Grid item 
