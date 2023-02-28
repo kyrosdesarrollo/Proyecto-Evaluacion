@@ -11,7 +11,7 @@ import Swal from 'sweetalert2'
 import { Button, Autocomplete, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField, DialogContentText } from '@mui/material';
 import { startNewExcel } from '../../../store/excel';
 
-export const CargaExcelImportar = (props) => {
+export  const PautaExcelImportar = (props) => {
     //Estados para controlar archivo
     const [file, setFile] = useState(null);
     const [filename, setfileName] = useState(null);
@@ -162,7 +162,7 @@ const onGuardarExcel = () =>{
                               value= { formato }
                               options={options}
                               sx={{ width: 300 }}
-                              renderInput={(params) => <TextField {...params} label="** Formato **" />}
+                              renderInput={(params) => <TextField {...params} label="** Pauta **" />}
                               onChange= { handleChange }
                              
                             />
@@ -280,3 +280,5 @@ const onGuardarExcel = () =>{
     </>
   )
 }
+
+export default PautaExcelImportar
