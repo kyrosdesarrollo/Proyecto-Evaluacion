@@ -16,6 +16,10 @@ import { startNewExcel } from '../../../store/excel';
 import CargaAlert from './CargaAlert';
 import * as VariableGlobal from '../../../global'
 
+import { EjemploExcelBosstrapView } from './EjemploExcelBosstrapView';
+import { CargaExcelView } from './CargaExcelView';
+
+
 
 
 
@@ -67,8 +71,6 @@ const CargaListToolbar = () => {
         const wb = XLSX.read(bufferArray, { type: "binary" });
         const wsname = wb.SheetNames[0];
         const ws = wb.Sheets[wsname];
-
-       
 
         const data = XLSX.utils.sheet_to_json(ws);
         const data1 = XLSX.utils.sheet_to_json(ws,{header:1});
@@ -130,106 +132,16 @@ const CargaListToolbar = () => {
 
   return (
 <>
-    <Box>
+    <Box md={12}>
       <Typography variant="h4" component="h2">
        <br></br>Cargar archivo en formato Excel
       </Typography>
+      <CargaExcelView />
     </Box>
 
-    <Grid container spacing= { 2 } sx= {{ mb:2 , mt: 2}}>
-       <Grid item 
-              xs={12} sx= {{ mt:2 }} >
-                          <Autocomplete
-                              disablePortal
-                              id="combo-box-demo"
-                              value= { formato }
-                              options={options}
-                              sx={{ width: 300 }}
-                              renderInput={(params) => <TextField {...params} label="Formato" />}
-                              onChange= { handleChange }
-                             
-                            />
-        </Grid>
-        <Grid item 
-              xs={6} sx= {{ mt:2 }} sm={4} md={3}>
-                          <Button
-                              disabled={botonImport}
-                              variant="contained"
-                              component="label"
-                              startIcon={(<CloudUploadIcon fontSize="small" />)}
-                              sx={{ width: 150 }}
-                             
-                          >
+    
 
-                        Importar
-                        <input
-          
-                            hidden
-                            type="file"
-                            onChange={(e) => {
-                              
-                              const file = e.target.files[0];
-                              readExcel(file);
-                            }}
-        />
-                        </Button>
-        </Grid>
-        <Grid item 
-              xs={6} sx= {{ mt:2 }} sm={4} md={2}>
-                          <Button
-                              
-                              disabled={habilitaTabla}
-                              color="success"
-                              variant="contained"
-                              component="label"
-                              startIcon={(<SaveAltIcon fontSize="small" />)}
-                              sx={{ width: 150 }}
-                              onClick={handleClickOpen}
-                          >
-
-                        Guardar
-                       
-                        </Button>
-                        <Dialog
-                            open={open}
-                            onClose={handleClose}
-                            aria-labelledby="alert-dialog-title"
-                            aria-describedby="alert-dialog-description"
-                          >
-                            <DialogTitle id="alert-dialog-title">
-                              {"¿ Desea guardar archivo Excel ?"}
-                            </DialogTitle>
-                            <DialogContent>
-                              {/* <DialogContentText id="alert-dialog-description">
-                                Let Google help apps determine location. This means sending anonymous
-                                location data to Google, even when no apps are running.
-                              </DialogContentText> */}
-                            </DialogContent>
-                            <DialogActions>
-                              <Button onClick={handleClose}>No</Button>
-                              <Button onClick={onGuardarExcel} autoFocus>
-                                Si
-                              </Button>
-                            </DialogActions>
-                          </Dialog>
-                        
-        </Grid>
-       
-      </Grid>
-     {
-      
-        (!!!habilitaTabla)
-          ? <DataTable lista = {lista}/>
-          : <Typography></Typography>
-
-     }
-     {
-        (!!!cargaExcel)
-        ? <CargaAlert /> 
-        : <Typography></Typography>
-     }
-     
-     
+    
     </>
   )
 }

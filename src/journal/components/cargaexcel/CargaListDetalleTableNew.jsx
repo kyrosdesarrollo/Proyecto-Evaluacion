@@ -20,7 +20,10 @@ export default function DataTable({lista = ''}) {
 const rows = lista;
 
 const headers = VariableGlobal.ListaHeaders.FileReader;
+console.log(headers[0]);
+
 const columnasEditadas = [];
+const cabeluca = headers[0];
 
 let i = 0; let linea='';let linea1=''; let cabeza = [];let cabeza1 = []
 for (i = 0; i < headers.length; i++) {
@@ -37,7 +40,7 @@ console.log('1) Columnas No Editadas');
 console.log(columns);
 
 console.log('2) Columnas Editadas Objeto');
-console.log(columnasEditadas);
+console.log(cabeluca);
 
 
 console.log('3) Columnas Editadas Cabeza');

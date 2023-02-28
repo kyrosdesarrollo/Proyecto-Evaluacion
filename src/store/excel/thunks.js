@@ -2,21 +2,32 @@ import { collection, doc, setDoc } from "@firebase/firestore/lite";
 import { FirebaseDB } from "../../firebase/config";
 import { addNewEmptyExcel, savingNewExcel } from "./excelSlice";
 
-export const startNewExcel =( lista )=>{
+export const startNewExcel =( lista , formato )=>{
     return async (dispatch, getSate) =>{
         dispatch(savingNewExcel());
     
         const { uid, displayName } = getSate().auth;
         // //uid este lo genera solo firebase database
         // //Estructrura de información
-        const newArreglo = lista;
+
+        console.log('Metodo Start New Excel')
+        console.log(uid)
+        console.log('Formato')
+        console.log(formato)
+        console.log('Lista')
+        console.log(lista)
+        //const newArreglo = lista;
+        //const newArreglo = Object.fromEntries(lista);
+        const newObject = Object.assign({}, lista);
+        // console.log(newArreglo)
         const newExcel = {
 
             idusuario: {uid} ,
             nombre :{displayName},
             body:'Ingreso',
+            formato: formato,
             date: new Date().getTime(),
-            detalle : newArreglo,
+            detalle : newObject,
             
 
         }
@@ -24,8 +35,8 @@ export const startNewExcel =( lista )=>{
         try {
             
             const newDoc = doc (collection(FirebaseDB,  `plantilla/excel/${ uid }`));
-            await setDoc(newDoc, newExcel);
-            
+            const set = await setDoc(newDoc, newExcel);
+            console.log(set);
             newExcel.id = newDoc.id;
             console.log(newExcel.id)
             //Dispatch
