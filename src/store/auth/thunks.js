@@ -7,6 +7,7 @@ import { chekingCredentials, chekingPerfil, login, logout } from "./authSlice";
 export const checkingAuthentication = (email , password) =>{
     return async (dispatch) =>{
         dispatch( chekingCredentials() );
+        
     }
 }
 
@@ -17,6 +18,10 @@ export const startGoogleSignIn = () =>{
         if(!result.ok) return dispatch(logout(result.errorMessage));
     //delete result.ok
         dispatch (login(result));
+        console.log('first');
+        const usuarioPerfil = await loadPerfil(result);
+        console.log(usuarioPerfil)
+        dispatch( chekingPerfil(usuarioPerfil) );
     }
 }
 
@@ -37,8 +42,10 @@ export const starLoginWithEmailPassword = ({ email, password})=>{
         const result = await loginWithEmailPassword({ email, password });
         if ( !result.ok ) return dispatch( logout( result ) ); 
         dispatch( login( result ));
-
+        console.log('first');
         const usuarioPerfil = await loadPerfil(result);
+        console.log(usuarioPerfil)
+        window.$perfil = usuarioPerfil;
         dispatch( chekingPerfil(usuarioPerfil) );
         
     }
@@ -56,7 +63,7 @@ export const startLoadingUser = ()=>{
     return async (dispatch, getState) =>{
         const { uid } = getState().auth;
         if(!uid) throw new Error('El UID del usuario no existe');
-       
+       console.log('startLoadingUser')
         const notes = await loadUsers (uid);
         //dispatch(setNotes(notes));
     }

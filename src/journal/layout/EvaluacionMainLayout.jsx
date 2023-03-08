@@ -17,7 +17,7 @@ import { Badge, Grid } from '@mui/material';
 
 
 import { useDispatch, useSelector } from 'react-redux';
-import { startLogout } from '../../store/auth';
+import { starLoginWithEmailPassword, startLogout } from '../../store/auth';
 import { SideBarItem } from '../components';
 import GetLayoutMain from '../views/GetLayoutMain';
 
@@ -26,6 +26,9 @@ import { DashboardPage } from '../pages/dashboard/DashboardPage';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 
 import Logo from '../../assets/image/Logo.png'
+import { loadPerfil } from '../../helpers/loadPerfil';
+
+
 
 const drawerWidth = 240;
 
@@ -94,9 +97,6 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
-
-
-
 export const EvaluacionMainLayout = () => {
 
   const theme = useTheme();
@@ -105,10 +105,20 @@ export const EvaluacionMainLayout = () => {
   const { displayName, uid, perfil } = useSelector( state => state.auth);
   const { notes , active, isSaving } = useSelector(state => state.journal);
   
-  
+
+  const dispatch = useDispatch();
+ 
+  console.log(window.$perfil) ;
+  if (!window.$perfil){ 
+    console.log('vacio '+  {uid});
+    async ( uid = '') => {
+          window.$perfil =  dispatch(loadPerfil(uid));
+      }
+  };
+
   const numero = notes;
   
-  const dispatch = useDispatch();
+  
   //dispatch(loadMenus(uid));
 
   const handleDrawerOpen = () => {
@@ -151,7 +161,7 @@ export const EvaluacionMainLayout = () => {
                      <Typography 
                       variant='h7' 
                       noWrap component='div'>
-                      {perfil} </Typography>
+                      {window.$perfil} </Typography>
 
                    <Box
                     mt={2}

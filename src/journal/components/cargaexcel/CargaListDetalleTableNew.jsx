@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
-import * as VariableGlobal from '../../../global';
+
 
 
 const columns = [
@@ -19,8 +19,8 @@ const columns = [
 export default function DataTable({lista = ''}) {
 const rows = lista;
 
-const headers = VariableGlobal.ListaHeaders.FileReader;
-console.log(headers[0]);
+// const headers = VariableGlobal.ListaHeaders.FileReader;
+// console.log(headers[0]);
 
 const columnasEditadas = [];
 const cabeluca = headers[0];

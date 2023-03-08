@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { loadPerfil } from '../../helpers/loadPerfil';
 
 export const authSlice = createSlice({
     name: 'auth',
@@ -14,13 +13,16 @@ export const authSlice = createSlice({
     },
     reducers: {
         login: (state, {payload} ) => {
+            console.log('cheking login' )
             state.status     = 'authenticated',
             state.uid        = payload.uid;
             state.email      =payload.email;
             state.displayName=payload.displayName;
             state.photoURL   =payload.photoURL;
             state.errorMessage = null;
-            state.perfil   =null;
+            state.perfil = state.perfil;
+            
+           
         },
         logout: (state, {payload} ) => {
             state.status = 'not-authenticated',
@@ -39,7 +41,7 @@ export const authSlice = createSlice({
 
             console.log('cheking Perfil' )
             console.log(payload)
-            state.perfil = payload;
+            state.perfil = payload.perfil;
         },
         ingresoPerfil: (state, action ) => {
            

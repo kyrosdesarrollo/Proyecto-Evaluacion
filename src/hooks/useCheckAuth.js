@@ -3,9 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { onAuthStateChanged } from 'firebase/auth';
 import { login, logout } from '../store/auth';
 import { FirebaseAuth } from "../firebase/config";
-import { startLoadingNotes } from "../store/journal";
 import { startLoadingMenus } from "../store/menu/thunks";
-import { loadPerfil } from "../helpers/loadPerfil";
+import { startLoadingPlanilla } from "../store/excel";
 
 export const useCheckAuth = () => {
   
@@ -22,6 +21,7 @@ export const useCheckAuth = () => {
 
        // dispatch( startLoadingNotes());
         dispatch( startLoadingMenus());
+       // dispatch (startLoadingPlanilla());
         
       })
     }, []);

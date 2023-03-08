@@ -14,13 +14,9 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { startNewExcel } from '../../../store/excel';
 
 import CargaAlert from './CargaAlert';
-import * as VariableGlobal from '../../../global'
 
 import { EjemploExcelBosstrapView } from './EjemploExcelBosstrapView';
 import { CargaExcelView } from './CargaExcelView';
-
-
-
 
 
 const CargaListToolbar = () => {

@@ -52,16 +52,17 @@ export const startNewExcel =( lista , formato )=>{
 }
 
 
-// export const startLoadingNotes = ()=>{
-//     return async (dispatch, getState) =>{
-//         const { uid } = getState().auth;
-//         if(!uid) throw new Error('El UID del usuario no existe');
-       
-//         const notes = await loadNotes (uid);
+export const startLoadingPlanilla = ()=>{
+    return async (dispatch, getState) =>{
+        const { uid } = getState().auth;
+        if(!uid) throw new Error('El UID del usuario no existe');
+        console.log('startLoadingPlantilla')
+      
+        //const notes = await loadNotes (uid);
 
-//         dispatch(setNotes(notes));
-//     }
-// }
+        //dispatch(setNotes(notes));
+    }
+}
 
 // export const startSaveNote = ()=>{
 
