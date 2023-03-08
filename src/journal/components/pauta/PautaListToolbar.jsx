@@ -11,13 +11,15 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import { startNewExcel } from '../../../store/excel';
 
-//import CargaAlert from './CargaAlert';
+
+
 import * as VariableGlobal from '../../../global'
 
-//import { EjemploExcelBosstrapView } from './EjemploExcelBosstrapView';
+
 import { PautaExcelView } from './PautaExcelView';
+import { pautaStartNewExcel } from '../../../store/Pauta';
+import BuscarPauta from './BuscarPauta';
 
 
 
@@ -122,8 +124,8 @@ const PautaListToolbar = () => {
     setBotonimport (false) ;
     setCargaExcel(false);
     handleClose()
-    dispatch(startNewExcel(lista));
-    console.log('paso por startNewExcel')
+    dispatch(pautaStartNewExcel(lista));
+    console.log('paso por PautastartNewExcel')
     //window.location.reload(false);
   
     
@@ -134,8 +136,11 @@ const PautaListToolbar = () => {
 <>
     <Box md={12}>
       <Typography variant="h4" component="h2">
-       <br></br>Cargar archivo para Pauta en formato Excel
+       <br></br>Cargar archivo Pauta 
       </Typography>
+      
+          {/* <BuscarPauta/> */}
+      
       <PautaExcelView />
     </Box>
 

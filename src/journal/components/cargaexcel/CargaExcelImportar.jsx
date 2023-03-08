@@ -149,7 +149,25 @@ const onGuardarExcel = () =>{
     setBotonImport (false) ;
     dispatch(startNewExcel(lista, selectComboName));
     console.log('paso por startNewExcel')
-    //Hacer
+    
+    //Borrar Data de excel una vez que guarda 
+    setFile(null);
+    setfileName(null);
+    setSheetNames([]);
+    setSheetData(null);
+    props.onFileSubir(null);
+    fileRef.current.value = "";
+
+    Swal.fire({
+        position: 'top-center',
+        icon: 'success',
+        title: 'Archivo importado con éxito.',
+        showConfirmButton: false,
+        timer: 1500
+      })
+
+
+
 };
   return (
     <>

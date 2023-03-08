@@ -1,7 +1,6 @@
 import { Box, Container, Paper } from '@mui/material'
 import React from 'react'
 import AsigncionLinea from '../../components/asignacion/AsignacionPage1'
-import CargaListToolbar from '../../components/cargaexcel/CargaListToolbar'
 import PautaListToolbar from '../../components/pauta/PautaListToolbar'
 
 
@@ -17,7 +16,7 @@ export const PautaPage = () => {
         }}
       >
         <Box>
-              <AsigncionLinea  etapa ={0}  />
+              {/* <AsigncionLinea  etapa ={0}  /> */}
         </Box>
        
          <br></br>

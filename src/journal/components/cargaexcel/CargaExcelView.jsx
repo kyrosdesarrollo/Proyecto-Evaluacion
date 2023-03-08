@@ -32,7 +32,7 @@ const handleSheetChange = (e) =>{
     
     <div className='content'>
         <Row>
-            <Col md={12}>
+            <Col md={20}>
                 <Card>
                     {/* <CardHeader>
                         <h5 className='title'>Leer Excel Hojas</h5>

@@ -9,7 +9,8 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { useDispatch } from 'react-redux';
 import Swal from 'sweetalert2'
 import { Button, Autocomplete, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField, DialogContentText } from '@mui/material';
-import { startNewExcel } from '../../../store/excel';
+
+import { pautaStartNewExcel } from '../../../store/Pauta';
 
 export  const PautaExcelImportar = (props) => {
     //Estados para controlar archivo
@@ -147,9 +148,29 @@ const handleClose = () => {
 const onGuardarExcel = () =>{
     handleClose();
     setBotonImport (false) ;
-    dispatch(startNewExcel(lista, selectComboName));
-    console.log('paso por startNewExcel')
+    dispatch(pautaStartNewExcel(lista, selectComboName));
+    console.log('paso por PautastartNewExcel')
     //Hacer
+
+    setFile(null);
+    setfileName(null);
+    setSheetNames([]);
+    setSheetData(null);
+    props.onFileSubir(null);
+    fileRef.current.value = "";
+
+    Swal.fire({
+        position: 'top-center',
+        icon: 'success',
+        title: 'Archivo Pauta importado con éxito.',
+        showConfirmButton: false,
+        timer: 1500
+      })
+
+
+
+
+
 };
   return (
     <>
@@ -256,7 +277,7 @@ const onGuardarExcel = () =>{
                                                 </DialogTitle>
                                                 <DialogContent>
                                                 <DialogContentText id="alert-dialog-description">
-                                                De igual forma podrás modificar esta información antes de la confirmación de Asignación de actividad.
+                                                De igual forma podrás modificar esta información.
                                                 Nota Importante: Los campos relevantes para realizar reporteria son los de cabecera.
                                                 </DialogContentText>
                                                 </DialogContent>

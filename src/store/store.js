@@ -3,6 +3,7 @@ import { authSlice } from './auth';
 import { excelSlice } from './excel/excelSlice';
 import { journalSlice } from './journal';
 import { menuSlice } from './menu';
+import { pautaexcelSlice } from './pauta/pautaSlice';
 
 
 export const store = configureStore({
@@ -11,5 +12,6 @@ export const store = configureStore({
      journal : journalSlice.reducer,
      menu    : menuSlice.reducer,
      excel   : excelSlice.reducer,
+     pauta   : pautaexcelSlice.reducer,  
   },
 });

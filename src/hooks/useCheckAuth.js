@@ -6,6 +6,7 @@ import { FirebaseAuth } from "../firebase/config";
 import { startLoadingNotes } from "../store/journal";
 import { startLoadingMenus } from "../store/menu/thunks";
 import { loadPerfil } from "../helpers/loadPerfil";
+import { startLoadingPautas } from "../store/pauta/thunks";
 
 export const useCheckAuth = () => {
   
@@ -22,6 +23,7 @@ export const useCheckAuth = () => {
 
        // dispatch( startLoadingNotes());
         dispatch( startLoadingMenus());
+        dispatch (startLoadingPautas());
         
       })
     }, []);
