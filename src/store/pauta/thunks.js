@@ -1,6 +1,6 @@
 import { collection, doc, setDoc } from "@firebase/firestore/lite";
 import { FirebaseDB } from "../../firebase/config";
-import  {loadExcelPautas} from "../../helpers/loadExcel";
+import  {loadExcelPautas} from "../../helpers/loadExcelPautas";
 import { addNewEmptyExcel, savingNewExcel, setPautas } from "./pautaSlice";
 
 
