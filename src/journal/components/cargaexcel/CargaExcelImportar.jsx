@@ -147,7 +147,7 @@ const handleClose = () => {
 const onGuardarExcel = () =>{
     handleClose();
     setBotonImport (false) ;
-    dispatch(startNewExcel(lista, selectComboName));
+    dispatch(startNewExcelFormato(lista, selectComboName));
     console.log('paso por startNewExcel')
     
     //Borrar Data de excel una vez que guarda 
