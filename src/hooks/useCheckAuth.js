@@ -25,7 +25,7 @@ export const useCheckAuth = () => {
         dispatch( startLoadingMenus());
         //Benjamin
         dispatch (startLoadingPautas());
-        // benjamin 
+        
       })
     }, []);
 
