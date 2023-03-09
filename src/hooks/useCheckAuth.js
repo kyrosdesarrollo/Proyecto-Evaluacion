@@ -27,6 +27,11 @@ export const useCheckAuth = () => {
         dispatch (startLoadingPautas());
         //Nelson estuvo aqui
         // testeo
+
+        //Hola mi nombre es polo
+
+        // estoy programando
+        
       })
     }, []);
 
