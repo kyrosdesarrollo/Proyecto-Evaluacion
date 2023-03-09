@@ -1,8 +1,8 @@
 import { collection, doc, setDoc } from "@firebase/firestore/lite";
 import { FirebaseDB } from "../../firebase/config";
-import { addNewEmptyExcel, savingNewExcel } from "./excelSlice";
+import { addNewEmptyExcel, savingNewExcel } from "./formatoSlice";
 
-export const startNewExcel =( lista , formato )=>{
+export const startNewExcelFormato =( lista , formato )=>{
     return async (dispatch, getSate) =>{
         dispatch(savingNewExcel());
     

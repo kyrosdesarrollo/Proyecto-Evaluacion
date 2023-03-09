@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { authSlice } from './auth';
-import { excelSlice } from './excel/excelSlice';
+import { formatoSlice } from './formato/formatoSlice';
 import { journalSlice } from './journal';
 import { menuSlice } from './menu';
 import { pautaexcelSlice } from './pauta/pautaSlice';
@@ -11,7 +11,7 @@ export const store = configureStore({
      auth    : authSlice.reducer,
      journal : journalSlice.reducer,
      menu    : menuSlice.reducer,
-     excel   : excelSlice.reducer,
+     formato : formatoSlice.reducer,
      pauta   : pautaexcelSlice.reducer,  
   },
 });

@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-export const excelSlice = createSlice({
-    name: 'excel',
+export const formatoSlice = createSlice({
+    name: 'formato',
     initialState: {
         isSaving: false,
         messageSaved: '',
@@ -15,29 +15,29 @@ export const excelSlice = createSlice({
         // }
     },
     reducers: {
-        savingNewExcel: (state)=>{
+        savingNewExcelFormato: (state)=>{
             state.isSaving=true;
         },
-        addNewEmptyExcel: (state,  action ) => {
+        addNewEmptyExcelFormato: (state,  action ) => {
             state.excels.push(action.payload);
             state.isSaving = false;
         },
-        setActiveNote: (state,  action ) => {
+        setActiveFormato: (state,  action ) => {
             state.active = action.payload;
             state.messageSaved = ''
         },
-        setDesActiveNote: (state ) => {
+        setDesActiveFormato: (state ) => {
             state.active ='';
             state.messageSaved = ''
         },
-        setNotes: (state,  action ) => {
+        setFormatos: (state,  action ) => {
             state.notes = action.payload;
         },
         setSaving: (state ) => {
             state.isSaving = true;
             state.messageSaved = '' 
         },
-        updateNote: (state,  action ) => {
+        updateFormato: (state,  action ) => {
             state.isSaving = false;
             state.notes = state.notes.map( note => {
             
@@ -52,11 +52,13 @@ export const excelSlice = createSlice({
 
         },
 
-        deleteNoteById: (state,  action ) => {
+        deleteFormatoById: (state,  action ) => {
             
         },
     }
 });
 
 // Action creators are generated for each case reducer function
-export const { addNewEmptyExcel,setActiveNote ,setDesActiveNote,setNotes, setSaving, updateNote, deleteNoteById, savingNewExcel} = excelSlice.actions;
+export const { addNewEmptyExcelFormato,setActiveFormato ,setDesActiveFormato,
+    setFormatos, setSaving, updateFormato, deleteFormatoById, savingNewExcelFormato
+     } = formatoSlice.actions;
