@@ -23,6 +23,7 @@ export const useCheckAuth = () => {
 
        // dispatch( startLoadingNotes());
         dispatch( startLoadingMenus());
+        //Benjamin
         dispatch (startLoadingPautas());
         
       })
