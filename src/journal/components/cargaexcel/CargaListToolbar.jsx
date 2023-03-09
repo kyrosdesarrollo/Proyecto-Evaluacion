@@ -11,7 +11,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import { startNewExcel } from '../../../store/excel';
+import { startNewExcelFormato } from '../../../store/formato';
 
 import CargaAlert from './CargaAlert';
 import * as VariableGlobal from '../../../global'

@@ -1,10 +1,10 @@
 import { collection, doc, setDoc } from "@firebase/firestore/lite";
 import { FirebaseDB } from "../../firebase/config";
-import { addNewEmptyExcel, savingNewExcel } from "./formatoSlice";
+import { addNewEmptyExcelFormato, savingNewExcelFormato } from "./formatoSlice";
 
 export const startNewExcelFormato =( lista , formato )=>{
     return async (dispatch, getSate) =>{
-        dispatch(savingNewExcel());
+        dispatch(savingNewExcelFormato());
     
         const { uid, displayName } = getSate().auth;
         // //uid este lo genera solo firebase database
@@ -40,7 +40,7 @@ export const startNewExcelFormato =( lista , formato )=>{
             newExcel.id = newDoc.id;
             console.log(newExcel.id)
             //Dispatch
-            dispatch(addNewEmptyExcel(newExcel));
+            dispatch(addNewEmptyExcelFormato(newExcel));
             
         } catch (error) {
             console.log(error)
