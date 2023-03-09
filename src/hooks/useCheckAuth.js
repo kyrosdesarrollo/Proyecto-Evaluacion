@@ -28,8 +28,6 @@ export const useCheckAuth = () => {
         //Nelson estuvo aqui
         // Ojo
         //Hola mi nombre es polo
-
-        // estoy programando
         
       })
     }, []);
