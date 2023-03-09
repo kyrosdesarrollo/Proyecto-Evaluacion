@@ -25,6 +25,7 @@ export const useCheckAuth = () => {
         dispatch( startLoadingMenus());
         //Benjamin
         dispatch (startLoadingPautas());
+        //Nelson estuvo aqui
         
       })
     }, []);
