@@ -9,7 +9,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { useDispatch } from 'react-redux';
 import Swal from 'sweetalert2'
 import { Button, Autocomplete, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField, DialogContentText } from '@mui/material';
-import { startNewExcel } from '../../../store/excel';
+import { startNewExcelFormato } from '../../../store/formato';
 
 export const CargaExcelImportar = (props) => {
     //Estados para controlar archivo
@@ -147,7 +147,7 @@ const handleClose = () => {
 const onGuardarExcel = () =>{
     handleClose();
     setBotonImport (false) ;
-    dispatch(startNewExcel(lista, selectComboName));
+    dispatch(startNewExcelFormato(lista, selectComboName));
     console.log('paso por startNewExcel')
     
     //Borrar Data de excel una vez que guarda 
