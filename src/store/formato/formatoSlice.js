@@ -4,22 +4,15 @@ export const formatoSlice = createSlice({
     initialState: {
         isSaving: false,
         messageSaved: '',
-        excels: [],
+        formatos: [],
         active: null,
-        // active: {
-        //     id:'ABC123',
-        //     title:'',
-        //     body:'',
-        //     date: 1232434,
-        //     imageURLs:[], // https://foto1.jpg https://foto2.jpg 
-        // }
     },
     reducers: {
         savingNewExcelFormato: (state)=>{
             state.isSaving=true;
         },
         addNewEmptyExcelFormato: (state,  action ) => {
-            state.excels.push(action.payload);
+            state.formatos.push(action.payload);
             state.isSaving = false;
         },
         setActiveFormato: (state,  action ) => {
@@ -31,7 +24,7 @@ export const formatoSlice = createSlice({
             state.messageSaved = ''
         },
         setFormatos: (state,  action ) => {
-            state.notes = action.payload;
+            state.formatos = action.payload;
         },
         setSaving: (state ) => {
             state.isSaving = true;
@@ -39,7 +32,7 @@ export const formatoSlice = createSlice({
         },
         updateFormato: (state,  action ) => {
             state.isSaving = false;
-            state.notes = state.notes.map( note => {
+            state.formatos = state.notes.map( note => {
             
                 if ( note.id === action.payload.id ) {
                     return action.payload;

@@ -12,12 +12,12 @@ export const pautaStartNewExcel =( lista , formato )=>{
         // //uid este lo genera solo firebase database
         // //Estructrura de información
 
-        console.log('Metodo Start New Excel')
-        console.log(uid)
-        console.log('Formato')
-        console.log(formato)
-        console.log('Lista')
-        console.log(lista)
+        // console.log('Metodo Start New Excel')
+        // console.log(uid)
+        // console.log('Formato')
+        // console.log(formato)
+        // console.log('Lista')
+        // console.log(lista)
         //const newArreglo = lista;
         //const newArreglo = Object.fromEntries(lista);
         const newObject = Object.assign({}, lista);
@@ -39,9 +39,9 @@ export const pautaStartNewExcel =( lista , formato )=>{
             
             const newDoc = doc (collection(FirebaseDB,`pauta/formato/${ uid }`));
             const set = await setDoc(newDoc, newExcel);
-            console.log(set);
+            //console.log(set);
             newExcel.id = newDoc.id;
-            console.log(newExcel.id)
+            //console.log(newExcel.id)
             //Dispatch
             dispatch(addNewEmptyExcel(newExcel));
             
@@ -61,10 +61,10 @@ export const startLoadingPautas = ()=>{
         if(!uid) throw new Error('El UID del usuario no existe');
        
        const pauta = await loadExcelPautas (uid);
-       console.log('ingresando set pauta');
+       //console.log('ingresando set pauta');
         dispatch(setPautas(pauta));
-        console.log('saliendo set pauta');
-        console.log(pauta);
+        //console.log('saliendo set pauta');
+        //console.log(pauta);
 
     }
 }

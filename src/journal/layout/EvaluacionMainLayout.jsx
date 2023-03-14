@@ -102,8 +102,9 @@ export const EvaluacionMainLayout = () => {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   
-  const { displayName, uid, perfil } = useSelector( state => state.auth);
-  const { notes , active, isSaving } = useSelector(state => state.journal);
+  const { displayName } = useSelector( state => state.auth);
+  const { notes , active } = useSelector(state => state.journal);
+  const { perfil } = useSelector(state => state.perfil);
   
   
   const numero = notes;

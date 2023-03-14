@@ -1,8 +1,5 @@
 import { collection, getDocs } from "@firebase/firestore/lite";
 import { FirebaseDB } from "../firebase/config";
-import { authSlice } from "../store/auth/authSlice";
-import { loadPerfil } from "./loadPerfil";
-
 
 export const loadMenus = async ( uid = '') => {
     //Si queremos podemos omitir esta validación
