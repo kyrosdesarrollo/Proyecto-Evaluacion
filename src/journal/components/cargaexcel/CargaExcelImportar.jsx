@@ -9,19 +9,22 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { useDispatch } from 'react-redux';
 import Swal from 'sweetalert2'
 import { Button, Autocomplete, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField, DialogContentText } from '@mui/material';
-import { startNewExcelFormato } from '../../../store/formato';
+import { startNewExcel } from '../../../store/excel';
 
 export const CargaExcelImportar = (props) => {
     //Estados para controlar archivo
-    const [file, setFile] = useState(null);
+    const [ setFile] = useState(null);
     const [filename, setfileName] = useState(null);
     const [formato, setFormato] = useState();
     const [selectCombo, setSelectCombo] = useState('');
     const [selectComboName, setSelectComboName] = useState('');
     const [open, setOpen] = React.useState(false);
     const [botonImport, setBotonImport] = useState(true);
-    const [habilitaTabla, setHabilitaTabla] = useState(true);
+    const [setHabilitaTabla] = useState(true);
     const [lista, setLista] = useState([]);
+
+ 
+ 
     //Estado para control de hoja
     const [sheetNames, setSheetNames] = useState([]);
     /* 
@@ -147,7 +150,7 @@ const handleClose = () => {
 const onGuardarExcel = () =>{
     handleClose();
     setBotonImport (false) ;
-    dispatch(startNewExcelFormato(lista, selectComboName));
+    dispatch(startNewExcel(lista, selectComboName));
     console.log('paso por startNewExcel')
     
     //Borrar Data de excel una vez que guarda 
@@ -298,3 +301,5 @@ const onGuardarExcel = () =>{
     </>
   )
 }
+
+
