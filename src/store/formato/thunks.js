@@ -1,5 +1,6 @@
 import { collection, doc, setDoc } from "@firebase/firestore/lite";
 import { FirebaseDB } from "../../firebase/config";
+import { loadExcelFormatos } from "../../helpers/loadExcelFormatos";
 import { addNewEmptyExcelFormato, savingNewExcelFormato } from "./formatoSlice";
 
 export const startNewExcelFormato =( lista , formato )=>{
@@ -24,17 +25,18 @@ export const startNewExcelFormato =( lista , formato )=>{
 
             idusuario: {uid} ,
             nombre :{displayName},
-            body:'Ingreso',
+            body:'Ingreso de formato',
             formato: formato,
             date: new Date().getTime(),
             detalle : newObject,
+            estado: 'Carga',
             
 
         }
 
         try {
             
-            const newDoc = doc (collection(FirebaseDB,  `plantilla/excel/${ uid }`));
+            const newDoc = doc (collection(FirebaseDB,  `/plantilla/excel/formato`));
             const set = await setDoc(newDoc, newExcel);
             console.log(set);
             newExcel.id = newDoc.id;
@@ -52,16 +54,18 @@ export const startNewExcelFormato =( lista , formato )=>{
 }
 
 
-// export const startLoadingNotes = ()=>{
-//     return async (dispatch, getState) =>{
-//         const { uid } = getState().auth;
-//         if(!uid) throw new Error('El UID del usuario no existe');
+export const startLoadingFormatos = ()=>{
+    return async (dispatch, getState) =>{
+        const { uid } = getState().auth;
+        if(!uid) throw new Error('El UID del usuario no existe');
        
-//         const notes = await loadNotes (uid);
+        const formatos = await loadExcelFormatos (uid);
+        console.log('loadExcelFormatos');
+        console.log(formatos);
 
-//         dispatch(setNotes(notes));
-//     }
-// }
+        //dispatch(setNotes(notes));
+    }
+}
 
 // export const startSaveNote = ()=>{
 

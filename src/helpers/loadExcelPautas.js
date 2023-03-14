@@ -1,8 +1,5 @@
 import { collection, getDocs } from "@firebase/firestore/lite";
 import { FirebaseDB } from "../firebase/config";
-import { authSlice } from "../store/auth/authSlice";
-import { loadPerfil } from "./loadPerfil";
-
 
 export const loadExcelPautas = async ( uid = '') => {
     //Si queremos podemos omitir esta validación
@@ -19,7 +16,6 @@ export const loadExcelPautas = async ( uid = '') => {
     });
     // pautas.sort((a,b) => a.order - b.order); 
    
-    console.log('estoy en loead excel'); 
     return pautas;
     
 
