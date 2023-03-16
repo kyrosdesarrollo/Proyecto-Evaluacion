@@ -23,7 +23,7 @@ import ControlSeleccion from './AsignacionActividadSeleccion';
   const opcion =['']; 
   Object.keys(plantilla).forEach((e) => { 
  
-  opcion.push( e + ' FORMATO [ ' + plantilla[e].formato + ' ]  CARGADO POR [ ' + plantilla[e].nombre.displayName +' ]');
+        opcion.push( e + ' FORMATO [ ' + plantilla[e].formato + ' ]  CARGADO POR [ ' + plantilla[e].nombre.displayName +' ]');
    });
 
   //  Object.values(plantilla).map(e => 
