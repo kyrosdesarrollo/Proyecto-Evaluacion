@@ -19,6 +19,7 @@ const Item = styled(Paper)(({ theme }) => ({
 
 const AsignaciónActividadViewDetalle = ( { id = ''}) => {
     const [open, setOpen] = React.useState(false);
+    const [openEliminar, setOpenEliminar] = React.useState(false);
 
     const { formatos } = useSelector(state => state.formato);
     console.log('AsignaciónActividadViewDetalle')
@@ -56,7 +57,15 @@ const AsignaciónActividadViewDetalle = ( { id = ''}) => {
     const handleClose = () => {
       setOpen(false);
   };
+  const handleClickOpenEliminar = () => {
+    setOpenEliminar(true);
+};
+
+const handleCloseEliminar = () => {
+  setOpenEliminar(false);
+};
   const onGuardar = () =>{
+    handleClose();
     Swal.fire({
       position: 'top-center',
       icon: 'success',
@@ -67,6 +76,7 @@ const AsignaciónActividadViewDetalle = ( { id = ''}) => {
   }
 
   const onEliminar = () =>{
+    handleCloseEliminar();
     Swal.fire({
       position: 'top-center',
       icon: 'error',
@@ -111,12 +121,12 @@ const AsignaciónActividadViewDetalle = ( { id = ''}) => {
                                             <Button 
          variant="contained"
          color="error"
-         onClick={handleClickOpen}
+         onClick={handleClickOpenEliminar}
              >Eliminar archivo
        </Button>
        <Dialog
-                                                open={open}
-                                                onClose={handleClose}
+                                                open={openEliminar}
+                                                onClose={handleCloseEliminar}
                                                 aria-labelledby="alert-dialog-title"
                                                 aria-describedby="alert-dialog-description"
                                             >
@@ -130,8 +140,8 @@ const AsignaciónActividadViewDetalle = ( { id = ''}) => {
                                                 </DialogContentText>
                                                 </DialogContent>
                                                 <DialogActions>
-                                                <Button onClick={handleClose}>No</Button>
-                                                <Button onClick={onGuardar} autoFocus>
+                                                <Button onClick={handleCloseEliminar}>No</Button>
+                                                <Button onClick={onEliminar} autoFocus>
                                                     Si
                                                 </Button>
                                                 </DialogActions>
@@ -141,19 +151,19 @@ const AsignaciónActividadViewDetalle = ( { id = ''}) => {
     <br></br>
       <Grid container spacing={2}>
               <Grid 
-                   sm={8} md={4}>
+                   sm={8} >
                 <Item>
                    <Typography variant= 'inherit' align= 'center' color= 'black' >{nombre} 
                    </Typography>
                 </Item>
               </Grid>
               <Grid 
-                sm={8} md={4}>
+                sm={8} >
               <Typography variant= 'inherit' align= 'center' color= 'black'  >{fechaString} 
                    </Typography>
               </Grid>
               <Grid 
-                 sm={8} md={4}>
+                 sm={8} >
               <Typography variant= 'inherit' align= 'center' color= 'black'  >{formato} 
                    </Typography>
               </Grid>
