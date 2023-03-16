@@ -60,4 +60,5 @@ export const pautaexcelSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { addNewEmptyExcel,setActiveNote ,setDesActiveNote,setPautas, setSaving, updateNote, deleteNoteById, savingNewExcel} = pautaexcelSlice.actions;
+export const { addNewEmptyExcel,setActiveNote ,setDesActiveNote,setPautas,
+     setSaving, updateNote, deleteNoteById, savingNewExcel} = pautaexcelSlice.actions;

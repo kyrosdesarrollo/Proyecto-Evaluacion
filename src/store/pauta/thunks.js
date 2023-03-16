@@ -12,14 +12,6 @@ export const pautaStartNewExcel =( lista , formato )=>{
         // //uid este lo genera solo firebase database
         // //Estructrura de información
 
-        // console.log('Metodo Start New Excel')
-        // console.log(uid)
-        // console.log('Formato')
-        // console.log(formato)
-        // console.log('Lista')
-        // console.log(lista)
-        //const newArreglo = lista;
-        //const newArreglo = Object.fromEntries(lista);
         const newObject = Object.assign({}, lista);
         // console.log(newArreglo)
         const newExcel = {

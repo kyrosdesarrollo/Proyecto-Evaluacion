@@ -12,7 +12,6 @@ import { startLoadingFormatos } from "../store/formato";
 export const useCheckAuth = () => {
   
     const status  = useSelector (state => state.auth);
-
     const dispatch = useDispatch();
   
     useEffect(() => {
@@ -24,13 +23,7 @@ export const useCheckAuth = () => {
 
        // dispatch( startLoadingNotes());
         dispatch( startLoadingMenus());
-        //Benjamin
         dispatch (startLoadingPautas());
-<<<<<<< HEAD
-        //Nelson estuvo aqui
-
-        //Hola mi nombre es polo
-=======
         console.log('Aqui estoy --------->---->-->'+uid);
         dispatch(startLoadingPerfil());
         dispatch(startLoadingFormatos());

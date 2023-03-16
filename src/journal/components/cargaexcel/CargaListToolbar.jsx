@@ -2,26 +2,9 @@ import React ,{ useState }from 'react'
 import { useDispatch } from 'react-redux';
 
 import * as XLSX from 'xlsx';
-import DataTable from './CargaListDetalleTableNew';
-
-import { Autocomplete, Box, Button, Grid, TextField, Typography } from '@mui/material'
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import SaveAltIcon from '@mui/icons-material/SaveAlt';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import { startNewExcelFormato } from '../../../store/formato';
-
-import CargaAlert from './CargaAlert';
+import {  Box, Typography } from '@mui/material'
 import * as VariableGlobal from '../../../global'
-
-import { EjemploExcelBosstrapView } from './EjemploExcelBosstrapView';
 import { CargaExcelView } from './CargaExcelView';
-
-
-
-
 
 const CargaListToolbar = () => {
 
@@ -123,25 +106,18 @@ const CargaListToolbar = () => {
     setCargaExcel(false);
     handleClose()
     dispatch(startNewExcel(lista));
-    console.log('paso por startNewExcel')
-    //window.location.reload(false);
-  
-    
-    // dispatch ( startGoogleSignIn() );
+ 
   }
 
   return (
 <>
     <Box md={12}>
       <Typography variant="h4" component="h2">
-       <br></br>Cargar archivo en formato Excel
+        Cargar archivo en formato Excel
       </Typography>
-      <CargaExcelView />
+          <CargaExcelView />
     </Box>
 
-    
-
-    
     </>
   )
 }

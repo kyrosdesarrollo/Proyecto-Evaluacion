@@ -3,9 +3,7 @@ import { FirebaseDB } from "../firebase/config";
 
 export const loadExcelPautas = async ( uid = '') => {
     //Si queremos podemos omitir esta validación
-    if(!uid) throw new Error('El UID del usuario no existe');
-    console.log(uid);
-    
+    if(!uid) throw new Error('El UID del usuario no existe');    
     const cargaExcelPauta = collection(FirebaseDB,`/pauta/formato/W5wxfj50gjRUMPNf85nK04xOHmC2`);
     const docs = await getDocs(cargaExcelPauta);
     

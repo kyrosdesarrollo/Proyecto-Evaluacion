@@ -21,11 +21,14 @@ const handleSheetChange = (e) =>{
 
     if (e) { 
         let sheetNames = Object.keys(e);
+        console.log('Estoy en subir archivo verifica data');
         setSheetNames(sheetNames);
         setSheet(sheetNames[0]);
     }else{ setSheetNames(null);}
 
     setSheetData(e);
+
+    console.log(sheetData);
  }
   return (
 
@@ -82,8 +85,8 @@ const handleSheetChange = (e) =>{
                         </thead>
                         <tbody>
                         {sheetData[sheet].slice(1).map((row)=> (
-                                <tr >
-                                    {row.map( c => <td>{c}</td>)}
+                                <tr key={row}>
+                                    {row.map( c => <td key={c}>{c}</td>)}
                                 </tr>
                             ))}
                         </tbody>

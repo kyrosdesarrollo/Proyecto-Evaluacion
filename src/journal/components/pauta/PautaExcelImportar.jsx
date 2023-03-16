@@ -176,7 +176,7 @@ const onGuardarExcel = () =>{
     <>
      <Grid container spacing= { 2 } >
        <Grid item 
-              xs={12} sx= {12} sm={6} md={4} >
+              xs={12}  sm={6} md={4} >
                           <Autocomplete
                               disablePortal
                               id="combo-box-demo"
@@ -193,14 +193,14 @@ const onGuardarExcel = () =>{
     
         
         <Grid item 
-             xs={12} sx= {12} sm={12} md={12}>
+             xs={12}  sm={12} md={12}>
             <div className="mb-2">
                 {filename && <Label>Archivo Excel descargado { filename }</Label>}
                 {!filename && <Label>Adjuntar archivo Excel con formato { selectComboName } ...</Label>}
             </div>
         </Grid>
         <Grid item 
-             xs={12} sx= {12} sm={6} md={4}>
+             xs={12}  sm={6} md={4}>
                                     <Button
                                         disabled={botonImport}
                                         variant="contained"
@@ -232,7 +232,7 @@ const onGuardarExcel = () =>{
                     <>
                    
                    <Grid item 
-                        xs={8} sx= {8} sm={8} md={4}>
+                        xs={8}  sm={8} md={4}>
                                             <Button
                                                 
                                                 //disabled={habilitaTabla}
@@ -251,7 +251,7 @@ const onGuardarExcel = () =>{
                                  </Grid>
 
                     <Grid item 
-                        xs={8} sx= {8} sm={8} md={4}>
+                        xs={8}  sm={8} md={4}>
                                             <Button
                                                 
                                                 //disabled={habilitaTabla}

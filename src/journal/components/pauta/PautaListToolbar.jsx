@@ -4,18 +4,7 @@ import { useDispatch } from 'react-redux';
 import * as XLSX from 'xlsx';
 //import DataTable from './CargaListDetalleTableNew';
 
-import { Autocomplete, Box, Button, Grid, TextField, Typography } from '@mui/material'
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import SaveAltIcon from '@mui/icons-material/SaveAlt';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-
-
-
-import * as VariableGlobal from '../../../global'
-
+import {Box, Typography } from '@mui/material'
 
 import { PautaExcelView } from './PautaExcelView';
 import { pautaStartNewExcel } from '../../../store/Pauta';
@@ -143,6 +132,7 @@ const PautaListToolbar = () => {
       
       <PautaExcelView />
     </Box>
+
 
     </>
   )
