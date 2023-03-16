@@ -105,7 +105,7 @@ const handleCloseEliminar = () => {
                                                 </DialogTitle>
                                                 <DialogContent>
                                                 <DialogContentText id="alert-dialog-description">
-                                                Al momento de Asignar las actividad, a los usuarios correspondientes se activarán las notificaciones o podrán visualizar su información .
+                                                Al momento de Asignar las actividad, a los usuarios se activarán las notificaciones o podrán visualizar su información .
                                                 Nota Importante: Los campos relevantes para realizar reporteria son los de cabecera.
                                                 </DialogContentText>
                                                 </DialogContent>
@@ -151,19 +151,19 @@ const handleCloseEliminar = () => {
     <br></br>
       <Grid container spacing={2}>
               <Grid 
-                   sm={8} >
+                   >
                 <Item>
                    <Typography variant= 'inherit' align= 'center' color= 'black' >{nombre} 
                    </Typography>
                 </Item>
               </Grid>
               <Grid 
-                sm={8} >
+                >
               <Typography variant= 'inherit' align= 'center' color= 'black'  >{fechaString} 
                    </Typography>
               </Grid>
               <Grid 
-                 sm={8} >
+                  >
               <Typography variant= 'inherit' align= 'center' color= 'black'  >{formato} 
                    </Typography>
               </Grid>
