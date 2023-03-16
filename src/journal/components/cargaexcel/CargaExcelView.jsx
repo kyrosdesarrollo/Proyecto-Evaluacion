@@ -21,11 +21,14 @@ const handleSheetChange = (e) =>{
 
     if (e) { 
         let sheetNames = Object.keys(e);
+        console.log('Estoy en subir archivo verifica data');
         setSheetNames(sheetNames);
         setSheet(sheetNames[0]);
     }else{ setSheetNames(null);}
 
     setSheetData(e);
+
+    console.log(sheetData);
  }
   return (
 

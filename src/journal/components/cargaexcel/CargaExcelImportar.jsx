@@ -9,7 +9,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { useDispatch } from 'react-redux';
 import Swal from 'sweetalert2'
 import { Button, Autocomplete, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField, DialogContentText } from '@mui/material';
-import { startNewExcelFormato } from '../../../store/formato';
+import { startLoadingFormatos, startNewExcelFormato } from '../../../store/formato';
 
 export const CargaExcelImportar = (props) => {
     //Estados para controlar archivo
@@ -166,7 +166,7 @@ const onGuardarExcel = () =>{
         timer: 1500
       })
 
-
+   dispatch(startLoadingFormatos());
 
 };
   return (

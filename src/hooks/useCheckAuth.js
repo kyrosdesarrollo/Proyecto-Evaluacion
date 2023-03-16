@@ -12,7 +12,6 @@ import { startLoadingFormatos } from "../store/formato";
 export const useCheckAuth = () => {
   
     const status  = useSelector (state => state.auth);
-
     const dispatch = useDispatch();
   
     useEffect(() => {
@@ -26,7 +25,6 @@ export const useCheckAuth = () => {
         dispatch( startLoadingMenus());
         //Benjamin
         dispatch (startLoadingPautas());
-        console.log('Aqui estoy --------->---->-->'+uid);
         dispatch(startLoadingPerfil());
         dispatch(startLoadingFormatos());
       

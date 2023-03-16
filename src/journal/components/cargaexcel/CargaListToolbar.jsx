@@ -115,12 +115,9 @@ const CargaListToolbar = () => {
       <Typography variant="h4" component="h2">
         Cargar archivo en formato Excel
       </Typography>
-      <CargaExcelView />
+          <CargaExcelView />
     </Box>
 
-    
-
-    
     </>
   )
 }
