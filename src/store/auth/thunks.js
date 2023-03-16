@@ -57,7 +57,14 @@ export const startLoadingUser = ()=>{
         const { uid } = getState().auth;
         if(!uid) throw new Error('El UID del usuario no existe');
        
-        const notes = await loadUsers (uid);
+       // const notes = await loa (uid);
+        
+        // const result = await loginWithEmailPassword({ email, password });
+        // if ( !result.ok ) return dispatch( logout( result ) ); 
+        // dispatch( login( result ));
+
+        // const usuarioPerfil = await loadPerfil(uid);
+        // dispatch( chekingPerfil(usuarioPerfil) );
         //dispatch(setNotes(notes));
     }
 }

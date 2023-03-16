@@ -1,6 +1,7 @@
 import React from 'react'
 import { Box  } from '@mui/material'
 import AsigncionLinea from '../../components/asignacion/AsignacionPage1'
+import AsignacionActividad from '../../components/asignacion/AsignacionActividad'
 
 export const AuditoriaPage = () => {
   return (
@@ -16,6 +17,8 @@ export const AuditoriaPage = () => {
             <AsigncionLinea etapa = {2} />
           </Box>
       </Box>
+
+     
     </>
   )
 }

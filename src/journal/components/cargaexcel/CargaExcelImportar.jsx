@@ -9,7 +9,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { useDispatch } from 'react-redux';
 import Swal from 'sweetalert2'
 import { Button, Autocomplete, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField, DialogContentText } from '@mui/material';
-import { startNewExcel } from '../../../store/excel';
+import { startLoadingFormatos, startNewExcelFormato } from '../../../store/formato';
 
 export const CargaExcelImportar = (props) => {
     //Estados para controlar archivo
@@ -147,8 +147,8 @@ const handleClose = () => {
 const onGuardarExcel = () =>{
     handleClose();
     setBotonImport (false) ;
-    dispatch(startNewExcel(lista, selectComboName));
-    console.log('paso por startNewExcel')
+    dispatch(startNewExcelFormato(lista, selectComboName));
+    
     
     //Borrar Data de excel una vez que guarda 
     setFile(null);
@@ -166,14 +166,14 @@ const onGuardarExcel = () =>{
         timer: 1500
       })
 
-
+   dispatch(startLoadingFormatos());
 
 };
   return (
     <>
      <Grid container spacing= { 2 } >
        <Grid item 
-              xs={12} sx= {12} sm={6} md={4} >
+              xs={12} sm={6} md={4} >
                           <Autocomplete
                               disablePortal
                               id="combo-box-demo"
@@ -190,14 +190,14 @@ const onGuardarExcel = () =>{
     
         
         <Grid item 
-             xs={12} sx= {12} sm={12} md={12}>
+             xs={12}  sm={12} md={12}>
             <div className="mb-2">
                 {filename && <Label>Archivo Excel descargado { filename }</Label>}
                 {!filename && <Label>Adjuntar archivo Excel con formato { selectComboName } ...</Label>}
             </div>
         </Grid>
         <Grid item 
-             xs={12} sx= {12} sm={6} md={4}>
+             xs={12} sm={6} md={4}>
                                     <Button
                                         disabled={botonImport}
                                         variant="contained"
@@ -229,7 +229,7 @@ const onGuardarExcel = () =>{
                     <>
                    
                    <Grid item 
-                        xs={8} sx= {8} sm={8} md={4}>
+                        xs={8}  sm={8} md={4}>
                                             <Button
                                                 
                                                 //disabled={habilitaTabla}
@@ -248,7 +248,7 @@ const onGuardarExcel = () =>{
                                  </Grid>
 
                     <Grid item 
-                        xs={8} sx= {8} sm={8} md={4}>
+                        xs={8} sm={8} md={4}>
                                             <Button
                                                 
                                                 //disabled={habilitaTabla}

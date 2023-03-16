@@ -1,6 +1,5 @@
 import { Box, Container, Paper } from '@mui/material'
 import React from 'react'
-import AsigncionLinea from '../../components/asignacion/AsignacionPage1'
 import PautaListToolbar from '../../components/pauta/PautaListToolbar'
 
 

@@ -1,8 +1,10 @@
-import React from 'react'
-import { Box  } from '@mui/material'
-import AsigncionLinea from '../../components/asignacion/AsignacionPage1'
+import React from 'react';
+import { Box  } from '@mui/material';
+import AsigncionLinea from '../../components/asignacion/AsignacionPage1';
+import  AsignacionActividad  from '../../components/asignacion/AsignacionActividad';
 
 export const AsignacionPage = () => {
+  
   return (
     <>
      <Box
@@ -15,8 +17,18 @@ export const AsignacionPage = () => {
           <Box>
             <AsigncionLinea etapa = {1} />
           </Box>
+
+         
       </Box>
+
+      <Box>
+        <AsignacionActividad />
+      </Box>
+      
     </>
+
+    
+    
   )
 }
 

@@ -1,17 +1,17 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { onAuthStateChanged } from 'firebase/auth';
-import { login, logout } from '../store/auth';
+import { login, logout, startLoadingUser } from '../store/auth';
 import { FirebaseAuth } from "../firebase/config";
-import { startLoadingNotes } from "../store/journal";
+
 import { startLoadingMenus } from "../store/menu/thunks";
-import { loadPerfil } from "../helpers/loadPerfil";
 import { startLoadingPautas } from "../store/pauta/thunks";
+import { startLoadingPerfil } from "../store/perfil";
+import { startLoadingFormatos } from "../store/formato";
 
 export const useCheckAuth = () => {
   
     const status  = useSelector (state => state.auth);
-
     const dispatch = useDispatch();
   
     useEffect(() => {
@@ -23,8 +23,10 @@ export const useCheckAuth = () => {
 
        // dispatch( startLoadingNotes());
         dispatch( startLoadingMenus());
-       //Benjamin
         dispatch (startLoadingPautas());
+        dispatch(startLoadingPerfil());
+        dispatch(startLoadingFormatos());
+      
         
       })
     }, []);
