@@ -3,7 +3,7 @@ import { Box } from '@mui/material';
 import AsignaciónActividadViewDetalle from './AsignaciónActividadViewDetalle';
 
  const AsignacionActividadView = ( {opcion = ''}) => {
-  const identificador = opcion.substring(0,1);
+  const identificador = opcion.substring(0,2);
   return (
     <>
     <br></br>

@@ -27,12 +27,20 @@ const AsignaciónActividadViewDetalle = ( { id = ''}) => {
     const { formatos } = useSelector(state => state.formato);
     console.log('AsignaciónActividadViewDetalle')
     console.log(formatos[id]);
-
+    
     const plantilla = Object.assign({},formatos[id]);
   
-    const nombre = plantilla.nombre.displayName;
-    const date = plantilla.date;
-    const formato = plantilla.formato;
+    // const nombre = plantilla.nombre.displayName;
+    // const date = plantilla.date;
+    // const formato = plantilla.formato;
+
+    const nombre = "Nleson";
+    const date = "10010101";
+    const formato = "sss";
+  
+
+  
+    
    
     const fechaString = useMemo(() => 
         {
@@ -46,7 +54,11 @@ const AsignaciónActividadViewDetalle = ( { id = ''}) => {
         Object.keys(plantilla.detalle).forEach((e) => { 
             arregloDetalle.push(plantilla.detalle[e]);
         });
-
+ 
+        console.log('Aqui esta el detalle de formato 1 -->'+ id);
+        console.log(formatos[id].detalle);
+        console.log('Aqui esta el detalle de formato 2 -->');
+        console.log(plantilla.detalle);
    const handleClickOpen = () => {
         setOpen(true);
     };

@@ -48,24 +48,30 @@ const readDataFromExcel = (data) =>{
        
         var mySheetData = {};
         let jsonData = ''
+        let jsonData1 = ''
         //Recorre la hoja
        for (let i = 0; i < wb.SheetNames.length; i++) {
         let sheetName = wb.SheetNames[i];
 
         const worksheet = wb.Sheets[sheetName];
-         jsonData = XLSX.utils.sheet_to_json(worksheet,
+        console.log('Captura Hoja 0')
+        console.log(worksheet);
+        jsonData = XLSX.utils.sheet_to_json(worksheet,
             {blankrows:"",
             header:1,
         });
+        jsonData1 = XLSX.utils.sheet_to_json(worksheet);
        
         mySheetData[sheetName] = jsonData; 
         i = wb.SheetNames.length;
        
        }
+
+
        setSheetData(mySheetData);
        
         //Asignación de objeto a lista 
-        setLista(jsonData);
+        setLista(jsonData1);
         
         return mySheetData;
 }

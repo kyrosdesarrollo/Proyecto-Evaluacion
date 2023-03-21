@@ -10,8 +10,13 @@ export const startNewExcelFormato =( lista , formato )=>{
         const { uid, displayName } = getSate().auth;
         //uid este lo genera solo firebase database
         //Estructrura de información
-        
+        console.log('Carga Lista *** Aqui debiera venir archivo ')
+        console.log(lista);
+
+
         const newObject = Object.assign({}, lista);
+        console.log('Carga Lista Objeto')
+        console.log(newObject);
         // console.log(newArreglo)
         const newExcel = {
 
@@ -23,6 +28,9 @@ export const startNewExcelFormato =( lista , formato )=>{
             detalle : newObject,
             estado: 'Carga',
         }
+        console.log('Estructura de Carga completa ...');
+        console.log(newExcel);
+
 
         try {
             
