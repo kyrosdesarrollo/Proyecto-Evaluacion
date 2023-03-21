@@ -75,6 +75,7 @@ const handleSheetChange = (e) =>{
                     bordered 
                     className='border'
                     data-search="true"
+                    
                     >
                         <thead className='text-primary'>
                             <tr>
@@ -85,7 +86,7 @@ const handleSheetChange = (e) =>{
                         </thead>
                         <tbody>
                         {sheetData[sheet].slice(1).map((row)=> (
-                                <tr key={row}>
+                                <tr key={row} class = "table-active">
                                     {row.map( c => <td key={c}>{c}</td>)}
                                 </tr>
                             ))}

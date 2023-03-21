@@ -47,8 +47,6 @@ import ControlSeleccion from './AsignacionActividadSeleccion';
 
       <ControlSeleccion opcion = {opcion} />
 
-     
-
     </>
   )
 }
