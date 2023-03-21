@@ -10,11 +10,18 @@ export const loadExcelFormatos = async ( uid = '') => {
 
     const obtenerFormato = await getDocs(q);
     const formatos = [];
+    const jsonFormatos = JSON.stringify(formatos.map.detalle)
+
     obtenerFormato.forEach(doc => {
       formatos.push({ id: doc.id, ...doc.data() });
        });
-       console.log(' ....... NELSON ......')
+
+       console.log(' ....... obtener formatos ......')
        console.log(obtenerFormato)
+       console.log(' ....... formatos ......')
        console.log(formatos)
+
+       console.log(' ....... jsonformatos ......')
+       console.log(jsonFormatos) 
 return formatos;
 }
