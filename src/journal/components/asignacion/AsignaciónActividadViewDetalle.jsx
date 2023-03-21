@@ -5,6 +5,9 @@ import { useSelector } from 'react-redux';
 import { Col, Row, Table } from 'reactstrap';
 import Swal from 'sweetalert2'
 
+import SortingTable from './SortingTable';
+import FilteringTable from './FilteringTable';
+import BasicTable from './BasicTable';
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -39,17 +42,11 @@ const AsignaciónActividadViewDetalle = ( { id = ''}) => {
 
         },[date]);
 
-  const todoItems = Object.values(plantilla.detalle).map((todo, index) =>
-  // Only do this if items have no stable IDs 
-   <li key={index}>    {todo}
-  </li>
-  );
+        const arregloDetalle = [];
+        Object.keys(plantilla.detalle).forEach((e) => { 
+            arregloDetalle.push(plantilla.detalle[e]);
+        });
 
-
-   
-      console.log('Aqu va -->')
-
-      console.log(todoItems);
    const handleClickOpen = () => {
         setOpen(true);
     };
@@ -178,159 +175,33 @@ const handleCloseEliminar = () => {
                     bordered 
                     className='border'
                     data-search="true"
+                    hover
+                    
                     >
                         <thead className='text-primary'>
-                            <tr>
-                            {plantilla.detalle[0].map((h)=> (
+                            <tr >
+                            {arregloDetalle[0].map((h)=> (
                                 <th key={h}>{h}</th>
                             ))}
                             </tr>
                         </thead>
                         <tbody>
-                        { <tr>
-                            {plantilla.detalle[1].map((h)=> (
-                                <th key={h}>{h}</th>
+                        {arregloDetalle.slice(1).map((row)=> (
+                                <tr key={row} >
+                                    {row.map( c => <td key={c} >{c}</td>)}
+                                </tr>
                             ))}
-                            </tr>
-                        }
-                        { <tr>
-                            {plantilla.detalle[2].map((h)=> (
-                                <th key={h}>{h}</th>
-                            ))}
-                            </tr>
-                        }
-                        { <tr>
-                            {plantilla.detalle[3].map((h)=> (
-                                <th key={h}>{h}</th>
-                            ))}
-                            </tr>
-                        }
-                        { <tr>
-                            {plantilla.detalle[4].map((h)=> (
-                                <th key={h}>{h}</th>
-                            ))}
-                            </tr>
-                        }
-                        { <tr>
-                            {plantilla.detalle[5].map((h)=> (
-                                <th key={h}>{h}</th>
-                            ))}
-                            </tr>
-                        }
-                        { <tr>
-                            {plantilla.detalle[6].map((h)=> (
-                                <th key={h}>{h}</th>
-                            ))}
-                            </tr>
-                        }
-                        { <tr>
-                            {plantilla.detalle[7].map((h)=> (
-                                <th key={h}>{h}</th>
-                            ))}
-                            </tr>
-                        }
-                        { <tr>
-                            {plantilla.detalle[8].map((h)=> (
-                                <th key={h}>{h}</th>
-                            ))}
-                            </tr>
-                        }
-                        { <tr>
-                            {plantilla.detalle[9].map((h)=> (
-                                <th key={h}>{h}</th>
-                            ))}
-                            </tr>
-                        }
-                        { <tr>
-                            {plantilla.detalle[10].map((h)=> (
-                                <th key={h}>{h}</th>
-                            ))}
-                            </tr>
-                        }
-                        { <tr>
-                            {plantilla.detalle[11].map((h)=> (
-                                <th key={h}>{h}</th>
-                            ))}
-                            </tr>
-                        }
-                        { <tr>
-                            {plantilla.detalle[12].map((h)=> (
-                                <th key={h}>{h}</th>
-                            ))}
-                            </tr>
-                        }
-                        { <tr>
-                            {plantilla.detalle[13].map((h)=> (
-                                <th key={h}>{h}</th>
-                            ))}
-                            </tr>
-                        }
-                        { <tr>
-                            {plantilla.detalle[14].map((h)=> (
-                                <th key={h}>{h}</th>
-                            ))}
-                            </tr>
-                        }
-                        { <tr>
-                            {plantilla.detalle[15].map((h)=> (
-                                <th key={h}>{h}</th>
-                            ))}
-                            </tr>
-                        }
-                        { <tr>
-                            {plantilla.detalle[16].map((h)=> (
-                                <th key={h}>{h}</th>
-                            ))}
-                            </tr>
-                        }
-                        { <tr>
-                            {plantilla.detalle[17].map((h)=> (
-                                <th key={h}>{h}</th>
-                            ))}
-                            </tr>
-                        }
-                        { <tr>
-                            {plantilla.detalle[18].map((h)=> (
-                                <th key={h}>{h}</th>
-                            ))}
-                            </tr>
-                        }
-                        { <tr>
-                            {plantilla.detalle[19].map((h)=> (
-                                <th key={h}>{h}</th>
-                            ))}
-                            </tr>
-                        }
-                        { <tr>
-                            {plantilla.detalle[20].map((h)=> (
-                                <th key={h}>{h}</th>
-                            ))}
-                            </tr>
-                        }
-                        { <tr>
-                            {plantilla.detalle[21].map((h)=> (
-                                <th key={h}>{h}</th>
-                            ))}
-                            </tr>
-                        }
-                        { <tr>
-                            {plantilla.detalle[22].map((h)=> (
-                                <th key={h}>{h}</th>
-                            ))}
-                            </tr>
-                        }
-                        { <tr>
-                            {plantilla.detalle[23].map((h)=> (
-                                <th key={h}>{h}</th>
-                            ))}
-                            </tr>
-                        }
-
-                        
                         </tbody>
                     </Table>
                 </Col>
             </Row>
+
+           
+            {/* <BasicTable />
+            <SortingTable/> */}
+            <FilteringTable />
+            
+          
     </>
   )
 }
