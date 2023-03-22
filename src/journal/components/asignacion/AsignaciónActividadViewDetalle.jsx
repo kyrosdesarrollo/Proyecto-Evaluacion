@@ -10,6 +10,7 @@ import FilteringTable from './FilteringTable';
 import BasicTable from './BasicTable';
 
 import * as XLSX from 'xlsx';
+import VisualFormato from './visual_formato/VisualFormato';
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -170,7 +171,7 @@ const handleCloseEliminar = () => {
               
       </Grid>
 
-      
+      <VisualFormato id = {id}/>
         <Row>
                 {/* <Label>{sheet}</Label> */}
                 <Col md={12}>

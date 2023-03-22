@@ -15,6 +15,8 @@ export const startNewExcelFormato =( lista , listaJson, formato )=>{
 
 
         const newObject = Object.assign({}, lista);
+
+        console.log(listaJson);
         // console.log(newArreglo)
         const newExcel = {
 
@@ -25,6 +27,7 @@ export const startNewExcelFormato =( lista , listaJson, formato )=>{
             date: new Date().getTime(),
             detalle : newObject,
             detalleJson: listaJson,
+            cabezaJson: head,
             estado: 'Carga',
         }
         console.log('Estructura de Carga completa ...');
