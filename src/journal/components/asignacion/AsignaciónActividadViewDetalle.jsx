@@ -172,6 +172,8 @@ const handleCloseEliminar = () => {
       </Grid>
 
       <VisualFormato id = {id}/>
+
+      
         <Row>
                 {/* <Label>{sheet}</Label> */}
                 <Col md={12}>
