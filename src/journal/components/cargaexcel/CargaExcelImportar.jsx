@@ -22,6 +22,7 @@ export const CargaExcelImportar = (props) => {
     const [botonImport, setBotonImport] = useState(true);
     const [habilitaTabla, setHabilitaTabla] = useState(true);
     const [lista, setLista] = useState([]);
+    const [listaJson, setListaJson] = useState([]);
     //Estado para control de hoja
     const [sheetNames, setSheetNames] = useState([]);
     /* 
@@ -48,7 +49,6 @@ const readDataFromExcel = (data) =>{
        
         var mySheetData = {};
         let jsonData = ''
-        let jsonData1 = ''
         //Recorre la hoja
        for (let i = 0; i < wb.SheetNames.length; i++) {
         let sheetName = wb.SheetNames[i];
@@ -60,7 +60,6 @@ const readDataFromExcel = (data) =>{
             {blankrows:"",
             header:1,
         });
-        jsonData1 = XLSX.utils.sheet_to_json(worksheet);
        
         mySheetData[sheetName] = jsonData; 
         i = wb.SheetNames.length;
@@ -71,7 +70,7 @@ const readDataFromExcel = (data) =>{
        setSheetData(mySheetData);
        
         //Asignación de objeto a lista 
-        setLista(jsonData1);
+        setLista(jsonData);
         
         return mySheetData;
 }
@@ -153,15 +152,15 @@ const handleClose = () => {
 const onGuardarExcel = () =>{
     handleClose();
     setBotonImport (false) ;
-    dispatch(startNewExcelFormato(lista, selectComboName));
-    
-    
+    dispatch(startNewExcelFormato(lista, listaJson ,selectComboName));
     //Borrar Data de excel una vez que guarda 
     setFile(null);
     setfileName(null);
     setSheetNames([]);
     setSheetData(null);
     props.onFileSubir(null);
+    setLista([]);
+    setListaJson([]);
     fileRef.current.value = "";
 
     Swal.fire({

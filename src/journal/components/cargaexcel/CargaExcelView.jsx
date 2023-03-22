@@ -33,7 +33,7 @@ const handleSheetChange = (e) =>{
   return (
 
     
-    <div className='content'>
+    <div >
         <Row>
             <Col md={20}>
                 <Card>

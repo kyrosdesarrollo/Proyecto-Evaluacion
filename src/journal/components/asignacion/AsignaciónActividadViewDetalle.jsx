@@ -9,6 +9,8 @@ import SortingTable from './SortingTable';
 import FilteringTable from './FilteringTable';
 import BasicTable from './BasicTable';
 
+import * as XLSX from 'xlsx';
+
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -30,17 +32,9 @@ const AsignaciónActividadViewDetalle = ( { id = ''}) => {
     
     const plantilla = Object.assign({},formatos[id]);
   
-    // const nombre = plantilla.nombre.displayName;
-    // const date = plantilla.date;
-    // const formato = plantilla.formato;
-
-    const nombre = "Nleson";
-    const date = "10010101";
-    const formato = "sss";
-  
-
-  
-    
+    const nombre = plantilla.nombre.displayName;
+    const date = plantilla.date;
+    const formato = plantilla.formato;
    
     const fechaString = useMemo(() => 
         {
@@ -53,12 +47,9 @@ const AsignaciónActividadViewDetalle = ( { id = ''}) => {
         const arregloDetalle = [];
         Object.keys(plantilla.detalle).forEach((e) => { 
             arregloDetalle.push(plantilla.detalle[e]);
+            
         });
- 
-        console.log('Aqui esta el detalle de formato 1 -->'+ id);
-        console.log(formatos[id].detalle);
-        console.log('Aqui esta el detalle de formato 2 -->');
-        console.log(plantilla.detalle);
+
    const handleClickOpen = () => {
         setOpen(true);
     };
@@ -158,7 +149,7 @@ const handleCloseEliminar = () => {
       
    </Stack>
     <br></br>
-      <Grid container spacing={2}>
+      <Grid container spacing={1}>
               <Grid 
                    >
                 <Item>

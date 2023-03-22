@@ -13,6 +13,8 @@ export const loadExcelFormatos = async ( uid = '') => {
     obtenerFormato.forEach(doc => {
       formatos.push({ id: doc.id, ...doc.data() });
        });
-       
+       console.log(' ....... NELSON ......')
+       console.log(obtenerFormato)
+       console.log(formatos)
 return formatos;
 }

@@ -3,7 +3,7 @@ import { FirebaseDB } from "../../firebase/config";
 import { loadExcelFormatos } from "../../helpers/loadExcelFormatos";
 import { addNewEmptyExcelFormato, savingNewExcelFormato, setFormatos } from "./formatoSlice";
 
-export const startNewExcelFormato =( lista , formato )=>{
+export const startNewExcelFormato =( lista , listaJson, formato )=>{
     return async (dispatch, getSate) =>{
         dispatch(savingNewExcelFormato());
     
@@ -15,8 +15,6 @@ export const startNewExcelFormato =( lista , formato )=>{
 
 
         const newObject = Object.assign({}, lista);
-        console.log('Carga Lista Objeto')
-        console.log(newObject);
         // console.log(newArreglo)
         const newExcel = {
 
@@ -26,6 +24,7 @@ export const startNewExcelFormato =( lista , formato )=>{
             formato: formato,
             date: new Date().getTime(),
             detalle : newObject,
+            detalleJson: listaJson,
             estado: 'Carga',
         }
         console.log('Estructura de Carga completa ...');
