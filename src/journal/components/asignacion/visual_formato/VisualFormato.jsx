@@ -26,6 +26,7 @@ const VisualFormato = ({id = ''}) => {
     }
     //TypeError: Cannot add property tableData, object is not extensible, hay que formatear con un map la informacion
     const detalle = formatos[j].detalleJson.map(o => ({ ...o }));
+    titulo.push({title:'BLOQUES DE EVALUACIÓN', field:'Abordaje'})
   return (
     <>
     <div style={{ width: '90%', height: '90%' }}>

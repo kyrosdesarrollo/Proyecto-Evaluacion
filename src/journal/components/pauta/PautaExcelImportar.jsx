@@ -23,6 +23,8 @@ export  const PautaExcelImportar = (props) => {
     const [botonImport, setBotonImport] = useState(true);
     const [habilitaTabla, setHabilitaTabla] = useState(true);
     const [lista, setLista] = useState([]);
+
+    const [listaJson, setListaJson] = useState([]);
     //Estado para control de hoja
     const [sheetNames, setSheetNames] = useState([]);
     /* 
@@ -48,9 +50,13 @@ const readDataFromExcel = (data) =>{
         setSheetNames(wb.SheetNames[0]);
        
         var mySheetData = {};
-        let jsonData = ''
+        let jsonData = '', jsonData1=''
+
+
+
         //Recorre la hoja
        for (let i = 0; i < wb.SheetNames.length; i++) {
+        
         let sheetName = wb.SheetNames[i];
 
         const worksheet = wb.Sheets[sheetName];
@@ -58,15 +64,18 @@ const readDataFromExcel = (data) =>{
             {blankrows:"",
             header:1,
         });
+
+        jsonData1 = XLSX.utils.sheet_to_json(worksheet);
        
         mySheetData[sheetName] = jsonData; 
         i = wb.SheetNames.length;
        
        }
        setSheetData(mySheetData);
-       
+     
         //Asignación de objeto a lista 
         setLista(jsonData);
+        setListaJson(jsonData1);
         
         return mySheetData;
 }
@@ -114,6 +123,8 @@ const handleRemove = () => {
     setfileName(null);
     setSheetNames([]);
     setSheetData(null);
+   // setListaJson([]);
+    //setLista([]);
 
     props.onFileSubir(null);
 
@@ -128,6 +139,8 @@ const handleChange = (event) => {
         setfileName(null);
         setSheetNames([]);
         setSheetData(null);
+       setListaJson([]);
+        setLista([]);
         props.onFileSubir(null);
         fileRef.current.value = "";}
    // if (event.target.id != 'combo-box-demo') { setSelectCombo (true); }
@@ -148,14 +161,16 @@ const handleClose = () => {
 const onGuardarExcel = () =>{
     handleClose();
     setBotonImport (false) ;
-    dispatch(pautaStartNewExcel(lista, selectComboName));
-    console.log('paso por PautastartNewExcel')
-    //Hacer
+    dispatch(pautaStartNewExcel(lista,listaJson, selectComboName));
 
+     //Hacer
+    
     setFile(null);
     setfileName(null);
     setSheetNames([]);
-    setSheetData(null);
+    setSheetData(null); 
+    setListaJson([]);
+    setLista([]);
     props.onFileSubir(null);
     fileRef.current.value = "";
 

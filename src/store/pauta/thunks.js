@@ -4,10 +4,16 @@ import  {loadExcelPautas} from "../../helpers/loadExcelPautas";
 import { addNewEmptyExcel, savingNewExcel, setPautas } from "./pautaSlice";
 
 
-export const pautaStartNewExcel =( lista , formato )=>{
+export const pautaStartNewExcel =( lista,listaJson , formato )=>{
     return async (dispatch, getSate) =>{
         dispatch(savingNewExcel());
-    
+        console.log('probando lista json')
+        console.log(listaJson);
+        
+        const head = lista[0];
+        console.log('cabeza json')
+        console.log(head)
+        
         const { uid, displayName } = getSate().auth;
         // //uid este lo genera solo firebase database
         // //Estructrura de información
@@ -22,6 +28,8 @@ export const pautaStartNewExcel =( lista , formato )=>{
             formato: formato,
             date: new Date().getTime(),
             detalle : newObject,
+            datalleJson: listaJson,
+            cabezaJson: head,
             status: 'Activo',
             
 
@@ -29,7 +37,7 @@ export const pautaStartNewExcel =( lista , formato )=>{
 
         try {
             
-            const newDoc = doc (collection(FirebaseDB,`pauta/formato/${ uid }`));
+            const newDoc = doc (collection(FirebaseDB,`pauta/formato/tipo`));
             const set = await setDoc(newDoc, newExcel);
             //console.log(set);
             newExcel.id = newDoc.id;
