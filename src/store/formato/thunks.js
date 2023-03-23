@@ -17,6 +17,7 @@ export const startNewExcelFormato =( lista , listaJson, formato )=>{
         const newObject = Object.assign({}, lista);
 
         console.log(listaJson);
+        const head = lista[0];
         // console.log(newArreglo)
         const newExcel = {
 

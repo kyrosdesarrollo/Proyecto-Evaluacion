@@ -3,69 +3,44 @@ import MaterialTable from 'material-table';
 import { useSelector } from 'react-redux'
 import { ThemeProvider, createTheme } from '@mui/material';
 
+
 const VisualFormato = ({id = ''}) => {
     const defaultMaterialTheme = createTheme();
 
     const [tableData, setTableData] = useState([]);
+  
+    var j = Number(id);
+    const { formatos } = useSelector(state => state.formato);
 
- const { formatos } = useSelector(state => state.formato);
+    let titulo=[];
+    for (let index = 0; index < formatos[j].cabezaJson.length; index++) {
 
- let cabezaArreglo = [], concepto=[];
- for (let index = 0; index < formatos[id].cabezaJson.length; index++) {
-    //console.log(formatos[id].cabezaJson[index]);
-    concepto.push( '  { title : "'+ formatos[id].cabezaJson[index] +'", field: "' + formatos[id].cabezaJson[index] +'" }');
-    cabezaArreglo.push( Object.assign( {},concepto)) ;
- }
-
- console.log('Concepto ------------------>')
- console.log(concepto)
- console.log('FIN Concepto ------------------>')
- console.log('Concepto Objeto --------------')
- console.log(Object.assign( {},concepto));
- console.log('FIN Concepto Objeto --------------')
- console.log(' Concepto Arreglo --------------')
- const result = Object.values(concepto);
- console.log(result)
-
-
-const columns=[
-    { title: 'Artista',field: 'artista'},
-    { title: 'País de origen',field: 'pais'},
-    { title: 'Genero(s)',field: 'genero' },
-    { title: 'Ventas esperadas (MM)', field: 'ventas', type: "numeric"}
-]  
-
-const data = [
-    {artista:'Nelson' ,pais:'Chile',     genero:'Rock',ventas:1000},
-    {artista:'Roberto',pais:'Chile',     genero:'Rock',ventas:7000},
-    {artista:'Rodrigo',pais:'Argentina', genero:'Pop', ventas:5000}
-] 
-
-    console.log('Columnas');
-    console.log(columns)
-    console.log('data');
-    console.log(data)
-
-   // let data = [{"name":"All"},{"name":"NodeJS"},{"name":"ReactJS"},{"name":"PHP"},{"name":"Wordpress"},{"name":"Joomla"}];
-
-// let values = data.map(function(entry) {
-//   return entry.name;
-// });
-
-// console.log(values);
+        if (formatos[j].cabezaJson.length === 'Monitor') {
+            titulo.push({ title: formatos[j].cabezaJson[index],field: formatos[j].cabezaJson[index],align: "center", headerStyle: { color: "#2196f3" }
+            ,lookup: { MONITOR1: "MONITOR 1", MONITOR2: "MONITOR 2", MONITOR3: "MONITOR 3", MONITOR4: "MONITOR 4", MONITOR5: "MONITOR 5", MONITOR6: "MONITOR 6", MONITOR7: "MONITOR 7" }});
+        }
+        else{
+            titulo.push({ title: formatos[j].cabezaJson[index],field: formatos[j].cabezaJson[index],align: "center", headerStyle: { color: "#2196f3" }});
+        }
+        //titulo.push({ title: formatos[j].cabezaJson[index],field: formatos[j].cabezaJson[index],align: "center", headerStyle: { color: "#2196f3" }});
+    }
+    //TypeError: Cannot add property tableData, object is not extensible, hay que formatear con un map la informacion
+    const detalle = formatos[j].detalleJson.map(o => ({ ...o }));
   return (
     <>
-    <div style={{ width: '100%', height: '100%' }}>
+    <div style={{ width: '90%', height: '90%' }}>
               <ThemeProvider theme={defaultMaterialTheme}>
                     <MaterialTable
-                        title="Carga de Formato"
-                        columns={Object.values(concepto)}
-                        data={data} 
+                        title="Carga de Formato para realización de asignación"
+                        columns={titulo}
+                        data={detalle} 
+                        options={{
+                            grouping: true
+                          }}
                     />
                 </ThemeProvider>
      </div>
     </>
   )
 }
-
 export default VisualFormato

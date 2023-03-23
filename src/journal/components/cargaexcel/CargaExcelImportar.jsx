@@ -48,7 +48,7 @@ const readDataFromExcel = (data) =>{
         setSheetNames(wb.SheetNames[0]);
        
         var mySheetData = {};
-        let jsonData = ''
+        let jsonData = '',jsonData1 = '';
         //Recorre la hoja
        for (let i = 0; i < wb.SheetNames.length; i++) {
         let sheetName = wb.SheetNames[i];
@@ -60,6 +60,7 @@ const readDataFromExcel = (data) =>{
             {blankrows:"",
             header:1,
         });
+        jsonData1 = XLSX.utils.sheet_to_json(worksheet);
        
         mySheetData[sheetName] = jsonData; 
         i = wb.SheetNames.length;
@@ -70,7 +71,10 @@ const readDataFromExcel = (data) =>{
        setSheetData(mySheetData);
        
         //Asignación de objeto a lista 
+
+        //REALIZAR MEJORA CONSIDERANOD SOLO 1 
         setLista(jsonData);
+        setListaJson(jsonData1);
         
         return mySheetData;
 }
@@ -118,7 +122,8 @@ const handleRemove = () => {
     setfileName(null);
     setSheetNames([]);
     setSheetData(null);
-
+    setLista([]);
+    setListaJson([]);
     props.onFileSubir(null);
 
     fileRef.current.value = "";
@@ -132,6 +137,8 @@ const handleChange = (event) => {
         setfileName(null);
         setSheetNames([]);
         setSheetData(null);
+        setLista([]);
+        setListaJson([]);
         props.onFileSubir(null);
         fileRef.current.value = "";}
    // if (event.target.id != 'combo-box-demo') { setSelectCombo (true); }

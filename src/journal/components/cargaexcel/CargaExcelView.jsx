@@ -77,7 +77,7 @@ const handleSheetChange = (e) =>{
                     data-search="true"
                     
                     >
-                        <thead className='text-primary'>
+                        <thead >
                             <tr>
                             {sheetData[sheet][0].map((h)=> (
                                 <th key={h}>{h}</th>

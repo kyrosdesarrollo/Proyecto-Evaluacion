@@ -28,10 +28,13 @@ const AsignaciónActividadViewDetalle = ( { id = ''}) => {
     const [openEliminar, setOpenEliminar] = React.useState(false);
 
     const { formatos } = useSelector(state => state.formato);
+    var j = Number(id);
     console.log('AsignaciónActividadViewDetalle')
-    console.log(formatos[id]);
+    console.log(id)
+
+    console.log(formatos[j]);
     
-    const plantilla = Object.assign({},formatos[id]);
+    const plantilla = Object.assign({},formatos[j]);
   
     const nombre = plantilla.nombre.displayName;
     const date = plantilla.date;
@@ -171,41 +174,13 @@ const handleCloseEliminar = () => {
               
       </Grid>
 
-      <VisualFormato id = {id}/>
+      <VisualFormato id = {j}/>
 
       
-        <Row>
-                {/* <Label>{sheet}</Label> */}
-                <Col md={12}>
-                    <Table 
-                    bordered 
-                    className='border'
-                    data-search="true"
-                    hover
-                    
-                    >
-                        <thead className='text-primary'>
-                            <tr >
-                            {arregloDetalle[0].map((h)=> (
-                                <th key={h}>{h}</th>
-                            ))}
-                            </tr>
-                        </thead>
-                        <tbody>
-                        {arregloDetalle.slice(1).map((row)=> (
-                                <tr key={row} >
-                                    {row.map( c => <td key={c} >{c}</td>)}
-                                </tr>
-                            ))}
-                        </tbody>
-                    </Table>
-                </Col>
-            </Row>
-
-           
+    
             {/* <BasicTable />
             <SortingTable/> */}
-            <FilteringTable />
+            {/* <FilteringTable /> */}
             
           
     </>
