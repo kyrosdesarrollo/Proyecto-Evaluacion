@@ -15,7 +15,7 @@ const VisualFormato = ({id = ''}) => {
     let titulo=[];
     for (let index = 0; index < formatos[j].cabezaJson.length; index++) {
 
-        if (formatos[j].cabezaJson.length === 'Monitor') {
+        if (formatos[j].cabezaJson[index] === 'Monitor') {
             titulo.push({ title: formatos[j].cabezaJson[index],field: formatos[j].cabezaJson[index],align: "center", headerStyle: { color: "#2196f3" }
             ,lookup: { MONITOR1: "MONITOR 1", MONITOR2: "MONITOR 2", MONITOR3: "MONITOR 3", MONITOR4: "MONITOR 4", MONITOR5: "MONITOR 5", MONITOR6: "MONITOR 6", MONITOR7: "MONITOR 7" }});
         }
