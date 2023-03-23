@@ -17,7 +17,7 @@ const VisualFormato = ({id = ''}) => {
 
         if (formatos[j].cabezaJson[index] === 'Monitor') {
             titulo.push({ title: formatos[j].cabezaJson[index],field: formatos[j].cabezaJson[index],align: "center", headerStyle: { color: "#2196f3" }
-            ,lookup: { MONITOR1: "MONITOR 1", MONITOR2: "MONITOR 2", MONITOR3: "MONITOR 3", MONITOR4: "MONITOR 4", MONITOR5: "MONITOR 5", MONITOR6: "MONITOR 6", MONITOR7: "MONITOR 7" }});
+            ,lookup: { MONITOR1: "MONITOR 1", MONITOR2: "MONITOR 2", MONITOR3: "MONITOR 3", MONITOR4: "MONITOR 4", MONITOR5: "MONITOR 5", MONITOR6: "MONITOR 6", MONITOR7: "MONITOR 7" },filteringPlaceHolder:"Monitor"});
         }
         else{
             titulo.push({ title: formatos[j].cabezaJson[index],field: formatos[j].cabezaJson[index],align: "center", headerStyle: { color: "#2196f3" }});
@@ -29,14 +29,20 @@ const VisualFormato = ({id = ''}) => {
     titulo.push({title:'BLOQUES DE EVALUACIÓN', field:'Abordaje'})
   return (
     <>
-    <div style={{ width: '90%', height: '90%' }}>
+    <div style={{ width: '100%', height: '90%' }}>
               <ThemeProvider theme={defaultMaterialTheme}>
                     <MaterialTable
                         title="Carga de Formato para realización de asignación"
                         columns={titulo}
                         data={detalle} 
                         options={{
-                            grouping: true
+                          grouping: true,
+
+                           filtering: true,
+                           pageSizeOptions:[5,10,20,50,100],
+                           pageSize:10,
+                           paginationType:"stepped"
+                                                    
                           }}
                     />
                 </ThemeProvider>
