@@ -37,7 +37,7 @@ const VisualFormato = ({id = ''}) => {
                         data={detalle} 
                         options={{
                           grouping: true,
-
+                          columnsButton: true,
                            filtering: true,
                            pageSizeOptions:[5,10,20,50,100],
                            pageSize:10,
