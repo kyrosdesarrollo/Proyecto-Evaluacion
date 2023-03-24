@@ -1,15 +1,9 @@
 import React, {useMemo} from 'react'
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Paper, Stack, TextField, Typography } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Paper, Stack, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useSelector } from 'react-redux';
-import { Col, Row, Table } from 'reactstrap';
 import Swal from 'sweetalert2'
 
-import SortingTable from './SortingTable';
-import FilteringTable from './FilteringTable';
-import BasicTable from './BasicTable';
-
-import * as XLSX from 'xlsx';
 import VisualFormato from './visual_formato/VisualFormato';
 
 
