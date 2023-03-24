@@ -42,7 +42,10 @@ const VisualFormato = ({id = ''}) => {
     titulo.push({title:"Conocimiento de Producto" ,field: "Conocimiento de Producto" ,filtering:false });
     titulo.push({title:"Manejo de Silencios" ,field: "Manejo de Silencios" ,filtering:false });
     titulo.push({title:"Compromiso de Gestión" ,field: "Compromiso de Gestión" ,filtering:false });
-    titulo.push({title:"Compromiso de Gestión" ,field: "Compromiso de Gestión" ,filtering:false });
+    titulo.push({title:"Chequeo de Conformidad " ,field: "Chequeo de Conformidad " ,filtering:false });
+    titulo.push({title:"Incentivo uso de Canales Digitales" ,field: "Incentivo uso de Canales Digitales" ,filtering:false });
+    titulo.push({title:"Despedida" ,field: "Despedida" ,filtering:false });
+    titulo.push({title:"Cierre" ,field: "Cierre" ,filtering:false });
     //Carga de pautas da archvo
     const arregloPauta = [];
     Object.keys(pautas).forEach((e) => { 

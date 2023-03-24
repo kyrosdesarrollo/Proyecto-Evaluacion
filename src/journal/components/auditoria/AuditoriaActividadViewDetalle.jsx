@@ -2,14 +2,10 @@ import React, {useMemo} from 'react'
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Paper, Stack, TextField, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useSelector } from 'react-redux';
-import { Col, Row, Table } from 'reactstrap';
 import Swal from 'sweetalert2'
 
-import SortingTable from './SortingTable';
-import FilteringTable from './FilteringTable';
-import BasicTable from './BasicTable';
 
-import * as XLSX from 'xlsx';
+
 import VisualFormato from './visual_formato/VisualFormato';
 
 
@@ -23,7 +19,7 @@ const Item = styled(Paper)(({ theme }) => ({
 
 
 
-const AsignaciónActividadViewDetalle = ( { id = ''}) => {
+const AuditoriaActividadViewDetalle = ( { id = ''}) => {
     const [open, setOpen] = React.useState(false);
     const [openEliminar, setOpenEliminar] = React.useState(false);
 
@@ -189,4 +185,4 @@ const handleCloseEliminar = () => {
   )
 }
 
-export default AsignaciónActividadViewDetalle
+export default AuditoriaActividadViewDetalle
