@@ -1,10 +1,11 @@
 import React, {useMemo} from 'react'
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Paper, Stack, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Swal from 'sweetalert2'
 
 import VisualFormato from './visual_formato/VisualFormato';
+import { startDeleteFormato } from '../../../store/formato';
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -22,6 +23,7 @@ const AsignaciónActividadViewDetalle = ( { id = ''}) => {
     const [openEliminar, setOpenEliminar] = React.useState(false);
 
     const { formatos } = useSelector(state => state.formato);
+    const dispatch = useDispatch();
     var j = Number(id);
     console.log('AsignaciónActividadViewDetalle')
     console.log(id)
@@ -84,6 +86,7 @@ const handleCloseEliminar = () => {
       showConfirmButton: false,
       timer: 1500
     })
+    dispatch(startDeleteFormato(j));
   }
   return (
     <>

@@ -5,10 +5,7 @@ import { ThemeProvider, createTheme } from '@mui/material';
 
 
 const VisualFormato = ({id = ''}) => {
-    const defaultMaterialTheme = createTheme();
-
-    const [tableData, setTableData] = useState([]);
-  
+    const defaultMaterialTheme = createTheme(); 
     var j = Number(id);
     const { formatos } = useSelector(state => state.formato);
 
@@ -26,7 +23,8 @@ const VisualFormato = ({id = ''}) => {
     }
     //TypeError: Cannot add property tableData, object is not extensible, hay que formatear con un map la informacion
     const detalle = formatos[j].detalleJson.map(o => ({ ...o }));
-    titulo.push({title:'BLOQUES DE EVALUACIÓN', field:'Abordaje'})
+    const [tableData, setTableData] = useState(detalle);
+  
   return (
     <>
     <div style={{ width: '100%', height: '90%' }}>
@@ -34,7 +32,28 @@ const VisualFormato = ({id = ''}) => {
                     <MaterialTable
                         title="Carga de Formato para realización de asignación"
                         columns={titulo}
-                        data={detalle} 
+                        data={tableData} 
+                        editable={{
+                          // onRowAdd: (newRow) => new Promise((resolve, reject) => {
+                          //   setTableData([...tableData, newRow])
+                          //   setTimeout(() => resolve(), 500)
+                          // }),
+                          onRowUpdate: (newRow, oldRow) => new Promise((resolve, reject) => {
+                            const updatedData = [...tableData]
+                            updatedData[oldRow.tableData.id] = newRow
+                            setTableData(updatedData)
+                            setTimeout(() => resolve(), 500)
+                          })
+                          // ,
+                          // onRowDelete: (selectedRow) => new Promise((resolve, reject) => {
+                          //   const updatedData = [...tableData]
+                          //   updatedData.splice(selectedRow.tableData.id, 1)
+                          //   setTableData(updatedData)
+                          //   setTimeout(() => resolve(), 1000)
+                
+                          // })
+                        }}
+
                         options={{
                           grouping: true,
                           columnsButton: true,

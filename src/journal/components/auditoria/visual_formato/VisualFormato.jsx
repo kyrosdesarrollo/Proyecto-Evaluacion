@@ -31,21 +31,7 @@ const VisualFormato = ({id = ''}) => {
 
     const [tableData, setTableData] = useState(detalle);
 
-    titulo.push({title:"Velocidad al Contestar" ,field: "velocidad" ,filtering:false });
-    titulo.push({title:"Saludo " ,field: "Saludo " ,filtering:false });
-    titulo.push({title:"Validación" ,field: "Validación" ,filtering:false });
-    titulo.push({title:"Compresión Activa" ,field: "Compresión Activa" ,filtering:false });
-    titulo.push({title:"Actitud de Servicio" ,field: "Actitud de Servicio" ,filtering:false });
-    titulo.push({title:"Ortografía" ,field: "Ortografía" ,filtering:false });
-    titulo.push({title:"Personalización" ,field: "Personalización" ,filtering:false });
-    titulo.push({title:"2. Observación" ,field: "2. Observación" ,filtering:false });
-    titulo.push({title:"Conocimiento de Producto" ,field: "Conocimiento de Producto" ,filtering:false });
-    titulo.push({title:"Manejo de Silencios" ,field: "Manejo de Silencios" ,filtering:false });
-    titulo.push({title:"Compromiso de Gestión" ,field: "Compromiso de Gestión" ,filtering:false });
-    titulo.push({title:"Chequeo de Conformidad " ,field: "Chequeo de Conformidad " ,filtering:false });
-    titulo.push({title:"Incentivo uso de Canales Digitales" ,field: "Incentivo uso de Canales Digitales" ,filtering:false });
-    titulo.push({title:"Despedida" ,field: "Despedida" ,filtering:false });
-    titulo.push({title:"Cierre" ,field: "Cierre" ,filtering:false });
+   
     //Carga de pautas da archvo
     const arregloPauta = [];
     Object.keys(pautas).forEach((e) => { 

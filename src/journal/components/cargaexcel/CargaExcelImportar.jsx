@@ -1,6 +1,7 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useMemo} from 'react';
 import { Label } from 'reactstrap';
 import * as XLSX from 'xlsx';
+import { format } from 'date-fns'
 
 import SaveAltIcon from '@mui/icons-material/SaveAlt';
 import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
@@ -51,22 +52,21 @@ const readDataFromExcel = (data) =>{
         let jsonData = '',jsonData1 = '';
         //Recorre la hoja
        for (let i = 0; i < wb.SheetNames.length; i++) {
-        let sheetName = wb.SheetNames[i];
+                let sheetName = wb.SheetNames[i];
 
-        const worksheet = wb.Sheets[sheetName];
-        console.log('Captura Hoja 0')
-        console.log(worksheet);
-        jsonData = XLSX.utils.sheet_to_json(worksheet,
-            {blankrows:"",
-            header:1,
-        });
-        jsonData1 = XLSX.utils.sheet_to_json(worksheet);
-       
-        mySheetData[sheetName] = jsonData; 
-        i = wb.SheetNames.length;
+                const worksheet = wb.Sheets[sheetName];
+        
+                jsonData = XLSX.utils.sheet_to_json(worksheet,
+                    {blankrows:"",
+                    header:1,
+                });
+                jsonData1 = XLSX.utils.sheet_to_json(worksheet);
+            
+                mySheetData[sheetName] = jsonData; 
+                i = wb.SheetNames.length;
        
        }
-
+        
 
        setSheetData(mySheetData);
        

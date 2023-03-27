@@ -1,7 +1,7 @@
-import { collection, doc, setDoc } from "@firebase/firestore/lite";
+import { collection, doc, setDoc, deleteDoc } from "@firebase/firestore/lite";
 import { FirebaseDB } from "../../firebase/config";
 import { loadExcelFormatos } from "../../helpers/loadExcelFormatos";
-import { addNewEmptyExcelFormato, savingNewExcelFormato, setFormatos } from "./formatoSlice";
+import { addNewEmptyExcelFormato, deleteFormatoById, savingNewExcelFormato, setFormatos } from "./formatoSlice";
 
 export const startNewExcelFormato =( lista , listaJson, formato )=>{
     return async (dispatch, getSate) =>{
@@ -17,6 +17,7 @@ export const startNewExcelFormato =( lista , listaJson, formato )=>{
         const newObject = Object.assign({}, lista);
 
         console.log(listaJson);
+       
         const head = lista[0];
         // console.log(newArreglo)
         const newExcel = {
@@ -62,20 +63,18 @@ export const startLoadingFormatos = ()=>{
     }
 }
 
-// export const startSaveNote = ()=>{
+export const startDeleteFormato = (id = '')=>{
 
-//     return async(dispatch, getState) =>{
-//         dispatch(setSaving);
+    return async(dispatch, getState) =>{
+        dispatch(setSaving);
+        const { uid } = getState().auth;
+        if(!uid) throw new Error('El UID del usuario no existe');
+        console.log('Estoy en eliminar')
+        console.log(id)
 
-//         const { uid } = getState().auth;
-//         const { active:note } = getState().journal;
-
-//         const noteToFireStore = { ...note };
-//         delete noteToFireStore.id;
-
-//         const docRef = doc(FirebaseDB, `${ uid }/journal/notes/${ note.id }` );
-//         await setDoc (docRef, noteToFireStore, {merge: true})
+        // const docRef = doc(FirebaseDB, `/plantilla/excel/formato/${ id }` );
+        // await deleteDoc (docRef, {merge: true})
         
-//         dispatch( updateNote( note ));
-//     }
-// }
+        //dispatch( deleteFormatoById( id ));
+    }
+}

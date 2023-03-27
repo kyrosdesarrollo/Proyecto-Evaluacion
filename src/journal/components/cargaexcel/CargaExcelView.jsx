@@ -17,8 +17,6 @@ const handleSheetChange = (e) =>{
 }
 
  const handleFileSubir = (e) =>{
-    console.log("File Subir", e);
-
     if (e) { 
         let sheetNames = Object.keys(e);
         console.log('Estoy en subir archivo verifica data');
@@ -27,8 +25,6 @@ const handleSheetChange = (e) =>{
     }else{ setSheetNames(null);}
 
     setSheetData(e);
-
-    console.log(sheetData);
  }
   return (
 
