@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import Swal from 'sweetalert2'
 
 import VisualFormato from './visual_formato/VisualFormato';
-import { startDeleteFormato } from '../../../store/formato';
+import { startDeleteFormato, startLoadingFormatos } from '../../../store/formato';
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -23,22 +23,18 @@ const AsignaciónActividadViewDetalle = ( { id = ''}) => {
     const [openEliminar, setOpenEliminar] = React.useState(false);
 
     const { formatos } = useSelector(state => state.formato);
-    const dispatch = useDispatch();
-    var j = Number(id);
-    console.log('AsignaciónActividadViewDetalle')
-    console.log(id)
-
-    console.log(formatos[j]);
     
+    const dispatch = useDispatch();
+    var j = Number(id); 
+
     const plantilla = Object.assign({},formatos[j]);
-  
     const nombre = plantilla.nombre.displayName;
     const date = plantilla.date;
     const formato = plantilla.formato;
+    const identifico = plantilla.id;
    
     const fechaString = useMemo(() => 
         {
-                console.log({date});
                 const newDate = new Date(date);
                 return newDate.toLocaleString('en-CL');
 
@@ -86,7 +82,10 @@ const handleCloseEliminar = () => {
       showConfirmButton: false,
       timer: 1500
     })
-    dispatch(startDeleteFormato(j));
+    dispatch(startDeleteFormato(identifico));
+    dispatch(startLoadingFormatos());
+    setOpenEliminar(false);
+    setOpen(false);
   }
   return (
     <>

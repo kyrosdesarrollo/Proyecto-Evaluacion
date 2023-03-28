@@ -66,15 +66,22 @@ export const startLoadingFormatos = ()=>{
 export const startDeleteFormato = (id = '')=>{
 
     return async(dispatch, getState) =>{
-        dispatch(setSaving);
+        dispatch(savingNewExcelFormato());
         const { uid } = getState().auth;
         if(!uid) throw new Error('El UID del usuario no existe');
-        console.log('Estoy en eliminar')
+        console.log('Estoy en eliminar viene con ID de fire')
         console.log(id)
 
-        // const docRef = doc(FirebaseDB, `/plantilla/excel/formato/${ id }` );
-        // await deleteDoc (docRef, {merge: true})
+        try {
+
+        const docRef = doc(FirebaseDB, `/plantilla/excel/formato/${ id }` );
+        await deleteDoc (docRef, {merge: true})
+            
+        } catch (error) {
+            console.log(error)
+        }
         
-        //dispatch( deleteFormatoById( id ));
+        
+        dispatch( deleteFormatoById());
     }
 }

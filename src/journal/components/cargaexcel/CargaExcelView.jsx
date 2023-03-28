@@ -19,7 +19,6 @@ const handleSheetChange = (e) =>{
  const handleFileSubir = (e) =>{
     if (e) { 
         let sheetNames = Object.keys(e);
-        console.log('Estoy en subir archivo verifica data');
         setSheetNames(sheetNames);
         setSheet(sheetNames[0]);
     }else{ setSheetNames(null);}
@@ -33,10 +32,6 @@ const handleSheetChange = (e) =>{
         <Row>
             <Col md={20}>
                 <Card>
-                    {/* <CardHeader>
-                        <h5 className='title'>Leer Excel Hojas</h5>
-                        <p className='category'></p>
-                    </CardHeader> */}
                     <CardBody className='all-icons'>
                         <CargaExcelImportar onFileSubir = {(e) => handleFileSubir(e)} />
                     </CardBody>
@@ -48,24 +43,7 @@ const handleSheetChange = (e) =>{
         {
             sheetData &&
             <>
-            {/* <Row>
-                <Col md={12}>
-                    {sheetNames.map( s =>
-                    <div>
-                        <input 
-                            type="radio" 
-                            name="sheetName"
-                            checked={ s === sheet}
-                            onChange={ (e)=> handleSheetChange(e)}
-                            value={s}
-                            key={s}
-                            />
-                        <label>{s}</label>
-                    </div>)}
-                </Col>
-            </Row> */}
             <Row>
-                {/* <Label>{sheet}</Label> */}
                 <Col md={12}>
                     <Table 
                     bordered 

@@ -229,21 +229,12 @@ const onGuardarExcel = () =>{
                     />
                                     </Button>
                     </Grid>
-        
-                {/* <input 
-                    type="file"
-                    accept='xlsx,xls'
-                    multiple={false}
-                    onChange={ (e) => handleFile(e)}
-                    ref = {fileRef}
-                /> */}
         {filename &&(
                     <>
                    
                    <Grid item 
                         xs={8}  sm={8} md={4}>
                                             <Button
-                                                
                                                 //disabled={habilitaTabla}
                                                 color="error"
                                                 variant="contained"
