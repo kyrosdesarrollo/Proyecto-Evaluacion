@@ -8,10 +8,6 @@ export const CargaExcelView = () => {
     const [sheet, setSheet] = useState(null);
     const [sheetNames, setSheetNames] = useState(null);
 
-//[Heders]
-
-//{Data}
-
 const handleSheetChange = (e) =>{
     setSheet(e.target.value);
 }
@@ -26,8 +22,7 @@ const handleSheetChange = (e) =>{
     setSheetData(e);
  }
   return (
-
-    
+    <>
     <div >
         <Row>
             <Col md={20}>
@@ -71,5 +66,6 @@ const handleSheetChange = (e) =>{
             </>
         }
     </div>
+    </>
   )
 }
