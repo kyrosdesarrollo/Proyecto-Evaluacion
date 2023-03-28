@@ -55,7 +55,7 @@ const handleSheetChange = (e) =>{
                         </thead>
                         <tbody>
                         {sheetData[sheet].slice(1).map((row)=> (
-                                <tr key={row} class = "table-active">
+                                <tr key={row} className = "table-active">
                                     {row.map( c => <td key={c}>{c}</td>)}
                                 </tr>
                             ))}
