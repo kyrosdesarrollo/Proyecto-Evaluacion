@@ -41,8 +41,21 @@ const VisualFormato = ({id = ''}) => {
                            filtering: true,
                            pageSizeOptions:[5,10,20,50,100],
                            pageSize:10,
-                           paginationType:"stepped"
-                                                    
+                           paginationType:"stepped",
+                           selection:true,
+                           rowStyle: {
+                             fontSize: 10,
+                            },
+                            
+                            // headerStyle: {
+                            //   backgroundColor: '#01579b',
+                            //   color: '#FFF',
+                            //   fontSize: 12,
+                            
+                             // }
+                            
+                            
+                                                     
                           }}
                     />
                 </ThemeProvider>

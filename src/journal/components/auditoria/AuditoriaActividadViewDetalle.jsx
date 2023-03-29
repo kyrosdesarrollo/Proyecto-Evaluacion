@@ -6,7 +6,8 @@ import Swal from 'sweetalert2'
 
 
 
-import VisualFormato from './visual_formato/VisualFormato';
+import VisualFormato from './visual_formato/AuditoriaVisualFormato';
+import AuditoriaVisualFormato from './visual_formato/AuditoriaVisualFormato';
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -172,7 +173,7 @@ const handleCloseEliminar = () => {
               
       </Grid>
 
-      <VisualFormato id = {j}/>
+      <AuditoriaVisualFormato id = {j}/>
 
       
     
