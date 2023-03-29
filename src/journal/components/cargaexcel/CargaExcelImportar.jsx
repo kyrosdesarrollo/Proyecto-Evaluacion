@@ -1,7 +1,6 @@
-import React, {useState, useRef, useMemo} from 'react';
+import React, {useState, useRef} from 'react';
 import { Label } from 'reactstrap';
 import * as XLSX from 'xlsx';
-import { format } from 'date-fns'
 
 import SaveAltIcon from '@mui/icons-material/SaveAlt';
 import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
@@ -26,12 +25,7 @@ export const CargaExcelImportar = (props) => {
     const [listaJson, setListaJson] = useState([]);
     //Estado para control de hoja
     const [sheetNames, setSheetNames] = useState([]);
-    /* 
-        {
-            "sheet1":{},
-            "sheet2":{}
-        }
-    */
+   
     const [sheetData, setSheetData] = useState({});
     const fileRef = useRef();
     const dispatch = useDispatch();

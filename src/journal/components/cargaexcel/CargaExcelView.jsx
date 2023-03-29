@@ -28,7 +28,8 @@ const handleSheetChange = (e) =>{
             <Col md={20}>
                 <Card>
                     <CardBody className='all-icons'>
-                        <CargaExcelImportar onFileSubir = {(e) => handleFileSubir(e)} />
+                        <CargaExcelImportar 
+                            onFileSubir = {(e) => handleFileSubir(e)} />
                     </CardBody>
 
                 </Card>

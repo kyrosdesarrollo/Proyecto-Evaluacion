@@ -1,4 +1,4 @@
-import { collection, doc, setDoc, deleteDoc } from "@firebase/firestore/lite";
+import { collection, doc, setDoc, deleteDoc,getDocs, where, query,updateDoc } from "@firebase/firestore/lite";
 import { FirebaseDB } from "../../firebase/config";
 import { loadExcelFormatos } from "../../helpers/loadExcelFormatos";
 import { addNewEmptyExcelFormato, deleteFormatoById, savingNewExcelFormato, setFormatos } from "./formatoSlice";
@@ -51,8 +51,6 @@ export const startNewExcelFormato =( lista , listaJson, formato )=>{
        
     }
 }
-
-
 export const startLoadingFormatos = ()=>{
     return async (dispatch, getState) =>{
         const { uid } = getState().auth;
@@ -62,7 +60,6 @@ export const startLoadingFormatos = ()=>{
         dispatch(setFormatos(formatos));
     }
 }
-
 export const startDeleteFormato = (id = '')=>{
 
     return async(dispatch, getState) =>{
@@ -82,6 +79,31 @@ export const startDeleteFormato = (id = '')=>{
         }
         
         
+        dispatch( deleteFormatoById());
+    }
+}
+export const startUpdateFormato = (arreglo, id = '')=>{
+
+    return async(dispatch, getState) =>{
+        //Deja estado saving en true
+        dispatch(savingNewExcelFormato());
+        const { uid } = getState().auth;
+        if(!uid) throw new Error('El UID del usuario no existe');
+        console.log('Estoy en actualizar viene con ID de fire')
+        try {
+            const user = doc(FirebaseDB, '/plantilla/excel/formato', `${ id }`);
+            console.log(user)
+            await updateDoc(user, {
+                //estado: "chupalo",
+                detalleJson: arreglo});
+
+        //newExcel.id = newDoc.id;
+        } catch (error) {
+            console.log(error)
+        }
+        
+        //Cambia de estado el saving a false
+        dispatch(startLoadingFormatos());
         dispatch( deleteFormatoById());
     }
 }
