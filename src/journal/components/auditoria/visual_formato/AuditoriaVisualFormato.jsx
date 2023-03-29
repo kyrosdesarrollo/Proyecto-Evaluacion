@@ -43,7 +43,7 @@ const defaultMaterialTheme = createTheme();
 
     //TypeError: Cannot add property tableData, object is not extensible, hay que formatear con un map la informacion
     const detalle = formatos[j].detalleJson.map(o => ({ ...o }));
-
+      console.log(detalle + "esto es detalle")
     const [tableData, setTableData] = useState(detalle);
 
     //Carga de pautas da archvo

@@ -1,8 +1,6 @@
 import React from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
-import { Card } from 'reactstrap';
 import Auditoria_Preguntas from './Auditoria_Preguntas';
-import Auditoria_comunicacion from './Auditoria_comunicacion';
 
 
 const ModalComponent = ({ open, onClose, rowData }) => {
@@ -15,7 +13,8 @@ const ModalComponent = ({ open, onClose, rowData }) => {
         <Auditoria_Preguntas/>
       </DialogContent>
       <DialogActions>
-              <Button variant="outlined" onClick={onClose}>Cerrar</Button>
+      
+        <Button variant="outlined" onClick={onClose}>Cerrar</Button>
         </DialogActions>
      
     </Dialog>
