@@ -95,6 +95,8 @@ export const startUpdateFormato = (arreglo, id = '')=>{
             console.log(documento)
             await updateDoc(documento, {
                 //estado: "chupalo",
+                usuarioActulizador:'',
+                fechaActualizacion:'',
                 detalleJson: arreglo});
 
         //newExcel.id = newDoc.id;
