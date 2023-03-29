@@ -91,9 +91,9 @@ export const startUpdateFormato = (arreglo, id = '')=>{
         if(!uid) throw new Error('El UID del usuario no existe');
         console.log('Estoy en actualizar viene con ID de fire')
         try {
-            const user = doc(FirebaseDB, '/plantilla/excel/formato', `${ id }`);
-            console.log(user)
-            await updateDoc(user, {
+            const documento = doc(FirebaseDB, `/plantilla/excel/formato/${ id }`);
+            console.log(documento)
+            await updateDoc(documento, {
                 //estado: "chupalo",
                 detalleJson: arreglo});
 
