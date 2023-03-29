@@ -2,7 +2,7 @@ import React,{useState} from 'react'
 import MaterialTable from 'material-table';
 import { useSelector } from 'react-redux'
 import { ThemeProvider, createTheme } from '@mui/material';
-import ModalComponent from '../Asignacion_modal';
+import ModalComponent from '../Auditoria_modal';
 
 
 const AuditoriaVisualFormato = ({id = ''}) => {

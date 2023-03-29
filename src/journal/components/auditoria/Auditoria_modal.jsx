@@ -1,6 +1,7 @@
 import React from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
 import { Card } from 'reactstrap';
+import Auditoria_Preguntas from './Auditoria_Preguntas';
 
 const ModalComponent = ({ open, onClose, rowData }) => {
   return (
@@ -9,6 +10,7 @@ const ModalComponent = ({ open, onClose, rowData }) => {
       <DialogTitle>Autidoria</DialogTitle>
       <DialogContent>
         <p>Nombre: {rowData?.nombre}</p>
+        <Auditoria_Preguntas/>
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose}>Cerrar</Button>
