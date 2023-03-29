@@ -2,45 +2,32 @@ import { collection, doc, setDoc, deleteDoc,getDocs, where, query,updateDoc } fr
 import { FirebaseDB } from "../../firebase/config";
 import { loadExcelFormatos } from "../../helpers/loadExcelFormatos";
 import { addNewEmptyExcelFormato, deleteFormatoById, savingNewExcelFormato, setFormatos } from "./formatoSlice";
+import { format, compareAsc } from 'date-fns'
 
 export const startNewExcelFormato =( lista , listaJson, formato )=>{
     return async (dispatch, getSate) =>{
         dispatch(savingNewExcelFormato());
-    
         const { uid, displayName } = getSate().auth;
         //uid este lo genera solo firebase database
         //Estructrura de información
-        console.log('Carga Lista *** Aqui debiera venir archivo ')
-        console.log(lista);
-
-
         const newObject = Object.assign({}, lista);
-
-        console.log(listaJson);
-       
+        const date = format(new Date(), 'dd/MM/yyyy HH:mm:ss ')
         const head = lista[0];
         // console.log(newArreglo)
         const newExcel = {
-
-            idusuario: {uid} ,
-            nombre :{displayName},
+            idusuario: uid ,
+            nombre :displayName,
             body:'Ingreso de formato',
             formato: formato,
-            date: new Date().getTime(),
+            date: date,
             detalle : newObject,
             detalleJson: listaJson,
             cabezaJson: head,
             estado: 'Carga',
         }
-        console.log('Estructura de Carga completa ...');
-        console.log(newExcel);
-
-
         try {
-            
             const newDoc = doc (collection(FirebaseDB,  `/plantilla/excel/formato`));
             await setDoc(newDoc, newExcel);
-
             newExcel.id = newDoc.id;
             //Dispatch
             dispatch(addNewEmptyExcelFormato(newExcel));
@@ -87,25 +74,23 @@ export const startUpdateFormato = (arreglo, id = '')=>{
     return async(dispatch, getState) =>{
         //Deja estado saving en true
         dispatch(savingNewExcelFormato());
-        const { uid } = getState().auth;
+        const { uid, displayName } = getState().auth;
         if(!uid) throw new Error('El UID del usuario no existe');
-        console.log('Estoy en actualizar viene con ID de fire')
         try {
+            const date = format(new Date(), 'dd/MM/yyyy HH:mm:ss ')
             const documento = doc(FirebaseDB, `/plantilla/excel/formato/${ id }`);
             console.log(documento)
             await updateDoc(documento, {
-                //estado: "chupalo",
-                usuarioActualizador:'',
-                fechaActualizacion:'',
+                usuarioActualizador: displayName,
+                fechaActualizacion: date,
                 detalleJson: arreglo});
-
-        //newExcel.id = newDoc.id;
         } catch (error) {
             console.log(error)
         }
         
-        //Cambia de estado el saving a false
+        //Descarga de formatos actuakizados
         dispatch(startLoadingFormatos());
+         //Cambia de estado el saving a false
         dispatch( deleteFormatoById());
     }
 }
