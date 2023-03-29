@@ -46,7 +46,7 @@ export const formatoSlice = createSlice({
         },
 
         deleteFormatoById: (state,  action ) => {
-            
+            state.isSaving=false;
         },
     }
 });

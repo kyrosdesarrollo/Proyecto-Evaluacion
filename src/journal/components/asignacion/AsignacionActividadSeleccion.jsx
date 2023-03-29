@@ -8,12 +8,18 @@ let options = [''];
 export default function ControlSeleccion( {opcion = ''} ) {
   const [value, setValue] = React.useState(options[0]);
   const [inputValue, setInputValue] = React.useState('');
-  options = opcion;
+  options = opcion; 
+
+
+  const handleChangeSeleccion = (e) =>{
+    console.log('Borrar Info de hijos a padres, estoy en control seleccion');
+    setValue(null);
+    // setSheet(e.target.value);
+}
+
   return (
     <>
     <div>
-      {/* <div>{`value: ${value !== null ? `'${value}'` : 'null'}`}</div>
-      <div>{`inputValue: '${inputValue}'`}</div> */}
       <br />
       <Autocomplete
         value={value}
@@ -31,7 +37,13 @@ export default function ControlSeleccion( {opcion = ''} ) {
       />
     </div>
 
-      {value &&( <AsignacionActividadView opcion = { value }/>)}
+      {value &&(
+                 <AsignacionActividadView 
+                    opcion = { value } 
+                    onBorrarInformacionSeleccion ={(e)=>handleChangeSeleccion(e)}
+                  />
+                )
+      }
 
     </>
 

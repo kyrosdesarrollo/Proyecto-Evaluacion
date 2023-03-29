@@ -1,15 +1,12 @@
 import React, {useMemo} from 'react'
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Paper, Stack, Typography } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Paper, Stack, TextField, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Swal from 'sweetalert2'
 
+
+
 import VisualFormato from './visual_formato/VisualFormato';
-import { startDeleteFormato, startLoadingFormatos, startUpdateFormato } from '../../../store/formato';
-import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
-import ReduceCapacityIcon from '@mui/icons-material/ReduceCapacity';
-
-
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -22,102 +19,84 @@ const Item = styled(Paper)(({ theme }) => ({
 
 
 
-const AsignaciónActividadViewDetalle = ( props , { id = ''}) => {
+const AuditoriaActividadViewDetalle = ( { id = ''}) => {
     const [open, setOpen] = React.useState(false);
     const [openEliminar, setOpenEliminar] = React.useState(false);
 
     const { formatos } = useSelector(state => state.formato);
-    const dispatch = useDispatch();
+    var j = Number(id);
+    console.log('AsignaciónActividadViewDetalle')
+    console.log(id)
 
-    var j = Number(id); 
-
-
-    let registrosActualizado = [];
-
+    console.log(formatos[j]);
+    
     const plantilla = Object.assign({},formatos[j]);
+  
     const nombre = plantilla.nombre.displayName;
     const date = plantilla.date;
     const formato = plantilla.formato;
-    const identifico = plantilla.id;
    
     const fechaString = useMemo(() => 
         {
+                console.log({date});
                 const newDate = new Date(date);
                 return newDate.toLocaleString('en-CL');
 
         },[date]);
 
-    const arregloDetalle = [];
-    Object.keys(plantilla.detalle).forEach((e) => { 
+        const arregloDetalle = [];
+        Object.keys(plantilla.detalle).forEach((e) => { 
             arregloDetalle.push(plantilla.detalle[e]);
             
-    });
+        });
 
    const handleClickOpen = () => {
         setOpen(true);
     };
 
-  const handleClose = () => {
+    const handleClose = () => {
       setOpen(false);
-    };
-   const handleClickOpenEliminar = () => {
-    setOpenEliminar(true);
   };
+  const handleClickOpenEliminar = () => {
+    setOpenEliminar(true);
+};
 
 const handleCloseEliminar = () => {
   setOpenEliminar(false);
 };
-const handleChange = (e) => {
-  console.log('Aqui estoy arreglo nuevo ');
-  console.log(e);
-  registrosActualizado = Object.assign(e);
-};
   const onGuardar = () =>{
-    //Actualización en Firebase registros + ID de documento
-    dispatch(startUpdateFormato(registrosActualizado,identifico));
-    //Cierre de ventana emergente
     handleClose(false);
-    //Ventana de actualización
     Swal.fire({
       position: 'top-center',
       icon: 'success',
       title: 'Asignación realizada con éxito.',
       showConfirmButton: false,
-      timer: 1800
+      timer: 1500
     })
-    //Dejar de modo inicial ventana con información null
-    props.onBorrarInformacion();
     setOpenEliminar(false);
     setOpen(false);
   }
 
   const onEliminar = () =>{
     handleCloseEliminar();
-    dispatch(startDeleteFormato(identifico));
-    dispatch(startLoadingFormatos());
     Swal.fire({
       position: 'top-center',
       icon: 'error',
       title: 'Eliminación realizada con éxito.',
       showConfirmButton: false,
-      timer: 1900
+      timer: 1500
     })
-    props.onBorrarInformacion();
-    setOpenEliminar(false);
-    setOpen(false);
   }
   return (
     <>
      <Stack spacing={2} direction="row">
        
-                                                <Button 
-                                                  color="success"
-                                                  variant="contained"
-                                                  startIcon={(<ReduceCapacityIcon fontSize="small" />)}
-                                                  onClick={handleClickOpen}
-                                                      >Asignar a Monitores
-                                                </Button>
-                                                <Dialog
+       <Button 
+         variant="contained"
+         onClick={handleClickOpen}
+             >Asignar a Monitores
+       </Button>
+       <Dialog
                                                 open={open}
                                                 onClose={handleClose}
                                                 aria-labelledby="alert-dialog-title"
@@ -128,8 +107,8 @@ const handleChange = (e) => {
                                                 </DialogTitle>
                                                 <DialogContent>
                                                 <DialogContentText id="alert-dialog-description">
-                                                Al momento de Asignar las actividad,  a los usuarios se activarán las notificaciones o podrán visualizar su información en su perfil .
-                                                Nota Importante: a.- Deben estar seleccionados los registros. b.- Los campos relevantes para realizar reporteria son los de cabecera.
+                                                Al momento de Asignar las actividad, a los usuarios se activarán las notificaciones o podrán visualizar su información .
+                                                Nota Importante: Los campos relevantes para realizar reporteria son los de cabecera.
                                                 </DialogContentText>
                                                 </DialogContent>
                                                 <DialogActions>
@@ -142,13 +121,12 @@ const handleChange = (e) => {
 
 
                                             <Button 
-                                              variant="contained"
-                                              color="error"
-                                              startIcon={(<DeleteForeverRoundedIcon fontSize="small" />)}
-                                              onClick={handleClickOpenEliminar}
-                                                  >Eliminar archivo
-                                            </Button>
-                                            <Dialog
+         variant="contained"
+         color="error"
+         onClick={handleClickOpenEliminar}
+             >Eliminar archivo
+       </Button>
+       <Dialog
                                                 open={openEliminar}
                                                 onClose={handleCloseEliminar}
                                                 aria-labelledby="alert-dialog-title"
@@ -173,7 +151,7 @@ const handleChange = (e) => {
       
    </Stack>
     <br></br>
-      {/* <Grid container spacing={1}>
+      <Grid container spacing={1}>
               <Grid 
                    >
                 <Item>
@@ -192,15 +170,19 @@ const handleChange = (e) => {
                    </Typography>
               </Grid>
               
-      </Grid> */}
-      <VisualFormato 
-          id = {j} 
-          onActualizaInfo = {(e) => handleChange(e)}
-      />
+      </Grid>
 
+      <VisualFormato id = {j}/>
+
+      
+    
+            {/* <BasicTable />
+            <SortingTable/> */}
+            {/* <FilteringTable /> */}
+            
+          
     </>
   )
 }
 
-
-export default AsignaciónActividadViewDetalle
+export default AuditoriaActividadViewDetalle

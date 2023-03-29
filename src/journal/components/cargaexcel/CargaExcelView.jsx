@@ -8,41 +8,28 @@ export const CargaExcelView = () => {
     const [sheet, setSheet] = useState(null);
     const [sheetNames, setSheetNames] = useState(null);
 
-//[Heders]
-
-//{Data}
-
 const handleSheetChange = (e) =>{
     setSheet(e.target.value);
 }
 
  const handleFileSubir = (e) =>{
-    console.log("File Subir", e);
-
     if (e) { 
         let sheetNames = Object.keys(e);
-        console.log('Estoy en subir archivo verifica data');
         setSheetNames(sheetNames);
         setSheet(sheetNames[0]);
     }else{ setSheetNames(null);}
 
     setSheetData(e);
-
-    console.log(sheetData);
  }
   return (
-
-    
+    <>
     <div >
         <Row>
             <Col md={20}>
                 <Card>
-                    {/* <CardHeader>
-                        <h5 className='title'>Leer Excel Hojas</h5>
-                        <p className='category'></p>
-                    </CardHeader> */}
                     <CardBody className='all-icons'>
-                        <CargaExcelImportar onFileSubir = {(e) => handleFileSubir(e)} />
+                        <CargaExcelImportar 
+                            onFileSubir = {(e) => handleFileSubir(e)} />
                     </CardBody>
 
                 </Card>
@@ -52,24 +39,7 @@ const handleSheetChange = (e) =>{
         {
             sheetData &&
             <>
-            {/* <Row>
-                <Col md={12}>
-                    {sheetNames.map( s =>
-                    <div>
-                        <input 
-                            type="radio" 
-                            name="sheetName"
-                            checked={ s === sheet}
-                            onChange={ (e)=> handleSheetChange(e)}
-                            value={s}
-                            key={s}
-                            />
-                        <label>{s}</label>
-                    </div>)}
-                </Col>
-            </Row> */}
             <Row>
-                {/* <Label>{sheet}</Label> */}
                 <Col md={12}>
                     <Table 
                     bordered 
@@ -86,7 +56,7 @@ const handleSheetChange = (e) =>{
                         </thead>
                         <tbody>
                         {sheetData[sheet].slice(1).map((row)=> (
-                                <tr key={row} class = "table-active">
+                                <tr key={row} className = "table-active">
                                     {row.map( c => <td key={c}>{c}</td>)}
                                 </tr>
                             ))}
@@ -97,5 +67,6 @@ const handleSheetChange = (e) =>{
             </>
         }
     </div>
+    </>
   )
 }

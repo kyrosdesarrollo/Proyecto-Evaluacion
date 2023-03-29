@@ -1,13 +1,12 @@
 import { Box, Typography } from '@mui/material';
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import ControlSeleccion from './AsignacionActividadSeleccion';
+import ControlSeleccion from './AuditoriaActividadSeleccion';
 
- const AsignacionActividad = () => {
+ const AuditoriaActividad = () => {
   const dispatch = useDispatch();
   const { formatos } = useSelector(state => state.formato);
   const plantilla = Object.assign({},formatos);
-  //dispatch(startLoadingFormatos());
   
   const opcion =['']; 
   Object.keys(plantilla).forEach((e) => { 
@@ -18,7 +17,7 @@ import ControlSeleccion from './AsignacionActividadSeleccion';
     <>
      <Box md={12}>
       <Typography variant="h4" component="h2">
-        Asignación de Actividad
+       Auditoria
       </Typography>
     </Box>
 
@@ -27,4 +26,4 @@ import ControlSeleccion from './AsignacionActividadSeleccion';
     </>
   )
 }
-export default AsignacionActividad
+export default AuditoriaActividad

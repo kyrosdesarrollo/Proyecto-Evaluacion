@@ -25,12 +25,7 @@ export const CargaExcelImportar = (props) => {
     const [listaJson, setListaJson] = useState([]);
     //Estado para control de hoja
     const [sheetNames, setSheetNames] = useState([]);
-    /* 
-        {
-            "sheet1":{},
-            "sheet2":{}
-        }
-    */
+   
     const [sheetData, setSheetData] = useState({});
     const fileRef = useRef();
     const dispatch = useDispatch();
@@ -51,22 +46,21 @@ const readDataFromExcel = (data) =>{
         let jsonData = '',jsonData1 = '';
         //Recorre la hoja
        for (let i = 0; i < wb.SheetNames.length; i++) {
-        let sheetName = wb.SheetNames[i];
+                let sheetName = wb.SheetNames[i];
 
-        const worksheet = wb.Sheets[sheetName];
-        console.log('Captura Hoja 0')
-        console.log(worksheet);
-        jsonData = XLSX.utils.sheet_to_json(worksheet,
-            {blankrows:"",
-            header:1,
-        });
-        jsonData1 = XLSX.utils.sheet_to_json(worksheet);
-       
-        mySheetData[sheetName] = jsonData; 
-        i = wb.SheetNames.length;
+                const worksheet = wb.Sheets[sheetName];
+        
+                jsonData = XLSX.utils.sheet_to_json(worksheet,
+                    {blankrows:"",
+                    header:1,
+                });
+                jsonData1 = XLSX.utils.sheet_to_json(worksheet);
+            
+                mySheetData[sheetName] = jsonData; 
+                i = wb.SheetNames.length;
        
        }
-
+        
 
        setSheetData(mySheetData);
        
@@ -229,21 +223,12 @@ const onGuardarExcel = () =>{
                     />
                                     </Button>
                     </Grid>
-        
-                {/* <input 
-                    type="file"
-                    accept='xlsx,xls'
-                    multiple={false}
-                    onChange={ (e) => handleFile(e)}
-                    ref = {fileRef}
-                /> */}
         {filename &&(
                     <>
                    
                    <Grid item 
                         xs={8}  sm={8} md={4}>
                                             <Button
-                                                
                                                 //disabled={habilitaTabla}
                                                 color="error"
                                                 variant="contained"

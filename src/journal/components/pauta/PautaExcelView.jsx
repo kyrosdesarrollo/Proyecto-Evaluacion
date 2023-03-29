@@ -82,8 +82,8 @@ const handleSheetChange = (e) =>{
                         </thead>
                         <tbody>
                         {sheetData[sheet].slice(1).map((row)=> (
-                                <tr >
-                                    {row.map( c => <td>{c}</td>)}
+                                <tr key={row} className='text-primary'>
+                                    {row.map( c => <td key={c}>{c}</td>)}
                                 </tr>
                             ))}
                         </tbody>

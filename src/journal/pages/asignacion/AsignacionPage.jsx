@@ -2,7 +2,6 @@ import React from 'react';
 import { Box  } from '@mui/material';
 import AsigncionLinea from '../../components/asignacion/AsignacionPage1';
 import  AsignacionActividad  from '../../components/asignacion/AsignacionActividad';
-import SortingTable from '../../components/asignacion/SortingTable';
 
 export const AsignacionPage = () => {
   

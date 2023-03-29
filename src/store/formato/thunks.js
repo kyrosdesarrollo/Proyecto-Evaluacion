@@ -1,45 +1,33 @@
-import { collection, doc, setDoc } from "@firebase/firestore/lite";
+import { collection, doc, setDoc, deleteDoc,getDocs, where, query,updateDoc } from "@firebase/firestore/lite";
 import { FirebaseDB } from "../../firebase/config";
 import { loadExcelFormatos } from "../../helpers/loadExcelFormatos";
-import { addNewEmptyExcelFormato, savingNewExcelFormato, setFormatos } from "./formatoSlice";
+import { addNewEmptyExcelFormato, deleteFormatoById, savingNewExcelFormato, setFormatos } from "./formatoSlice";
+import { format, compareAsc } from 'date-fns'
 
 export const startNewExcelFormato =( lista , listaJson, formato )=>{
     return async (dispatch, getSate) =>{
         dispatch(savingNewExcelFormato());
-    
         const { uid, displayName } = getSate().auth;
         //uid este lo genera solo firebase database
         //Estructrura de información
-        console.log('Carga Lista *** Aqui debiera venir archivo ')
-        console.log(lista);
-
-
         const newObject = Object.assign({}, lista);
-
-        console.log(listaJson);
+        const date = format(new Date(), 'dd/MM/yyyy HH:mm:ss ')
         const head = lista[0];
         // console.log(newArreglo)
         const newExcel = {
-
-            idusuario: {uid} ,
-            nombre :{displayName},
+            idusuario: uid ,
+            nombre :displayName,
             body:'Ingreso de formato',
             formato: formato,
-            date: new Date().getTime(),
+            date: date,
             detalle : newObject,
             detalleJson: listaJson,
             cabezaJson: head,
             estado: 'Carga',
         }
-        console.log('Estructura de Carga completa ...');
-        console.log(newExcel);
-
-
         try {
-            
             const newDoc = doc (collection(FirebaseDB,  `/plantilla/excel/formato`));
             await setDoc(newDoc, newExcel);
-
             newExcel.id = newDoc.id;
             //Dispatch
             dispatch(addNewEmptyExcelFormato(newExcel));
@@ -50,8 +38,6 @@ export const startNewExcelFormato =( lista , listaJson, formato )=>{
        
     }
 }
-
-
 export const startLoadingFormatos = ()=>{
     return async (dispatch, getState) =>{
         const { uid } = getState().auth;
@@ -61,21 +47,50 @@ export const startLoadingFormatos = ()=>{
         dispatch(setFormatos(formatos));
     }
 }
+export const startDeleteFormato = (id = '')=>{
 
-// export const startSaveNote = ()=>{
+    return async(dispatch, getState) =>{
+        dispatch(savingNewExcelFormato());
+        const { uid } = getState().auth;
+        if(!uid) throw new Error('El UID del usuario no existe');
+        console.log('Estoy en eliminar viene con ID de fire')
+        console.log(id)
 
-//     return async(dispatch, getState) =>{
-//         dispatch(setSaving);
+        try {
 
-//         const { uid } = getState().auth;
-//         const { active:note } = getState().journal;
-
-//         const noteToFireStore = { ...note };
-//         delete noteToFireStore.id;
-
-//         const docRef = doc(FirebaseDB, `${ uid }/journal/notes/${ note.id }` );
-//         await setDoc (docRef, noteToFireStore, {merge: true})
+        const docRef = doc(FirebaseDB, `/plantilla/excel/formato/${ id }` );
+        await deleteDoc (docRef, {merge: true})
+            
+        } catch (error) {
+            console.log(error)
+        }
         
-//         dispatch( updateNote( note ));
-//     }
-// }
+        
+        dispatch( deleteFormatoById());
+    }
+}
+export const startUpdateFormato = (arreglo, id = '')=>{
+
+    return async(dispatch, getState) =>{
+        //Deja estado saving en true
+        dispatch(savingNewExcelFormato());
+        const { uid, displayName } = getState().auth;
+        if(!uid) throw new Error('El UID del usuario no existe');
+        try {
+            const date = format(new Date(), 'dd/MM/yyyy HH:mm:ss ')
+            const documento = doc(FirebaseDB, `/plantilla/excel/formato/${ id }`);
+            console.log(documento)
+            await updateDoc(documento, {
+                usuarioActualizador: displayName,
+                fechaActualizacion: date,
+                detalleJson: arreglo});
+        } catch (error) {
+            console.log(error)
+        }
+        
+        //Descarga de formatos actuakizados
+        dispatch(startLoadingFormatos());
+         //Cambia de estado el saving a false
+        dispatch( deleteFormatoById());
+    }
+}
