@@ -12,7 +12,6 @@ const VisualFormato = (props ) => {
 
     let j = Number(props.id);
           //setIdentifica(j)
-          console.log(j)
 //TypeError: Cannot add property tableData, object is not extensible, hay que formatear con un map la informacion
   const { formatos } = useSelector(state => state.formato);
   //Mejora incorporar a nivel de detalle los campos qeu serán visualizado (cargo, asignación,auditoria,cierre)
