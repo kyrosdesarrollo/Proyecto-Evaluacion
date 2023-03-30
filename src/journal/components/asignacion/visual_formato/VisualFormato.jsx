@@ -1,29 +1,51 @@
-import React,{useState} from 'react'
+import React,{useState, useEffect} from 'react'
 import MaterialTable from 'material-table';
 import { useSelector } from 'react-redux'
 import { ThemeProvider, createTheme } from '@mui/material';
 
 
-const VisualFormato = (props , {id = ''} ) => {
+const VisualFormato = (props ) => {
     const defaultMaterialTheme = createTheme(); 
-    var j = Number(id);
-    const { formatos } = useSelector(state => state.formato);
-    //Mejora incorporar a nivel de detalle los campos qeu serán visualizado (cargo, asignación,auditoria,cierre)
-    let titulo=[];
-    for (let index = 0; index < formatos[j].cabezaJson.length; index++) {
-        if (formatos[j].cabezaJson[index] === 'Monitor') {
-            titulo.push({ title: formatos[j].cabezaJson[index],field: formatos[j].cabezaJson[index],align: "center", headerStyle: { color: "#2196f3" }
-            ,lookup: { MONITOR1: "MONITOR 1", MONITOR2: "MONITOR 2", MONITOR3: "MONITOR 3", MONITOR4: "MONITOR 4", MONITOR5: "MONITOR 5", MONITOR6: "MONITOR 6", MONITOR7: "MONITOR 7" },filteringPlaceHolder:"Monitor"});
-        }
-        else{
-            titulo.push({ title: formatos[j].cabezaJson[index],field: formatos[j].cabezaJson[index],align: "center", headerStyle: { color: "#2196f3" }});
-        }
-        //titulo.push({ title: formatos[j].cabezaJson[index],field: formatos[j].cabezaJson[index],align: "center", headerStyle: { color: "#2196f3" }});
-    }
-    //TypeError: Cannot add property tableData, object is not extensible, hay que formatear con un map la informacion
-    const detalle = formatos[j].detalleJson.map(o => ({ ...o }));
-    const [tableData, setTableData] = useState(detalle);
-    //Capatura la información y la traspasa a componente padre AsignaciónActividadViewDetalle
+
+    const [tableData, setTableData] = useState([]);
+    const [titulo, setTitulo] = useState([]);
+
+    let j = Number(props.id);
+          //setIdentifica(j)
+          console.log(j)
+//TypeError: Cannot add property tableData, object is not extensible, hay que formatear con un map la informacion
+  const { formatos } = useSelector(state => state.formato);
+  //Mejora incorporar a nivel de detalle los campos qeu serán visualizado (cargo, asignación,auditoria,cierre)
+  //let titulo=[];
+    useEffect(() => {
+          j = Number(props.id);
+          //setIdentifica(j)
+          console.log(j)
+          let titulo=[];
+          for (let index = 0; index < formatos[j].cabezaJson.length; index++) {
+              if (formatos[j].cabezaJson[index] === 'Monitor') {
+                  titulo.push({ title: formatos[j].cabezaJson[index],field: formatos[j].cabezaJson[index],align: "center", headerStyle: { color: "#2196f3" }
+                  ,lookup: { MONITOR1: "MONITOR 1", 
+                             MONITOR2: "MONITOR 2", 
+                             MONITOR3: "MONITOR 3", 
+                             MONITOR4: "MONITOR 4", 
+                             MONITOR5: "MONITOR 5", 
+                             MONITOR6: "MONITOR 6", 
+                             MONITOR7: "MONITOR 7", MONITOR :formatos[j].cabezaJson[index] },filteringPlaceHolder:"Monitor"});
+              }
+              else{
+                  titulo.push({ title: formatos[j].cabezaJson[index],field: formatos[j].cabezaJson[index],align: "center", headerStyle: { color: "#2196f3" }});
+              }
+              //titulo.push({ title: formatos[j].cabezaJson[index],field: formatos[j].cabezaJson[index],align: "center", headerStyle: { color: "#2196f3" }});
+          }
+          setTitulo(titulo);
+          let detalle = formatos[j].detalleJson.map(o => ({ ...o }));
+          // let detalle = formatos[j].detalleJson.map(o => ({ ...o }));
+          setTableData(detalle);
+    },[j])
+   
+   
+    //Captura la información y la traspasa a componente padre AsignaciónActividadViewDetalle
     props.onActualizaInfo(tableData);
   
   return (
@@ -51,7 +73,6 @@ const VisualFormato = (props , {id = ''} ) => {
                             updatedData.splice(selectedRow.tableData.id, 1)
                             setTableData(updatedData)
                             setTimeout(() => resolve(), 1000)
-                
                           })
                         }}
 

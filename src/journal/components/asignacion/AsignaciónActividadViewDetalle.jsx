@@ -9,9 +9,6 @@ import { startDeleteFormato, startLoadingFormatos, startUpdateFormato } from '..
 import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
 import ReduceCapacityIcon from '@mui/icons-material/ReduceCapacity';
 
-
-
-
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
@@ -21,21 +18,20 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 
-
-const AsignaciónActividadViewDetalle = ( props , { id = ''}) => {
+const AsignaciónActividadViewDetalle = ( props) => {
     const [open, setOpen] = React.useState(false);
     const [openEliminar, setOpenEliminar] = React.useState(false);
 
     const { formatos } = useSelector(state => state.formato);
     const dispatch = useDispatch();
 
-    var j = Number(id); 
-
-
+    var j =Number(props.id);
+  
     let registrosActualizado = [];
 
     const plantilla = Object.assign({},formatos[j]);
-    const nombre = plantilla.nombre.displayName;
+    
+    const nombre = plantilla.nombre;
     const date = plantilla.date;
     const formato = plantilla.formato;
     const identifico = plantilla.id;
@@ -47,12 +43,14 @@ const AsignaciónActividadViewDetalle = ( props , { id = ''}) => {
 
         },[date]);
 
-    const arregloDetalle = [];
-    Object.keys(plantilla.detalle).forEach((e) => { 
-            arregloDetalle.push(plantilla.detalle[e]);
+  //   let arregloDetalle = [];
+   
+  //   Object.keys(plantilla.detalle).forEach((e) => { 
+  //           arregloDetalle.push(plantilla.detalle[e]);
             
-    });
-
+  //   });
+  // console.log('Crga datos en arreglo Detalle');
+  // console.log(arregloDetalle);
    const handleClickOpen = () => {
         setOpen(true);
     };
@@ -68,8 +66,7 @@ const handleCloseEliminar = () => {
   setOpenEliminar(false);
 };
 const handleChange = (e) => {
-  console.log('Aqui estoy arreglo nuevo ');
-  console.log(e);
+ 
   registrosActualizado = Object.assign(e);
 };
   const onGuardar = () =>{
