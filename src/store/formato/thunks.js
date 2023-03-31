@@ -2,7 +2,7 @@ import { collection, doc, setDoc, deleteDoc,getDocs, where, query,updateDoc } fr
 import { FirebaseDB } from "../../firebase/config";
 import { loadExcelFormatos } from "../../helpers/loadExcelFormatos";
 import { addNewEmptyExcelFormato, deleteFormatoById, savingNewExcelFormato, setFormatos } from "./formatoSlice";
-import { format, compareAsc } from 'date-fns'
+import { format } from 'date-fns'
 
 export const startNewExcelFormato =( lista , listaJson, formato )=>{
     return async (dispatch, getSate) =>{
