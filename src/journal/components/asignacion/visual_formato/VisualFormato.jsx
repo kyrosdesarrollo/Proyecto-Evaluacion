@@ -68,23 +68,21 @@ const VisualFormato = (props ) => {
                         }}
 
                         options={{
+                          //  showTextRowsSelected:false,
                            selection:true,
                            grouping: true,
                            columnsButton: true,
                            filtering: true,
                            pageSizeOptions:[5,10,20,50,100],
-                           pageSize:20,
                            paginationType:"stepped",
-                           showTextRowsSelected:false,
                            rowStyle: {
-                            fontSize: 10,
-                          },
+                                fontSize: 10,
+                            },
                           // headerStyle: {
                           //   backgroundColor: '#01579b',
                           //   color: '#FFF',
                           //   fontSize: 12,
-                          // }
-                                                    
+                          // }                                  
                           }}
                     />
                 </ThemeProvider>
