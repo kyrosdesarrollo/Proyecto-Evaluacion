@@ -6,20 +6,13 @@ import { ThemeProvider, createTheme } from '@mui/material';
 
 const VisualFormato = (props ) => {
     const defaultMaterialTheme = createTheme(); 
-
     const [tableData, setTableData] = useState([]);
     const [titulo, setTitulo] = useState([]);
-
     let j = Number(props.id);
-          //setIdentifica(j)
-//TypeError: Cannot add property tableData, object is not extensible, hay que formatear con un map la informacion
-  const { formatos } = useSelector(state => state.formato);
+    const { formatos } = useSelector(state => state.formato);
   //Mejora incorporar a nivel de detalle los campos qeu serán visualizado (cargo, asignación,auditoria,cierre)
-  //let titulo=[];
     useEffect(() => {
           j = Number(props.id);
-          //setIdentifica(j)
-          console.log(j)
           let titulo=[];
           for (let index = 0; index < formatos[j].cabezaJson.length; index++) {
               if (formatos[j].cabezaJson[index] === 'Monitor') {
@@ -39,11 +32,10 @@ const VisualFormato = (props ) => {
           }
           setTitulo(titulo);
           let detalle = formatos[j].detalleJson.map(o => ({ ...o }));
-          // let detalle = formatos[j].detalleJson.map(o => ({ ...o }));
-          setTableData(detalle);
+          //Filtro para considerar a nivel de línea Carga
+          let filtro = detalle.filter(o => o.Carga === true);
+          setTableData(filtro);
     },[j])
-   
-   
     //Captura la información y la traspasa a componente padre AsignaciónActividadViewDetalle
     props.onActualizaInfo(tableData);
   
