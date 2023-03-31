@@ -69,10 +69,15 @@ export const startDeleteFormato = (id = '')=>{
         dispatch( deleteFormatoById());
     }
 }
-export const startUpdateFormato = (arreglo, id = '')=>{
+export const startUpdateFormato = (arreglo, id = '', tipo = '')=>{
 
     return async(dispatch, getState) =>{
         //Deja estado saving en true
+        console.log('Arreglo en update');
+        console.log(arreglo);
+        console.log('Arreglo en Tipo');
+        console.log(tipo);
+        return
         dispatch(savingNewExcelFormato());
         const { uid, displayName } = getState().auth;
         if(!uid) throw new Error('El UID del usuario no existe');

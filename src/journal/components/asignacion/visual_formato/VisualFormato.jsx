@@ -2,6 +2,7 @@ import React,{useState, useEffect} from 'react'
 import MaterialTable from 'material-table';
 import { useSelector } from 'react-redux'
 import { ThemeProvider, createTheme } from '@mui/material';
+import Swal from 'sweetalert2'
 
 
 const VisualFormato = (props ) => {
@@ -15,30 +16,44 @@ const VisualFormato = (props ) => {
           j = Number(props.id);
           let titulo=[];
           for (let index = 0; index < formatos[j].cabezaJson.length; index++) {
-              if (formatos[j].cabezaJson[index] === 'Monitor') {
-                  titulo.push({ title: formatos[j].cabezaJson[index],field: formatos[j].cabezaJson[index],align: "center", headerStyle: { color: "#2196f3" }
-                  ,lookup: { MONITOR1: "MONITOR 1", 
-                             MONITOR2: "MONITOR 2", 
-                             MONITOR3: "MONITOR 3", 
-                             MONITOR4: "MONITOR 4", 
-                             MONITOR5: "MONITOR 5", 
-                             MONITOR6: "MONITOR 6", 
-                             MONITOR7: "MONITOR 7", MONITOR :formatos[j].cabezaJson[index] },filteringPlaceHolder:"Monitor"});
-              }
-              else{
+              // if (formatos[j].cabezaJson[index] === 'Monitor') {
+              //     titulo.push({ title: formatos[j].cabezaJson[index],field: formatos[j].cabezaJson[index],align: "center", headerStyle: { color: "#2196f3" }
+              //     ,lookup: { MONITOR1: "MONITOR 1", 
+              //                MONITOR2: "MONITOR 2", 
+              //                MONITOR3: "MONITOR 3", 
+              //                MONITOR4: "MONITOR 4", 
+              //                MONITOR5: "MONITOR 5", 
+              //                MONITOR6: "MONITOR 6", 
+              //                MONITOR7: "MONITOR 7", MONITOR :formatos[j].cabezaJson[index] },filteringPlaceHolder:"Monitor"});
+              // }
+              // else{
                   titulo.push({ title: formatos[j].cabezaJson[index],field: formatos[j].cabezaJson[index],align: "center", headerStyle: { color: "#2196f3" }});
-              }
+             // }
               //titulo.push({ title: formatos[j].cabezaJson[index],field: formatos[j].cabezaJson[index],align: "center", headerStyle: { color: "#2196f3" }});
           }
           setTitulo(titulo);
           let detalle = formatos[j].detalleJson.map(o => ({ ...o }));
           //Filtro para considerar a nivel de línea Carga
-          let filtro = detalle.filter(o => o.Carga === true);
+          let filtro = detalle.filter(o => o.Estado === "Carga");
           setTableData(filtro);
     },[j])
-    //Captura la información y la traspasa a componente padre AsignaciónActividadViewDetalle
-    props.onActualizaInfo(tableData);
-  
+   
+    const [selectedRows, setSelectedRows] = React.useState([]);
+    const handleSetSelectedRows = (e) => {
+        setSelectedRows(e);
+       
+    };
+     //Captura la información seleccionada y la traspasa a componente padre AsignaciónActividadViewDetalle
+      props.onActualizaInfo(selectedRows);
+      console.log('Estoy en Visual Formato')
+      console.log(tableData);
+      console.log(selectedRows);
+
+      let doubled = tableData.map((num) => num.Carga ==="Asigna");
+      console.log(doubled)
+
+   
+    
   return (
     <>
     <div style={{ width: '100%', height: '80%' }}>
@@ -67,6 +82,10 @@ const VisualFormato = (props ) => {
                           })
                         }}
 
+                        onSelectionChange={(e)=>{
+                          handleSetSelectedRows(e);
+                         }}                 
+
                         options={{
                           //  showTextRowsSelected:false,
                            selection:true,
@@ -74,6 +93,7 @@ const VisualFormato = (props ) => {
                            columnsButton: true,
                            filtering: true,
                            pageSizeOptions:[5,10,20,50,100],
+                           pageSize:10,
                            paginationType:"stepped",
                            rowStyle: {
                                 fontSize: 10,

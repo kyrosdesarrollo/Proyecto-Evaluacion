@@ -66,12 +66,11 @@ const handleCloseEliminar = () => {
   setOpenEliminar(false);
 };
 const handleChange = (e) => {
- 
   registrosActualizado = Object.assign(e);
 };
   const onGuardar = () =>{
     //Actualización en Firebase registros + ID de documento
-    dispatch(startUpdateFormato(registrosActualizado,identifico));
+    dispatch(startUpdateFormato(registrosActualizado,identifico, "Asigna"));
     //Cierre de ventana emergente
     handleClose(false);
     //Ventana de actualización
@@ -121,11 +120,11 @@ const handleChange = (e) => {
                                                 aria-describedby="alert-dialog-description"
                                             >
                                                 <DialogTitle id="alert-dialog-title">
-                                                {" ¿ Estas seguro de asignar las actividades a los usuarios correspondientes ? "}
+                                                {" ¿ Estas seguro de asignar las actividades a los usuarios seleccionados  ? "}
                                                 </DialogTitle>
                                                 <DialogContent>
                                                 <DialogContentText id="alert-dialog-description">
-                                                Al momento de Asignar las actividad,  a los usuarios se activarán las notificaciones o podrán visualizar su información en su perfil .
+                                                Al momento de Asignar las actividad,  a los usuarios se activarán las notificaciones y podrán visualizar su información en su perfil .
                                                 Nota Importante: a.- Deben estar seleccionados los registros. b.- Los campos relevantes para realizar reporteria son los de cabecera.
                                                 </DialogContentText>
                                                 </DialogContent>
