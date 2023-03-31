@@ -14,7 +14,6 @@ export default function ControlSeleccion( {opcion = null} ) {
   if (value) {
     identificador = value.substring(0,2);
   }
-  
 
   const handleChangeSeleccion = (e) =>{
     setValue(null);
