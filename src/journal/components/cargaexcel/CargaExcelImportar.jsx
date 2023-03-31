@@ -61,12 +61,13 @@ const readDataFromExcel = (data) =>{
        
        }
         
-
-       setSheetData(mySheetData);
-       
-        //Asignación de objeto a lista 
-
-        //REALIZAR MEJORA CONSIDERANOD SOLO 1 
+        setSheetData(mySheetData);
+        //Agrega datos a nivel de linea para controlar el proceso
+        jsonData1.forEach((node) => node.Carga = true );
+        jsonData1.forEach((node) => node.Asigna = false );
+        jsonData1.forEach((node) => node.Auditoria = false );
+        jsonData1.forEach((node) => node.Cierre = false );
+         //REALIZAR MEJORA CONSIDERANOD SOLO 1 
         setLista(jsonData);
         setListaJson(jsonData1);
         
