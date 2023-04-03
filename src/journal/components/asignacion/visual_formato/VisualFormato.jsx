@@ -24,7 +24,6 @@ const VisualFormato = ({id = ''}) => {
         }
         //titulo.push({ title: formatos[j].cabezaJson[index],field: formatos[j].cabezaJson[index],align: "center", headerStyle: { color: "#2196f3" }});
     }
-    //TypeError: Cannot add property tableData, object is not extensible, hay que formatear con un map la informacion
     const detalle = formatos[j].detalleJson.map(o => ({ ...o }));
     titulo.push({title:'BLOQUES DE EVALUACIÓN', field:'Abordaje'})
   return (
@@ -45,14 +44,6 @@ const VisualFormato = ({id = ''}) => {
                            rowStyle: {
                              fontSize: 10,
                             },
-                            
-                            // headerStyle: {
-                            //   backgroundColor: '#01579b',
-                            //   color: '#FFF',
-                            //   fontSize: 12,
-                            
-                             // }
-                            
                             
                                                      
                           }}
