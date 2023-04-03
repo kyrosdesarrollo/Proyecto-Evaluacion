@@ -49,7 +49,7 @@ const VisualFormato = (props ) => {
       console.log(tableData);
       console.log(selectedRows);
 
-      let doubled = tableData.map((num) => num.Carga ==="Asigna");
+      let doubled = tableData.map((num) => num.Carga ==="Carga");
       console.log(doubled)
 
    
