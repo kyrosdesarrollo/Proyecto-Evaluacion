@@ -23,11 +23,11 @@ export default function ControlSeleccion( {opcion = ''} ) {
       <div>{`inputValue: '${inputValue}'`}</div> */}
       <br />
       <Autocomplete
-        valueMonitor={valueMonitor}
+        value={valueMonitor}
         onChange={(event, newValue) => {
           setValueMonitor(newValue);
         }}
-        inputValueMonitor={valueMonitor}
+        inputValue={inputValueMonitor}
         onInputChange={(event, newInputValueMonitor) => {
           setInputValueMonitor(newInputValueMonitor);
         }}
