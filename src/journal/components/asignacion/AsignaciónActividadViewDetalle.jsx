@@ -1,13 +1,17 @@
 import React, {useMemo} from 'react'
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Paper, Stack, Typography } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Paper, Stack, TextField, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { Col, Row, Table } from 'reactstrap';
 import Swal from 'sweetalert2'
 
+import SortingTable from './SortingTable';
+import FilteringTable from './FilteringTable';
+import BasicTable from './BasicTable';
+
+import * as XLSX from 'xlsx';
 import VisualFormato from './visual_formato/VisualFormato';
-import { startDeleteFormato, startLoadingFormatos, startUpdateFormato } from '../../../store/formato';
-import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
-import ReduceCapacityIcon from '@mui/icons-material/ReduceCapacity';
+
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -16,6 +20,7 @@ const Item = styled(Paper)(({ theme }) => ({
   textAlign: 'center',
   color: theme.palette.text.secondary,
 }));
+
 
 
 const AsignaciónActividadViewDetalle = ( props) => {
@@ -57,8 +62,8 @@ const AsignaciónActividadViewDetalle = ( props) => {
 
   const handleClose = () => {
       setOpen(false);
-    };
-   const handleClickOpenEliminar = () => {
+  };
+  const handleClickOpenEliminar = () => {
     setOpenEliminar(true);
   };
 

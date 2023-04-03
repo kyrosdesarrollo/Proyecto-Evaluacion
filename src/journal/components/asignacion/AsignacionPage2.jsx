@@ -47,7 +47,7 @@ export default function AsignacionPage2() {
             <StepLabel
               optional={
                 index === 2 ? (
-                  <Typography variant="caption">Last step</Typography>
+                  <Typography variant="caption">Paso Anterior</Typography>
                 ) : null
               }
             >
@@ -69,7 +69,7 @@ export default function AsignacionPage2() {
                     onClick={handleBack}
                     sx={{ mt: 1, mr: 1 }}
                   >
-                    Back
+                    Volver
                   </Button>
                 </div>
               </Box>

@@ -2,6 +2,7 @@ import { Box, Typography } from '@mui/material';
 import React from 'react'
 import { useSelector } from 'react-redux';
 import ControlSeleccion from './AsignacionActividadSeleccion';
+import { Button } from '@material-ui/core';
 
  const AsignacionActividad = () => {
 
@@ -18,6 +19,7 @@ import ControlSeleccion from './AsignacionActividadSeleccion';
       <Typography variant="h4" component="h2">
         Asignación de Actividad
       </Typography>
+      <Button aria-label='test'></Button>
     </Box>
       <ControlSeleccion opcion = {opcion} />
     </>
