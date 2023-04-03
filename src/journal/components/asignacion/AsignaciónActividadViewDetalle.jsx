@@ -57,7 +57,7 @@ const AsignaciónActividadViewDetalle = ( { id = ''}) => {
 
     const handleClose = () => {
       setOpen(false);
-  };
+  };  
   const handleClickOpenEliminar = () => {
     setOpenEliminar(true);
 };
