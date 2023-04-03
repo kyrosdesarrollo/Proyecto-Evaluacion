@@ -33,7 +33,7 @@ const VisualFormato = (props ) => {
           }
           setTitulo(titulo);
           let detalle = formatos[j].detalleJson.map(o => ({ ...o }));
-          //Filtro para considerar a nivel de línea Carga
+          //Filtro para considerar a nivel de línea estado con nombre Carga
           let filtro = detalle.filter(o => o.Estado === "Carga");
           setTableData(filtro);
     },[j])
