@@ -32,7 +32,7 @@ const AuditoriaActividadViewDetalle = ( { id = ''}) => {
     
     const plantilla = Object.assign({},formatos[j]);
   
-    const nombre = plantilla.nombre.displayName;
+    const nombre = plantilla.nombre;
     const date = plantilla.date;
     const formato = plantilla.formato;
    
@@ -151,7 +151,7 @@ const handleCloseEliminar = () => {
       
    </Stack>
     <br></br>
-      <Grid container spacing={1}>
+      {/* <Grid container spacing={1}>
               <Grid 
                    >
                 <Item>
@@ -170,7 +170,7 @@ const handleCloseEliminar = () => {
                    </Typography>
               </Grid>
               
-      </Grid>
+      </Grid> */}
 
       <VisualFormato id = {j}/>
 
