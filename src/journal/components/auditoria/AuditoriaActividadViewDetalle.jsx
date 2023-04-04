@@ -4,9 +4,6 @@ import { styled } from '@mui/material/styles';
 import { useSelector } from 'react-redux';
 import Swal from 'sweetalert2'
 
-
-
-import VisualFormato from './visual_formato/AuditoriaVisualFormato';
 import AuditoriaVisualFormato from './visual_formato/AuditoriaVisualFormato';
 
 
@@ -37,6 +34,8 @@ const AuditoriaActividadViewDetalle = ( { id = ''}) => {
     const date = plantilla.date;
     const formato = plantilla.formato;
    
+
+
     const fechaString = useMemo(() => 
         {
                 console.log({date});
