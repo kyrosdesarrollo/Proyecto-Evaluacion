@@ -9,19 +9,16 @@ const AuditoriaVisualFormato = ({id = ''}) => {
 const defaultMaterialTheme = createTheme();
 
 
-
-
-
     var j = Number(id);
     const { formatos } = useSelector(state => state.formato);
     const { pautas } = useSelector(state => state.pauta);
-        const plantilla = Object.assign({},formatos[j]);
-        const formato = plantilla.formato;
+    const plantilla = Object.assign({},formatos[j]);
+    const formato = plantilla.formato;
 
     let titulo=[];
     for (let index = 0; index < formatos[j].cabezaJson.length; index++) {
-
-        if (formatos[j].cabezaJson[index] === 'Monitor') {
+      //formatos[j].cabezaJson[index] === 'Monitor' &&
+        if ( formatos[j].detalleJson.Estado === 'Asigna' ) {
             titulo.push({ title: formatos[j].cabezaJson[index],field: formatos[j].cabezaJson[index],
                           align: "center", headerStyle: { color: "#2196f3" }
 
@@ -67,8 +64,6 @@ const defaultMaterialTheme = createTheme();
     setOpenModal(true);
   }
    
-
-
 
 
   return (
