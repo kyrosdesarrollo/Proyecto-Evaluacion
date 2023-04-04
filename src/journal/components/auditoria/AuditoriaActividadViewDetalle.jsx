@@ -65,6 +65,9 @@ const handleCloseEliminar = () => {
   setOpenEliminar(false);
 };
   const onGuardar = () =>{
+     //Actualización en Firebase registros + ID de documento
+     dispatch(startUpdateFormato(registrosActualizado,identifico, "Asigna"));
+     
     handleClose(false);
     Swal.fire({
       position: 'top-center',
