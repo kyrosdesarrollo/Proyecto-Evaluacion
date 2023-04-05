@@ -77,7 +77,7 @@ export const startUpdateFormato = (arreglo, id = '', tipo = '')=>{
         console.log(arreglo);
         console.log('Arreglo en Tipo');
         console.log(tipo);
-        return
+    
         dispatch(savingNewExcelFormato());
         const { uid, displayName } = getState().auth;
         if(!uid) throw new Error('El UID del usuario no existe');

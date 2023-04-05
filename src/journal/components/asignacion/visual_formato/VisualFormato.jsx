@@ -2,7 +2,7 @@ import React,{useState, useEffect} from 'react'
 import MaterialTable from 'material-table';
 import { useSelector } from 'react-redux'
 import { ThemeProvider, createTheme } from '@mui/material';
-import Swal from 'sweetalert2'
+
 
 
 const VisualFormato = (props ) => {
@@ -10,6 +10,7 @@ const VisualFormato = (props ) => {
     const [tableData, setTableData] = useState([]);
     const [titulo, setTitulo] = useState([]);
     let j = Number(props.id);
+    //Extrae los formatos desde Redux
     const { formatos } = useSelector(state => state.formato);
   //Mejora incorporar a nivel de detalle los campos qeu serán visualizado (cargo, asignación,auditoria,cierre)
     useEffect(() => {
@@ -39,21 +40,44 @@ const VisualFormato = (props ) => {
     },[j])
    
     const [selectedRows, setSelectedRows] = React.useState([]);
+
     const handleSetSelectedRows = (e) => {
         setSelectedRows(e);
        
     };
-     //Captura la información seleccionada y la traspasa a componente padre AsignaciónActividadViewDetalle
-      props.onActualizaInfo(selectedRows);
-      console.log('Estoy en Visual Formato')
-      console.log(tableData);
-      console.log(selectedRows);
+     
+    //------------------  Proceso de Seleccion ------------------------------
+    //Recorre objeto selección y actualiza estado a Asigna en objeto principal
+    //Actualiza todo el objecto a estado carga 
+     tableData.forEach((node) => node.Estado = "Carga");
 
-      let doubled = tableData.map((num) => num.Carga ==="Carga");
-      console.log(doubled)
+     for (let index = 0; index < selectedRows.length; index++) {
+      tableData.filter(function(value) {
+        return value.id === selectedRows[index].id; // Solo pasan los que tengan este id seleccionado
+      }).forEach(function(value, key) {
+        //Búsqueda de numero de objeto para realizar actualizacion.
+        let numObjeto = tableData.find((num) => num.id === selectedRows[index].id).tableData.id;
+        tableData[numObjeto] = {...tableData[numObjeto], Estado: "Asigna"};
+      });
+     }
+      //------------------  Fin Proceso de Seleccion ------------------------------
+    console.log('Inicio 1 Seleccion ....')
+    console.log(tableData);
+    console.log('Fin.......')
+    console.log('Seleccionados')
+    console.log(selectedRows)
+    // //------------------  Proceso Dejar de Seleccionar ------------------------------
+    // //Recorre objeto principal tableData y actualiza estado a Carga 
 
-   
-    
+    if (selectedRows.length <1){
+      tableData.forEach((node) => node.Estado = "Carga" );
+    }
+      //------------------  Fin PrProceso Dejar de Seleccionar ------------------------
+
+   //Captura la información seleccionada y la traspasa a componente padre AsignaciónActividadViewDetalle
+   if (selectedRows.length > 0) {
+   props.onActualizaInfo(tableData);
+   }
   return (
     <>
     <div style={{ width: '100%', height: '80%' }}>
