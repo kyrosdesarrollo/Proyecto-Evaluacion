@@ -17,19 +17,24 @@ const Item = styled(Paper)(({ theme }) => ({
 
 
 
-const AuditoriaActividadViewDetalle = ( { id = ''}) => {
+const AuditoriaActividadViewDetalle = (props) => {
     const [open, setOpen] = React.useState(false);
     const [openEliminar, setOpenEliminar] = React.useState(false);
 
     const { formatos } = useSelector(state => state.formato);
-    var j = Number(id);
-    console.log('AsignaciónActividadViewDetalle')
-    console.log(id)
+    var j = Number(props.id);
 
-    console.log(formatos[j]);
     
     const plantilla = Object.assign({},formatos[j]);
-  
+   
+    console.log(plantilla)
+   let pauta = JSON.stringify(formatos[j].formato)
+   
+   
+ 
+    console.log("PAUTA AUDITORIA ACTIVIDAD VIEW")  
+     console.log(pauta)
+     
     const nombre = plantilla.nombre;
     const date = plantilla.date;
     const formato = plantilla.formato;
@@ -97,7 +102,7 @@ const handleCloseEliminar = () => {
        <Button 
          variant="contained"
          onClick={handleClickOpen}
-             >Asignar a Monitores
+             >Guardar
        </Button>
        <Dialog
                                                 open={open}
@@ -156,7 +161,7 @@ const handleCloseEliminar = () => {
     <br></br>
       <Grid container spacing={1}>
       </Grid>
-      <AuditoriaVisualFormato id = {j}/>
+      <AuditoriaVisualFormato id = {j}  nombrePauta = {pauta}/>
 
                  
           

@@ -1,70 +1,97 @@
-import React, { useState } from 'react';
-import { Card, Row, Col, CardBody, CardHeader, Table, Label } from 'reactstrap';
+import React, {useState} from 'react'
+import {Card, Row, Col, CardBody,CardHeader, Table, Label} from 'reactstrap';
 import PautaExcelImportar from './PautaExcelImportar';
 
-const PautaExcelView = () => {
+export const PautaExcelView = () => {
 
-  const [sheetData, setSheetData] = useState(null);
-  const [sheet, setSheet] = useState(null);
-  const [sheetNames, setSheetNames] = useState(null);
+    const [sheetData, setSheetData] = useState(null);
+    const [sheet, setSheet] = useState(null);
+    const [sheetNames, setSheetNames] = useState(null);
 
-  const handleSheetChange = (e) => {
+//[Heders]
+
+//{Data}
+
+const handleSheetChange = (e) =>{
     setSheet(e.target.value);
-  }
-
-  const handleFileSubir = (e) => {
-    console.log("File Subir", e);
-
-    if (e) {
-      let sheetNames = Object.keys(e);
-      setSheetNames(sheetNames);
-      setSheet(sheetNames[0]);
-    } else { setSheetNames(null); }
-
-    setSheetData(e);
-  }
-
-  return (
-    <div className='content'>
-      <Row>
-        <Col md={12}>
-          <Card>
-            <CardBody>
-              <PautaExcelImportar onFileSubir={(e) => handleFileSubir(e)} />
-            </CardBody>
-          </Card>
-        </Col>
-      </Row>
-
-      {
-        sheetData &&
-        <Row>
-          <Col md={12}>
-            <div className="table-responsive">
-              <Table bordered>
-                <thead>
-                  <tr>
-                    {sheetData[sheet][0].map((header, i) => (
-                      <th key={i}>{header}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {sheetData[sheet].slice(1).map((row, i) => (
-                    <tr key={i}>
-                      {row.map((cell, j) => (
-                        <td key={j}>{cell}</td>
-                      ))}
-                    </tr>
-                  ))}
-                </tbody>
-              </Table>
-            </div>
-          </Col>
-        </Row>
-      }
-    </div>
-  );
 }
 
-export default PautaExcelView;
+ const handleFileSubir = (e) =>{
+    console.log("File Subir", e);
+
+    if (e) { 
+        let sheetNames = Object.keys(e);
+        setSheetNames(sheetNames);
+        setSheet(sheetNames[0]);
+    }else{ setSheetNames(null);}
+
+    setSheetData(e);
+ }
+  return (
+
+    
+    <div className='content'>
+        <Row>
+            <Col md={12}>
+                <Card>
+                    {/* <CardHeader>
+                        <h5 className='title'>Leer Excel Hojas</h5>
+                        <p className='category'></p>
+                    </CardHeader> */}
+                    <CardBody className='all-icons'>
+                        <PautaExcelImportar onFileSubir = {(e) => handleFileSubir(e)} />
+                    </CardBody>
+
+                </Card>
+            </Col>
+        </Row>
+
+        {
+            sheetData &&
+            <>
+            {/* <Row>
+                <Col md={12}>
+                    {sheetNames.map( s =>
+                    <div>
+                        <input 
+                            type="radio" 
+                            name="sheetName"
+                            checked={ s === sheet}
+                            onChange={ (e)=> handleSheetChange(e)}
+                            value={s}
+                            key={s}
+                            />
+                        <label>{s}</label>
+                    </div>)}
+                </Col>
+            </Row> */}
+            <Row>
+                {/* <Label>{sheet}</Label> */}
+                <Col md={12}>
+                    <Table 
+                    bordered 
+                    className='border'
+                    data-search="true"
+                    >
+                        <thead className='text-primary'>
+                            <tr>
+                            {sheetData[sheet][0].map((h)=> (
+                                <th key={h}>{h}</th>
+                            ))}
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {sheetData[sheet].slice(1).map((row)=> (
+                                <tr key={row} className='text-primary'>
+                                    {row.map( c => <td key={c}>{c}</td>)}
+                                </tr>
+                            ))}
+                        </tbody>
+                    </Table>
+                </Col>
+            </Row>
+            </>
+        }
+    </div>
+  )
+}

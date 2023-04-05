@@ -1,25 +1,31 @@
 import React from 'react';
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Box } from '@mui/material';
 import Auditoria_Preguntas from './Auditoria_Preguntas';
+import { useSelector } from 'react-redux';
+
+const ModalComponent = ({ open, onClose, rowData,pauta }) => {
+
+  //const {pautas} = useSelector(state => state.pautas);
+
+   console.log(pauta + "AUDITORIA MODAL")
 
 
-const ModalComponent = ({ open, onClose, rowData }) => {
   return (
     <Dialog open={open} onClose={onClose} sx={{ '& .MuiDialog-paper': { maxWidth: '900px' } }}>
-      
       <DialogTitle align='center'>A U D I T O R I A</DialogTitle>
       <DialogContent>
-        <p>Nombre: {rowData?.nombre}</p>
-        <Auditoria_Preguntas/>
+     <Box sx={{ marginBottom: '20px' }}>
+      <p sx={{ fontSize: '16px' }}>Nombre: {rowData?.Ejecutivo}</p>
+      <p sx={{ fontSize: '16px' }}>Rut: {rowData?.Rut}</p>
+      <p sx={{ fontSize: '16px' }}>Fecha: {rowData?.['Fecha de Auditoria']}</p>
+    </Box>
+        <Auditoria_Preguntas pautasSeleccion={pauta}/>
       </DialogContent>
       <DialogActions>
-      
         <Button variant="outlined" onClick={onClose}>Cerrar</Button>
-        </DialogActions>
-     
+      </DialogActions>
     </Dialog>
   )
 }
-
 
 export default ModalComponent;

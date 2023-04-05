@@ -6,9 +6,26 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import { Card, CardContent } from '@mui/material';
 import Button from '@mui/material/Button';
+import { useSelector } from 'react-redux';
 
 
-export default function RadioButtonsGroup() {
+export default function Auditoria_Preguntas({pautasSeleccion}) {
+
+
+   
+   const { pautas } = useSelector(state => state.pauta);
+
+    console.log("PAUTAS DE AUDITORIA PREGUNTA")
+    console.log(pautas)
+
+    console.log("PAUTAS DE AUDITORIA PREGUNTA viene del modal")
+    console.log(pautasSeleccion)
+
+    const ejemplo = pautas.find(state => state.formato === pautasSeleccion)
+    console.log(ejemplo+ " "+"EJEMPLO")
+
+
+
   return (
     <Card variant="outlined" sx={{ borderRadius: '12px', backgroundColor: '#f5f5f5', borderColor: 'primary.main'  }}>
       <CardContent sx={{borderColor: 'primary.main'}}>

@@ -4,11 +4,15 @@ import { useSelector } from 'react-redux'
 import { ThemeProvider, createTheme } from '@mui/material';
 import ModalComponent from '../Auditoria_modal';
 
-const AuditoriaVisualFormato = ({id = ''}) => {
+const AuditoriaVisualFormato = (props) => {
+ 
+  console.log("Recibiendo de view detalle")
+  console.log(props.nombrePauta)
+  
   const defaultMaterialTheme = createTheme();
   const { formatos } = useSelector(state => state.formato);
   const { pautas } = useSelector(state => state.pauta);
-  const plantilla = Object.assign({}, formatos[Number(id)]);
+  const plantilla = Object.assign({}, formatos[Number(props.id)]);
   const formato = plantilla.formato;
 
   const [tableData, setTableData] = useState([]);
@@ -71,10 +75,12 @@ const AuditoriaVisualFormato = ({id = ''}) => {
               paginationType: 'stepped',
             }}
           />
-          <ModalComponent
+          <ModalComponent 
             open={openModal}
             onClose={handleModalClose} // Usa la función de devolución de llamada actualizada
             rowData={selectedRowData}
+            pauta ={props.nombrePauta}
+            
           />
         </ThemeProvider>
       </div>
