@@ -5,20 +5,18 @@ import AsignacionActividadView  from './AsignacionActividadView';
 
 let options = [''];
 
-export default function ControlSeleccion( {opcion = null} ) {
+export default function ControlSeleccion( {opcion = ''} ) {
   const [value, setValue] = React.useState(options[0]);
   const [inputValue, setInputValue] = React.useState('');
   options = opcion; 
 
-  let identificador = '';
-  if (value) {
-    identificador = value.substring(0,2);
-  }
 
   const handleChangeSeleccion = (e) =>{
+    console.log('Borrar Info de hijos a padres, estoy en control seleccion');
     setValue(null);
     // setSheet(e.target.value);
-  }
+}
+
   return (
     <>
     <div>
@@ -41,7 +39,7 @@ export default function ControlSeleccion( {opcion = null} ) {
 
       {value &&(
                  <AsignacionActividadView 
-                    opcion = { identificador } 
+                    opcion = { value } 
                     onBorrarInformacionSeleccion ={(e)=>handleChangeSeleccion(e)}
                   />
                 )
