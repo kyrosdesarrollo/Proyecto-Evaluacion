@@ -70,8 +70,6 @@ const handleChange = (e) => {
   registrosActualizado = Object.assign(e);
 };
   const onGuardar = () =>{
-    console.log('Datos par actualizar')
-    console.log(registrosActualizado)
     //Actualización en Firebase registros + ID de documento
     dispatch(startUpdateFormato(registrosActualizado,identifico, "Asigna"));
     //Cierre de ventana emergente
