@@ -1,15 +1,14 @@
 import React, {useMemo} from 'react'
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Paper, Stack, Typography } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent,
+       DialogContentText, DialogTitle, Paper, Stack } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+
 import Swal from 'sweetalert2'
 
+
+
 import VisualFormato from './visual_formato/VisualFormato';
-import { startDeleteFormato, startLoadingFormatos, startUpdateFormato } from '../../../store/formato';
-import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
-import ReduceCapacityIcon from '@mui/icons-material/ReduceCapacity';
-
-
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -22,20 +21,20 @@ const Item = styled(Paper)(({ theme }) => ({
 
 
 
-const AsignaciónActividadViewDetalle = ( props , { id = ''}) => {
+const AsignaciónActividadViewDetalle = ( props) => {
     const [open, setOpen] = React.useState(false);
     const [openEliminar, setOpenEliminar] = React.useState(false);
 
     const { formatos } = useSelector(state => state.formato);
     const dispatch = useDispatch();
 
-    var j = Number(id); 
-
-
+    var j =Number(props.id);
+  
     let registrosActualizado = [];
 
     const plantilla = Object.assign({},formatos[j]);
-    const nombre = plantilla.nombre.displayName;
+    
+    const nombre = plantilla.nombre;
     const date = plantilla.date;
     const formato = plantilla.formato;
     const identifico = plantilla.id;
@@ -47,11 +46,6 @@ const AsignaciónActividadViewDetalle = ( props , { id = ''}) => {
 
         },[date]);
 
-    const arregloDetalle = [];
-    Object.keys(plantilla.detalle).forEach((e) => { 
-            arregloDetalle.push(plantilla.detalle[e]);
-            
-    });
 
    const handleClickOpen = () => {
         setOpen(true);
@@ -59,8 +53,8 @@ const AsignaciónActividadViewDetalle = ( props , { id = ''}) => {
 
   const handleClose = () => {
       setOpen(false);
-    };
-   const handleClickOpenEliminar = () => {
+  };
+  const handleClickOpenEliminar = () => {
     setOpenEliminar(true);
   };
 
@@ -68,13 +62,11 @@ const handleCloseEliminar = () => {
   setOpenEliminar(false);
 };
 const handleChange = (e) => {
-  console.log('Aqui estoy arreglo nuevo ');
-  console.log(e);
   registrosActualizado = Object.assign(e);
 };
   const onGuardar = () =>{
     //Actualización en Firebase registros + ID de documento
-    dispatch(startUpdateFormato(registrosActualizado,identifico));
+    dispatch(startUpdateFormato(registrosActualizado,identifico, "Asigna"));
     //Cierre de ventana emergente
     handleClose(false);
     //Ventana de actualización
@@ -124,11 +116,11 @@ const handleChange = (e) => {
                                                 aria-describedby="alert-dialog-description"
                                             >
                                                 <DialogTitle id="alert-dialog-title">
-                                                {" ¿ Estas seguro de asignar las actividades a los usuarios correspondientes ? "}
+                                                {" ¿ Estas seguro de asignar las actividades a los usuarios seleccionados  ? "}
                                                 </DialogTitle>
                                                 <DialogContent>
                                                 <DialogContentText id="alert-dialog-description">
-                                                Al momento de Asignar las actividad,  a los usuarios se activarán las notificaciones o podrán visualizar su información en su perfil .
+                                                Al momento de Asignar las actividad,  a los usuarios se activarán las notificaciones y podrán visualizar su información en su perfil .
                                                 Nota Importante: a.- Deben estar seleccionados los registros. b.- Los campos relevantes para realizar reporteria son los de cabecera.
                                                 </DialogContentText>
                                                 </DialogContent>
@@ -173,26 +165,7 @@ const handleChange = (e) => {
       
    </Stack>
     <br></br>
-      {/* <Grid container spacing={1}>
-              <Grid 
-                   >
-                <Item>
-                   <Typography variant= 'inherit' align= 'center' color= 'black' >{nombre} 
-                   </Typography>
-                </Item>
-              </Grid>
-              <Grid 
-                >
-              <Typography variant= 'inherit' align= 'center' color= 'black'  >{fechaString} 
-                   </Typography>
-              </Grid>
-              <Grid 
-                  >
-              <Typography variant= 'inherit' align= 'center' color= 'black'  >{formato} 
-                   </Typography>
-              </Grid>
-              
-      </Grid> */}
+
       <VisualFormato 
           id = {j} 
           onActualizaInfo = {(e) => handleChange(e)}

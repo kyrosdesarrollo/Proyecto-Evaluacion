@@ -3,6 +3,7 @@ import { Box  } from '@mui/material';
 import AsigncionLinea from '../../components/asignacion/AsignacionPage1';
 import  AsignacionActividad  from '../../components/asignacion/AsignacionActividad';
 
+
 export const AsignacionPage = () => {
   
   return (
