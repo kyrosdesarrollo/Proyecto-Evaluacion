@@ -47,33 +47,23 @@ const VisualFormato = (props ) => {
     };
      
     //------------------  Proceso de Seleccion ------------------------------
-    //Recorre objeto selección y actualiza estado a Asigna en objeto principal
     //Actualiza todo el objecto a estado carga 
      tableData.forEach((node) => node.Estado = "Carga");
-
-     for (let index = 0; index < selectedRows.length; index++) {
-      tableData.filter(function(value) {
-        return value.id === selectedRows[index].id; // Solo pasan los que tengan este id seleccionado
-      }).forEach(function(value, key) {
-        //Búsqueda de numero de objeto para realizar actualizacion.
-        let numObjeto = tableData.find((num) => num.id === selectedRows[index].id).tableData.id;
-        tableData[numObjeto] = {...tableData[numObjeto], Estado: "Asigna"};
+    //Recorre objeto selección y actualiza estado a Asigna en objeto principal
+      selectedRows.forEach(function(selectedRow) {
+        const selectedId = selectedRow.id;
+        tableData.forEach(function(value, key) {
+          if (value.id === selectedId) {
+            tableData[key] = {...value, Estado: "Asigna"};
+          }
+        });
       });
-     }
       //------------------  Fin Proceso de Seleccion ------------------------------
-    console.log('Inicio 1 Seleccion ....')
-    console.log(tableData);
-    console.log('Fin.......')
-    console.log('Seleccionados')
-    console.log(selectedRows)
-    // //------------------  Proceso Dejar de Seleccionar ------------------------------
-    // //Recorre objeto principal tableData y actualiza estado a Carga 
 
+    //Varifica si no hay nada seleccionado
     if (selectedRows.length <1){
       tableData.forEach((node) => node.Estado = "Carga" );
     }
-      //------------------  Fin PrProceso Dejar de Seleccionar ------------------------
-
    //Captura la información seleccionada y la traspasa a componente padre AsignaciónActividadViewDetalle
    if (selectedRows.length > 0) {
    props.onActualizaInfo(tableData);
