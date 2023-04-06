@@ -7,6 +7,7 @@ import FormLabel from '@mui/material/FormLabel';
 import { Card, CardContent } from '@mui/material';
 import Button from '@mui/material/Button';
 import { useSelector } from 'react-redux';
+import Swal from 'sweetalert2';
 
 
 export default function Auditoria_Preguntas({pautasSeleccion}) {
@@ -24,6 +25,33 @@ export default function Auditoria_Preguntas({pautasSeleccion}) {
     const ejemplo = pautas.find(state => state.formato === pautasSeleccion)
     console.log(ejemplo+ " "+"EJEMPLO")
 
+    const mostrarSweetAlert = () => {
+      Swal.fire({
+        title: '¿Estás seguro?',
+        text: '¿Quieres guardar los cambios?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, guardar cambios',
+        cancelButtonText: 'Cancelar',
+        customClass: {
+          container: 'my-swal' // Add a custom class to the container
+        }
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire(
+            '¡Guardado!',
+            'Los cambios han sido guardados.',
+            'success'
+          )
+        }
+      })
+    };
+    
+    
+    
+   
+    
+    
 
 
   return (
@@ -66,11 +94,15 @@ export default function Auditoria_Preguntas({pautasSeleccion}) {
         </FormControl>
         <br/>
         
-        <Button  sx={{ mx: "auto" }}>Siguiente</Button>
+       
+    <div sx={{ '.my-swal': { zIndex: 99999 } }}>
+      <Button onClick={mostrarSweetAlert} sx={{ mx: "auto" }}>Guardar</Button>
+    </div>
+
        
       </CardContent>
             
     </Card>
     
   );
-}
+  }
