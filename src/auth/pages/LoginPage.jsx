@@ -41,11 +41,13 @@
 	  return (
 	    <>
       
-      <AuthLayout title = 'Inicio de sessión'>
-        
-      <Box sx={{ display: 'flex' }}>
+      <AuthLayout   >
+      <Typography variant="h4" sx={{ textAlign: 'center' }}>Inicio de Sesión</Typography>
+
+      
+      <Box sx={{ display: 'flex' ,justifyContent: 'center', alignItems: 'center'}} >
           <Box>
-                <img  src={Logo} />
+                <img  src={Logo} sx={"Center"}/>
           </Box>
       </Box>
               <form onSubmit={ onSubmit } className='animate__animated animate__fadeIn animate__faster'>
