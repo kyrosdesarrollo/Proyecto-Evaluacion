@@ -1,12 +1,10 @@
 import React, {useMemo} from 'react'
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Paper, Stack, TextField, Typography } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Paper, Stack } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useSelector } from 'react-redux';
 import Swal from 'sweetalert2'
 
-
-
-import VisualFormato from './visual_formato/VisualFormato';
+import AuditoriaVisualFormato from './visual_formato/AuditoriaVisualFormato';
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -19,23 +17,30 @@ const Item = styled(Paper)(({ theme }) => ({
 
 
 
-const AuditoriaActividadViewDetalle = ( { id = ''}) => {
+const AuditoriaActividadViewDetalle = (props) => {
     const [open, setOpen] = React.useState(false);
     const [openEliminar, setOpenEliminar] = React.useState(false);
 
     const { formatos } = useSelector(state => state.formato);
-    var j = Number(id);
-    console.log('AsignaciónActividadViewDetalle')
-    console.log(id)
+    var j = Number(props.id);
 
-    console.log(formatos[j]);
     
     const plantilla = Object.assign({},formatos[j]);
-  
+   
+    console.log(plantilla)
+   let pauta = JSON.stringify(formatos[j].formato)
+   
+   
+ 
+    console.log("PAUTA AUDITORIA ACTIVIDAD VIEW")  
+     console.log(pauta)
+     
     const nombre = plantilla.nombre;
     const date = plantilla.date;
     const formato = plantilla.formato;
    
+
+
     const fechaString = useMemo(() => 
         {
                 console.log({date});
@@ -65,6 +70,9 @@ const handleCloseEliminar = () => {
   setOpenEliminar(false);
 };
   const onGuardar = () =>{
+     //Actualización en Firebase registros + ID de documento
+     dispatch(startUpdateFormato(registrosActualizado,identifico, "Asigna"));
+     
     handleClose(false);
     Swal.fire({
       position: 'top-center',
@@ -94,7 +102,7 @@ const handleCloseEliminar = () => {
        <Button 
          variant="contained"
          onClick={handleClickOpen}
-             >Asignar a Monitores
+             >Guardar
        </Button>
        <Dialog
                                                 open={open}
@@ -151,36 +159,9 @@ const handleCloseEliminar = () => {
       
    </Stack>
     <br></br>
-      {/* <Grid container spacing={1}>
-              <Grid 
-                   >
-                <Item>
-                   <Typography variant= 'inherit' align= 'center' color= 'black' >{nombre} 
-                   </Typography>
-                </Item>
-              </Grid>
-              <Grid 
-                >
-              <Typography variant= 'inherit' align= 'center' color= 'black'  >{fechaString} 
-                   </Typography>
-              </Grid>
-              <Grid 
-                  >
-              <Typography variant= 'inherit' align= 'center' color= 'black'  >{formato} 
-                   </Typography>
-              </Grid>
-              
-      </Grid> */}
-
-      <VisualFormato id = {j}/>
-
-      
-    
-            {/* <BasicTable />
-            <SortingTable/> */}
-            {/* <FilteringTable /> */}
-            
-          
+      <Grid container spacing={1}>
+      </Grid>
+      <AuditoriaVisualFormato id = {j}  nombrePauta = {pauta}/>  
     </>
   )
 }
