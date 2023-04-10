@@ -67,6 +67,8 @@ const readDataFromExcel = (data) =>{
          //REALIZAR MEJORA CONSIDERANOD SOLO 1 
         setLista(jsonData);
         setListaJson(jsonData1);
+        //Variable Global, la utilizo en el componente VisualFormato para saber el detalle JSON
+        window.myGlobalVariable =jsonData1;
         
         return mySheetData;
 }

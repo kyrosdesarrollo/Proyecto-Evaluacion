@@ -27,22 +27,9 @@ const AsignaciónActividadViewDetalle = ( props) => {
     const dispatch = useDispatch();
 
     var j =Number(props.id);
-  
     let registrosActualizado = [];
-
     const plantilla = Object.assign({},formatos[j]);
-    
-    const nombre = plantilla.nombre;
-    const date = plantilla.date;
-    const formato = plantilla.formato;
     const identifico = plantilla.id;
-   
-    const fechaString = useMemo(() => 
-        {
-                const newDate = new Date(date);
-                return newDate.toLocaleString('en-CL');
-
-        },[date]);
 
    const handleClickOpen = () => {
         setOpen(true);

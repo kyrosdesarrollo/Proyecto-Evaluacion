@@ -33,7 +33,9 @@ const VisualFormato = (props ) => {
               //titulo.push({ title: formatos[j].cabezaJson[index],field: formatos[j].cabezaJson[index],align: "center", headerStyle: { color: "#2196f3" }});
           }
           setTitulo(titulo);
+          console.log(titulo);
           let detalle = formatos[j].detalleJson.map(o => ({ ...o }));
+          console.log(detalle)
           //Filtro para considerar a nivel de línea estado con nombre Carga
           let filtro = detalle.filter(o => o.Estado === "Carga");
           setTableData(filtro);
