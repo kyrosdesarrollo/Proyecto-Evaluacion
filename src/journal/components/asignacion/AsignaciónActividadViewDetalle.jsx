@@ -44,14 +44,6 @@ const AsignaciónActividadViewDetalle = ( props) => {
 
         },[date]);
 
-  //   let arregloDetalle = [];
-   
-  //   Object.keys(plantilla.detalle).forEach((e) => { 
-  //           arregloDetalle.push(plantilla.detalle[e]);
-            
-  //   });
-  // console.log('Crga datos en arreglo Detalle');
-  // console.log(arregloDetalle);
    const handleClickOpen = () => {
         setOpen(true);
     };
@@ -87,7 +79,6 @@ const handleChange = (e) => {
     setOpenEliminar(false);
     setOpen(false);
   }
-
   const onEliminar = () =>{
     handleCloseEliminar();
     dispatch(startDeleteFormato(identifico));
@@ -170,26 +161,6 @@ const handleChange = (e) => {
       
    </Stack>
     <br></br>
-      {/* <Grid container spacing={1}>
-              <Grid 
-                   >
-                <Item>
-                   <Typography variant= 'inherit' align= 'center' color= 'black' >{nombre} 
-                   </Typography>
-                </Item>
-              </Grid>
-              <Grid 
-                >
-              <Typography variant= 'inherit' align= 'center' color= 'black'  >{fechaString} 
-                   </Typography>
-              </Grid>
-              <Grid 
-                  >
-              <Typography variant= 'inherit' align= 'center' color= 'black'  >{formato} 
-                   </Typography>
-              </Grid>
-              
-      </Grid> */}
       <VisualFormato 
           id = {j} 
           onActualizaInfo = {(e) => handleChange(e)}
@@ -198,6 +169,5 @@ const handleChange = (e) => {
     </>
   )
 }
-
 
 export default AsignaciónActividadViewDetalle
