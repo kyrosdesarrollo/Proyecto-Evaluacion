@@ -1,24 +1,19 @@
 import React, {useState} from 'react'
 import {Card, Row, Col, CardBody,CardHeader, Table, Label} from 'reactstrap';
 import PautaExcelImportar from './PautaExcelImportar';
+import CargaVisualPauta from './VisualPauta';
 
-export const PautaExcelView = () => {
+export const PautaExcelView = (props) => {
 
     const [sheetData, setSheetData] = useState(null);
     const [sheet, setSheet] = useState(null);
     const [sheetNames, setSheetNames] = useState(null);
-
-//[Heders]
-
-//{Data}
 
 const handleSheetChange = (e) =>{
     setSheet(e.target.value);
 }
 
  const handleFileSubir = (e) =>{
-    console.log("File Subir", e);
-
     if (e) { 
         let sheetNames = Object.keys(e);
         setSheetNames(sheetNames);
@@ -49,6 +44,9 @@ const handleSheetChange = (e) =>{
         {
             sheetData &&
             <>
+            <CargaVisualPauta  
+                plantilla = {sheetData}
+                nombre = { sheetNames.toString()} />
             {/* <Row>
                 <Col md={12}>
                     {sheetNames.map( s =>
@@ -65,8 +63,7 @@ const handleSheetChange = (e) =>{
                     </div>)}
                 </Col>
             </Row> */}
-            <Row>
-                {/* <Label>{sheet}</Label> */}
+            {/* <Row>
                 <Col md={12}>
                     <Table 
                     bordered 
@@ -89,7 +86,7 @@ const handleSheetChange = (e) =>{
                         </tbody>
                     </Table>
                 </Col>
-            </Row>
+            </Row> */}
             </>
         }
     </div>

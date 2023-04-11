@@ -76,6 +76,8 @@ const readDataFromExcel = (data) =>{
         //Asignación de objeto a lista 
         setLista(jsonData);
         setListaJson(jsonData1);
+        //Variable Global, la utilizo en el componente VisualFormato para saber el detalle JSON
+        window.myGlobalVariablePauta =jsonData1;
         
         return mySheetData;
 }

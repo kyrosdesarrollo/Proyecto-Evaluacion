@@ -19,6 +19,12 @@ const AuditoriaVisualFormato = (props) => {
   const [openModal, setOpenModal] = useState(false);
   const [selectedRowData, setSelectedRowData] = useState(null);
 
+  //Para traer información sin selección
+  const [selectedRows, setSelectedRows] = useState([]);
+  const handleSelectionChange = (rows) => {
+    setSelectedRows(rows);
+  };
+
   const titulo = plantilla.cabezaJson.map((title) => ({
     title: title,
     field: title,
@@ -30,6 +36,9 @@ const AuditoriaVisualFormato = (props) => {
   useEffect(() => {
     const detalle = plantilla.detalleJson.map((o) => ({ ...o }));
     const filtro = detalle.filter((o) => o.Estado === 'Asigna');
+    //const tableData = filtro.filter((rowData) => !selectedRows.includes(rowData));
+    //filtro.tableData.checked = false;
+    console.log(filtro)
     setTableData(filtro);
   }, [plantilla.detalleJson]);
 
@@ -70,12 +79,31 @@ const AuditoriaVisualFormato = (props) => {
                 }),
             }}
             options={{
-              grouping: true,
-              filtering: true,
-              pageSizeOptions: [5, 10, 20, 50, 100],
-              pageSize: 20,
-              paginationType: 'stepped',
+                           selection:true,
+                           grouping: true,
+                           columnsButton: true,
+                           filtering: true,
+                           pageSizeOptions:[5,10,20,50,100],
+                           pageSize:10,
+                           paginationType:"stepped",
+                           selected: [],
+                           rowStyle: {
+                                fontSize: 10,
+                            },
+                            
             }}
+            actions={[
+        {
+          tooltip: 'Remove All Selected Rows',
+          icon: 'delete',
+          onClick: (evt, data) => alert('You want to delete ' + data.length + ' rows'),
+          selectionProps: {
+            disabled: true,
+          },
+        },
+      ]}
+      onSelectionChange={handleSelectionChange} // establecemos el callback para manejar las selecciones de fila
+            
           />
           <ModalComponent 
             open={openModal}
