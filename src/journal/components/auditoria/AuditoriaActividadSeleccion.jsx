@@ -22,7 +22,7 @@ export default function ControlSeleccion( {opcion = ''} ) {
       {/* <div>{`value: ${value !== null ? `'${value}'` : 'null'}`}</div>
       <div>{`inputValue: '${inputValue}'`}</div> */}
       <br />
-      <Autocomplete
+      {/* <Autocomplete
         value={valueMonitor}
         onChange={(event, newValue) => {
           setValueMonitor(newValue);
@@ -35,7 +35,7 @@ export default function ControlSeleccion( {opcion = ''} ) {
         options={monitor}
         sx={{ width: 800 }}
         renderInput={(params) => <TextField {...params} label="Selección Monitor" />}
-      />
+      /> */}
   <br/>
 <Autocomplete
         value={value}

@@ -5,17 +5,22 @@ import ControlSeleccion from './AuditoriaActividadSeleccion';
 
  const AuditoriaActividad = () => {
   const dispatch = useDispatch();
+  //Extraer información de formatos
   const { formatos } = useSelector(state => state.formato);
   const plantilla = Object.assign({},formatos);
-  
-  const opcion =['']; 
-  Object.keys(plantilla).forEach((e) => { 
-        opcion.push( e + ' FORMATO [ ' + plantilla[e].formato + ' ]  CARGADO POR [ ' + plantilla[e].nombre +' ]');
-   });
-
+  //Verificación de lineas asignadas para visualización de archivo, mejora incorporar monitor en el filtro
+  //&& detalle.monitor === 'Juan'
+  const opcion = [];
+  Object.entries(plantilla).forEach(([key, value]) => {
+    const asignaCount = value.detalleJson.filter((detalle) => detalle.Estado === 'Asigna').length;
+    if (asignaCount > 0) {
+      opcion.push(`${key} FORMATO [ ${value.formato} ] CARGADO POR [ ${value.nombre} ]`);
+    }
+  });
+   
   return (
     <>
-     <Box md={12}>
+     <Box md={1}>
       <Typography variant="h4" component="h2">
        Auditoria
       </Typography>

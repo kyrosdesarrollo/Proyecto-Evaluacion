@@ -19,11 +19,6 @@ const AuditoriaVisualFormato = (props) => {
   const [openModal, setOpenModal] = useState(false);
   const [selectedRowData, setSelectedRowData] = useState(null);
 
-  //Para traer información sin selección
-  const [selectedRows, setSelectedRows] = useState([]);
-  const handleSelectionChange = (rows) => {
-    setSelectedRows(rows);
-  };
 
   const titulo = plantilla.cabezaJson.map((title) => ({
     title: title,
@@ -80,6 +75,7 @@ const AuditoriaVisualFormato = (props) => {
             }}
             options={{
                            selection:true,
+                           initialSelectedRowIds: [],
                            grouping: true,
                            columnsButton: true,
                            filtering: true,
@@ -92,17 +88,7 @@ const AuditoriaVisualFormato = (props) => {
                             },
                             
             }}
-            actions={[
-        {
-          tooltip: 'Remove All Selected Rows',
-          icon: 'delete',
-          onClick: (evt, data) => alert('You want to delete ' + data.length + ' rows'),
-          selectionProps: {
-            disabled: true,
-          },
-        },
-      ]}
-      onSelectionChange={handleSelectionChange} // establecemos el callback para manejar las selecciones de fila
+           
             
           />
           <ModalComponent 

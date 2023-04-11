@@ -19,8 +19,7 @@ const Item = styled(Paper)(({ theme }) => ({
 
 const AuditoriaActividadViewDetalle = (props) => {
     const [open, setOpen] = React.useState(false);
-    const [openEliminar, setOpenEliminar] = React.useState(false);
-
+  
     const { formatos } = useSelector(state => state.formato);
     var j = Number(props.id);
 
@@ -28,32 +27,20 @@ const AuditoriaActividadViewDetalle = (props) => {
     const plantilla = Object.assign({},formatos[j]);
    
     console.log(plantilla)
-   let pauta = JSON.stringify(formatos[j].formato)
+    let pauta = JSON.stringify(formatos[j].formato)
    
-   
- 
-    console.log("PAUTA AUDITORIA ACTIVIDAD VIEW")  
+     console.log("PAUTA AUDITORIA ACTIVIDAD VIEW")  
      console.log(pauta)
      
-    const nombre = plantilla.nombre;
-    const date = plantilla.date;
-    const formato = plantilla.formato;
-   
+  
+    //const { nombre, date, formato } = plantilla;
 
-
-    const fechaString = useMemo(() => 
-        {
-                console.log({date});
-                const newDate = new Date(date);
-                return newDate.toLocaleString('en-CL');
-
-        },[date]);
-
-        const arregloDetalle = [];
-        Object.keys(plantilla.detalle).forEach((e) => { 
-            arregloDetalle.push(plantilla.detalle[e]);
+    // const arregloDetalle = [];
+    //     Object.keys(plantilla.detalle).forEach((e) => { 
+    //         arregloDetalle.push(plantilla.detalle[e]);
             
-        });
+    //     });
+   // const arregloDetalle = Object.values(plantilla.detalle);
 
    const handleClickOpen = () => {
         setOpen(true);
@@ -62,13 +49,7 @@ const AuditoriaActividadViewDetalle = (props) => {
     const handleClose = () => {
       setOpen(false);
   };
-  const handleClickOpenEliminar = () => {
-    setOpenEliminar(true);
-};
-
-const handleCloseEliminar = () => {
-  setOpenEliminar(false);
-};
+  
   const onGuardar = () =>{
      //Actualización en Firebase registros + ID de documento
      dispatch(startUpdateFormato(registrosActualizado,identifico, "Asigna"));
@@ -85,16 +66,7 @@ const handleCloseEliminar = () => {
     setOpen(false);
   }
 
-  const onEliminar = () =>{
-    handleCloseEliminar();
-    Swal.fire({
-      position: 'top-center',
-      icon: 'error',
-      title: 'Eliminación realizada con éxito.',
-      showConfirmButton: false,
-      timer: 1500
-    })
-  }
+ 
   return (
     <>
      <Stack spacing={2} direction="row">
@@ -127,36 +99,6 @@ const handleCloseEliminar = () => {
                                                 </DialogActions>
                                             </Dialog>
 
-
-                                            <Button 
-         variant="contained"
-         color="error"
-         onClick={handleClickOpenEliminar}
-             >Eliminar archivo
-       </Button>
-       <Dialog
-                                                open={openEliminar}
-                                                onClose={handleCloseEliminar}
-                                                aria-labelledby="alert-dialog-title"
-                                                aria-describedby="alert-dialog-description"
-                                            >
-                                                <DialogTitle id="alert-dialog-title">
-                                                {" ¿ Estas seguro de eliminar el archivo ? "}
-                                                </DialogTitle>
-                                                <DialogContent>
-                                                <DialogContentText id="alert-dialog-description">
-                                                Al momento de eliminar este archivo no habrá vuelta atrás , de igual modo deseas eliminar la información .
-                                                Nota Importante: Los campos relevantes para realizar reporteria son los de cabecera.
-                                                </DialogContentText>
-                                                </DialogContent>
-                                                <DialogActions>
-                                                <Button onClick={handleCloseEliminar}>No</Button>
-                                                <Button onClick={onEliminar} autoFocus>
-                                                    Si
-                                                </Button>
-                                                </DialogActions>
-                                            </Dialog>
-      
    </Stack>
     <br></br>
       <Grid container spacing={1}>
