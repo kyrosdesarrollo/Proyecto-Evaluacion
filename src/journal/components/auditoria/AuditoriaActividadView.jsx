@@ -4,6 +4,7 @@ import AuditoriaActividadViewDetalle from './AuditoriaActividadViewDetalle';
 
  const AuditoriaActividadView = ( {opcion = ''}) => {
   const identificador = opcion.substring(0,2);
+
   return (
     <>
     <br></br>

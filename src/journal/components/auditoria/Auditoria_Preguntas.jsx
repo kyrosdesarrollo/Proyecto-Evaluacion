@@ -14,19 +14,59 @@ export default function Auditoria_Preguntas({pautasSeleccion}) {
 
    
    const { pautas } = useSelector(state => state.pauta);
+    //Limpiamos variable
+    let nombrePauta = pautasSeleccion.replace(/"/g, '');;
+    // Variable para almacenar los objetos encontrados
+    const objetosEncontrados = [];
+    // Recorremos el arreglo y buscamos objetos con el formato ejemplo : "PARLO FRAUDE"
+    pautas.forEach((objeto, indice) => {
+      if (objeto.formato === nombrePauta) {
+        objetosEncontrados.push(objeto);
+      }
+    });
 
-    console.log("PAUTAS DE AUDITORIA PREGUNTA")
-    console.log(pautas)
+    const pauta = JSON.stringify(objetosEncontrados);
+    const arreglo = JSON.parse(pauta);
+    console.log('Arreglo paua')
+    console.log(arreglo)
+    let detalleJson = arreglo[0].detalleJson;
+    console.log('Detalle Json')
+    console.log(detalleJson)
+    console.log('Cantidad : ')
+console.log(arreglo[0].detalleJson.length)
 
-    console.log("PAUTAS DE AUDITORIA PREGUNTA viene del modal")
-    console.log(pautasSeleccion)
+    //console.log(arreglo[0].detalleJson[recorrer]);
+    for (let i = 0; i < arreglo[0].detalleJson.length; i++) {
+      //console.log(arreglo[0].datalleJson[i]);
 
-    const ejemplo = pautas.find(state => state.formato === pautasSeleccion)
-    console.log(ejemplo+ " "+"EJEMPLO")
+      let bloques = arreglo[0].detalleJson[i]["CONDUCTA"].trim();
+      console.log('CONDUCTA')
+      console.log(bloques)
+
+      
+      let bloques1 = arreglo[0].detalleJson[i]["CATEGORÍA"].trim();
+      console.log('CATEGORÍA')
+      console.log(bloques1)
+
+      let bloques2 = arreglo[0].detalleJson[i]["BLOQUES DE EVALUACIÓN"].trim();
+      console.log('BLOQUES  DE EVALUACIÓN')
+      console.log(bloques2)
+   
+    }
 
 
+    let bloques = arreglo[0].detalleJson[0]["CONDUCTA"].trim();
+    console.log('Aqu esta Sin esapcios')
+    console.log(bloques)
+    // const elementosCabecera = arreglo[0].datalleJson.map((elemento, index) => (
+    //   <div key={index}>
+    //     <p>{elemento}</p>
+    //   </div>
+    // ));
 
   return (
+    <>
+    {/* {elementosCabecera} */}
     <Card variant="outlined" sx={{ borderRadius: '12px', backgroundColor: '#f5f5f5', borderColor: 'primary.main'  }}>
       <CardContent sx={{borderColor: 'primary.main'}}>
         <FormControl>
@@ -71,6 +111,6 @@ export default function Auditoria_Preguntas({pautasSeleccion}) {
       </CardContent>
             
     </Card>
-    
+    </>
   );
 }

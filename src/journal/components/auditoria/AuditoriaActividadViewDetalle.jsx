@@ -23,16 +23,8 @@ const AuditoriaActividadViewDetalle = (props) => {
     const { formatos } = useSelector(state => state.formato);
     var j = Number(props.id);
 
-    
     const plantilla = Object.assign({},formatos[j]);
-   
-    console.log(plantilla)
     let pauta = JSON.stringify(formatos[j].formato)
-   
-     console.log("PAUTA AUDITORIA ACTIVIDAD VIEW")  
-     console.log(pauta)
-     
-  
     //const { nombre, date, formato } = plantilla;
 
     // const arregloDetalle = [];

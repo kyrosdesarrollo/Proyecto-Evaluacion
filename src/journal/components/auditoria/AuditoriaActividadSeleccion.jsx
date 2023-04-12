@@ -11,10 +11,12 @@ export default function ControlSeleccion( {opcion = ''} ) {
   const [value, setValue] = React.useState(options[0]);
   const [inputValue, setInputValue] = React.useState('');
 
-  const [valueMonitor, setValueMonitor] = React.useState(options[0]);
-  const [inputValueMonitor, setInputValueMonitor] = React.useState('');
   options = opcion;
 
+  let identificador = '';
+  if (value) {
+    identificador = value.substring(0,2);
+  }
 
   return (
     <>
@@ -22,20 +24,7 @@ export default function ControlSeleccion( {opcion = ''} ) {
       {/* <div>{`value: ${value !== null ? `'${value}'` : 'null'}`}</div>
       <div>{`inputValue: '${inputValue}'`}</div> */}
       <br />
-      {/* <Autocomplete
-        value={valueMonitor}
-        onChange={(event, newValue) => {
-          setValueMonitor(newValue);
-        }}
-        inputValue={inputValueMonitor}
-        onInputChange={(event, newInputValueMonitor) => {
-          setInputValueMonitor(newInputValueMonitor);
-        }}
-        id="controllable-states-"
-        options={monitor}
-        sx={{ width: 800 }}
-        renderInput={(params) => <TextField {...params} label="Selección Monitor" />}
-      /> */}
+      
   <br/>
 <Autocomplete
         value={value}
@@ -49,7 +38,7 @@ export default function ControlSeleccion( {opcion = ''} ) {
         id="controllable-states-demo"
         options={options}
         sx={{ width: 800 }}
-        renderInput={(params) => <TextField {...params} label="Selección de archivo cargado" />}
+        renderInput={(params) => <TextField {...params} label="Selección de archivo asignado para auditar " />}
       />
     </div>
 

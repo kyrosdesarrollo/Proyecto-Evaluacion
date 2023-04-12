@@ -6,14 +6,10 @@ import ModalComponent from '../Auditoria_modal';
 
 const AuditoriaVisualFormato = (props) => {
  
-  console.log("Recibiendo de view detalle")
-  console.log(props.nombrePauta)
-  
   const defaultMaterialTheme = createTheme();
   const { formatos } = useSelector(state => state.formato);
   const { pautas } = useSelector(state => state.pauta);
   const plantilla = Object.assign({}, formatos[Number(props.id)]);
-  const formato = plantilla.formato;
 
   const [tableData, setTableData] = useState([]);
   const [openModal, setOpenModal] = useState(false);
@@ -31,15 +27,20 @@ const AuditoriaVisualFormato = (props) => {
   useEffect(() => {
     const detalle = plantilla.detalleJson.map((o) => ({ ...o }));
     const filtro = detalle.filter((o) => o.Estado === 'Asigna');
-    //const tableData = filtro.filter((rowData) => !selectedRows.includes(rowData));
-    //filtro.tableData.checked = false;
-    console.log(filtro)
-    setTableData(filtro);
-  }, [plantilla.detalleJson]);
+    //Creación de nuevo arreglo para limpiar información que viene con selección
+    const nuevoArreglo = filtro.map(objeto => {
+      const { tableData, ...nuevoObjeto } = objeto;
+      return nuevoObjeto;
+    });
+    //Envio de información depurada
+    setTableData(nuevoArreglo);
+  }, []);
 
+
+  
   const handleRowClick = useCallback((event, rowData) => {
-    console.log('Visualiza rowData click')
-    console.log(rowData)
+    // console.log('Visualiza rowData click')
+    // console.log(rowData)
     setSelectedRowData(rowData);
     setOpenModal(true);
   }, []);
@@ -65,13 +66,13 @@ const AuditoriaVisualFormato = (props) => {
             data={tableData}
             onRowClick={handleRowClick}
             editable={{
-              onRowUpdate: (newRow, oldRow) =>
-                new Promise((resolve, reject) => {
-                  const updatedData = [...tableData];
-                  updatedData[oldRow.tableData.id] = newRow;
-                  setTableData(updatedData);
-                  setTimeout(() => resolve(), 500);
-                }),
+              // onRowUpdate: (newRow, oldRow) =>
+              //   new Promise((resolve, reject) => {
+              //     const updatedData = [...tableData];
+              //     updatedData[oldRow.tableData.id] = newRow;
+              //     setTableData(updatedData);
+              //     setTimeout(() => resolve(), 500);
+              //   }),
             }}
             options={{
                            selection:true,
@@ -88,7 +89,6 @@ const AuditoriaVisualFormato = (props) => {
                             },
                             
             }}
-           
             
           />
           <ModalComponent 

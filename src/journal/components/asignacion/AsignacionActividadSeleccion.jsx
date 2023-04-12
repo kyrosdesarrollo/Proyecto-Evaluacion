@@ -11,6 +11,7 @@ export default function ControlSeleccion( {opcion = null} ) {
   options = opcion; 
 
   let identificador = '';
+  console.log(value)
   if (value) {
     identificador = value.substring(0,2);
   }
