@@ -57,33 +57,34 @@ const Auditoria_Preguntas = ({pautasSeleccion}) => {
   const arreglo = JSON.parse(pauta);
 
   //Recorre pauta para extración de preguntas
-  const preguntasPorBloque = arreglo[0].detalleJson.reduce((acc, pregunta, i) => {
+  // let recogePreguntas = []
+  // for (let i = 0; i < arreglo[0].detalleJson.length; i++) {
+  //   //console.log(arreglo[0].datalleJson[i]);
+  //   let primero = arreglo[0].detalleJson[i]["BLOQUES DE EVALUACIÓN"].trim();
+  //   let segundo = arreglo[0].detalleJson[i]["CATEGORÍA"].trim();
+  //   let tercero = arreglo[0].detalleJson[i]["CONDUCTA"].trim();
+  //   recogePreguntas.push({id: i , text: segundo, prompt: tercero,bloque: primero})
+  // }
+
+  //Recorre pauta para extración de preguntas
+  const recogePreguntas = arreglo[0].detalleJson.map((pregunta, i) => {
     const { 
       "BLOQUES DE EVALUACIÓN": bloque,
       "CATEGORÍA": text,
       "CONDUCTA": prompt
     } = pregunta;
-  
-    if (!acc[bloque]) {
-      acc[bloque] = [];
-    }
-  
-    acc[bloque].push({ id: i, text, prompt, bloque });
-  
-    return acc;
-  }, {});
+    return { id: i, text, prompt, bloque };
+  });
   
   return (
     <Card variant="outlined" sx={{ borderRadius: "12px", backgroundColor: "#f5f5f5", borderColor: "primary.main" }}>
-    {Object.entries(preguntasPorBloque).map(([bloque, preguntas]) => (
-      <CardContent key={bloque} sx={{ borderColor: "primary.main" }}>
+      <CardContent sx={{ borderColor: "primary.main" }}>
         <FormControl>
-          <FormLabel id={`demo-radio-buttons-group-label-${bloque}`} sx={{ textAlign: "center", backgroundColor: "#2196f3", borderRadius: "20px" ,fontWeight: "bold",
-    color: "white" }}>
-            {bloque}
+          <FormLabel id="demo-radio-buttons-group-label-1" sx={{ textAlign: "center" }}>
+            ABORDAJE
           </FormLabel>
           <br />
-          {preguntas.map((pregunta) => (
+          {recogePreguntas.map((pregunta) => (
             <div key={pregunta.id}>
               <p>{pregunta.text}</p>
               <p>"{pregunta.prompt}"</p>
@@ -122,8 +123,7 @@ const Auditoria_Preguntas = ({pautasSeleccion}) => {
           Guardar
         </Button>
       </CardContent>
-    ))}
-  </Card>
+    </Card>
   );
 };
 

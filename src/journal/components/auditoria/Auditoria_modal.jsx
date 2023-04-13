@@ -1,7 +1,7 @@
 import React from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Box } from '@mui/material';
+import EncuestaModal from './visual_formato/AuditoriaPreguntasEjemplo';
 import Auditoria_Preguntas from './Auditoria_Preguntas';
-import { useSelector } from 'react-redux';
 
 const ModalComponent = ({ open, onClose, rowData,pauta }) => {
 
@@ -15,6 +15,7 @@ const ModalComponent = ({ open, onClose, rowData,pauta }) => {
       <p sx={{ fontSize: '16px' }}>Fecha: {rowData?.['Fecha de Auditoria']}</p>
     </Box>
         <Auditoria_Preguntas pautasSeleccion={pauta}/>
+     
       </DialogContent>
       <DialogActions>
         <Button variant="outlined" onClick={onClose}>Cerrar</Button>
