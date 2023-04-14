@@ -37,14 +37,12 @@ const AuditoriaVisualFormato = (props) => {
   }, []);
 
 
-  
+   //Selección de dato de linea y habré modal
   const handleRowClick = useCallback((event, rowData) => {
-    // console.log('Visualiza rowData click')
-    // console.log(rowData)
     setSelectedRowData(rowData);
     setOpenModal(true);
   }, []);
-  
+  //Cierre
   const handleModalClose = useCallback(() => {
     setSelectedRowData(null);
     setOpenModal(false);
@@ -55,6 +53,7 @@ const AuditoriaVisualFormato = (props) => {
       setSelectedRowData(null);
     }
   }, [openModal]);
+
 
   return (
     <>

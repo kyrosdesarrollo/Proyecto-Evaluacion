@@ -6,22 +6,32 @@ import { useSelector } from 'react-redux';
 // const preguntas = [
 //   {
 //     id: "pregunta1",
-//     text: "Velocidad al contestar",
-//     prompt: "Atención inmediata del chat: Saluda al Cliente",
+//     categoria: "Velocidad al contestar",
+//     pregunta: "Atención inmediata del chat: Saluda al Cliente",
+// .   bloque:"ABORDAJE",
+// .   cumplimiento: "si porcentaje / no 0"
+// .   cumplimientoBloque:"Total bloque"
 //   },
 //   {
 //     id: "pregunta2",
-//     text: "Saludo e identificación",
-//     prompt: "Saluda al cliente: ¡Hola! Soy (nombre ejecutivo), estaré a cargo de atender tu solicitud.",
+//     categoria: "Saludo e identificación",
+//     pregunta: "Saluda al cliente: ¡Hola! Soy (nombre ejecutivo), estaré a cargo de atender tu solicitud.",
+// .   bloque:"ABORDAJE",
+// .   cumplimiento: "si porcentaje / no 0"
+// .   cumplimientoBloque:"Total bloque"
 //   },
 //   {
 //     id: "pregunta3",
-//     text: "Validación",
-//     prompt: "Toda atención en la que se entregue información privada de la cuenta del cliente.",
+//     categoria: "Validación",
+//     pregunta: "Toda atención en la que se entregue información privada de la cuenta del cliente.",
+// .   bloque:"ABORDAJE",
+// .   cumplimiento: "si porcentaje / no 0"
+// .   cumplimientoBloque:"Total bloque"
 //   },
 // ];
 
-const Auditoria_Preguntas = ({pautasSeleccion}) => {
+const Auditoria_Preguntas = ({pautasSeleccion, lineaObjeto}) => {
+ 
 
   const [respuestas, setRespuestas] = useState({});
   const handleRespuesta = (preguntaId, respuesta) => {
@@ -36,6 +46,9 @@ const Auditoria_Preguntas = ({pautasSeleccion}) => {
   const handleSubmit = () => {
     //Aquí puedes hacer algo con las respuestas, como enviarlas a un servidor o guardarlas localmente
     console.log(respuestas);
+    //Linea
+    console.log('Estoy en las preguntas')
+    console.log(lineaObjeto)
   };
 
   //Extracción de pautas en redux
@@ -53,29 +66,29 @@ const Auditoria_Preguntas = ({pautasSeleccion}) => {
 
   //Seleccion de pauta con las preguntas
   const pauta = JSON.stringify(objetosEncontrados);
-  //convertir una cadena de texto pauta en formato JSON a un objeto de JavaScript
+  //convertir una cadena de texto pauta en formato JSON a un objeto de JavaScript.
   const arreglo = JSON.parse(pauta);
 
-  //Recorre pauta para extración de preguntas dejando estas agrupadas en bloque de evaluación
-  const preguntasPorBloque = arreglo[0].detalleJson.reduce((acc, pregunta, i) => {
+  //Recorre pauta para extración de preguntas dejando estas agrupadas en bloque de evaluación.
+  const preguntasPorBloque = arreglo[0].detalleJson.reduce((acc, consulta, i) => {
     const { 
       "BLOQUES DE EVALUACIÓN": bloque,
-      "CATEGORÍA": text,
-      "CONDUCTA": prompt
-    } = pregunta;
+      "CATEGORÍA": categoria,
+      "CONDUCTA": pregunta
+    } = consulta;
   
     if (!acc[bloque]) {
       acc[bloque] = [];
     }
   
-    acc[bloque].push({ id: i, text, prompt, bloque });
+    acc[bloque].push({ id: i, categoria, pregunta, bloque });
   
     return acc;
   }, {});
   
   return (
     <Card variant="outlined" sx={{ borderRadius: "12px", backgroundColor: "#f5f5f5", borderColor: "primary.main" }}>
-  {Object.entries(preguntasPorBloque).map(([bloque, preguntas]) => (
+    {Object.entries(preguntasPorBloque).map(([bloque, preguntas]) => (
     <CardContent key={bloque} sx={{ borderColor: "primary.main" }}>
       <FormControl>
         <FormLabel id={`demo-radio-buttons-group-label-${bloque}`} sx={{ textAlign: "center", backgroundColor: "#2196f3", borderRadius: "20px" ,fontWeight: "bold",color: "white" }}>
@@ -84,8 +97,8 @@ const Auditoria_Preguntas = ({pautasSeleccion}) => {
         <br />
         {preguntas.map((pregunta) => (
           <div key={pregunta.id}>
-            <p>{pregunta.text}</p>
-            <p>"{pregunta.prompt}"</p>
+            <p>{pregunta.categoria}</p>
+            <p>"{pregunta.pregunta}"</p>
             <RadioGroup
               aria-labelledby={`demo-radio-buttons-group-label-${pregunta.id}`}
               name={`radio-buttons-group-${pregunta.id}`}
