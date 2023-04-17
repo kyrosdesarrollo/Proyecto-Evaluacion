@@ -46,7 +46,7 @@ const Auditoria_Preguntas = ({pautasSeleccion, lineaObjeto}) => {
   const handleSubmit = () => {
     //Aquí puedes hacer algo con las respuestas, como enviarlas a un servidor o guardarlas localmente
     console.log(respuestas);
-    //Linea
+    //Control de Linea para agregar respuestas
     console.log('Estoy en las preguntas')
     console.log(lineaObjeto)
   };

@@ -55,17 +55,6 @@ const Auditoria_Preguntas = ({pautasSeleccion}) => {
   const pauta = JSON.stringify(objetosEncontrados);
   //convertir una cadena de texto pauta en formato JSON a un objeto de JavaScript
   const arreglo = JSON.parse(pauta);
-
-  //Recorre pauta para extración de preguntas
-  // let recogePreguntas = []
-  // for (let i = 0; i < arreglo[0].detalleJson.length; i++) {
-  //   //console.log(arreglo[0].datalleJson[i]);
-  //   let primero = arreglo[0].detalleJson[i]["BLOQUES DE EVALUACIÓN"].trim();
-  //   let segundo = arreglo[0].detalleJson[i]["CATEGORÍA"].trim();
-  //   let tercero = arreglo[0].detalleJson[i]["CONDUCTA"].trim();
-  //   recogePreguntas.push({id: i , text: segundo, prompt: tercero,bloque: primero})
-  // }
-
   //Recorre pauta para extración de preguntas
   const recogePreguntas = arreglo[0].detalleJson.map((pregunta, i) => {
     const { 
@@ -75,6 +64,9 @@ const Auditoria_Preguntas = ({pautasSeleccion}) => {
     } = pregunta;
     return { id: i, text, prompt, bloque };
   });
+
+  console.log('Cantidad de Preguntas');
+  console.log(recogePreguntas.lenght);
   
   return (
     <Card variant="outlined" sx={{ borderRadius: "12px", backgroundColor: "#f5f5f5", borderColor: "primary.main" }}>
