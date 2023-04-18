@@ -29,7 +29,7 @@ import { useSelector } from 'react-redux';
 //   },
 // ];
 
-const Auditoria_Preguntas = ({pautasSeleccion, lineaObjeto}) => {
+const Auditoria_Preguntas = ({pautasSeleccion, lineaObjeto, formato}) => {
  
   const [respuestas, setRespuestas] = useState({});
   const [showError, setShowError] = useState(false);
@@ -105,6 +105,8 @@ const Auditoria_Preguntas = ({pautasSeleccion, lineaObjeto}) => {
         setShowErrorNo(true);
       return;
     }
+    console.log('Aqu viene todo solo hay que incorporar detalle')
+    console.log(formato)
     //A nivel de linea agrega las respuestas correspondiente
     const preguntasRespuestas = arreglo[0].detalleJson.map((pregunta, index) => {
       const respuesta = respuestas[index];

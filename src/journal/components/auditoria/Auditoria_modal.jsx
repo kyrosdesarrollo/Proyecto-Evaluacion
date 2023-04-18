@@ -2,7 +2,7 @@ import React from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Box } from '@mui/material';
 import Auditoria_Preguntas from './Auditoria_Preguntas';
 
-const ModalComponent = ({ open, onClose, rowData,pauta }) => {
+const ModalComponent = ({ open, onClose, rowData,pauta, formato  }) => {
 //1) Levanta ventana para que el usuario pueda contestar
 //2) Para las preguntas conosidera dos parametros pauta y linea que se desea contestar las preguntas
   return (
@@ -11,10 +11,10 @@ const ModalComponent = ({ open, onClose, rowData,pauta }) => {
       <DialogContent>
      <Box sx={{ marginBottom: '20px' }}>
       <p sx={{ fontSize: '16px' }}>Nombre: {rowData?.Ejecutivo}</p>
-      <p sx={{ fontSize: '16px' }}>Rut: {rowData?.Rut}</p>
-      <p sx={{ fontSize: '16px' }}>Fecha: {rowData?.['Fecha de Auditoria']}</p>
+      {/* <p sx={{ fontSize: '16px' }}>Rut: {rowData?.Rut}</p>
+      <p sx={{ fontSize: '16px' }}>Fecha: {rowData?.['Fecha de Auditoria']}</p> */}
     </Box>
-        <Auditoria_Preguntas pautasSeleccion={pauta} lineaObjeto={rowData}/>
+        <Auditoria_Preguntas pautasSeleccion={pauta} lineaObjeto={rowData} formato ={formato}/>
       </DialogContent>
       <DialogActions>
         <Button variant="outlined" onClick={onClose}>Cerrar</Button>

@@ -19,26 +19,12 @@ const Item = styled(Paper)(({ theme }) => ({
 
 const AuditoriaActividadViewDetalle = (props) => {
     const [open, setOpen] = React.useState(false);
-  
     const { formatos } = useSelector(state => state.formato);
     var j = Number(props.id);
 
     const plantilla = Object.assign({},formatos[j]);
-
-    console.log('Todo el formato faltra nivel de linea para incorpora')
-    console.log(plantilla)
     let pauta = JSON.stringify(formatos[j].formato)
-
-    console.log(pauta)
-    //const { nombre, date, formato } = plantilla;
-
-    // const arregloDetalle = [];
-    //     Object.keys(plantilla.detalle).forEach((e) => { 
-    //         arregloDetalle.push(plantilla.detalle[e]);
-            
-    //     });
-   // const arregloDetalle = Object.values(plantilla.detalle);
-
+    
    const handleClickOpen = () => {
         setOpen(true);
     };

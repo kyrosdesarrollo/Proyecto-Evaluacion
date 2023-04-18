@@ -94,6 +94,7 @@ const AuditoriaVisualFormato = (props) => {
             onClose={handleModalClose} // Usa la función de devolución de llamada actualizada
             rowData={selectedRowData}
             pauta ={props.nombrePauta}
+            formato = {plantilla}
             
           />
         </ThemeProvider>
