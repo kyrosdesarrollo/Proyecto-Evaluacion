@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { Card, CardContent, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, TextField, Button } from "@mui/material";
+import { Card, CardContent, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, TextField, Button,Modal, Typography,Icon } from "@mui/material";
 import { useSelector } from 'react-redux';
-
 //Ejemplo de formato de archivo para construir
 // const preguntas = [
 //   {
@@ -32,8 +31,10 @@ import { useSelector } from 'react-redux';
 
 const Auditoria_Preguntas = ({pautasSeleccion, lineaObjeto}) => {
  
-
   const [respuestas, setRespuestas] = useState({});
+  const [showError, setShowError] = useState(false);
+  const [showErrorNo, setShowErrorNo] = useState(false);
+  //Validación de respuesta No
   const handleRespuesta = (preguntaId, respuesta) => {
     setRespuestas({
       ...respuestas,
@@ -43,14 +44,6 @@ const Auditoria_Preguntas = ({pautasSeleccion, lineaObjeto}) => {
       },
     });
   };
-  const handleSubmit = () => {
-    //Aquí puedes hacer algo con las respuestas, como enviarlas a un servidor o guardarlas localmente
-    console.log(respuestas);
-    //Control de Linea para agregar respuestas
-    console.log('Estoy en las preguntas')
-    console.log(lineaObjeto)
-  };
-
   //Extracción de pautas en redux
   const { pautas } = useSelector(state => state.pauta);
   //Limpiar nombre de pauta selecciona desde archivo
@@ -63,12 +56,10 @@ const Auditoria_Preguntas = ({pautasSeleccion, lineaObjeto}) => {
       objetosEncontrados.push(objeto);
     }
   });
-
   //Seleccion de pauta con las preguntas
   const pauta = JSON.stringify(objetosEncontrados);
   //convertir una cadena de texto pauta en formato JSON a un objeto de JavaScript.
   const arreglo = JSON.parse(pauta);
-
   //Recorre pauta para extración de preguntas dejando estas agrupadas en bloque de evaluación.
   const preguntasPorBloque = arreglo[0].detalleJson.reduce((acc, consulta, i) => {
     const { 
@@ -85,6 +76,50 @@ const Auditoria_Preguntas = ({pautasSeleccion, lineaObjeto}) => {
   
     return acc;
   }, {});
+
+  //Contar cantidad de preguntas de pauta
+  const totalPreguntas = Object.values(preguntasPorBloque).reduce((acc, bloque) => acc + bloque.length, 0);
+  //Contar cantidad de respuestas si / no / comentarios indicadas por usuario
+  //estructura Object { si: 1, no: 2, comentarios: 1 }
+  const estadisticas = Object.values(respuestas).reduce((acc, respuesta) => {
+    if (respuesta.respuesta === "SI") {
+      acc.si++;
+    } else if (respuesta.respuesta === "NO") {
+      acc.no++;
+    }
+    if (respuesta.comentario && respuesta.comentario.length > 1) {
+      acc.comentarios++;
+    }
+    return acc;
+  }, { si: 0, no: 0, comentarios: 0 });
+  
+  // Boton guardar acción
+  const handleSubmit = () => {
+    //Validación de cantidad de respuestas ingresadas por usuario, utilizaremos la suma de si y no "estadistica"
+    if (totalPreguntas > estadisticas.si + estadisticas.no ) {
+       setShowError(true);
+      return
+    }
+    //Validación de respuestas no con su comentario
+    if (estadisticas.comentarios !== estadisticas.no) {
+        setShowErrorNo(true);
+      return;
+    }
+    //A nivel de linea agrega las respuestas correspondiente
+    const preguntasRespuestas = arreglo[0].detalleJson.map((pregunta, index) => {
+      const respuesta = respuestas[index];
+    
+      return {
+        ...pregunta,
+        respuesta,
+      };
+    });
+
+    //arreglo[0].detalleJson = preguntasRespuestas;
+    console.log(preguntasRespuestas);
+    console.log(arreglo);
+
+  };
   
   return (
     <Card variant="outlined" sx={{ borderRadius: "12px", backgroundColor: "#f5f5f5", borderColor: "primary.main" }}>
@@ -126,6 +161,7 @@ const Auditoria_Preguntas = ({pautasSeleccion, lineaObjeto}) => {
               />
             )}
             <br />
+            
           </div>
         ))}
       </FormControl>
@@ -136,6 +172,55 @@ const Auditoria_Preguntas = ({pautasSeleccion, lineaObjeto}) => {
     <Button sx={{ mx: "auto" }} onClick={handleSubmit}>
       Guardar
     </Button>
+    <Modal open={showError} onClose={() => setShowError(false)}>
+        <div
+          style={{
+            backgroundColor: "#f44336",
+            color: "#fff",
+            padding: "16px",
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            maxWidth: "400px",
+            width: "100%",
+            textAlign: "center",
+          }}
+        >
+          
+          <Typography variant="h6" gutterBottom>
+            <Icon color="white">error</Icon> No se puede guardar la información
+         </Typography>
+        <Typography variant="body1" gutterBottom>
+           Debido a que no se encuentran todas las respuestas completadas. Favor de completar
+        </Typography>
+          <Button onClick={() => setShowError(false)}>Cerrar</Button>
+        </div>
+      </Modal>
+      <Modal open={showErrorNo} onClose={() => setShowErroNo(false)}>
+        <div
+          style={{
+            backgroundColor: "#f44336",
+            color: "#fff",
+            padding: "16px",
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            maxWidth: "400px",
+            width: "100%",
+            textAlign: "center",
+          }}
+        >
+         <Typography variant="h6" gutterBottom>
+          <Icon color="white">error</Icon>  No se puede guardar la información
+         </Typography>
+        <Typography variant="body1" gutterBottom>
+           Debido a que no se encuentra ingresado el comentario de la opción No, Nota: ** Considerar que el campo comentario debe contener al menos 2 caracteres **. Favor de completar
+        </Typography>
+          <Button onClick={() => setShowErrorNo(false)}>Cerrar</Button>
+        </div>
+      </Modal>
   </CardContent>
 </Card>
   );

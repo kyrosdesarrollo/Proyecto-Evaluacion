@@ -8,7 +8,6 @@ const AuditoriaVisualFormato = (props) => {
  
   const defaultMaterialTheme = createTheme();
   const { formatos } = useSelector(state => state.formato);
-  const { pautas } = useSelector(state => state.pauta);
   const plantilla = Object.assign({}, formatos[Number(props.id)]);
 
   const [tableData, setTableData] = useState([]);

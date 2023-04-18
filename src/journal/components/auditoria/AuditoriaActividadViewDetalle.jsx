@@ -24,7 +24,12 @@ const AuditoriaActividadViewDetalle = (props) => {
     var j = Number(props.id);
 
     const plantilla = Object.assign({},formatos[j]);
+
+    console.log('Todo el formato faltra nivel de linea para incorpora')
+    console.log(plantilla)
     let pauta = JSON.stringify(formatos[j].formato)
+
+    console.log(pauta)
     //const { nombre, date, formato } = plantilla;
 
     // const arregloDetalle = [];
