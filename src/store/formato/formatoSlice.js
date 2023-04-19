@@ -49,12 +49,8 @@ export const formatoSlice = createSlice({
             console.log('Aqui estoy')
             state.formatos = action.payload;
           },
-          actualizarDetalleJson: (state, action) => {
-
-            const { formatoIndex, indiceEncontrado, registroPregunta } = action.payload;
-            console.log(action.payload)
-            console.log('ingreso a actualizar registro')
-            console.log('Estado actual:', state);
+        actualizarDetalleJson: (state, action) => {
+            const { formatoIndex, indiceEncontrado, preguntasRespuestas } = action.payload;
             // Verificar si state.formato está definido antes de continuar
             if (!state.formatos) {
                 console.error("El estado formato no está definido");
@@ -62,12 +58,9 @@ export const formatoSlice = createSlice({
             }
             console.log(formatoIndex)
             console.log(indiceEncontrado)
-            console.log(registroPregunta)
-            const registroPregunta1 = {
-                Pregunta: "¿Cómo estás?",
-                Respuesta: "Bien, gracias."
-              };
-            state.formatos[0].detalleJson[0].respuestas = registroPregunta1;
+            console.log(preguntasRespuestas)
+           
+            state.formatos[formatoIndex].detalleJson[indiceEncontrado].respuestas = preguntasRespuestas;
           },
           
         deleteFormatoById: (state,  action ) => {

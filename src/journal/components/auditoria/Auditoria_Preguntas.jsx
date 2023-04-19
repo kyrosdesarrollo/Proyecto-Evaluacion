@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Card, CardContent, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, TextField, Button,Modal, Typography,Icon } from "@mui/material";
 import { useSelector, useDispatch } from 'react-redux';
-import { actualizarDetalleJson } from "../../../store/formato/formatoSlice";
+import { actualizarDetalleJson, actualizarFormato } from "../../../store/formato/formatoSlice";
+import Swal from 'sweetalert2'
 //Ejemplo de formato de archivo para construir
 // const preguntas = [
 //   {
@@ -31,8 +32,6 @@ import { actualizarDetalleJson } from "../../../store/formato/formatoSlice";
 // ];
 
 const Auditoria_Preguntas = (props) => {
- 
-
   //Tomando los formatos
   const formatosRedux = useSelector(state => state.formato.formatos);
   const dispatch = useDispatch();
@@ -40,6 +39,10 @@ const Auditoria_Preguntas = (props) => {
   const [respuestas, setRespuestas] = useState({});
   const [showError, setShowError] = useState(false);
   const [showErrorNo, setShowErrorNo] = useState(false);
+
+  //Cerrar modal 
+ 
+
   //Validación de respuesta No
   const handleRespuesta = (preguntaId, respuesta) => {
     setRespuestas({
@@ -99,6 +102,10 @@ const Auditoria_Preguntas = (props) => {
     return acc;
   }, { si: 0, no: 0, comentarios: 0 });
   
+  //function cierre de ventana relacionado a la ventana modal
+  const handleClose = () => {
+    props.handleClose(); // Llamada a la función onClose del componente padre
+  }
   // Boton guardar acción
   const handleSubmit = () => {
     // //Validación de cantidad de respuestas ingresadas por usuario, utilizaremos la suma de si y no "estadistica"
@@ -119,47 +126,22 @@ const Auditoria_Preguntas = (props) => {
         respuesta,
       };
     });
-
     const idBuscado = props.lineaObjeto.id;
-    const indiceEncontrado = props.formato.detalleJson.findIndex(elemento => elemento.id === idBuscado);
-    console.log('idBuscado')
-    console.log(idBuscado)
-    console.log('indiceEncontrado')
-    console.log(indiceEncontrado)
-    
+    const indiceEncontrado = props.formato.detalleJson.findIndex(elemento => elemento.id === idBuscado);    
     const idFormato = props.formato.id;
-    const formatoBuscado = formatosRedux.find(formato => formato.id === idFormato);
-    const formatoIndex = formatosRedux.findIndex(formato => formato.id === idFormato);
-
-
-    
-    const detalleJson = formatoBuscado.detalleJson;
-    const detalleJsonActualizado = [...detalleJson];
-    console.log('detalleJson')
-    console.log(detalleJson[indiceEncontrado])
-    
-    const preguntaRespuestas = detalleJsonActualizado[indiceEncontrado];
-    const preguntaRespuestasActualizado = { ...preguntaRespuestas, respuestas: preguntasRespuestas };
-    
-    detalleJsonActualizado[indiceEncontrado] = preguntaRespuestasActualizado;
-    
-    const formatosReduxActualizados = [...formatosRedux];
-    formatosReduxActualizados[formatoIndex] = {
-      ...formatoBuscado,
-      detalleJson: detalleJsonActualizado
-    };
-   let registroPregunta = formatosReduxActualizados[formatoIndex].detalleJson[indiceEncontrado]
-   console.log(registroPregunta)
-   console.log('Todo')
-   console.log(formatoIndex, indiceEncontrado, registroPregunta);
-   dispatch(actualizarDetalleJson(formatoIndex, indiceEncontrado, registroPregunta));
-
-
+    const formatoIndex = formatosRedux.findIndex(formato => formato.id === idFormato); 
+    //Accion para actualizar en redux las respuestas   
+   dispatch(actualizarDetalleJson({formatoIndex, indiceEncontrado, preguntasRespuestas}));
+   handleClose();
+   Swal.fire({
+    confirmButtonColor: '#2196f3',
+    icon: 'success',
+    title: 'Encuesta',
+    text: 'Encusta almacenada correctamente, recordar presionar el bóton guardar en pantalla principal para ser enviadas a repositorio central',
+  });
+   return
+   
   };
-
-
-  
-  
   return (
     <Card variant="outlined" sx={{ borderRadius: "12px", backgroundColor: "#f5f5f5", borderColor: "primary.main" }}>
     {Object.entries(preguntasPorBloque).map(([bloque, preguntas]) => (
@@ -200,7 +182,6 @@ const Auditoria_Preguntas = (props) => {
               />
             )}
             <br />
-            
           </div>
         ))}
       </FormControl>
@@ -264,6 +245,5 @@ const Auditoria_Preguntas = (props) => {
 </Card>
   );
 };
-
 export default Auditoria_Preguntas;
 

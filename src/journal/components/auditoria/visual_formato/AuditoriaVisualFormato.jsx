@@ -3,17 +3,17 @@ import MaterialTable from 'material-table';
 import { useSelector } from 'react-redux'
 import { ThemeProvider, createTheme } from '@mui/material';
 import ModalComponent from '../Auditoria_modal';
+import Swal from 'sweetalert2'
 
 const AuditoriaVisualFormato = (props) => {
  
   const defaultMaterialTheme = createTheme();
   const { formatos } = useSelector(state => state.formato);
   const plantilla = Object.assign({}, formatos[Number(props.id)]);
-
   const [tableData, setTableData] = useState([]);
   const [openModal, setOpenModal] = useState(false);
+  const [selected, setSelected] = useState([]);
   const [selectedRowData, setSelectedRowData] = useState(null);
-
 
   const titulo = plantilla.cabezaJson.map((title) => ({
     title: title,
@@ -32,17 +32,36 @@ const AuditoriaVisualFormato = (props) => {
       return nuevoObjeto;
     });
     //Envio de información depurada
-    console.log('Nuevo Arreglo')
-    console.log(nuevoArreglo)
+    
     setTableData(nuevoArreglo);
   },[props.id]);
 
 
-   //Selección de dato de linea y habré modal
-  const handleRowClick = useCallback((event, rowData) => {
-    setSelectedRowData(rowData);
+const [selectedRows, setSelectedRows] = useState([]);
+
+const handleSelectionChange = (rows) => {
+  setSelectedRows(rows.map(row => row.tableData.id));
+}
+
+//Selección de registro y validación.
+const handleRowClick = (event, rowData) => {
+  if (selectedRows.includes(rowData.tableData.id)) {
+    // la fila está seleccionada, mostrar modal
     setOpenModal(true);
-  }, []);
+    setSelectedRowData(rowData);
+  } else {
+    // la fila no está seleccionada, no hacer nada
+    Swal.fire({
+      confirmButtonColor: '#2196f3',
+      icon: 'error',
+      title: 'Selección de registro',
+      text: 'Favor de seleccionar registro para realizar encuesta',
+    });
+     return
+  }
+}
+  
+
   //Cierre
   const handleModalClose = useCallback(() => {
     setSelectedRowData(null);
@@ -83,12 +102,18 @@ const AuditoriaVisualFormato = (props) => {
                            pageSizeOptions:[5,10,20,50,100],
                            pageSize:10,
                            paginationType:"stepped",
-                           selected: [],
-                           rowStyle: {
-                                fontSize: 10,
-                            },
+                           selected: selected,
+                            //rowStyle: {
+                            //     fontSize: 10,
+                            // }
+                            rowStyle: rowData => ({
+                              fontSize: 10,
+                              backgroundColor: rowData.tableData.id === selectedRowData?.tableData.id ? '#f2f2f2' : 'inherit'
+                            }),
                             
             }}
+            onSelectionChange={handleSelectionChange}
+             
             
           />
           <ModalComponent 
