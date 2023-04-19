@@ -50,8 +50,8 @@ export const formatoSlice = createSlice({
             state.formatos = action.payload;
           },
           actualizarDetalleJson: (state, action) => {
-            const { formatoIndex, indiceEncontrado, registroPregunta } = action.payload;
 
+            const { formatoIndex, indiceEncontrado, registroPregunta } = action.payload;
             console.log(action.payload)
             console.log('ingreso a actualizar registro')
             console.log('Estado actual:', state);
@@ -60,7 +60,6 @@ export const formatoSlice = createSlice({
                 console.error("El estado formato no está definido");
                 return;
             }
-            console.log(state.formatos);
             console.log(formatoIndex)
             console.log(indiceEncontrado)
             console.log(registroPregunta)
@@ -68,7 +67,7 @@ export const formatoSlice = createSlice({
                 Pregunta: "¿Cómo estás?",
                 Respuesta: "Bien, gracias."
               };
-            state.formatos[0].detalleJson[1].respuestas = registroPregunta1;
+            state.formatos[0].detalleJson[0].respuestas = registroPregunta1;
           },
           
         deleteFormatoById: (state,  action ) => {
@@ -79,5 +78,7 @@ export const formatoSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 export const { addNewEmptyExcelFormato,setActiveFormato ,setDesActiveFormato,
-    setFormatos, setSaving, updateFormato, deleteFormatoById, savingNewExcelFormato,actualizarFormato,actualizarDetalleJson
+    setFormatos, setSaving, updateFormato, 
+    deleteFormatoById, savingNewExcelFormato,
+    actualizarFormato,actualizarDetalleJson,
      } = formatoSlice.actions;

@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { Card, CardContent, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, TextField, Button,Modal, Typography,Icon } from "@mui/material";
-import { useSelector, useDispatch } from 'react-redux';;
+import { useSelector, useDispatch } from 'react-redux';
 import { actualizarDetalleJson } from "../../../store/formato/formatoSlice";
-
 //Ejemplo de formato de archivo para construir
 // const preguntas = [
 //   {
@@ -151,17 +150,10 @@ const Auditoria_Preguntas = (props) => {
     };
    let registroPregunta = formatosReduxActualizados[formatoIndex].detalleJson[indiceEncontrado]
    console.log(registroPregunta)
+   console.log('Todo')
    console.log(formatoIndex, indiceEncontrado, registroPregunta);
-   dispatch(actualizarDetalleJson(formatoIndex,indiceEncontrado,registroPregunta))
+   dispatch(actualizarDetalleJson(formatoIndex, indiceEncontrado, registroPregunta));
 
-  //  dispatch({
-  //   type: "actualizarDetalleJson",
-  //   payload: {
-  //     formatoIndex,
-  //     indiceEncontrado,
-  //     registroPregunta
-  //   }
-  // });
 
   };
 
