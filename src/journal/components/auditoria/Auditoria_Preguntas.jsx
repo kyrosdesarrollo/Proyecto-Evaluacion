@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Card, CardContent, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, TextField, Button,Modal, Typography,Icon } from "@mui/material";
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';;
+import { actualizarDetalleJson } from "../../../store/formato/formatoSlice";
+
 //Ejemplo de formato de archivo para construir
 // const preguntas = [
 //   {
@@ -29,8 +31,13 @@ import { useSelector } from 'react-redux';
 //   },
 // ];
 
-const Auditoria_Preguntas = ({pautasSeleccion, lineaObjeto, formato}) => {
+const Auditoria_Preguntas = (props) => {
  
+
+  //Tomando los formatos
+  const formatosRedux = useSelector(state => state.formato.formatos);
+  const dispatch = useDispatch();
+
   const [respuestas, setRespuestas] = useState({});
   const [showError, setShowError] = useState(false);
   const [showErrorNo, setShowErrorNo] = useState(false);
@@ -47,7 +54,7 @@ const Auditoria_Preguntas = ({pautasSeleccion, lineaObjeto, formato}) => {
   //Extracción de pautas en redux
   const { pautas } = useSelector(state => state.pauta);
   //Limpiar nombre de pauta selecciona desde archivo
-  let nombrePauta = pautasSeleccion.replace(/"/g, '');;
+  let nombrePauta = props.pautasSeleccion.replace(/"/g, '');;
   // Variable para almacenar los objetos encontrados
   const objetosEncontrados = [];
   // Recorremos el arreglo y buscamos objetos con el formato ejemplo : "PARLO FRAUDE"
@@ -95,33 +102,71 @@ const Auditoria_Preguntas = ({pautasSeleccion, lineaObjeto, formato}) => {
   
   // Boton guardar acción
   const handleSubmit = () => {
-    //Validación de cantidad de respuestas ingresadas por usuario, utilizaremos la suma de si y no "estadistica"
-    if (totalPreguntas > estadisticas.si + estadisticas.no ) {
-       setShowError(true);
-      return
-    }
-    //Validación de respuestas no con su comentario
-    if (estadisticas.comentarios !== estadisticas.no) {
-        setShowErrorNo(true);
-      return;
-    }
-    console.log('Aqu viene todo solo hay que incorporar detalle')
-    console.log(formato)
+    // //Validación de cantidad de respuestas ingresadas por usuario, utilizaremos la suma de si y no "estadistica"
+    // if (totalPreguntas > estadisticas.si + estadisticas.no ) {
+    //    setShowError(true);
+    //   return
+    // }
+    // //Validación de respuestas no con su comentario
+    // if (estadisticas.comentarios !== estadisticas.no) {
+    //     setShowErrorNo(true);
+    //   return;
+    // }
     //A nivel de linea agrega las respuestas correspondiente
     const preguntasRespuestas = arreglo[0].detalleJson.map((pregunta, index) => {
       const respuesta = respuestas[index];
-    
       return {
         ...pregunta,
         respuesta,
       };
     });
 
-    //arreglo[0].detalleJson = preguntasRespuestas;
-    console.log(preguntasRespuestas);
-    console.log(arreglo);
+    const idBuscado = props.lineaObjeto.id;
+    const indiceEncontrado = props.formato.detalleJson.findIndex(elemento => elemento.id === idBuscado);
+    console.log('idBuscado')
+    console.log(idBuscado)
+    console.log('indiceEncontrado')
+    console.log(indiceEncontrado)
+    
+    const idFormato = props.formato.id;
+    const formatoBuscado = formatosRedux.find(formato => formato.id === idFormato);
+    const formatoIndex = formatosRedux.findIndex(formato => formato.id === idFormato);
+
+
+    
+    const detalleJson = formatoBuscado.detalleJson;
+    const detalleJsonActualizado = [...detalleJson];
+    console.log('detalleJson')
+    console.log(detalleJson[indiceEncontrado])
+    
+    const preguntaRespuestas = detalleJsonActualizado[indiceEncontrado];
+    const preguntaRespuestasActualizado = { ...preguntaRespuestas, respuestas: preguntasRespuestas };
+    
+    detalleJsonActualizado[indiceEncontrado] = preguntaRespuestasActualizado;
+    
+    const formatosReduxActualizados = [...formatosRedux];
+    formatosReduxActualizados[formatoIndex] = {
+      ...formatoBuscado,
+      detalleJson: detalleJsonActualizado
+    };
+   let registroPregunta = formatosReduxActualizados[formatoIndex].detalleJson[indiceEncontrado]
+   console.log(registroPregunta)
+   console.log(formatoIndex, indiceEncontrado, registroPregunta);
+   dispatch(actualizarDetalleJson(formatoIndex,indiceEncontrado,registroPregunta))
+
+  //  dispatch({
+  //   type: "actualizarDetalleJson",
+  //   payload: {
+  //     formatoIndex,
+  //     indiceEncontrado,
+  //     registroPregunta
+  //   }
+  // });
 
   };
+
+
+  
   
   return (
     <Card variant="outlined" sx={{ borderRadius: "12px", backgroundColor: "#f5f5f5", borderColor: "primary.main" }}>

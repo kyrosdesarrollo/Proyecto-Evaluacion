@@ -24,7 +24,6 @@ const AuditoriaActividadViewDetalle = (props) => {
 
     const plantilla = Object.assign({},formatos[j]);
     let pauta = JSON.stringify(formatos[j].formato)
-    
    const handleClickOpen = () => {
         setOpen(true);
     };

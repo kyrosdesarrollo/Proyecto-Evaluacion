@@ -32,8 +32,10 @@ const AuditoriaVisualFormato = (props) => {
       return nuevoObjeto;
     });
     //Envio de información depurada
+    console.log('Nuevo Arreglo')
+    console.log(nuevoArreglo)
     setTableData(nuevoArreglo);
-  }, []);
+  },[props.id]);
 
 
    //Selección de dato de linea y habré modal

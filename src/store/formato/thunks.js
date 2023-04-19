@@ -1,7 +1,7 @@
 import { collection, doc, setDoc, deleteDoc,getDocs, where, query,updateDoc } from "@firebase/firestore/lite";
 import { FirebaseDB } from "../../firebase/config";
 import { loadExcelFormatos } from "../../helpers/loadExcelFormatos";
-import { addNewEmptyExcelFormato, deleteFormatoById, savingNewExcelFormato, setFormatos } from "./formatoSlice";
+import { actualizarFormato, addNewEmptyExcelFormato, deleteFormatoById, savingNewExcelFormato, setFormatos } from "./formatoSlice";
 import { format } from 'date-fns'
 
 export const startNewExcelFormato =( lista , listaJson, formato )=>{
@@ -97,5 +97,20 @@ export const startUpdateFormato = (arreglo, id = '', tipo = '')=>{
         dispatch(startLoadingFormatos());
          //Cambia de estado el saving a false
         dispatch( deleteFormatoById());
+    }
+}
+
+export const startUpdateFormatoRespuesta = ( respuestas = '')=>{
+
+    console.log('Estoy en startUpdateFormatoRespuesta')
+    console.log(respuestas)
+    return
+    return async(dispatch, getState) =>{
+        const { uid } = getState().auth;
+        if(!uid) throw new Error('El UID del usuario no existe');
+    
+        dispatch(actualizarFormato());
+       
+        
     }
 }
