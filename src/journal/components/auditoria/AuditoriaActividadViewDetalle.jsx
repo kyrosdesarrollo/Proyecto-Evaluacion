@@ -1,21 +1,8 @@
-import React, {useMemo} from 'react'
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Paper, Stack } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import React from 'react'
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Stack } from '@mui/material';
 import { useSelector } from 'react-redux';
 import Swal from 'sweetalert2'
-
 import AuditoriaVisualFormato from './visual_formato/AuditoriaVisualFormato';
-
-
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: 'center',
-  color: theme.palette.text.secondary,
-}));
-
-
 
 const AuditoriaActividadViewDetalle = (props) => {
     const [open, setOpen] = React.useState(false);
@@ -31,7 +18,6 @@ const AuditoriaActividadViewDetalle = (props) => {
     const handleClose = () => {
       setOpen(false);
   };
-  
   const onGuardar = () =>{
      //Actualización en Firebase registros + ID de documento
      dispatch(startUpdateFormato(registrosActualizado,identifico, "Asigna"));
@@ -47,8 +33,6 @@ const AuditoriaActividadViewDetalle = (props) => {
     setOpenEliminar(false);
     setOpen(false);
   }
-
- 
   return (
     <>
      <Stack spacing={2} direction="row">
@@ -65,12 +49,12 @@ const AuditoriaActividadViewDetalle = (props) => {
                                                 aria-describedby="alert-dialog-description"
                                             >
                                                 <DialogTitle id="alert-dialog-title">
-                                                {" ¿ Estas seguro de asignar las actividades a los usuarios correspondientes ? "}
+                                                {" ¿ Estas seguro de guardar auditoria ? "}
                                                 </DialogTitle>
                                                 <DialogContent>
                                                 <DialogContentText id="alert-dialog-description">
-                                                Al momento de Asignar las actividad, a los usuarios se activarán las notificaciones o podrán visualizar su información .
-                                                Nota Importante: Los campos relevantes para realizar reporteria son los de cabecera.
+                                                Al momento de guardar auditoria ,se activará la notificacion y él encargado podrá visualizar esta información .
+                                                Nota Importante: No se podrá volver atrás.
                                                 </DialogContentText>
                                                 </DialogContent>
                                                 <DialogActions>
@@ -89,5 +73,4 @@ const AuditoriaActividadViewDetalle = (props) => {
     </>
   )
 }
-
 export default AuditoriaActividadViewDetalle
