@@ -96,7 +96,7 @@ const Auditoria_Preguntas = (props) => {
     } else if (respuesta.respuesta === "NO") {
       acc.no++;
     }
-    if (respuesta.comentario && respuesta.comentario.length > 1) {
+    if (respuesta.comentario && respuesta.comentario.length > 4) {
       acc.comentarios++;
     }
     return acc;
@@ -108,16 +108,16 @@ const Auditoria_Preguntas = (props) => {
   }
   // Boton guardar acción
   const handleSubmit = () => {
-    // //Validación de cantidad de respuestas ingresadas por usuario, utilizaremos la suma de si y no "estadistica"
-    // if (totalPreguntas > estadisticas.si + estadisticas.no ) {
-    //    setShowError(true);
-    //   return
-    // }
-    // //Validación de respuestas no con su comentario
-    // if (estadisticas.comentarios !== estadisticas.no) {
-    //     setShowErrorNo(true);
-    //   return;
-    // }
+    //Validación de cantidad de respuestas ingresadas por usuario, utilizaremos la suma de si y no "estadistica"
+    if (totalPreguntas > estadisticas.si + estadisticas.no ) {
+       setShowError(true);
+      return
+    }
+    //Validación de respuestas no con su comentario
+    if (estadisticas.comentarios !== estadisticas.no) {
+        setShowErrorNo(true);
+      return;
+    }
     //A nivel de linea agrega las respuestas correspondiente
     const preguntasRespuestas = arreglo[0].detalleJson.map((pregunta, index) => {
       const respuesta = respuestas[index];
@@ -136,8 +136,8 @@ const Auditoria_Preguntas = (props) => {
    Swal.fire({
     confirmButtonColor: '#2196f3',
     icon: 'success',
-    title: 'Encuesta',
-    text: 'Encusta almacenada correctamente, recordar presionar el bóton guardar en pantalla principal para ser enviadas a repositorio central',
+    title: 'Evaluación',
+    text: 'Almacenada correctamente, recordar presionar el bóton guardar en pantalla principal para ser enviadas a repositorio central',
   });
    return
    
@@ -236,7 +236,7 @@ const Auditoria_Preguntas = (props) => {
           <Icon color="white">error</Icon>  No se puede guardar la información
          </Typography>
         <Typography variant="body1" gutterBottom>
-           Debido a que no se encuentra ingresado el comentario de la opción No, Nota: ** Considerar que el campo comentario debe contener al menos 2 caracteres **. Favor de completar
+           Debido a que no se encuentra ingresado el comentario de la opción No, Nota: ** Considerar que el campo comentario debe contener al menos 5 caracteres **. Favor de completar
         </Typography>
           <Button onClick={() => setShowErrorNo(false)}>Cerrar</Button>
         </div>

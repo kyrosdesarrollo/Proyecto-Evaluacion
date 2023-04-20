@@ -22,7 +22,7 @@ import ControlSeleccion from './AuditoriaActividadSeleccion';
     <>
      <Box md={1}>
       <Typography variant="h4" component="h2">
-       Auditoria
+       Auditoria // Evaluación
       </Typography>
     </Box>
 
