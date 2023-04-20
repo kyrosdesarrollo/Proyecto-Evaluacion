@@ -49,11 +49,11 @@ const AuditoriaActividadViewDetalle = (props) => {
                                                 aria-describedby="alert-dialog-description"
                                             >
                                                 <DialogTitle id="alert-dialog-title">
-                                                {" ¿ Estas seguro de guardar auditoria ? "}
+                                                {" ¿ Estas seguro de guardar Evaluación ? "}
                                                 </DialogTitle>
                                                 <DialogContent>
                                                 <DialogContentText id="alert-dialog-description">
-                                                Al momento de guardar auditoria ,se activará la notificacion y él encargado podrá visualizar esta información .
+                                                Al momento de guardar evaluación ,se activará la notificacion y él encargado podrá visualizar esta información .
                                                 Nota Importante: No se podrá volver atrás.
                                                 </DialogContentText>
                                                 </DialogContent>

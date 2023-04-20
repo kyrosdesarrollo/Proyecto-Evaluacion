@@ -137,7 +137,7 @@ const Auditoria_Preguntas = (props) => {
     confirmButtonColor: '#2196f3',
     icon: 'success',
     title: 'Evaluación',
-    text: 'Almacenada correctamente, recordar presionar el bóton guardar en pantalla principal para ser enviadas a repositorio central',
+    text: 'Almacenada correctamente, recordar presionar el bóton guardar en pantalla principal para ser enviadas esta(s) encuesta(s). Gracias !!! 😉',
   });
    return
    
@@ -209,10 +209,10 @@ const Auditoria_Preguntas = (props) => {
         >
           
           <Typography variant="h6" gutterBottom>
-            <Icon color="white">error</Icon> No se puede guardar la información
+            <Icon color="white">error</Icon> No se puede guardar la información.
          </Typography>
         <Typography variant="body1" gutterBottom>
-           Debido a que no se encuentran todas las respuestas completadas. Favor de completar
+           Debido a que no se encuentran todas las respuestas de evaluación completadas. Favor de complementar esta(s) respuesta(s).
         </Typography>
           <Button onClick={() => setShowError(false)}>Cerrar</Button>
         </div>

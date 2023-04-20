@@ -165,7 +165,7 @@ ColorlibStepIcon.propTypes = {
   icon: PropTypes.node,
 };
 
-const steps = ['Carga archivo Excel', 'Asignación de actividad','Auditoria', 'Cierre'];
+const steps = ['Carga archivo Excel', 'Asignación de actividad','Evaluación', 'Cierre'];
 
 export default function AsigncionLinea( etapa  ) {
   const toma = etapa;

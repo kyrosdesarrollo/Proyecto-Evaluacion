@@ -80,7 +80,7 @@ const handleRowClick = (event, rowData) => {
       <div style={{ width: '90%', height: '90%' }}>
         <ThemeProvider theme={defaultMaterialTheme}>
           <MaterialTable
-            title="Carga de Formato para realización de asignación"
+            title="Completar Evaluación a nivel de registro"
             columns={titulo}
             data={tableData}
             onRowClick={handleRowClick}
