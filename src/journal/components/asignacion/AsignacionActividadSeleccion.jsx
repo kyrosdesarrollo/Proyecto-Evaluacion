@@ -11,15 +11,21 @@ export default function ControlSeleccion( {opcion = null} ) {
   options = opcion; 
 
   let identificador = '';
-  console.log(value)
-  if (value) {
-    identificador = value.substring(0,2);
-  }
 
   const handleChangeSeleccion = (e) =>{
     setValue(null);
     // setSheet(e.target.value);
   }
+  try {
+      if (value) {
+        identificador = value.substring(0,2);
+      }
+
+     
+  } catch (error) {
+    alert('Problemas Asignación Actividad Selección')
+  }
+  
   return (
     <>
     <div>

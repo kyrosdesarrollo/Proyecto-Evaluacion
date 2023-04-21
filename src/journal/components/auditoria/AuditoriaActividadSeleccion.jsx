@@ -10,17 +10,17 @@ let options = [''];
 export default function ControlSeleccion( {opcion = ''} ) {
   const [value, setValue] = React.useState(options[0]);
   const [inputValue, setInputValue] = React.useState('');
+  options = opcion;
+  let identificador = '';
   
   try {
-    options = opcion;
-
-    let identificador = '';
+  
     if (value) {
       identificador = value.substring(0,2);
     }
     
   } catch (error) {
-    console.log(error)
+    alert(error)
   }
 
   return (
