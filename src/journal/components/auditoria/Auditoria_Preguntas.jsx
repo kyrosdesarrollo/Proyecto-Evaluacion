@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Card, CardContent, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, TextField, Button,Modal, Typography,Icon } from "@mui/material";
 import { useSelector, useDispatch } from 'react-redux';
-import { actualizarDetalleJson, actualizarFormato } from "../../../store/formato/formatoSlice";
+import { actualizarDetalleJson } from "../../../store/formato/formatoSlice";
 import Swal from 'sweetalert2'
 //Ejemplo de formato de archivo para construir
 // const preguntas = [
@@ -126,12 +126,21 @@ const Auditoria_Preguntas = (props) => {
         respuesta,
       };
     });
+
+
+    try {
+
     const idBuscado = props.lineaObjeto.id;
     const indiceEncontrado = props.formato.detalleJson.findIndex(elemento => elemento.id === idBuscado);    
     const idFormato = props.formato.id;
     const formatoIndex = formatosRedux.findIndex(formato => formato.id === idFormato); 
     //Accion para actualizar en redux las respuestas   
    dispatch(actualizarDetalleJson({formatoIndex, indiceEncontrado, preguntasRespuestas}));
+      
+    } catch (error) {
+      console.log('Problemas en busqueda de información y dispatch Auditoria_Preguntas')
+    }
+    
    handleClose();
    Swal.fire({
     confirmButtonColor: '#2196f3',

@@ -6,24 +6,24 @@ import AsignacionActividadView  from './AsignacionActividadView';
 let options = [''];
 
 export default function ControlSeleccion( {opcion = null} ) {
+  const [value, setValue] = React.useState(options[0]);
+  const [inputValue, setInputValue] = React.useState('');
+  options = opcion; 
 
+  let identificador = '';
+
+  const handleChangeSeleccion = (e) =>{
+    setValue(null);
+    // setSheet(e.target.value);
+  }
   try {
-      const [value, setValue] = React.useState(options[0]);
-      const [inputValue, setInputValue] = React.useState('');
-      options = opcion; 
-
-      let identificador = '';
-      console.log(value)
       if (value) {
         identificador = value.substring(0,2);
       }
 
-      const handleChangeSeleccion = (e) =>{
-        setValue(null);
-        // setSheet(e.target.value);
-      }
+     
   } catch (error) {
-    console.log('Problemas Asignación Actividad Selección')
+    alert('Problemas Asignación Actividad Selección')
   }
   
   return (

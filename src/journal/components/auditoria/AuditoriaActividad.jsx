@@ -8,9 +8,13 @@ import ControlSeleccion from './AuditoriaActividadSeleccion';
   //Extraer información de formatos
   const { formatos } = useSelector(state => state.formato);
   const plantilla = Object.assign({},formatos);
+  const opcion = [];
+  try {
+
+  
   //Verificación de lineas asignadas para visualización de archivo, mejora incorporar monitor en el filtro
   //&& detalle.monitor === 'Juan'
-  const opcion = [];
+  
   Object.entries(plantilla).forEach(([key, value]) => {
     const asignaCount = value.detalleJson.filter((detalle) => detalle.Estado === 'Asigna').length;
     if (asignaCount > 0) {
@@ -18,6 +22,11 @@ import ControlSeleccion from './AuditoriaActividadSeleccion';
     }
   });
    
+    
+  } catch (error) {
+    alert('Problemas Auditoria Actividad')
+  }
+  
   return (
     <>
      <Box md={1}>
