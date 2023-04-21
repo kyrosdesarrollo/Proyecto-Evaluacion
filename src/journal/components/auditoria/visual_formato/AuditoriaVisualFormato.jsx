@@ -55,7 +55,7 @@ const handleRowClick = (event, rowData) => {
       confirmButtonColor: '#2196f3',
       icon: 'error',
       title: 'Selección de registro',
-      text: 'Favor de seleccionar registro para realizar encuesta',
+      text: 'Favor de seleccionar registro para realizar encuesta.',
     });
      return
   }
