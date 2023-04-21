@@ -40,17 +40,10 @@ const AuditoriaActividadViewDetalle = (props) => {
         objetosConRespuestas.push(objeto);
       }
     });
-    console.log('Aqui esta arreglo completo')
-    console.log(objetosConRespuestas)
-    const respuestas = objetosConRespuestas.map(objeto => objeto.respuestas);
 
-    console.log('Aqui esta arreglo solo respuestas')
-    console.log(respuestas)
-    
-   
+    const respuestas = objetosConRespuestas.map(objeto => objeto.respuestas);
     //Actualización en Firebase registros + ID de documento
     dispatch(startUpdateFormatoRespuesta(id,respuestas, "Evaluación"));
-    return
     handleClose(false);
     Swal.fire({
       position: 'top-center',
@@ -59,7 +52,6 @@ const AuditoriaActividadViewDetalle = (props) => {
       showConfirmButton: false,
       timer: 1500
     })
-    setOpenEliminar(false);
     setOpen(false);
   }
   return (
