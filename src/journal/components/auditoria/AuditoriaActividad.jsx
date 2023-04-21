@@ -9,8 +9,6 @@ import ControlSeleccion from './AuditoriaActividadSeleccion';
   const { formatos } = useSelector(state => state.formato);
   const plantilla = Object.assign({},formatos);
   const opcion = [];
-  try {
-
   
   //Verificación de lineas asignadas para visualización de archivo, mejora incorporar monitor en el filtro
   //&& detalle.monitor === 'Juan'
@@ -22,11 +20,6 @@ import ControlSeleccion from './AuditoriaActividadSeleccion';
     }
   });
    
-    
-  } catch (error) {
-    alert('Problemas Auditoria Actividad')
-  }
-  
   return (
     <>
      <Box md={1}>

@@ -30,7 +30,7 @@ export const CargaExcelImportar = (props) => {
     const fileRef = useRef();
     const dispatch = useDispatch();
 
-    const options = ['PARLO 1 LINEA', 'PARLO FRAUDE','PARLO FRAUDE MONITOREO','PARLO EQUIPO ESP.','PARLO FIDELIZACION','PARLO VENTAS'];
+    const options = ['PARLO 1 LINEA', 'PARLO FRAUDE','PARLO FRAUDE1','PARLO FRAUDE MONITOREO','PARLO EQUIPO ESP.','PARLO FIDELIZACION','PARLO VENTAS'];
 
     //Para validar archivo
     const acceptaExtension = ["xlsx","xls"];

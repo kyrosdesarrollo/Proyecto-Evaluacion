@@ -127,20 +127,12 @@ const Auditoria_Preguntas = (props) => {
       };
     });
 
-
-    try {
-
     const idBuscado = props.lineaObjeto.id;
     const indiceEncontrado = props.formato.detalleJson.findIndex(elemento => elemento.id === idBuscado);    
     const idFormato = props.formato.id;
     const formatoIndex = formatosRedux.findIndex(formato => formato.id === idFormato); 
     //Accion para actualizar en redux las respuestas   
    dispatch(actualizarDetalleJson({formatoIndex, indiceEncontrado, preguntasRespuestas}));
-      
-    } catch (error) {
-      console.log('Problemas en busqueda de información y dispatch Auditoria_Preguntas')
-    }
-    
    handleClose();
    Swal.fire({
     confirmButtonColor: '#2196f3',
@@ -245,7 +237,7 @@ const Auditoria_Preguntas = (props) => {
           <Icon color="white">error</Icon>  No se puede guardar la información
          </Typography>
         <Typography variant="body1" gutterBottom>
-           Debido a que no se encuentra ingresado el comentario de la opción No, Nota: ** Considerar que el campo comentario debe contener al menos 5 caracteres **. Favor de completar
+           Debido a que no se encuentra ingresado el comentario de la opción No, Nota: ** Considerar que el campo comentario debe contener al menos 5 caracteres **. Favor de completar. 😓
         </Typography>
           <Button onClick={() => setShowErrorNo(false)}>Cerrar</Button>
         </div>

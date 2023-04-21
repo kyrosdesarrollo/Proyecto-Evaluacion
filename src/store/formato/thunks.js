@@ -116,14 +116,14 @@ export const startUpdateFormatoRespuesta = (id = '', respuestas = '', proceso = 
                 const cumplimientoBloque = objeto["CUMPLIMIENTO POR BLOQUES"];
                 const cumplimientoPregunta = objeto["CUMPLIMIENTO POR CATEGORIA"];
                 const respuesta = objeto["respuesta"];
-        respuestasAux.push({bloque,categoria, pregunta,respuesta,cumplimientoPregunta,cumplimientoBloque} );
+        respuestasAux.push(bloque,categoria, pregunta,respuesta,cumplimientoPregunta,cumplimientoBloque);
         });
 
         console.log('respuestas1:');
         console.log(respuestasAux);
 
 
-      const ruta = "plantilla/excel/formato/8Ene8CKMDmZw5RZJ4rAQ";
+      const ruta = `plantilla/excel/formato/${ id }`;
       const detalleJsonIndex = 0; // Índice del elemento en la matriz detalleJson que quieres actualizar
       const respuesta1 = {
             pregunta: 'te gustas',
@@ -144,16 +144,9 @@ export const startUpdateFormatoRespuesta = (id = '', respuestas = '', proceso = 
             return;
           }
       
-          if (detalleJsonArray[detalleJsonIndex].hasOwnProperty('respuestas')) {
-            detalleJsonArray[detalleJsonIndex].respuestas = respuestasAux;
-          } else {
-            detalleJsonArray[detalleJsonIndex].respuestas = [respuestasAux];
-          }
-          // Establecer el campo "respuestas" en el objeto que se está actualizando
-          //detalleJsonArray[detalleJsonIndex].respuestas = [primerObjeto];
-      
+          const aquiVan = {respuestas : respuestasAux}
           // Actualizar la matriz detalleJson en la base de datos
-          await updateDoc(plantillaRef, { detalleJson: detalleJsonArray }, { merge: true });
+          await updateDoc(plantillaRef, { detalleJson: aquiVan }, { merge: true });
           
           console.log("Campo respuesta agregado con éxito");
         } else {
