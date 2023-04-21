@@ -116,14 +116,15 @@ export const startUpdateFormatoRespuesta = (id = '', respuestas = '', proceso = 
                 const cumplimientoBloque = objeto["CUMPLIMIENTO POR BLOQUES"];
                 const cumplimientoPregunta = objeto["CUMPLIMIENTO POR CATEGORIA"];
                 const respuesta = objeto["respuesta"];
-        respuestasAux.push({ bloque,categoria, pregunta,respuesta,cumplimientoPregunta,cumplimientoBloque });
+                console.log(respuesta)
+        respuestasAux.push( {bloque,categoria, pregunta,respuesta,cumplimientoPregunta,cumplimientoBloque} );
         });
 
         console.log('respuestas1:');
         console.log(respuestasAux);
 
 
-      const ruta = "plantilla/excel/formato/8Ene8CKMDmZw5RZJ4rAQ";
+      const ruta = `plantilla/excel/formato/${ id }`;
       const detalleJsonIndex = 0; // Índice del elemento en la matriz detalleJson que quieres actualizar
       const respuesta1 = {
             pregunta: 'te gustas',
@@ -139,10 +140,10 @@ export const startUpdateFormatoRespuesta = (id = '', respuestas = '', proceso = 
           const detalleJsonArray = plantillaSnapshot.get("detalleJson");
       
           // Verificar que el índice que se desea actualizar existe en la matriz
-          if (detalleJsonIndex >= detalleJsonArray.length) {
-            console.log(`El índice ${detalleJsonIndex} no existe en la matriz detalleJson`);
-            return;
-          }
+          // if (detalleJsonIndex >= detalleJsonArray.length) {
+          //   console.log(`El índice ${detalleJsonIndex} no existe en la matriz detalleJson`);
+          //   return;
+          // }
       
           if (detalleJsonArray[detalleJsonIndex].hasOwnProperty('respuestas')) {
             detalleJsonArray[detalleJsonIndex].respuestas = respuestasAux;
