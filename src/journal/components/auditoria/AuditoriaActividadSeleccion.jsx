@@ -29,7 +29,6 @@ export default function ControlSeleccion( {opcion = ''} ) {
       {/* <div>{`value: ${value !== null ? `'${value}'` : 'null'}`}</div>
       <div>{`inputValue: '${inputValue}'`}</div> */}
       <br />
-      
   <br/>
 <Autocomplete
         value={value}
