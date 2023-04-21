@@ -56,10 +56,6 @@ export const formatoSlice = createSlice({
                 console.error("El estado formato no está definido");
                 return;
             }
-            console.log(formatoIndex)
-            console.log(indiceEncontrado)
-            console.log(preguntasRespuestas)
-           
             state.formatos[formatoIndex].detalleJson[indiceEncontrado].respuestas = preguntasRespuestas;
           },
           

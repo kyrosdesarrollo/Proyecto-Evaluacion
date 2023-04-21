@@ -1,16 +1,23 @@
 import React from 'react'
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Stack } from '@mui/material';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Swal from 'sweetalert2'
 import AuditoriaVisualFormato from './visual_formato/AuditoriaVisualFormato';
+import { startUpdateFormatoRespuesta } from '../../../store/formato/thunks';
 
 const AuditoriaActividadViewDetalle = (props) => {
     const [open, setOpen] = React.useState(false);
     const { formatos } = useSelector(state => state.formato);
+
+    const dispatch = useDispatch();
+    //Tomando los formatos
+    const formatosReduxRespuesta = useSelector(state => state.formato.formatos);
+
     var j = Number(props.id);
 
     const plantilla = Object.assign({},formatos[j]);
     let pauta = JSON.stringify(formatos[j].formato)
+    
    const handleClickOpen = () => {
         setOpen(true);
     };
@@ -19,9 +26,31 @@ const AuditoriaActividadViewDetalle = (props) => {
       setOpen(false);
   };
   const onGuardar = () =>{
-     //Actualización en Firebase registros + ID de documento
-     dispatch(startUpdateFormato(registrosActualizado,identifico, "Asigna"));
-     
+    const id = formatosReduxRespuesta[j].id ;
+
+   // console.log(formatosReduxRespuesta[j])
+    //Extrae el detalleJson, los registros que contengan información respuestas
+    const detalleJson = formatosReduxRespuesta[j].detalleJson;
+   // console.log(detalleJson)
+
+    const objetosConRespuestas = [];
+    detalleJson.forEach(objeto => {
+      if (objeto.respuestas) {
+        // Aquí procesas solo los objetos que tienen la propiedad "respuestas"
+        objetosConRespuestas.push(objeto);
+      }
+    });
+    console.log('Aqui esta arreglo completo')
+    console.log(objetosConRespuestas)
+    const respuestas = objetosConRespuestas.map(objeto => objeto.respuestas);
+
+    console.log('Aqui esta arreglo solo respuestas')
+    console.log(respuestas)
+    
+   
+    //Actualización en Firebase registros + ID de documento
+    dispatch(startUpdateFormatoRespuesta(id,respuestas, "Evaluación"));
+    return
     handleClose(false);
     Swal.fire({
       position: 'top-center',
@@ -36,7 +65,6 @@ const AuditoriaActividadViewDetalle = (props) => {
   return (
     <>
      <Stack spacing={2} direction="row">
-       
        <Button 
          variant="contained"
          onClick={handleClickOpen}
