@@ -9,11 +9,15 @@ import ControlSeleccion from './AsignacionActividadSeleccion';
   const plantilla = Object.assign({},formatos);
   //Llenado de combobox en constante opcion
   const opcion =['']; 
- try {
+  try {
+    Object.keys(plantilla).forEach((e) => { 
+      opcion.push( e + ' FORMATO [ ' + plantilla[e].formato + ' ]  CARGADO POR [ ' + plantilla[e].nombre +' ]');
+ });
+    
+  } catch (error) {
+    alert(error)
+  }
  
-  Object.keys(plantilla).forEach((e) => { 
-        opcion.push( e + ' FORMATO [ ' + plantilla[e].formato + ' ]  CARGADO POR [ ' + plantilla[e].nombre +' ]');
-   });
   return (
     <>
      <Box md={12}>
