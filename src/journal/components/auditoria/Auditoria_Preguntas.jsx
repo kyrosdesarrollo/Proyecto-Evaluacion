@@ -137,7 +137,7 @@ const Auditoria_Preguntas = (props) => {
     confirmButtonColor: '#2196f3',
     icon: 'success',
     title: 'Evaluación',
-    text: 'Almacenada correctamente, recordar presionar el bóton guardar en pantalla principal para ser enviadas esta(s) encuesta(s). Gracias !!! 😉',
+    text: 'Almacenada correctamente, recordar presionar el bóton guardar en pantalla principal para ser enviadas esta(s) encuesta(s). Gracias !!!! 😉',
   });
    return
    
