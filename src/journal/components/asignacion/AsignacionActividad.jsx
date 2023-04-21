@@ -8,16 +8,13 @@ import ControlSeleccion from './AsignacionActividadSeleccion';
   const plantilla = Object.assign({},formatos);
   //Llenado de combobox en constante opcion
   const opcion =['']; 
- try {
+
  
   Object.keys(plantilla).forEach((e) => { 
         opcion.push( e + ' FORMATO [ ' + plantilla[e].formato + ' ]  CARGADO POR [ ' + plantilla[e].nombre +' ]');
    });
   
- } catch (error) {
-  console.log('Problemas Asignación Actividad')
- }
-
+ 
   return (
     <>
      <Box md={12}>

@@ -213,7 +213,7 @@ const Auditoria_Preguntas = (props) => {
             <Icon color="white">error</Icon> No se puede guardar la información.
          </Typography>
         <Typography variant="body1" gutterBottom>
-           Debido a que no se encuentran todas las respuestas de evaluación completadas. Favor de complementar esta(s) respuesta(s).
+           Debido a que no se encuentran todas las respuestas de evaluación completadas. Favor de complementar esta(s) respuesta(s). 👻
         </Typography>
           <Button onClick={() => setShowError(false)}>Cerrar</Button>
         </div>
