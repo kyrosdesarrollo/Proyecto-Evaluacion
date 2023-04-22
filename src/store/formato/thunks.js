@@ -102,71 +102,78 @@ export const startUpdateFormato = (arreglo, id = '', tipo = '')=>{
 
 
 export const startUpdateFormatoRespuesta = (id = '', respuestas = '', proceso = '') => {
-    return async (dispatch, getState) => {
-      console.log('Estoy en startUpdateFormatoRespuesta')
-      console.log(id)
-      console.log(proceso)
-      console.log(respuestas)
-        //Extraer la información para ser procesa y enviada a FireBase
-        let respuestasAux = [];
-        respuestas[0].forEach(objeto => {
-                const bloque = objeto["BLOQUES DE EVALUACIÓN"];
-                const categoria = objeto["CATEGORÍA"];
-                const pregunta = objeto["CONDUCTA"];
-                const cumplimientoBloque = objeto["CUMPLIMIENTO POR BLOQUES"];
-                const cumplimientoPregunta = objeto["CUMPLIMIENTO POR CATEGORIA"];
-                const respuesta = objeto["respuesta"];
-                console.log(respuesta)
-        respuestasAux.push( {bloque,categoria, pregunta,respuesta,cumplimientoPregunta,cumplimientoBloque} );
-        });
+  return async (dispatch, getState) => {
+    console.log('Estoy en startUpdateFormatoRespuesta')
+    console.log(id)
+    console.log(proceso)
+    console.log(respuestas)
+      //Extraer la información para ser procesa y enviada a FireBase
+      let respuestasAux = [];
+      respuestas[0].forEach(objeto => {
+              const bloque = objeto["BLOQUES DE EVALUACIÓN"];
+              const categoria = objeto["CATEGORÍA"];
+              const pregunta = objeto["CONDUCTA"];
+              const cumplimientoBloque = objeto["CUMPLIMIENTO POR BLOQUES"];
+              const cumplimientoPregunta = objeto["CUMPLIMIENTO POR CATEGORIA"];
+              const respuesta = objeto["respuesta"];
+      respuestasAux.push({bloque,categoria, pregunta,respuesta,cumplimientoPregunta,cumplimientoBloque} );
+      });
 
-        console.log('respuestas1:');
-        console.log(respuestasAux);
+      console.log('respuestas1:');
+      console.log(respuestasAux);
 
 
-      const ruta = `plantilla/excel/formato/${ id }`;
-      const detalleJsonIndex = 0; // Índice del elemento en la matriz detalleJson que quieres actualizar
-      const respuesta1 = {
-            pregunta: 'te gustas',
-            respuesta: 'Si'
-            };
-      
-      try {
-        const plantillaRef = doc(FirebaseDB, ruta);
-        const plantillaSnapshot = await getDoc(plantillaRef);
-      
-        if (plantillaSnapshot.exists()) {
-          // Obtener la matriz detalleJson
-          const detalleJsonArray = plantillaSnapshot.get("detalleJson");
-      
-          // Verificar que el índice que se desea actualizar existe en la matriz
-          // if (detalleJsonIndex >= detalleJsonArray.length) {
-          //   console.log(`El índice ${detalleJsonIndex} no existe en la matriz detalleJson`);
-          //   return;
-          // }
-      
-          if (detalleJsonArray[detalleJsonIndex].hasOwnProperty('respuestas')) {
-            detalleJsonArray[detalleJsonIndex].respuestas = respuestasAux;
-          } else {
-            detalleJsonArray[detalleJsonIndex].respuestas = [respuestasAux];
-          }
-          // Establecer el campo "respuestas" en el objeto que se está actualizando
-          //detalleJsonArray[detalleJsonIndex].respuestas = [primerObjeto];
-      
-          // Actualizar la matriz detalleJson en la base de datos
-          await updateDoc(plantillaRef, { detalleJson: detalleJsonArray }, { merge: true });
-          console.log("Campo respuesta agregado con éxito");
-        } else {
-          console.log("El documento no existe");
+    const ruta = `plantilla/excel/formato/${ id }`;
+    const detalleJsonIndex = 0; // Índice del elemento en la matriz detalleJson que quieres actualizar
+    const respuesta1 = {
+          pregunta: 'te gustas',
+          respuesta: 'Si'
+          };
+    
+    try {
+      const plantillaRef = doc(FirebaseDB, ruta);
+      const plantillaSnapshot = await getDoc(plantillaRef);
+    
+      if (plantillaSnapshot.exists()) {
+        // Obtener la matriz detalleJson
+        const detalleJsonArray = plantillaSnapshot.get("detalleJson");
+    
+        // Verificar que el índice que se desea actualizar existe en la matriz
+        if (detalleJsonIndex >= detalleJsonArray.length) {
+          console.log(`El índice ${detalleJsonIndex} no existe en la matriz detalleJson`);
+          return;
         }
-      } catch (error) {
-        console.log("Error al agregar campo respuesta:", error);
+    
+        // if (detalleJsonArray[detalleJsonIndex].hasOwnProperty('respuestas')) {
+        //   detalleJsonArray[detalleJsonIndex].respuestas = respuestasAux;
+        // } else {
+        //   detalleJsonArray[detalleJsonIndex].respuestas = [respuestasAux];
+        // }
+        // Establecer el campo "respuestas" en el objeto que se está actualizando
+        //detalleJsonArray[detalleJsonIndex].respuestas = [primerObjeto];
+        // Obtener el objeto en el índice especificado
+          const detalleJsonObject = detalleJsonArray[detalleJsonIndex];
+
+          // Agregar respuestas al objeto
+          detalleJsonObject.respuestas = respuestasAux;
+
+          // Actualizar campo estado en el objeto
+          detalleJsonObject.Estado = 'Cierre';
+    
+        // Actualizar la matriz detalleJson en la base de datos
+        await updateDoc(plantillaRef, { detalleJson: detalleJsonArray }, { merge: true });
+        
+        console.log("Campo respuesta agregado con éxito");
+      } else {
+        console.log("El documento no existe");
       }
-      
-
+    } catch (error) {
+      console.log("Error al agregar campo respuesta:", error);
     }
- };
+    
 
+  }
+};
 // export const startUpdateFormatoRespuesta = (id = '', respuestas = '', proceso = '') => {
 //     return async (dispatch, getState) => {
 //       console.log('Estoy en startUpdateFormatoRespuesta')

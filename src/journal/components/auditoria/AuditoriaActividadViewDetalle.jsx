@@ -40,17 +40,22 @@ const AuditoriaActividadViewDetalle = (props) => {
         objetosConRespuestas.push(objeto);
       }
     });
-    console.log('Aqui esta arreglo completo')
-    console.log(objetosConRespuestas)
-    const respuestas = objetosConRespuestas.map(objeto => objeto.respuestas);
+    //Validación si existe encuestas
+    if (objetosConRespuestas.length<1) {
+      handleClose(false);
+      Swal.fire({
+        position: 'top-center',
+        icon: 'error',
+        title: 'No hay encuestas realizadas.',
+        showConfirmButton: false,
+        timer: 1500
+      })
+      return
+    }
 
-    console.log('Aqui esta arreglo solo respuestas')
-    console.log(respuestas)
-    
-   
-    //Actualización en Firebase registros + ID de documento
+    const respuestas = objetosConRespuestas.map(objeto => objeto.respuestas);
+     //Actualización en Firebase registros + ID de documento
     dispatch(startUpdateFormatoRespuesta(id,respuestas, "Evaluación"));
-    return
     handleClose(false);
     Swal.fire({
       position: 'top-center',
@@ -59,7 +64,6 @@ const AuditoriaActividadViewDetalle = (props) => {
       showConfirmButton: false,
       timer: 1500
     })
-    setOpenEliminar(false);
     setOpen(false);
   }
   return (

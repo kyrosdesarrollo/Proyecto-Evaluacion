@@ -132,8 +132,15 @@ const Auditoria_Preguntas = (props) => {
     const idFormato = props.formato.id;
     const formatoIndex = formatosRedux.findIndex(formato => formato.id === idFormato); 
     //Accion para actualizar en redux las respuestas   
-   dispatch(actualizarDetalleJson({formatoIndex, indiceEncontrado, preguntasRespuestas}));
-   handleClose();
+   
+    // Definir la acción de actualización con los datos que deseas enviar al store
+
+    const action = actualizarDetalleJson({formatoIndex, indiceEncontrado, preguntasRespuestas})
+    dispatch(action);
+
+   props.handleClose();
+   setShowError(false);
+   setRespuestas({});
    Swal.fire({
     confirmButtonColor: '#2196f3',
     icon: 'success',
@@ -213,7 +220,7 @@ const Auditoria_Preguntas = (props) => {
             <Icon color="white">error</Icon> No se puede guardar la información.
          </Typography>
         <Typography variant="body1" gutterBottom>
-           Debido a que no se encuentran todas las respuestas de evaluación completadas. Favor de complementar esta(s) respuesta(s). 👻
+           Debido a que No se encuentran todas las respuestas de evaluación completadas. Favor de finalizar esta(s) respuesta(s). 👻
         </Typography>
           <Button onClick={() => setShowError(false)}>Cerrar</Button>
         </div>
