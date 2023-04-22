@@ -3,6 +3,7 @@ import { FirebaseDB } from "../../firebase/config";
 import { loadExcelFormatos } from "../../helpers/loadExcelFormatos";
 import { actualizarFormato, addNewEmptyExcelFormato, deleteFormatoById, savingNewExcelFormato, setFormatos } from "./formatoSlice";
 import { format } from 'date-fns'
+import { RepeatRounded } from "@mui/icons-material";
 
 export const startNewExcelFormato =( lista , listaJson, formato )=>{
     return async (dispatch, getSate) =>{
@@ -99,8 +100,6 @@ export const startUpdateFormato = (arreglo, id = '', tipo = '')=>{
         dispatch( deleteFormatoById());
     }
 }
-
-
 export const startUpdateFormatoRespuesta = (id = '', respuestas = '', proceso = '') => {
   return async (dispatch, getState) => {
     console.log('Estoy en startUpdateFormatoRespuesta')
@@ -174,179 +173,311 @@ export const startUpdateFormatoRespuesta = (id = '', respuestas = '', proceso = 
 
   }
 };
-// export const startUpdateFormatoRespuesta = (id = '', respuestas = '', proceso = '') => {
-//     return async (dispatch, getState) => {
-//       console.log('Estoy en startUpdateFormatoRespuesta')
-//       console.log(id)
-//       console.log(proceso)
-//       console.log(respuestas)
 
-//       let respuestas1 = [];
+// export const actualizarDocumentos = async (id = '', respuestas = '', proceso = '') => {
+//   return async (dispatch, getState) => {
+//           //Comienza leyendo solo la información
+//         console.log('Leyendo solo la información');
+//         respuestaTotal.forEach((respuesta) => {
+//           if (Object.keys(respuesta).length > 0) {
+//             console.log(respuesta);
+//           }
+//         });
 
-//         respuestas[0].forEach(objeto => {
+//         // Actualizar la matriz detalleJson en la base de datos
+//         try {
+//           const plantillaRef = doc(FirebaseDB, `plantilla/excel/formato/${id}`);
+//           const plantillaSnapshot = await getDoc(plantillaRef);
 
-//         const bloque = objeto["BLOQUES DE EVALUACIÓN"];
-//         const categoria = objeto["CATEGORÍA"];
-//         const pregunta = objeto["CONDUCTA"];
-//         const cumplimientoBloque = objeto["CUMPLIMIENTO POR BLOQUES"];
-//         const cumplimientoPregunta = objeto["CUMPLIMIENTO POR CATEGORIA"];
-//         const respuesta = objeto["respuesta"];
+//           if (plantillaSnapshot.exists()) {
+//             // Obtener la matriz detalleJson de todo el documento o archivo
+//             const detalleJsonArray = plantillaSnapshot.get('detalleJson');
+//             // Cambio de estado a Cierre
+//             const respuestaTotalActualizada = respuestas.map((respuesta) => ({
+//               ...respuesta,
+//               Estado: 'Cierre',
+//             }));
+//             // iterar los objetos en respuestaTotal comparato con el total de registros para encontrar el indice
+//             const detalleJsonActualizado = Array(respuestaTotalActualizada.length).fill({});
+//             respuestaTotalActualizada.forEach((respuesta) => {
+//               // buscar el índice correspondiente en detalleJson
+//               const index = detalleJsonArray.findIndex((obj) => obj.id === respuesta.id);
+//               // si se encuentra el índice, actualizar el objeto en ese índice
+//               if (index >= 0) {
+//                 console.log(respuesta);
+//                 detalleJsonActualizado[index] = respuesta;
+//               }
+//             });
 
-//         respuestas1.push({ bloque,categoria, pregunta,respuesta,cumplimientoPregunta,cumplimientoBloque });
+//             / Actualizar la matriz detalleJson en la base de datos
+//             const updates = respuestaTotalActualizada.map((respuesta) =>
+//               updateDoc(/
+//                 plantillaRef,
+//                 { [`detalleJson.${respuesta.id}`]: respuesta },
+//                 { merge: true }
+//               )
+//             );
+//             await Promise.all(updates);
+//             console.log('Objetos actualizados con éxito');
+//           } else {
+//             console.log('El documento no existe');
+//           }
+//         } catch (error) {
+//           console.log('Error al actualizar objeto:', error);
+//         }
+//   }
+// }
+
+
+//PRUEBAS DE INGRESO
+export const actualizarDocumentos = (id = '', respuestas = '', proceso = '') => {
+  return async (dispatch, getState) => {
+    console.log('Estoy en actualizarDocumentos')
+    console.log(id)
+    console.log(proceso)
+    console.log(respuestas)
+    
+    const ruta = `plantilla/excel/formato/${ id }`;
+
+    try {
+      const plantillaRef = doc(FirebaseDB, ruta);
+      const plantillaSnapshot = await getDoc(plantillaRef);
+    
+      if (plantillaSnapshot.exists()) {
+        // Obtener la matriz detalleJson de todo el documento o archivo
+        const detalleJsonArray = plantillaSnapshot.get("detalleJson");    
+        //Cambio de estado a Cierre
+        const respuestaTotal = respuestas.map(respuesta => {
+          return {
+            ...respuesta,
+            Estado: 'Cierre',
+          };
+        });
+        // iterar los objetos en respuestaTotal comparato con el total de registros para encontrar el indice
+        const detalleJson = Array(respuestaTotal.length).fill({});
+        respuestaTotal.forEach((respuesta) => {
+          // buscar el índice correspondiente en detalleJson
+          const index = detalleJsonArray.findIndex((obj) => obj.id === respuesta.id);
+          // si se encuentra el índice, actualizar el objeto en ese índice
+          if (index >= 0) {
+            detalleJson[index] = respuesta;
+          }
+        });
+       
+        //Comienza leyendo solo la información indicada y se debe actualizar en firebase
+        console.log('INICIO --> Leyendo solo la información')
+        respuestaTotal.forEach(async (respuesta) => {
+          if (Object.keys(respuesta).length > 0) {
+            console.log(respuesta);
+            // Actualizar la matriz detalleJson en la base de dato
+          }
+        });
+        console.log('FIN --> Leyendo solo la información')
+        //Actualizar la matriz detalleJson en la base de datos
+                      let indice = 0;
+                      const updates = respuestaTotal.map((respuesta) => {
+                        if (Object.keys(respuesta).length > 0) {
+                          indice = respuesta.id - 1;
+                          // Actualizar la matriz detalleJson en la base de datos
+                          updateDoc(
+                            plantillaRef,
+                            { [`detalleJson.${indice}`]: respuesta },
+                            { merge: false }
+                          );
+                        }
+                      });
+                 
+                    return
+                    await Promise.all(updates);
+                    console.log('Objetos actualizados con éxito');
+        // Actualizar la matriz detalleJson en la base de datos
+        await updateDoc(plantillaRef, { detalleJson: detalleJson }, { merge: true });
+        console.log("Objeto actualizado con éxito");
+      } else {
+        console.log("El documento no existe");
+      }
+    } catch (error) {
+      console.log("Error al actualizar objeto:", error);
+    }
+  }
+};
+
+// //SOBRE ESCRIBE TODO
+// export const actualizarDocumentos = (id = '', respuestas = '', proceso = '') => {
+//   return async (dispatch, getState) => {
+//     console.log('Estoy en actualizarDocumentos')
+//     console.log(id)
+//     console.log(proceso)
+//     console.log(respuestas)
+    
+//     const ruta = `plantilla/excel/formato/${ id }`;
+
+//     try {
+//       const plantillaRef = doc(FirebaseDB, ruta);
+//       const plantillaSnapshot = await getDoc(plantillaRef);
+    
+//       if (plantillaSnapshot.exists()) {
+//         // Obtener la matriz detalleJson de todo el documento o archivo
+//         const detalleJsonArray = plantillaSnapshot.get("detalleJson");    
+//         //Cambio de estado a Cierre
+//         const respuestaTotal = respuestas.map(respuesta => {
+//           return {
+//             ...respuesta,
+//             Estado: 'Cierre',
+//           };
+//         });
+//         // iterar los objetos en respuestaTotal comparato con el total de registros para encontrar el indice
+//         const detalleJson = Array(respuestaTotal.length).fill({});
+//         respuestaTotal.forEach((respuesta) => {
+//           // buscar el índice correspondiente en detalleJson
+//           const index = detalleJsonArray.findIndex((obj) => obj.id === respuesta.id);
+//           // si se encuentra el índice, actualizar el objeto en ese índice
+//           if (index >= 0) {
+
+//             console.log(respuesta)
+//             detalleJson[index] = respuesta;
+//           }
+//         });
+       
+//         //Comienza leyendo solo la información indicada y se debe actualizar en firebase
+//         console.log('Leyendo solo la información')
+//         respuestaTotal.forEach(async (respuesta) => {
+//           if (Object.keys(respuesta).length > 0) {
+//             console.log(respuesta);
+//             // Actualizar la matriz detalleJson en la base de dato
+//           }
+//         });
+//         // Actualizar la matriz detalleJson en la base de datos
+//         await updateDoc(plantillaRef, { detalleJson: detalleJson }, { merge: true });
+//         console.log("Objeto actualizado con éxito");
+//       } else {
+//         console.log("El documento no existe");
+//       }
+//     } catch (error) {
+//       console.log("Error al actualizar objeto:", error);
+//     }
+//   }
+// };
+
+
+
+//CODIGO SOLO CARGA EL PRIMER REGISTRO
+// export const actualizarDocumentos = (id = '', respuestas = '', proceso = '') => {
+//   return async (dispatch, getState) => {
+//     console.log('Estoy en actualizarDocumentos')
+//     console.log(id)
+//     console.log(proceso)
+//     console.log(respuestas)
+    
+//     const ruta = `plantilla/excel/formato/${ id }`;
+
+//     try {
+//       const plantillaRef = doc(FirebaseDB, ruta);
+//       const plantillaSnapshot = await getDoc(plantillaRef);
+    
+//       if (plantillaSnapshot.exists()) {
+//         // Obtener la matriz detalleJson
+//         const detalleJsonArray = plantillaSnapshot.get("detalleJson");
+//         console.log('detalleJsonArray')
+//         console.log(detalleJsonArray)
+    
+//         // Buscar el objeto en el array que corresponde al id recibido como parámetro
+//         // const index = detalleJsonArray.findIndex(obj => obj.id === id);
+
+//         // // Verificar que el índice que se desea actualizar existe en la matriz
+//         // if (index < 0) {
+//         //   console.log(`El índice ${id} no existe en la matriz detalleJson`);
+//         //   return;
+//         // }
+
+//         // Obtener el objeto en el índice especificado
+//         const detalleJsonObject = detalleJsonArray[0];
+
+//         // Crear un arreglo auxiliar para las respuestas
+//         let respuestasAux = [];
+
+//         // Iterar sobre cada registro del arreglo de respuestas
+//         respuestas.forEach(objeto => {
+//           const bloque = objeto["BLOQUES DE EVALUACIÓN"];
+//           const categoria = objeto["CATEGORÍA"];
+//           const pregunta = objeto["CONDUCTA"];
+//           const cumplimientoBloque = objeto["CUMPLIMIENTO POR BLOQUES"];
+//           const cumplimientoPregunta = objeto["CUMPLIMIENTO POR CATEGORIA"];
+//           const respuesta = objeto["respuesta"];
+//           respuestasAux.push({bloque,categoria, pregunta,respuesta,cumplimientoPregunta,cumplimientoBloque} );
 //         });
 
 //         console.log('respuestas1:');
-//         console.log(respuestas1);
+//         console.log(respuestasAux);
 
-
-//       const ruta = `plantilla/excel/formato/${ id }`;
-//       const detalleJsonIndex = 0; // Índice del elemento en la matriz detalleJson que quieres actualizar
-      
-//       try {
-//         const plantillaRef = doc(FirebaseDB, ruta);
-//         const plantillaSnapshot = await getDoc(plantillaRef);
-      
-//         if (plantillaSnapshot.exists()) {
-//           // Obtener la matriz detalleJson
-//           const detalleJsonArray = plantillaSnapshot.get("detalleJson");
-      
-//         //   // Verificar que el índice que se desea actualizar existe en la matriz
-//         //   if (detalleJsonIndex >= detalleJsonArray.length) {
-//         //     console.log(`El índice ${detalleJsonIndex} no existe en la matriz detalleJson`);
-//         //     return;
-//         //   }
-      
-//           if (detalleJsonArray[detalleJsonIndex].hasOwnProperty('respuestas')) {
-//             detalleJsonArray[detalleJsonIndex].respuestas = respuestas1;
-//           } else {
-//             detalleJsonArray[detalleJsonIndex].respuestas = [respuestas1];
-//           }
-//           // Establecer el campo "respuestas" en el objeto que se está actualizando
-//           //detalleJsonArray[detalleJsonIndex].respuestas = [primerObjeto];
-      
-//           // Actualizar la matriz detalleJson en la base de datos
-//           await updateDoc(plantillaRef, { detalleJson: detalleJsonArray }, { merge: true });
-//           console.log("Campo respuesta agregado con éxito");
-//         } else {
-//           console.log("El documento no existe");
-//         }
-//       } catch (error) {
-//         console.log("Error al agregar campo respuesta:", error);
-//       }
-      
-//     //   const ruta = `/plantilla/excel/formato/8Ene8CKMDmZw5RZJ4rAQ/detalleJson/1`;
-      
-//     //     console.log(ruta)
-//     //     const respuesta = {
-//     //     pregunta: 'te gustas',
-//     //     respuesta: 'Si'
-//     //     };
-
-//     //     try {
-//     //     const detalleRef = doc(FirebaseDB, ruta);
-//     //     await setDoc (detalleRef, respuesta, {merge: true})
+//         const nuevoArreglo = respuestas.map((objeto) => {
+//           const respuestasAux1 = [];
         
-//     //     const detalleSnapshot = await getDoc(detalleRef);
-//     //     console.log(detalleSnapshot)
-//     //     if (detalleSnapshot.exists()) {
-//     //         // El documento existe, puedes actualizarlo
-//     //         await updateDoc(detalleRef, {
-//     //         respuestas: [respuesta]
-//     //         }, { merge: true });
-//     //         console.log("Respuesta agregada con éxito");
-//     //     } else {
-//     //         console.log("El documento no existe");
-//     //     }
-//     //     } catch (error) {
-//     //     console.log("Error al agregar respuesta:", error);
-//     //     }
-
-//             }
-//         };
-
-// export const startUpdateFormatoRespuesta = (id = '', respuestas = '', proceso = '') => {
-//     return async (dispatch, getState) => {
-//       console.log('Estoy en startUpdateFormatoRespuesta');
-//       console.log(id);
-//       console.log(proceso);
-//       console.log(respuestas);
-  
-//       const ruta = `/plantilla/excel/formato/${id}`;
-//       const detalleRef = doc(FirebaseDB, ruta);
-//       console.log(ruta);
-//       console.log(detalleRef);
-      
-//       respuestas.forEach(async (detalle, index) => {
-//         const respuestas = detalle.respuestas;
-//         if (respuestas.length > 0) {
-//           const detalleSnapshot = await detalleRef.get();
-//           const detalleData = detalleSnapshot.data();
-//           const detalleJson = detalleData.detalleJson;
-//           const detalleIndex = detalleJson[index];
-//           await updateDoc(detalleRef, {
-//             detalleJson: detalleJson.map((item, i) => {
-//               if (i === index) {
-//                 return {
-//                   ...item,
-//                   respuestas: arrayUnion(...respuestas),
-//                 };
-//               } else {
-//                 return item;
-//               }
-//             }),
+//           objeto.respuestas.forEach((respuestaObjeto) => {
+//             const bloque = respuestaObjeto["BLOQUES DE EVALUACIÓN"];
+//             const categoria = respuestaObjeto["CATEGORÍA"];
+//             const pregunta = respuestaObjeto["CONDUCTA"];
+//             const cumplimientoBloque = respuestaObjeto["CUMPLIMIENTO POR BLOQUES"];
+//             const cumplimientoPregunta = respuestaObjeto["CUMPLIMIENTO POR CATEGORIA"];
+//             const respuesta = respuestaObjeto["respuesta"];
+//             respuestasAux1.push({
+//               bloque,
+//               categoria,
+//               pregunta,
+//               respuesta,
+//               cumplimientoPregunta,
+//               cumplimientoBloque,
+//             });
 //           });
-//         }
-//       });
-//     };
-//   };
-// export const startUpdateFormatoRespuesta = (id = '', respuestas = '', proceso = '') => {
-//     return async (dispatch, getState) => {
-//       console.log('Estoy en startUpdateFormatoRespuesta')
-//       console.log(id)
-//       console.log(proceso)
-//       console.log(respuestas)
-  
-//       const ruta = `/plantilla/excel/formato/${id}/detalleJson`;
-  
-//       console.log(ruta)
-  
-//       respuestas.forEach(async (detalle, index) => {
-//         const respuestas = detalle.respuestas;
-//         console.log(index)
+        
+//           return {
+//             ANI: objeto.ANI,
+//             Campo1: objeto.Campo1,
+//             Campo11: objeto.Campo11,
+//             Coordinador: objeto.Coordinador,
+//             Direccion: objeto.Direccion,
+//             Direccion1: objeto.Direccion1,
+//             Ejecutivo: objeto.Ejecutivo,
+//             Empresa: objeto.Empresa,
+//             Enlace: objeto.Enlace,
+//             Equipo: objeto.Equipo,
+//             Estado: objeto.Estado,
+//             FechadeGestion: objeto.FechadeGestion,
+//             Monitor: objeto.Monitor,
+//             Pais: objeto.Pais,
+//             Seguro: objeto.Seguro,
+//             Seguro1: objeto.Seguro1,
+//             Socio: objeto.Socio,
+//             Supervisor: objeto.Supervisor,
+//             TMO: objeto.TMO,
+//             TipodeAuditoria: objeto.TipodeAuditoria,
+//             id: objeto.id,
+//             respuestas: respuestasAux1,
+            
+//           };
+//         });
+        
+//         console.log('Veamos como queda con esto')
+//          console.log(nuevoArreglo)
+        
+//         // Agregar respuestas al objeto
+//         detalleJsonObject.respuestas = respuestasAux;
+
+//         // Actualizar campo estado en el objeto
+//         detalleJsonObject.Estado = 'Cierre';
+
+//         // Actualizar la matriz detalleJson en la base de datos
+//         //detalleJsonArray.splice(index, 1, detalleJsonObject);
 //         console.log(respuestas)
-//           const detalleRef = doc(FirebaseDB, ruta, `${index}`);
-//           await updateDoc(detalleRef, {
-//             respuestas: respuestas
-//           });
-        
-//       })
+//         await updateDoc(plantillaRef, { detalleJson: nuevoArreglo }, { merge: true });
+//         return
+//         console.log("Campo respuesta agregado con éxito");
+//       } else {
+//         console.log("El documento no existe");
+//       }
+//     } catch (error) {
+//       console.log("Error al agregar campo respuesta:", error);
 //     }
 //   }
-// export const startUpdateFormatoRespuesta = (id = '', respuestas = '', proceso = '') => {
-//     return async (dispatch, getState) => {
-//       console.log('Estoy en startUpdateFormatoRespuesta')
-//       console.log(id)
-//       console.log(proceso)
-//       console.log(respuestas)
-  
-//       const ruta = `/plantilla/excel/formato/${id}`;
-//       const detalleRef = doc(FirebaseDB, ruta);
-//       console.log(ruta)
-//       console.log(detalleRef)
-//       respuestas.forEach(async (detalle, index) => {
-//         const respuestas = detalle.respuestas;
-//         if (respuestas.length > 0) {
-//           const detalleSnapshot = await getDocs(collection(detalleRef, "detalleJson"));
-//           const detalleDoc = detalleSnapshot.docs[index];
-//           console.log(detalleDoc)
-//           for (let i = 0; i < respuestas.length; i++) {
-//             const respuesta = respuestas[i];
-//             await updateDoc(detalleDoc.ref, {
-//               [`respuestas.${i}`]: respuesta
-//             });
-//           }
-//         }
-//       })
-//     }
-//   };
-  
+// };
+

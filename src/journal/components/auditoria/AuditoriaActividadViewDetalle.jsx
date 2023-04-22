@@ -3,7 +3,7 @@ import { Button, Dialog, DialogActions, DialogContent, DialogContentText, Dialog
 import { useSelector, useDispatch } from 'react-redux';
 import Swal from 'sweetalert2'
 import AuditoriaVisualFormato from './visual_formato/AuditoriaVisualFormato';
-import { startUpdateFormatoRespuesta } from '../../../store/formato/thunks';
+import { actualizarDocumentos, startUpdateFormatoRespuesta } from '../../../store/formato/thunks';
 
 const AuditoriaActividadViewDetalle = (props) => {
     const [open, setOpen] = React.useState(false);
@@ -25,13 +25,23 @@ const AuditoriaActividadViewDetalle = (props) => {
     const handleClose = () => {
       setOpen(false);
   };
+
+  //Guardar las encuestas completas
   const onGuardar = () =>{
+    //Extración id = numero de archivo
     const id = formatosReduxRespuesta[j].id ;
 
    // console.log(formatosReduxRespuesta[j])
     //Extrae el detalleJson, los registros que contengan información respuestas
     const detalleJson = formatosReduxRespuesta[j].detalleJson;
-   // console.log(detalleJson)
+    console.log(detalleJson)
+    //Filtrar los registros
+    const elementosFiltrados = detalleJson.filter(elemento => {
+      return elemento.Estado === "Asigna" && elemento.respuestas;
+    });
+    
+    console.log(elementosFiltrados);
+    
 
     const objetosConRespuestas = [];
     detalleJson.forEach(objeto => {
@@ -53,9 +63,11 @@ const AuditoriaActividadViewDetalle = (props) => {
       return
     }
 
+    
     const respuestas = objetosConRespuestas.map(objeto => objeto.respuestas);
      //Actualización en Firebase registros + ID de documento
-    dispatch(startUpdateFormatoRespuesta(id,respuestas, "Evaluación"));
+    //dispatch(startUpdateFormatoRespuesta(id,respuestas, "Evaluación"));
+    dispatch(actualizarDocumentos(id,elementosFiltrados, "Evaluación"));
     handleClose(false);
     Swal.fire({
       position: 'top-center',
@@ -72,7 +84,7 @@ const AuditoriaActividadViewDetalle = (props) => {
        <Button 
          variant="contained"
          onClick={handleClickOpen}
-             >Guardar
+             >Guardar Encuesta 📈
        </Button>
        <Dialog
                                                 open={open}

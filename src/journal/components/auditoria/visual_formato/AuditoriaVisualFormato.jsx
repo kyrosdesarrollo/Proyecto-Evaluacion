@@ -60,8 +60,6 @@ const handleRowClick = (event, rowData) => {
      return
   }
 }
-  
-
   //Cierre
   const handleModalClose = useCallback(() => {
     setSelectedRowData(null);
