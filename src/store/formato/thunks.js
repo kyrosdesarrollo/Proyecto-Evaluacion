@@ -1,4 +1,4 @@
-import { collection, doc, setDoc, deleteDoc,getDocs, where, query,updateDoc,getDoc } from "@firebase/firestore/lite";
+import { collection, doc, setDoc, deleteDoc,getDocs, where, query ,updateDoc,getDoc } from "@firebase/firestore/lite";
 import { FirebaseDB } from "../../firebase/config";
 import { loadExcelFormatos } from "../../helpers/loadExcelFormatos";
 import { actualizarFormato, addNewEmptyExcelFormato, deleteFormatoById, savingNewExcelFormato, setFormatos } from "./formatoSlice";
@@ -174,125 +174,38 @@ export const startUpdateFormatoRespuesta = (id = '', respuestas = '', proceso = 
   }
 };
 
-// export const actualizarDocumentos = async (id = '', respuestas = '', proceso = '') => {
-//   return async (dispatch, getState) => {
-//           //Comienza leyendo solo la información
-//         console.log('Leyendo solo la información');
-//         respuestaTotal.forEach((respuesta) => {
-//           if (Object.keys(respuesta).length > 0) {
-//             console.log(respuesta);
-//           }
-//         });
-
-//         // Actualizar la matriz detalleJson en la base de datos
-//         try {
-//           const plantillaRef = doc(FirebaseDB, `plantilla/excel/formato/${id}`);
-//           const plantillaSnapshot = await getDoc(plantillaRef);
-
-//           if (plantillaSnapshot.exists()) {
-//             // Obtener la matriz detalleJson de todo el documento o archivo
-//             const detalleJsonArray = plantillaSnapshot.get('detalleJson');
-//             // Cambio de estado a Cierre
-//             const respuestaTotalActualizada = respuestas.map((respuesta) => ({
-//               ...respuesta,
-//               Estado: 'Cierre',
-//             }));
-//             // iterar los objetos en respuestaTotal comparato con el total de registros para encontrar el indice
-//             const detalleJsonActualizado = Array(respuestaTotalActualizada.length).fill({});
-//             respuestaTotalActualizada.forEach((respuesta) => {
-//               // buscar el índice correspondiente en detalleJson
-//               const index = detalleJsonArray.findIndex((obj) => obj.id === respuesta.id);
-//               // si se encuentra el índice, actualizar el objeto en ese índice
-//               if (index >= 0) {
-//                 console.log(respuesta);
-//                 detalleJsonActualizado[index] = respuesta;
-//               }
-//             });
-
-//             / Actualizar la matriz detalleJson en la base de datos
-//             const updates = respuestaTotalActualizada.map((respuesta) =>
-//               updateDoc(/
-//                 plantillaRef,
-//                 { [`detalleJson.${respuesta.id}`]: respuesta },
-//                 { merge: true }
-//               )
-//             );
-//             await Promise.all(updates);
-//             console.log('Objetos actualizados con éxito');
-//           } else {
-//             console.log('El documento no existe');
-//           }
-//         } catch (error) {
-//           console.log('Error al actualizar objeto:', error);
-//         }
-//   }
-// }
-
-
-//PRUEBAS DE INGRESO
-export const actualizarDocumentos = (id = '', respuestas = '', proceso = '') => {
+// **** VALIDAR PROCESO DE ACTUALIZACION ******
+export const actualizarDocumentos = (id = '', respuestas = '') => {
   return async (dispatch, getState) => {
-    console.log('Estoy en actualizarDocumentos')
-    console.log(id)
-    console.log(proceso)
-    console.log(respuestas)
-    
-    const ruta = `plantilla/excel/formato/${ id }`;
 
+    //Id es el código del documento Frebase ejemplo 3edatrtrw65f
+    const ruta = `plantilla/excel/formato/${ id }`;
     try {
+      //Realiza conexión con ruta y extracción de documentos
       const plantillaRef = doc(FirebaseDB, ruta);
       const plantillaSnapshot = await getDoc(plantillaRef);
     
       if (plantillaSnapshot.exists()) {
         // Obtener la matriz detalleJson de todo el documento o archivo
         const detalleJsonArray = plantillaSnapshot.get("detalleJson");    
-        //Cambio de estado a Cierre
-        const respuestaTotal = respuestas.map(respuesta => {
+
+        //Extrae id y las respuestas
+        const idsRespuestas = respuestas.map((respuesta) => {
           return {
-            ...respuesta,
-            Estado: 'Cierre',
+            id: respuesta.id - 1,
+            respuestas: respuesta.respuestas
           };
         });
-        // iterar los objetos en respuestaTotal comparato con el total de registros para encontrar el indice
-        const detalleJson = Array(respuestaTotal.length).fill({});
-        respuestaTotal.forEach((respuesta) => {
-          // buscar el índice correspondiente en detalleJson
-          const index = detalleJsonArray.findIndex((obj) => obj.id === respuesta.id);
-          // si se encuentra el índice, actualizar el objeto en ese índice
-          if (index >= 0) {
-            detalleJson[index] = respuesta;
+        // Recorrer idsRespuestas y actualizar detalleJsonArray con Cierre y Respuestas realizadas
+        idsRespuestas.forEach((respuesta) => {
+          const detalle = detalleJsonArray[respuesta.id];
+          if (detalle) {
+            detalle.Estado = "Cierre";
+            detalle.Respuestas = respuesta.respuestas;
           }
         });
-       
-        //Comienza leyendo solo la información indicada y se debe actualizar en firebase
-        console.log('INICIO --> Leyendo solo la información')
-        respuestaTotal.forEach(async (respuesta) => {
-          if (Object.keys(respuesta).length > 0) {
-            console.log(respuesta);
-            // Actualizar la matriz detalleJson en la base de dato
-          }
-        });
-        console.log('FIN --> Leyendo solo la información')
-        //Actualizar la matriz detalleJson en la base de datos
-                      let indice = 0;
-                      const updates = respuestaTotal.map((respuesta) => {
-                        if (Object.keys(respuesta).length > 0) {
-                          indice = respuesta.id - 1;
-                          // Actualizar la matriz detalleJson en la base de datos
-                          updateDoc(
-                            plantillaRef,
-                            { [`detalleJson.${indice}`]: respuesta },
-                            { merge: false }
-                          );
-                        }
-                      });
-                 
-                    return
-                    await Promise.all(updates);
-                    console.log('Objetos actualizados con éxito');
-        // Actualizar la matriz detalleJson en la base de datos
-        await updateDoc(plantillaRef, { detalleJson: detalleJson }, { merge: true });
-        console.log("Objeto actualizado con éxito");
+        await updateDoc(plantillaRef, { detalleJson: detalleJsonArray }, { merge: true });
+     
       } else {
         console.log("El documento no existe");
       }

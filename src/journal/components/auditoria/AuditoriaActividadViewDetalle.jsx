@@ -67,7 +67,8 @@ const AuditoriaActividadViewDetalle = (props) => {
     const respuestas = objetosConRespuestas.map(objeto => objeto.respuestas);
      //Actualización en Firebase registros + ID de documento
     //dispatch(startUpdateFormatoRespuesta(id,respuestas, "Evaluación"));
-    dispatch(actualizarDocumentos(id,elementosFiltrados, "Evaluación"));
+    dispatch(actualizarDocumentos(id,elementosFiltrados));
+    
     handleClose(false);
     Swal.fire({
       position: 'top-center',
