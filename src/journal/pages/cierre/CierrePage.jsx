@@ -1,6 +1,7 @@
 import React from 'react'
 import { Box  } from '@mui/material'
 import AsigncionLinea from '../../components/asignacion/AsignacionPage1'
+import CierreActividad from '../../components/cierre/CierreActividad'
 
 export const CierrePage = () => {
   return (
@@ -15,6 +16,10 @@ export const CierrePage = () => {
           <Box>
             <AsigncionLinea etapa = {3} />
           </Box>
+      </Box>
+      <Box>
+        <CierreActividad />
+       
       </Box>
     </>
   )
