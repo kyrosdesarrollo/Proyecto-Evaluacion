@@ -14,6 +14,10 @@ const AuditoriaVisualFormato = (props) => {
   const [openModal, setOpenModal] = useState(false);
   const [selected, setSelected] = useState([]);
   const [selectedRowData, setSelectedRowData] = useState(null);
+  //Extraer nombre de usario
+  const { displayName } = useSelector(state => state.auth);
+  //Extraer perfil de usuario
+  const { perfil } = useSelector(state => state.perfil);
 
   const titulo = plantilla.cabezaJson.map((title) => ({
     title: title,
@@ -25,7 +29,14 @@ const AuditoriaVisualFormato = (props) => {
 
   useEffect(() => {
     const detalle = plantilla.detalleJson.map((o) => ({ ...o }));
-    const filtro = detalle.filter((o) => o.Estado === 'Asigna');
+    let filtro;
+    if (perfil === "ADMINISTRADOR") {
+       filtro = detalle.filter((o) => o.Estado === 'Asigna');
+    }
+    else{
+       filtro = detalle.filter((o) => o.Estado === 'Asigna' && o.Monitor === displayName);
+
+    }
     //Creación de nuevo arreglo para limpiar información que viene con selección
     const nuevoArreglo = filtro.map(objeto => {
       const { tableData, ...nuevoObjeto } = objeto;

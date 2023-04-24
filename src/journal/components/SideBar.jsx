@@ -10,10 +10,6 @@ export const SideBar = ({ drawerWidth = 240 }) => {
     const { notes } = useSelector(state => state.journal);
     const { menus } = useSelector(state => state.menu);
 
-    console.log('first')
-    console.log(notes);
-    console.log(menus);
-
   return (
     <Box
         component='nav'

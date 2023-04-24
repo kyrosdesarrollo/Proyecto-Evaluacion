@@ -16,10 +16,8 @@ import ControlSeleccion from './AuditoriaActividadSeleccion';
   const opcion = [];
   
   //Verificación de lineas asignadas para visualización de archivo, mejora incorporar monitor en el filtro
-  //&& detalle.monitor === 'Juan'
-  console.log(displayName)
-  console.log(perfil)
-  console.log(plantilla)
+
+ //Validación de perfil  
   if (perfil === "ADMINISTRADOR") {
     Object.entries(plantilla).forEach(([key, value]) => {
       const asignaCount = value.detalleJson.filter((detalle) => detalle.Estado === 'Asigna' ).length;
@@ -35,12 +33,7 @@ import ControlSeleccion from './AuditoriaActividadSeleccion';
         opcion.push(`${key} FORMATO [ ${value.formato} ] CARGADO POR [ ${value.nombre} ]`);
       }
     });
-  }
-
-
-  
-  console.log(opcion)
-   
+  }   
   return (
     <>
      <Box md={1}>
