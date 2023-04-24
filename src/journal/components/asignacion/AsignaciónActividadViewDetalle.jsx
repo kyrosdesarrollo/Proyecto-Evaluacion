@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react'
+import React, {useState} from 'react'
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Paper, Stack, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useSelector, useDispatch } from 'react-redux';
@@ -25,7 +25,15 @@ const AsignaciónActividadViewDetalle = ( props) => {
 
     const { formatos } = useSelector(state => state.formato);
     const dispatch = useDispatch();
+     //Tomando los formatos
+     const formatosReduxRespuesta = useSelector(state => state.formato.formatos);
 
+     // useSate donde devuelve la información obtenida del componete VisualFormnato.jsx
+     const [selectRowValue, setSelectRowValue] = useState(null);
+     function updateSelectRowValue(value) {
+       setSelectRowValue(value);
+     }
+   
     var j =Number(props.id);
     let registrosActualizado = [];
     const plantilla = Object.assign({},formatos[j]);
@@ -49,8 +57,20 @@ const handleChange = (e) => {
   registrosActualizado = Object.assign(e);
 };
   const onGuardar = () =>{
+    //Aqui recibie los registros seleccionado por usuario
+    let registrosAsignados = selectRowValue;
+    //Extración id = numero de archivo
+    const id = formatosReduxRespuesta[j].id ;
+    //Extrae el detalleJson, los registros que contengan información respuestas
+    const detalleJson = formatosReduxRespuesta[j].detalleJson;
+    //Filtrar los registros
+    const idsAsignados = registrosAsignados.map((respuesta) => respuesta.id - 1);
+    //Recorre el arreglo completo y cambia el estado Asigna a los registros seleccionados
+    const ArregloAsignados = detalleJson.map((obj, index) => {
+      return idsAsignados.includes(index) ? {...obj, Estado: "Asigna"} : {...obj};
+    });
     //Actualización en Firebase registros + ID de documento
-    dispatch(startUpdateFormato(registrosActualizado,identifico, "Asigna"));
+    dispatch(startUpdateFormato(ArregloAsignados,id));
     //Cierre de ventana emergente
     handleClose(false);
     //Ventana de actualización
@@ -151,6 +171,7 @@ const handleChange = (e) => {
       <VisualFormato 
           id = {j} 
           onActualizaInfo = {(e) => handleChange(e)}
+          updateSelectRowValue={updateSelectRowValue}
       />
 
     </>

@@ -66,7 +66,6 @@ const AuditoriaActividadViewDetalle = (props) => {
     
     const respuestas = objetosConRespuestas.map(objeto => objeto.respuestas);
      //Actualización en Firebase registros + ID de documento
-    //dispatch(startUpdateFormatoRespuesta(id,respuestas, "Evaluación"));
     dispatch(actualizarDocumentos(id,elementosFiltrados));
     
     handleClose(false);
@@ -76,7 +75,10 @@ const AuditoriaActividadViewDetalle = (props) => {
       title: 'Asignación realizada con éxito.',
       showConfirmButton: false,
       timer: 1500
-    })
+    });
+
+    //Dejar de modo inicial ventana con información null
+    props.onBorrarInformacion();
     setOpen(false);
   }
   return (

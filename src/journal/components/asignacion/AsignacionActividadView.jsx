@@ -8,7 +8,6 @@ import AsignaciónActividadViewDetalle from './AsignaciónActividadViewDetalle';
     props.onBorrarInformacionSeleccion();
     //setSheet(e.target.value);
     }
-    
   return (
     <>
     <br></br>

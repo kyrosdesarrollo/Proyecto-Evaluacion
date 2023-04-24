@@ -41,26 +41,13 @@ const VisualFormato = (props ) => {
    
     const [selectedRows, setSelectedRows] = React.useState([]);
 
-    const handleSetSelectedRows = (e) => {
-        setSelectedRows(e);
-       
-    };
+    //Captura la información seleccionad de Datable
+    const handleSelectionChange = (rows) => {
+      setSelectedRows(rows.map(row => row.tableData.id));
+      props.updateSelectRowValue(rows);
+    }
      
-    //------------------  Proceso de Seleccion ------------------------------
-    //Actualiza todo el objecto a estado carga 
-     tableData.forEach((node) => node.Estado = "Carga");
-    //Recorre objeto selección y actualiza estado a Asigna en objeto principal
-      selectedRows.forEach(function(selectedRow) {
-        const selectedId = selectedRow.id;
-        tableData.forEach(function(value, key) {
-          if (value.id === selectedId) {
-            tableData[key] = {...value, Estado: "Asigna"};
-          }
-        });
-      });
-      //------------------  Fin Proceso de Seleccion ------------------------------
-
-    //Varifica si no hay nada seleccionado
+    //Verifica si no hay nada seleccionado
     if (selectedRows.length <1){
       tableData.forEach((node) => node.Estado = "Carga" );
     }
@@ -96,9 +83,7 @@ const VisualFormato = (props ) => {
                           })
                         }}
 
-                        onSelectionChange={(e)=>{
-                          handleSetSelectedRows(e);
-                         }}                 
+                        onSelectionChange={handleSelectionChange}            
 
                         options={{
                           //  showTextRowsSelected:false,
