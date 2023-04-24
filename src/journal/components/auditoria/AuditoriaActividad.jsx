@@ -7,18 +7,39 @@ import ControlSeleccion from './AuditoriaActividadSeleccion';
   const dispatch = useDispatch();
   //Extraer información de formatos
   const { formatos } = useSelector(state => state.formato);
+  //Extraer nombre de usario
+  const { displayName } = useSelector(state => state.auth);
+  //Extraer perfil de usuario
+  const { perfil } = useSelector(state => state.perfil);
+
   const plantilla = Object.assign({},formatos);
   const opcion = [];
   
   //Verificación de lineas asignadas para visualización de archivo, mejora incorporar monitor en el filtro
   //&& detalle.monitor === 'Juan'
+  console.log(displayName)
+  console.log(perfil)
+  console.log(plantilla)
+  if (perfil === "ADMINISTRADOR") {
+    Object.entries(plantilla).forEach(([key, value]) => {
+      const asignaCount = value.detalleJson.filter((detalle) => detalle.Estado === 'Asigna' ).length;
+      if (asignaCount > 0) {
+        opcion.push(`${key} FORMATO [ ${value.formato} ] CARGADO POR [ ${value.nombre} ]`);
+      }
+    });
+  }
+  if (perfil === "MONITOR") {
+    Object.entries(plantilla).forEach(([key, value]) => {
+      const asignaCount = value.detalleJson.filter((detalle) => detalle.Estado === 'Asigna' && detalle.Monitor === displayName).length;
+      if (asignaCount > 0) {
+        opcion.push(`${key} FORMATO [ ${value.formato} ] CARGADO POR [ ${value.nombre} ]`);
+      }
+    });
+  }
+
+
   
-  Object.entries(plantilla).forEach(([key, value]) => {
-    const asignaCount = value.detalleJson.filter((detalle) => detalle.Estado === 'Asigna').length;
-    if (asignaCount > 0) {
-      opcion.push(`${key} FORMATO [ ${value.formato} ] CARGADO POR [ ${value.nombre} ]`);
-    }
-  });
+  console.log(opcion)
    
   return (
     <>
