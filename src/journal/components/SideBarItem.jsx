@@ -17,15 +17,11 @@ import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
 import HiveIcon from '@mui/icons-material/Hive';
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
 import VideoLabelIcon from '@mui/icons-material/VideoLabel';
-
 import { blue } from '@mui/material/colors';
-
-
 
 export const SideBarItem = ({ title = '', body, id , date, imageUrls = []}) => {
 
     const dispatch = useDispatch();
-
     const onClickNote = ()=>{
         dispatch( setActiveNote({title , id, body,date,imageUrls}) );
     }
