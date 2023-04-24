@@ -14,7 +14,7 @@ export const loadPerfil = async ( uid = '') => {
             perfil.push({ id: doc.id, ...doc.data() });
         });
         if (perfil.length === 0) {
-            throw new Error('No se encontraron documentos en la colección');
+           return
           }
        
     return perfil[0].perfil ;

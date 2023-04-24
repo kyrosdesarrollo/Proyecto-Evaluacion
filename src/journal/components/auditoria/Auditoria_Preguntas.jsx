@@ -55,8 +55,9 @@ const Auditoria_Preguntas = (props) => {
   };
   //Extracción de pautas en redux
   const { pautas } = useSelector(state => state.pauta);
+
   //Limpiar nombre de pauta selecciona desde archivo
-  let nombrePauta = props.pautasSeleccion.replace(/"/g, '');;
+  let nombrePauta = props.pautasSeleccion.replace(/"/g, '');
   // Variable para almacenar los objetos encontrados
   const objetosEncontrados = [];
   // Recorremos el arreglo y buscamos objetos con el formato ejemplo : "PARLO FRAUDE"

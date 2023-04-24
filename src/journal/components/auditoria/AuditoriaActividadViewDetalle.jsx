@@ -116,7 +116,9 @@ const AuditoriaActividadViewDetalle = (props) => {
     <br></br>
       <Grid container spacing={1}>
       </Grid>
-      <AuditoriaVisualFormato id = {j}  nombrePauta = {pauta}/>  
+      <AuditoriaVisualFormato 
+        id = {j}  
+        nombrePauta = {pauta}/>  
     </>
   )
 }

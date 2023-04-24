@@ -29,6 +29,7 @@ const Cierre_Preguntas = (props) => {
   };
   //Extracción de pautas en redux
   const { pautas } = useSelector(state => state.pauta);
+  console.log(props.nombrePauta)
   //Limpiar nombre de pauta selecciona desde archivo
   let nombrePauta = props.pautasSeleccion.replace(/"/g, '');;
   // Variable para almacenar los objetos encontrados

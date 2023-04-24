@@ -1,17 +1,26 @@
-import React,{useState, useEffect} from 'react'
+import React,{useCallback,useState, useEffect} from 'react'
 import MaterialTable from 'material-table';
 import { useSelector } from 'react-redux'
 import { ThemeProvider, createTheme } from '@mui/material';
+import ModalComponent from '../Cierre_modal';
+import Swal from 'sweetalert2'
 
 
 
 const CierreVisualFormato = (props ) => {
     const defaultMaterialTheme = createTheme(); 
     const [tableData, setTableData] = useState([]);
+
+    const { formatos } = useSelector(state => state.formato);
+    const plantilla = Object.assign({}, formatos[Number(props.id)]);
+    //Control de Modal y seleccion de registro
+    const [openModal, setOpenModal] = useState(false);
+    const [selected, setSelected] = useState([]);
+    const [selectedRowData, setSelectedRowData] = useState(null);
+
     const [titulo, setTitulo] = useState([]);
     let j = Number(props.id);
-    //Extrae los formatos desde Redux
-    const { formatos } = useSelector(state => state.formato);
+  
   //Mejora incorporar a nivel de detalle los campos qeu serán visualizado (cargo, asignación,auditoria,cierre)
     useEffect(() => {
           j = Number(props.id);
@@ -56,6 +65,37 @@ const CierreVisualFormato = (props ) => {
   //  if (selectedRows.length > 0) {
   //  props.onActualizaInfo(tableData);
   //  }
+
+  //Selección de registro y validación.
+const handleRowClick = (event, rowData) => {
+  if (selectedRows.includes(rowData.tableData.id)) {
+    // la fila está seleccionada, mostrar modal
+    setOpenModal(true);
+    setSelectedRowData(rowData);
+  } else {
+    // la fila no está seleccionada, no hacer nada
+    Swal.fire({
+      confirmButtonColor: '#2196f3',
+      icon: 'error',
+      title: 'Selección de registro',
+      text: 'Favor de seleccionar registro para realizar encuesta.',
+    });
+     return
+  }
+}
+
+  //Cierre
+  const handleModalClose = useCallback(() => {
+    setSelectedRowData(null);
+    setOpenModal(false);
+  }, []);
+
+  useEffect(() => {
+    if (!openModal) {
+      setSelectedRowData(null);
+    }
+  }, [openModal]);
+
   return (
     <>
     <div style={{ width: '100%', height: '80%' }}>
@@ -64,6 +104,7 @@ const CierreVisualFormato = (props ) => {
                         title="Realización de cierre"
                         columns={titulo}
                         data={tableData} 
+                        onRowClick={handleRowClick}
                         editable={{
                           // onRowAdd: (newRow) => new Promise((resolve, reject) => {
                           //   setTableData([...tableData, newRow])
@@ -105,6 +146,15 @@ const CierreVisualFormato = (props ) => {
                           // }                                  
                           }}
                     />
+
+                <ModalComponent 
+                            open={openModal}
+                            onClose={handleModalClose} // Usa la función de devolución de llamada actualizada
+                            rowData={selectedRowData}
+                            pauta ={props.nombrePauta}
+                            formato = {plantilla}
+                            
+                          />
                 </ThemeProvider>
      </div>
     </>

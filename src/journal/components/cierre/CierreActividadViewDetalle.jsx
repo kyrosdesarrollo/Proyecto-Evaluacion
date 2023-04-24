@@ -4,9 +4,7 @@ import { styled } from '@mui/material/styles';
 import { useSelector, useDispatch } from 'react-redux';
 import Swal from 'sweetalert2'
 
-import { startDeleteFormato, startLoadingFormatos, startUpdateFormato } from '../../../store/formato';
-import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
-import ReduceCapacityIcon from '@mui/icons-material/ReduceCapacity';
+import { startUpdateFormato } from '../../../store/formato';
 import CierreVisualFormato from './visual_formato/CierreVisualFormato';
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -37,6 +35,7 @@ const CierreActividadViewDetalle = ( props ) => {
     var j =Number(props.id);
     let registrosActualizado = [];
     const plantilla = Object.assign({},formatos[j]);
+    let pauta = JSON.stringify(formatos[j].formato)
     const identifico = plantilla.id;
 
    const handleClickOpen = () => {
@@ -135,6 +134,7 @@ const handleChange = (e) => {
     <br></br>
       <CierreVisualFormato 
           id = {j} 
+          nombrePauta = {pauta}
           onActualizaInfo = {(e) => handleChange(e)}
           updateSelectRowValue={updateSelectRowValue}
       />
