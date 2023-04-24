@@ -40,9 +40,10 @@ const VisualFormato = (props ) => {
     },[j])
    
     const [selectedRows, setSelectedRows] = React.useState([]);
-
     //Captura la información seleccionad de Datable
     const handleSelectionChange = (rows) => {
+      console.log('Aqui')
+      console.log(rows)
       setSelectedRows(rows.map(row => row.tableData.id));
       props.updateSelectRowValue(rows);
     }

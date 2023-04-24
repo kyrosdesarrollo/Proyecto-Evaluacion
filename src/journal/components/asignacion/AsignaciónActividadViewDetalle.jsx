@@ -18,7 +18,7 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 
-const AsignaciónActividadViewDetalle = ( props) => {
+const AsignaciónActividadViewDetalle = ( props ) => {
       
     const [open, setOpen] = React.useState(false);
     const [openEliminar, setOpenEliminar] = React.useState(false);

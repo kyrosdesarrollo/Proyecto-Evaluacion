@@ -12,6 +12,11 @@ export default function ControlSeleccion( {opcion = ''} ) {
   const [inputValue, setInputValue] = React.useState('');
   options = opcion;
   let identificador = '';
+
+  const handleChangeSeleccion = (e) =>{
+    setValue(null);
+    // setSheet(e.target.value);
+  }
   try {
   
     if (value) {
@@ -45,7 +50,10 @@ export default function ControlSeleccion( {opcion = ''} ) {
       />
     </div>
 
-      {value &&( <AuditoriaActividadView opcion = { value }/>)}
+      {value &&( <AuditoriaActividadView 
+          opcion = { value }
+          onBorrarInformacionSeleccion ={(e)=>handleChangeSeleccion(e)}
+          />)}
 
     </>
 
