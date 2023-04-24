@@ -161,7 +161,8 @@ export const startUpdateFormatoRespuesta = (id = '', respuestas = '', proceso = 
     
         // Actualizar la matriz detalleJson en la base de datos
         await updateDoc(plantillaRef, { detalleJson: detalleJsonArray }, { merge: true });
-        
+        //Descarga de formatos actualizados
+        dispatch(startLoadingFormatos());
         console.log("Campo respuesta agregado con éxito");
       } else {
         console.log("El documento no existe");
@@ -173,11 +174,11 @@ export const startUpdateFormatoRespuesta = (id = '', respuestas = '', proceso = 
 
   }
 };
-
 // **** VALIDAR PROCESO DE ACTUALIZACION ******
 export const actualizarDocumentos = (id = '', respuestas = '') => {
   return async (dispatch, getState) => {
-
+    //Cambia estado guardar true, para indicar que esta en proceso
+    dispatch(savingNewExcelFormato());
     //Id es el código del documento Frebase ejemplo 3edatrtrw65f
     const ruta = `plantilla/excel/formato/${ id }`;
     try {
@@ -205,7 +206,10 @@ export const actualizarDocumentos = (id = '', respuestas = '') => {
           }
         });
         await updateDoc(plantillaRef, { detalleJson: detalleJsonArray }, { merge: true });
-     
+        //Descarga de formatos actualizados
+        dispatch(startLoadingFormatos());
+         //Cambia de estado el saving a false, para dar finalizado el cambio
+         dispatch( deleteFormatoById());
       } else {
         console.log("El documento no existe");
       }
@@ -215,182 +219,50 @@ export const actualizarDocumentos = (id = '', respuestas = '') => {
   }
 };
 
-// //SOBRE ESCRIBE TODO
-// export const actualizarDocumentos = (id = '', respuestas = '', proceso = '') => {
-//   return async (dispatch, getState) => {
-//     console.log('Estoy en actualizarDocumentos')
-//     console.log(id)
-//     console.log(proceso)
-//     console.log(respuestas)
+// **** VALIDAR PROCESO DE ACTUALIZACION ******
+export const cierreDocumento = (id = '', respuestas = '') => {
+  return async (dispatch, getState) => {
+
+    console.log('Estoy en cierre comienza la acción ...')
+
+    //Id es el código del documento Frebase ejemplo 3edatrtrw65f
+    const ruta = `plantilla/excel/formato/${ id }`;
+    try {
+      //Realiza conexión con ruta y extracción de documentos
+      const plantillaRef = doc(FirebaseDB, ruta);
+      const plantillaSnapshot = await getDoc(plantillaRef);
     
-//     const ruta = `plantilla/excel/formato/${ id }`;
+      if (plantillaSnapshot.exists()) {
+        // Obtener la matriz detalleJson de todo el documento o archivo
+        const detalleJsonArray = plantillaSnapshot.get("detalleJson");    
 
-//     try {
-//       const plantillaRef = doc(FirebaseDB, ruta);
-//       const plantillaSnapshot = await getDoc(plantillaRef);
-    
-//       if (plantillaSnapshot.exists()) {
-//         // Obtener la matriz detalleJson de todo el documento o archivo
-//         const detalleJsonArray = plantillaSnapshot.get("detalleJson");    
-//         //Cambio de estado a Cierre
-//         const respuestaTotal = respuestas.map(respuesta => {
-//           return {
-//             ...respuesta,
-//             Estado: 'Cierre',
-//           };
-//         });
-//         // iterar los objetos en respuestaTotal comparato con el total de registros para encontrar el indice
-//         const detalleJson = Array(respuestaTotal.length).fill({});
-//         respuestaTotal.forEach((respuesta) => {
-//           // buscar el índice correspondiente en detalleJson
-//           const index = detalleJsonArray.findIndex((obj) => obj.id === respuesta.id);
-//           // si se encuentra el índice, actualizar el objeto en ese índice
-//           if (index >= 0) {
-
-//             console.log(respuesta)
-//             detalleJson[index] = respuesta;
-//           }
-//         });
-       
-//         //Comienza leyendo solo la información indicada y se debe actualizar en firebase
-//         console.log('Leyendo solo la información')
-//         respuestaTotal.forEach(async (respuesta) => {
-//           if (Object.keys(respuesta).length > 0) {
-//             console.log(respuesta);
-//             // Actualizar la matriz detalleJson en la base de dato
-//           }
-//         });
-//         // Actualizar la matriz detalleJson en la base de datos
-//         await updateDoc(plantillaRef, { detalleJson: detalleJson }, { merge: true });
-//         console.log("Objeto actualizado con éxito");
-//       } else {
-//         console.log("El documento no existe");
-//       }
-//     } catch (error) {
-//       console.log("Error al actualizar objeto:", error);
-//     }
-//   }
-// };
+        //Extrae id y las respuestas
+        const idsRespuestas = respuestas.map((respuesta) => {
+          return {
+            id: respuesta.id - 1,
+            respuestas: respuesta.respuestas
+          };
+        });
+        // Recorrer idsRespuestas y actualizar detalleJsonArray con Cierre y Respuestas realizadas
+        idsRespuestas.forEach((respuesta) => {
+          const detalle = detalleJsonArray[respuesta.id];
+          if (detalle) {
+            detalle.Estado = "Finalizado";
+            //detalle.Respuestas = respuesta.respuestas;
+          }
+        });
 
 
-
-//CODIGO SOLO CARGA EL PRIMER REGISTRO
-// export const actualizarDocumentos = (id = '', respuestas = '', proceso = '') => {
-//   return async (dispatch, getState) => {
-//     console.log('Estoy en actualizarDocumentos')
-//     console.log(id)
-//     console.log(proceso)
-//     console.log(respuestas)
-    
-//     const ruta = `plantilla/excel/formato/${ id }`;
-
-//     try {
-//       const plantillaRef = doc(FirebaseDB, ruta);
-//       const plantillaSnapshot = await getDoc(plantillaRef);
-    
-//       if (plantillaSnapshot.exists()) {
-//         // Obtener la matriz detalleJson
-//         const detalleJsonArray = plantillaSnapshot.get("detalleJson");
-//         console.log('detalleJsonArray')
-//         console.log(detalleJsonArray)
-    
-//         // Buscar el objeto en el array que corresponde al id recibido como parámetro
-//         // const index = detalleJsonArray.findIndex(obj => obj.id === id);
-
-//         // // Verificar que el índice que se desea actualizar existe en la matriz
-//         // if (index < 0) {
-//         //   console.log(`El índice ${id} no existe en la matriz detalleJson`);
-//         //   return;
-//         // }
-
-//         // Obtener el objeto en el índice especificado
-//         const detalleJsonObject = detalleJsonArray[0];
-
-//         // Crear un arreglo auxiliar para las respuestas
-//         let respuestasAux = [];
-
-//         // Iterar sobre cada registro del arreglo de respuestas
-//         respuestas.forEach(objeto => {
-//           const bloque = objeto["BLOQUES DE EVALUACIÓN"];
-//           const categoria = objeto["CATEGORÍA"];
-//           const pregunta = objeto["CONDUCTA"];
-//           const cumplimientoBloque = objeto["CUMPLIMIENTO POR BLOQUES"];
-//           const cumplimientoPregunta = objeto["CUMPLIMIENTO POR CATEGORIA"];
-//           const respuesta = objeto["respuesta"];
-//           respuestasAux.push({bloque,categoria, pregunta,respuesta,cumplimientoPregunta,cumplimientoBloque} );
-//         });
-
-//         console.log('respuestas1:');
-//         console.log(respuestasAux);
-
-//         const nuevoArreglo = respuestas.map((objeto) => {
-//           const respuestasAux1 = [];
-        
-//           objeto.respuestas.forEach((respuestaObjeto) => {
-//             const bloque = respuestaObjeto["BLOQUES DE EVALUACIÓN"];
-//             const categoria = respuestaObjeto["CATEGORÍA"];
-//             const pregunta = respuestaObjeto["CONDUCTA"];
-//             const cumplimientoBloque = respuestaObjeto["CUMPLIMIENTO POR BLOQUES"];
-//             const cumplimientoPregunta = respuestaObjeto["CUMPLIMIENTO POR CATEGORIA"];
-//             const respuesta = respuestaObjeto["respuesta"];
-//             respuestasAux1.push({
-//               bloque,
-//               categoria,
-//               pregunta,
-//               respuesta,
-//               cumplimientoPregunta,
-//               cumplimientoBloque,
-//             });
-//           });
-        
-//           return {
-//             ANI: objeto.ANI,
-//             Campo1: objeto.Campo1,
-//             Campo11: objeto.Campo11,
-//             Coordinador: objeto.Coordinador,
-//             Direccion: objeto.Direccion,
-//             Direccion1: objeto.Direccion1,
-//             Ejecutivo: objeto.Ejecutivo,
-//             Empresa: objeto.Empresa,
-//             Enlace: objeto.Enlace,
-//             Equipo: objeto.Equipo,
-//             Estado: objeto.Estado,
-//             FechadeGestion: objeto.FechadeGestion,
-//             Monitor: objeto.Monitor,
-//             Pais: objeto.Pais,
-//             Seguro: objeto.Seguro,
-//             Seguro1: objeto.Seguro1,
-//             Socio: objeto.Socio,
-//             Supervisor: objeto.Supervisor,
-//             TMO: objeto.TMO,
-//             TipodeAuditoria: objeto.TipodeAuditoria,
-//             id: objeto.id,
-//             respuestas: respuestasAux1,
-            
-//           };
-//         });
-        
-//         console.log('Veamos como queda con esto')
-//          console.log(nuevoArreglo)
-        
-//         // Agregar respuestas al objeto
-//         detalleJsonObject.respuestas = respuestasAux;
-
-//         // Actualizar campo estado en el objeto
-//         detalleJsonObject.Estado = 'Cierre';
-
-//         // Actualizar la matriz detalleJson en la base de datos
-//         //detalleJsonArray.splice(index, 1, detalleJsonObject);
-//         console.log(respuestas)
-//         await updateDoc(plantillaRef, { detalleJson: nuevoArreglo }, { merge: true });
-//         return
-//         console.log("Campo respuesta agregado con éxito");
-//       } else {
-//         console.log("El documento no existe");
-//       }
-//     } catch (error) {
-//       console.log("Error al agregar campo respuesta:", error);
-//     }
-//   }
-// };
-
+        console.log('Esto es lo que cargará como Finalizado')
+        console.log(detalleJsonArray)
+        await updateDoc(plantillaRef, { detalleJson: detalleJsonArray }, { merge: true });
+        //Descarga de formatos actualizados
+        dispatch(startLoadingFormatos());
+      } else {
+        console.log("El documento no existe");
+      }
+    } catch (error) {
+      console.log("Error al actualizar objeto:", error);
+    }
+  }
+};

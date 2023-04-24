@@ -3,7 +3,7 @@ import { Button, Dialog, DialogActions, DialogContent, DialogContentText, Dialog
 import { useSelector, useDispatch } from 'react-redux';
 import Swal from 'sweetalert2'
 import AuditoriaVisualFormato from './visual_formato/CierreVisualFormato';
-import { actualizarDocumentos } from '../../../store/formato/thunks';
+import { cierreDocumento } from '../../../store/formato/thunks';
 
 const CierreActividadViewDetalle = (props) => {
     const [open, setOpen] = React.useState(false);
@@ -37,7 +37,7 @@ const CierreActividadViewDetalle = (props) => {
     console.log(detalleJson)
     //Filtrar los registros
     const elementosFiltrados = detalleJson.filter(elemento => {
-      return elemento.Estado === "Asigna" && elemento.respuestas;
+      return elemento.Estado === "Cierre" && elemento.respuestas;
     });
     
     console.log(elementosFiltrados);
@@ -51,29 +51,29 @@ const CierreActividadViewDetalle = (props) => {
       }
     });
     //Validación si existe encuestas
-    if (objetosConRespuestas.length<1) {
-      handleClose(false);
-      Swal.fire({
-        position: 'top-center',
-        icon: 'error',
-        title: 'No hay encuestas realizadas.',
-        showConfirmButton: false,
-        timer: 1500
-      })
-      return
-    }
+    // if (objetosConRespuestas.length<1) {
+    //   handleClose(false);
+    //   Swal.fire({
+    //     position: 'top-center',
+    //     icon: 'error',
+    //     title: 'No hay encuestas realizadas.',
+    //     showConfirmButton: false,
+    //     timer: 1500
+    //   })
+    //   return
+    // }
 
     
     const respuestas = objetosConRespuestas.map(objeto => objeto.respuestas);
      //Actualización en Firebase registros + ID de documento
     //dispatch(startUpdateFormatoRespuesta(id,respuestas, "Evaluación"));
-    dispatch(actualizarDocumentos(id,elementosFiltrados));
+    dispatch(cierreDocumento(id,elementosFiltrados));
     
     handleClose(false);
     Swal.fire({
       position: 'top-center',
       icon: 'success',
-      title: 'Asignación realizada con éxito.',
+      title: 'Cierre realizado con éxito.',
       showConfirmButton: false,
       timer: 1500
     })

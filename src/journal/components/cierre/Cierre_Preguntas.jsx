@@ -3,33 +3,7 @@ import { Card, CardContent, FormControl, FormControlLabel, FormLabel, Radio, Rad
 import { useSelector, useDispatch } from 'react-redux';
 import { actualizarDetalleJson } from "../../../store/formato/formatoSlice";
 import Swal from 'sweetalert2'
-//Ejemplo de formato de archivo para construir
-// const preguntas = [
-//   {
-//     id: "pregunta1",
-//     categoria: "Velocidad al contestar",
-//     pregunta: "Atención inmediata del chat: Saluda al Cliente",
-// .   bloque:"ABORDAJE",
-// .   cumplimiento: "si porcentaje / no 0"
-// .   cumplimientoBloque:"Total bloque"
-//   },
-//   {
-//     id: "pregunta2",
-//     categoria: "Saludo e identificación",
-//     pregunta: "Saluda al cliente: ¡Hola! Soy (nombre ejecutivo), estaré a cargo de atender tu solicitud.",
-// .   bloque:"ABORDAJE",
-// .   cumplimiento: "si porcentaje / no 0"
-// .   cumplimientoBloque:"Total bloque"
-//   },
-//   {
-//     id: "pregunta3",
-//     categoria: "Validación",
-//     pregunta: "Toda atención en la que se entregue información privada de la cuenta del cliente.",
-// .   bloque:"ABORDAJE",
-// .   cumplimiento: "si porcentaje / no 0"
-// .   cumplimientoBloque:"Total bloque"
-//   },
-// ];
+
 
 const Cierre_Preguntas = (props) => {
   //Tomando los formatos
@@ -108,16 +82,16 @@ const Cierre_Preguntas = (props) => {
   }
   // Boton guardar acción
   const handleSubmit = () => {
-    //Validación de cantidad de respuestas ingresadas por usuario, utilizaremos la suma de si y no "estadistica"
-    if (totalPreguntas > estadisticas.si + estadisticas.no ) {
-       setShowError(true);
-      return
-    }
-    //Validación de respuestas no con su comentario
-    if (estadisticas.comentarios !== estadisticas.no) {
-        setShowErrorNo(true);
-      return;
-    }
+    // //Validación de cantidad de respuestas ingresadas por usuario, utilizaremos la suma de si y no "estadistica"
+    // if (totalPreguntas > estadisticas.si + estadisticas.no ) {
+    //    setShowError(true);
+    //   return
+    // }
+    // //Validación de respuestas no con su comentario
+    // if (estadisticas.comentarios !== estadisticas.no) {
+    //     setShowErrorNo(true);
+    //   return;
+    // }
     //A nivel de linea agrega las respuestas correspondiente
     const preguntasRespuestas = arreglo[0].detalleJson.map((pregunta, index) => {
       const respuesta = respuestas[index];
@@ -144,8 +118,8 @@ const Cierre_Preguntas = (props) => {
    Swal.fire({
     confirmButtonColor: '#2196f3',
     icon: 'success',
-    title: 'Evaluación',
-    text: 'Almacenada correctamente, recordar presionar el bóton guardar en pantalla principal para ser enviadas esta(s) encuesta(s). Gracias !!!! 😉',
+    title: 'Cierre de Evaluación',
+    text: 'Almacenada correctamente, recordar presionar el bóton guardar en pantalla principal para finalzar proceso. Gracias !!!! 😉',
   });
    return
    
