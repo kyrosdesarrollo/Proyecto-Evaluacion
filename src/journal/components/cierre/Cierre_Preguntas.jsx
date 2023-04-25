@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Card, CardContent, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, TextField, Button,Modal, Typography,Icon } from "@mui/material";
+import { Card, CardContent,Box ,FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, TextField, Button,Modal, Typography,Icon } from "@mui/material";
 import { useSelector, useDispatch } from 'react-redux';
 import { actualizarDetalleJson } from "../../../store/formato/formatoSlice";
 import Swal from 'sweetalert2'
@@ -63,7 +63,9 @@ const Cierre_Preguntas = (props) => {
     const { 
       "BLOQUES DE EVALUACIÓN": bloque,
       "CATEGORÍA": categoria,
-      "CONDUCTA": pregunta
+      "CONDUCTA": pregunta,
+      "CUMPLIMIENTO POR BLOQUES":porcentajeBloque,
+      "CUMPLIMIENTO POR CATEGORIA":porcentajePregunta
     } = consulta;
   
     if (!acc[bloque]) {
@@ -71,12 +73,13 @@ const Cierre_Preguntas = (props) => {
     }
     //Incorporación de respuestas de usuario a nivel de indice
     const respuesta = respuestaDeUsuario[i].respuesta;
-    acc[bloque].push({ id: i, categoria, pregunta, respuesta, bloque });
+    acc[bloque].push({ id: i, categoria, pregunta, respuesta,porcentajeBloque,porcentajePregunta, bloque });
   
     return acc;
   }, {});
 
-  
+  console.log('first')
+  console.log(preguntasPorBloque)
 
   //Contar cantidad de preguntas de pauta
   const totalPreguntas = Object.values(preguntasPorBloque).reduce((acc, bloque) => acc + bloque.length, 0);
@@ -185,6 +188,19 @@ const Cierre_Preguntas = (props) => {
                 margin="dense"
               />
             )}
+            <Box> </Box>
+            {pregunta.respuesta.respuesta === "NO" && (
+            
+             <font color="red" size="5">  Porcentaje obtenido 0 %</font> 
+             
+              
+            )}
+            {pregunta.respuesta.respuesta === "SI" && (
+              
+              <font color="primary" size="5">Porcentaje obtenido  {pregunta.porcentajePregunta * 1000} %</font> 
+               
+             )}
+
             <br />
           </div>
         ))}
