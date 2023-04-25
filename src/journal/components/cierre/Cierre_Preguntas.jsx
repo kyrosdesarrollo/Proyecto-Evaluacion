@@ -147,7 +147,8 @@ console.log(preguntasPorBloque)
   };
   return (
     <Card variant="outlined" sx={{ borderRadius: "12px", backgroundColor: "#f5f5f5", borderColor: "primary.main" }}>
-    {Object.entries(preguntasPorBloque).map(([bloque, preguntas]) => (
+    {Object.entries(preguntasPorBloque).map(([bloque, preguntas, respuesta]) => (
+      
     <CardContent key={bloque} sx={{ borderColor: "primary.main" }}>
       <FormControl>
         <FormLabel id={`demo-radio-buttons-group-label-${bloque}`} sx={{ textAlign: "center", backgroundColor: "#2196f3", borderRadius: "20px" ,fontWeight: "bold",color: "white" }}>
@@ -161,18 +162,18 @@ console.log(preguntasPorBloque)
             <RadioGroup
               aria-labelledby={`demo-radio-buttons-group-label-${pregunta.id}`}
               name={`radio-buttons-group-${pregunta.id}`}
-              defaultValue={pregunta.respuesta.respuesta}
+              defaultValue={pregunta.respuesta.respuesta || "NO"}
               onChange={(e) => handleRespuesta(pregunta.id, e.target.value)}
             >
               <FormControlLabel value="SI" control={<Radio />} label="SI" />
               <FormControlLabel value="NO" control={<Radio />} label="NO" />
             </RadioGroup>
-            {respuestas[pregunta.id]?.respuesta === "NO" && (
+            {pregunta.respuesta.respuesta === "NO" && (
               <TextField
                 required
                 label="Comentario"
                 variant="outlined"
-                value={respuestas[pregunta.id]?.comentario}
+                value={pregunta.respuesta.comentario}
                 onChange={(e) =>
                   setRespuestas({
                     ...respuestas,
