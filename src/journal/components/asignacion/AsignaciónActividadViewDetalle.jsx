@@ -154,7 +154,7 @@ const handleChange = (e) => {
                                                 </DialogTitle>
                                                 <DialogContent>
                                                 <DialogContentText id="alert-dialog-description">
-                                                Al momento de eliminar este archivo no habrá vuelta atrás , de igual modo deseas eliminar la información .
+                                                Al momento de eliminar este archivo no habrá vuelta atrás , eliminara todos los registros ingresados (Craga, Asignación, Encuesta y Cierre) de igual modo deseas eliminar la información .
                                                 Nota Importante: Los campos relevantes para realizar reporteria son los de cabecera.
                                                 </DialogContentText>
                                                 </DialogContent>

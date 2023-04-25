@@ -75,13 +75,13 @@ const VisualFormato = (props ) => {
                             setTableData(updatedData)
                             setTimeout(() => resolve(), 500)
                           })
-                          ,
-                          onRowDelete: (selectedRow) => new Promise((resolve, reject) => {
-                            const updatedData = [...tableData]
-                            updatedData.splice(selectedRow.tableData.id, 1)
-                            setTableData(updatedData)
-                            setTimeout(() => resolve(), 1000)
-                          })
+                          // ,
+                          // onRowDelete: (selectedRow) => new Promise((resolve, reject) => {
+                          //   const updatedData = [...tableData]
+                          //   updatedData.splice(selectedRow.tableData.id, 1)
+                          //   setTableData(updatedData)
+                          //   setTimeout(() => resolve(), 1000)
+                          // })
                         }}
 
                         onSelectionChange={handleSelectionChange}            

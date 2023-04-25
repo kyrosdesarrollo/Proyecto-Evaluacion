@@ -52,18 +52,15 @@ const Cierre_Preguntas = (props) => {
   const arreglo = JSON.parse(pauta);
   //Extrae IOndice del objeto y captura las respuestas que realizo el usuario
   console.log('LineaObjecto')
-  console.log(props.lineaObjeto.id)
-  let idIndice = props.lineaObjeto.id - 1;
+  console.log(idLineaObjeto)
+  let idIndice = idLineaObjeto - 1;
   console.log(idIndice)
   let respuestaDeUsuario;
   try {
-  respuestaDeUsuario = props.formato.detalleJson[idIndice].Respuestas;
+  respuestaDeUsuario = props.formato.detalleJson[idIndice].respuestas;
   } catch (error) {
     return
   }
-
-  console.log('Respuesta de usuario')
-  console.log(respuestaDeUsuario)
   //Recorre pauta para extración de preguntas dejando estas agrupadas en bloque de evaluación.
   const preguntasPorBloque = arreglo[0].detalleJson.reduce((acc, consulta, i) => {
     const { 
