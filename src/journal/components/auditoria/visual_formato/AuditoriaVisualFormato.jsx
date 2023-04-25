@@ -27,7 +27,6 @@ const AuditoriaVisualFormato = (props) => {
     filtering: false,
   }));
 
-  console.log(displayName)
   useEffect(() => {
     const detalle = plantilla.detalleJson.map((o) => ({ ...o }));
     let filtro;
@@ -44,10 +43,7 @@ const AuditoriaVisualFormato = (props) => {
       return nuevoObjeto;
     });
 
-
-    console.log(nuevoArreglo)
-    //Envio de información depurada
-    
+    //Envio de información depurada    
     setTableData(nuevoArreglo);
   },[props.id]);
 
@@ -56,6 +52,7 @@ const [selectedRows, setSelectedRows] = useState([]);
 
 const handleSelectionChange = (rows) => {
   setSelectedRows(rows.map(row => row.tableData.id));
+  props.updateSelectRowValue(rows)
 }
 
 //Selección de registro y validación.

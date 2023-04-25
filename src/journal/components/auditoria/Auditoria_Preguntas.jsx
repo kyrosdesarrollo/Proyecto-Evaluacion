@@ -87,8 +87,6 @@ const Auditoria_Preguntas = (props) => {
     return acc;
   }, {});
 
-  console.log('preguntasPorBloque');
-  console.log(preguntasPorBloque);
   //Contar cantidad de preguntas de pauta
   const totalPreguntas = Object.values(preguntasPorBloque).reduce((acc, bloque) => acc + bloque.length, 0);
   //Contar cantidad de respuestas si / no / comentarios indicadas por usuario

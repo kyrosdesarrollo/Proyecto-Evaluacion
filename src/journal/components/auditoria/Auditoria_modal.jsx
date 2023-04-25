@@ -20,7 +20,7 @@ const handleClose = () => {
     </Box>
         <Auditoria_Preguntas 
           pautasSeleccion={props.pauta} 
-          ineaObjeto={props.rowData} 
+          lineaObjeto={props.rowData} 
           formato ={props.formato} 
           handleClose={handleClose}
         />

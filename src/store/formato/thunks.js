@@ -99,6 +99,7 @@ export const startUpdateFormato = (arreglo, id = '')=>{
         dispatch( deleteFormatoById());
     }
 }
+//Actualizacion de respuestas
 export const startUpdateFormatoRespuesta = (id = '', respuestas = '', proceso = '') => {
   return async (dispatch, getState) => {
     console.log('Estoy en startUpdateFormatoRespuesta')
@@ -123,10 +124,6 @@ export const startUpdateFormatoRespuesta = (id = '', respuestas = '', proceso = 
 
     const ruta = `plantilla/excel/formato/${ id }`;
     const detalleJsonIndex = 0; // Índice del elemento en la matriz detalleJson que quieres actualizar
-    const respuesta1 = {
-          pregunta: 'te gustas',
-          respuesta: 'Si'
-          };
     
     try {
       const plantillaRef = doc(FirebaseDB, ruta);
@@ -188,7 +185,8 @@ export const actualizarDocumentos = (id = '', respuestas = '') => {
       if (plantillaSnapshot.exists()) {
         // Obtener la matriz detalleJson de todo el documento o archivo
         const detalleJsonArray = plantillaSnapshot.get("detalleJson");    
-
+        
+        console.log(detalleJsonArray)
         //Extrae id y las respuestas
         const idsRespuestas = respuestas.map((respuesta) => {
           return {
@@ -196,6 +194,7 @@ export const actualizarDocumentos = (id = '', respuestas = '') => {
             respuestas: respuesta.respuestas
           };
         });
+        console.log(idsRespuestas)
         // Recorrer idsRespuestas y actualizar detalleJsonArray con Cierre y Respuestas realizadas
         idsRespuestas.forEach((respuesta) => {
           const detalle = detalleJsonArray[respuesta.id];
@@ -204,6 +203,7 @@ export const actualizarDocumentos = (id = '', respuestas = '') => {
             detalle.Respuestas = respuesta.respuestas;
           }
         });
+        console.log(detalleJsonArray)
         await updateDoc(plantillaRef, { detalleJson: detalleJsonArray }, { merge: true });
         //Descarga de formatos actualizados
         dispatch(startLoadingFormatos());
@@ -217,7 +217,6 @@ export const actualizarDocumentos = (id = '', respuestas = '') => {
     }
   }
 };
-
 // **** VALIDAR PROCESO DE ACTUALIZACION ******
 export const cierreDocumento = (id = '', respuestas = '') => {
   return async (dispatch, getState) => {

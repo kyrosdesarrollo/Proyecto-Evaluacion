@@ -1,13 +1,19 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Stack } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
 import Swal from 'sweetalert2'
 import AuditoriaVisualFormato from './visual_formato/AuditoriaVisualFormato';
-import { actualizarDocumentos, startUpdateFormatoRespuesta } from '../../../store/formato/thunks';
+import {startUpdateFormato } from '../../../store/formato/thunks';
 
 const AuditoriaActividadViewDetalle = (props) => {
     const [open, setOpen] = React.useState(false);
     const { formatos } = useSelector(state => state.formato);
+
+    // useSate donde devuelve la información obtenida del componete VisualFormnato.jsx
+    const [selectRowValue, setSelectRowValue] = useState(null);
+    function updateSelectRowValue(value) {
+      setSelectRowValue(value);
+    }
 
     const dispatch = useDispatch();
     //Tomando los formatos
@@ -30,14 +36,27 @@ const AuditoriaActividadViewDetalle = (props) => {
   const onGuardar = () =>{
     //Extración id = numero de archivo
     const id = formatosReduxRespuesta[j].id ;
-
    // console.log(formatosReduxRespuesta[j])
     //Extrae el detalleJson, los registros que contengan información respuestas
     const detalleJson = formatosReduxRespuesta[j].detalleJson;
-    console.log(detalleJson)
+     //Aqui recibie los registros seleccionado por usuario
+     let registrosAsignados = selectRowValue;
+    console.log(registrosAsignados)
+     if (registrosAsignados.length < 1) {
+       setOpen(false);
+       Swal.fire({
+         position: 'top-center',
+         icon: 'error',
+         title: 'No hay registros seleccionados',
+         showConfirmButton: false,
+         timer: 1800
+       })
+       return
+     }
+ 
     //Filtrar los registros
     const elementosFiltrados = detalleJson.filter(elemento => {
-      return elemento.Estado === "Asigna" && elemento.respuestas;
+      return elemento.Estado === "Asigna";
     });
     console.log('Elementos filtrados')
     console.log(elementosFiltrados);
@@ -50,6 +69,10 @@ const AuditoriaActividadViewDetalle = (props) => {
         objetosConRespuestas.push(objeto);
       }
     });
+
+
+    console.log('Objeto solo con respeustas')
+    console.log(objetosConRespuestas)
     //Validación si existe encuestas
     if (objetosConRespuestas.length<1) {
       handleClose(false);
@@ -62,11 +85,15 @@ const AuditoriaActividadViewDetalle = (props) => {
       })
       return
     }
+    //Filtrar los registros
+    const idsAsignados = objetosConRespuestas.map((respuesta) => respuesta.id - 1);
+    //Recorre el arreglo completo y cambia el estado Asigna a los registros seleccionados
+    const ArregloAsignados = detalleJson.map((obj, index) => {
+      return idsAsignados.includes(index) ? {...obj, Estado: "Cierre"} : {...obj};
+    });
 
-    
-    const respuestas = objetosConRespuestas.map(objeto => objeto.respuestas);
-     //Actualización en Firebase registros + ID de documento
-    dispatch(actualizarDocumentos(id,elementosFiltrados));
+     //Actualización en Firebase todos los registros + ID de documento
+    dispatch(startUpdateFormato(ArregloAsignados,id));
     
     handleClose(false);
     Swal.fire({
@@ -118,7 +145,9 @@ const AuditoriaActividadViewDetalle = (props) => {
       </Grid>
       <AuditoriaVisualFormato 
         id = {j}  
-        nombrePauta = {pauta}/>  
+        nombrePauta = {pauta}
+        updateSelectRowValue={updateSelectRowValue}
+        />  
     </>
   )
 }
