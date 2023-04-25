@@ -13,12 +13,7 @@ const Cierre_Preguntas = (props) => {
   const [respuestas, setRespuestas] = useState({});
   const [showError, setShowError] = useState(false);
   const [showErrorNo, setShowErrorNo] = useState(false);
-  const [idLineaObjeto, setIdLineaObjeto] = useState({});
-
-  //Cerrar modal 
-
-  //console.log(props.formato.detalleJson)
-  
+  const [idLineaObjeto, setIdLineaObjeto] = useState({});  
   //Control por si el dato lineaObjeto ess null adicional devuelve el objeto
   useEffect(() => {
     if (!props.lineaObjeto) {
@@ -55,7 +50,7 @@ const Cierre_Preguntas = (props) => {
  
   //convertir una cadena de texto pauta en formato JSON a un objeto de JavaScript.
   const arreglo = JSON.parse(pauta);
-  //Extrae respeustas a nivel de linea desde formato
+  //Extrae IOndice del objeto y captura las respuestas que realizo el usuario
   let idIndice = idLineaObjeto - 1;
   let respuestaDeUsuario;
   try {
@@ -74,27 +69,15 @@ const Cierre_Preguntas = (props) => {
     if (!acc[bloque]) {
       acc[bloque] = [];
     }
+    //Incorporación de respuestas de usuario a nivel de indice
     const respuesta = respuestaDeUsuario[i].respuesta;
-    acc[bloque].push({ id: i, categoria, pregunta, respuesta : respuesta, bloque });
+    acc[bloque].push({ id: i, categoria, pregunta, respuesta, bloque });
   
     return acc;
   }, {});
 
   
-  
-  console.log('Preguntas por Bloque')
-  console.log(preguntasPorBloque)
-  
-  
-
-  // usando forEach()
-
-
-
-
-
-
-
+console.log(preguntasPorBloque)
   //Contar cantidad de preguntas de pauta
   const totalPreguntas = Object.values(preguntasPorBloque).reduce((acc, bloque) => acc + bloque.length, 0);
   console.log('Total de Preguntas')
@@ -178,6 +161,7 @@ const Cierre_Preguntas = (props) => {
             <RadioGroup
               aria-labelledby={`demo-radio-buttons-group-label-${pregunta.id}`}
               name={`radio-buttons-group-${pregunta.id}`}
+              defaultValue={pregunta.respuesta.respuesta}
               onChange={(e) => handleRespuesta(pregunta.id, e.target.value)}
             >
               <FormControlLabel value="SI" control={<Radio />} label="SI" />
