@@ -19,7 +19,11 @@ const handleClose = () => {
       {/* <p sx={{ fontSize: '16px' }}>Rut: {rowData?.Rut}</p>
       <p sx={{ fontSize: '16px' }}>Fecha: {rowData?.['Fecha de Auditoria']}</p> */}
     </Box>
-        <Cierre_Preguntas pautasSeleccion={props.pauta} lineaObjeto={props.rowData} formato ={props.formato} handleClose={handleClose}/>
+        <Cierre_Preguntas 
+          pautasSeleccion={props.pauta} 
+          lineaObjeto={props.rowData} 
+          formato ={props.formato} 
+          handleClose={handleClose}/>
       </DialogContent>
       <DialogActions>
         <Button variant="outlined" onClick={handleClose}>Cerrar</Button>

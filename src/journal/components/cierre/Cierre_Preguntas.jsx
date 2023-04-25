@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, TextField, Button,Modal, Typography,Icon } from "@mui/material";
 import { useSelector, useDispatch } from 'react-redux';
 import { actualizarDetalleJson } from "../../../store/formato/formatoSlice";
@@ -13,12 +13,23 @@ const Cierre_Preguntas = (props) => {
   const [respuestas, setRespuestas] = useState({});
   const [showError, setShowError] = useState(false);
   const [showErrorNo, setShowErrorNo] = useState(false);
+  const [idLineaObjeto, setIdLineaObjeto] = useState({});
 
   //Cerrar modal 
- 
 
+  //console.log(props.formato.detalleJson)
+  
+  //Control por si el dato lineaObjeto ess null adicional devuelve el objeto
+  useEffect(() => {
+    if (!props.lineaObjeto) {
+      return;
+    }
+    setIdLineaObjeto(props.lineaObjeto.id)
+  }, [props.lineaObjeto]);
+  
   //Validación de respuesta No
   const handleRespuesta = (preguntaId, respuesta) => {
+
     setRespuestas({
       ...respuestas,
       [preguntaId]: {
@@ -29,7 +40,6 @@ const Cierre_Preguntas = (props) => {
   };
   //Extracción de pautas en redux
   const { pautas } = useSelector(state => state.pauta);
-  console.log(props.nombrePauta)
   //Limpiar nombre de pauta selecciona desde archivo
   let nombrePauta = props.pautasSeleccion.replace(/"/g, '');;
   // Variable para almacenar los objetos encontrados
@@ -42,8 +52,17 @@ const Cierre_Preguntas = (props) => {
   });
   //Seleccion de pauta con las preguntas
   const pauta = JSON.stringify(objetosEncontrados);
+ 
   //convertir una cadena de texto pauta en formato JSON a un objeto de JavaScript.
   const arreglo = JSON.parse(pauta);
+  //Extrae respeustas a nivel de linea desde formato
+  let idIndice = idLineaObjeto - 1;
+  let respuestaDeUsuario;
+  try {
+  respuestaDeUsuario = props.formato.detalleJson[idIndice].Respuestas;
+  } catch (error) {
+    return
+  }
   //Recorre pauta para extración de preguntas dejando estas agrupadas en bloque de evaluación.
   const preguntasPorBloque = arreglo[0].detalleJson.reduce((acc, consulta, i) => {
     const { 
@@ -55,14 +74,31 @@ const Cierre_Preguntas = (props) => {
     if (!acc[bloque]) {
       acc[bloque] = [];
     }
-  
-    acc[bloque].push({ id: i, categoria, pregunta, bloque });
+    const respuesta = respuestaDeUsuario[i].respuesta;
+    acc[bloque].push({ id: i, categoria, pregunta, respuesta : respuesta, bloque });
   
     return acc;
   }, {});
 
+  
+  
+  console.log('Preguntas por Bloque')
+  console.log(preguntasPorBloque)
+  
+  
+
+  // usando forEach()
+
+
+
+
+
+
+
   //Contar cantidad de preguntas de pauta
   const totalPreguntas = Object.values(preguntasPorBloque).reduce((acc, bloque) => acc + bloque.length, 0);
+  console.log('Total de Preguntas')
+  console.log(totalPreguntas)
   //Contar cantidad de respuestas si / no / comentarios indicadas por usuario
   //estructura Object { si: 1, no: 2, comentarios: 1 }
   const estadisticas = Object.values(respuestas).reduce((acc, respuesta) => {
@@ -83,16 +119,16 @@ const Cierre_Preguntas = (props) => {
   }
   // Boton guardar acción
   const handleSubmit = () => {
-    // //Validación de cantidad de respuestas ingresadas por usuario, utilizaremos la suma de si y no "estadistica"
-    // if (totalPreguntas > estadisticas.si + estadisticas.no ) {
-    //    setShowError(true);
-    //   return
-    // }
-    // //Validación de respuestas no con su comentario
-    // if (estadisticas.comentarios !== estadisticas.no) {
-    //     setShowErrorNo(true);
-    //   return;
-    // }
+    //Validación de cantidad de respuestas ingresadas por usuario, utilizaremos la suma de si y no "estadistica"
+    if (totalPreguntas > estadisticas.si + estadisticas.no ) {
+       setShowError(true);
+      return
+    }
+    //Validación de respuestas no con su comentario
+    if (estadisticas.comentarios !== estadisticas.no) {
+        setShowErrorNo(true);
+      return;
+    }
     //A nivel de linea agrega las respuestas correspondiente
     const preguntasRespuestas = arreglo[0].detalleJson.map((pregunta, index) => {
       const respuesta = respuestas[index];
@@ -110,6 +146,7 @@ const Cierre_Preguntas = (props) => {
    
     // Definir la acción de actualización con los datos que deseas enviar al store
 
+    
     const action = actualizarDetalleJson({formatoIndex, indiceEncontrado, preguntasRespuestas})
     dispatch(action);
 
