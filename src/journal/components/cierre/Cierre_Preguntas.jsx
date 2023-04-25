@@ -77,11 +77,9 @@ const Cierre_Preguntas = (props) => {
   }, {});
 
   
-console.log(preguntasPorBloque)
+
   //Contar cantidad de preguntas de pauta
   const totalPreguntas = Object.values(preguntasPorBloque).reduce((acc, bloque) => acc + bloque.length, 0);
-  console.log('Total de Preguntas')
-  console.log(totalPreguntas)
   //Contar cantidad de respuestas si / no / comentarios indicadas por usuario
   //estructura Object { si: 1, no: 2, comentarios: 1 }
   const estadisticas = Object.values(respuestas).reduce((acc, respuesta) => {
@@ -180,6 +178,7 @@ console.log(preguntasPorBloque)
                     [pregunta.id]: {
                       ...respuestas[pregunta.id],
                       comentario: e.target.value,
+                      
                     },
                   })
                 }
