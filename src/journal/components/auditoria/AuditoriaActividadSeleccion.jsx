@@ -8,7 +8,7 @@ const monitor = ['Monitor 1', 'Monitor 2','Monitor 3'];
 let options = [''];
 
 export default function ControlSeleccion( {opcion = ''} ) {
-  const [value, setValue] = React.useState(options[0]);
+  const [value, setValue] = React.useState([0]);
   const [inputValue, setInputValue] = React.useState('');
   options = opcion;
   let identificador = '';

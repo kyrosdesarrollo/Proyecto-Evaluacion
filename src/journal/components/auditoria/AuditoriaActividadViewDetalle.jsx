@@ -39,7 +39,7 @@ const AuditoriaActividadViewDetalle = (props) => {
     const elementosFiltrados = detalleJson.filter(elemento => {
       return elemento.Estado === "Asigna" && elemento.respuestas;
     });
-    
+    console.log('Elementos filtrados')
     console.log(elementosFiltrados);
     
 

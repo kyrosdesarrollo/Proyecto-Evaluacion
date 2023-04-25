@@ -87,6 +87,8 @@ const Auditoria_Preguntas = (props) => {
     return acc;
   }, {});
 
+  console.log('preguntasPorBloque');
+  console.log(preguntasPorBloque);
   //Contar cantidad de preguntas de pauta
   const totalPreguntas = Object.values(preguntasPorBloque).reduce((acc, bloque) => acc + bloque.length, 0);
   //Contar cantidad de respuestas si / no / comentarios indicadas por usuario
@@ -135,7 +137,6 @@ const Auditoria_Preguntas = (props) => {
     //Accion para actualizar en redux las respuestas   
    
     // Definir la acción de actualización con los datos que deseas enviar al store
-
     const action = actualizarDetalleJson({formatoIndex, indiceEncontrado, preguntasRespuestas})
     dispatch(action);
 

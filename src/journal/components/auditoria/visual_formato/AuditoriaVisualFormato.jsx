@@ -27,6 +27,7 @@ const AuditoriaVisualFormato = (props) => {
     filtering: false,
   }));
 
+  console.log(displayName)
   useEffect(() => {
     const detalle = plantilla.detalleJson.map((o) => ({ ...o }));
     let filtro;
@@ -42,6 +43,9 @@ const AuditoriaVisualFormato = (props) => {
       const { tableData, ...nuevoObjeto } = objeto;
       return nuevoObjeto;
     });
+
+
+    console.log(nuevoArreglo)
     //Envio de información depurada
     
     setTableData(nuevoArreglo);
