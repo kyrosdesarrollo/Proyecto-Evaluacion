@@ -6,7 +6,7 @@ import SaveAltIcon from '@mui/icons-material/SaveAlt';
 import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2'
 import { Button, Autocomplete, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField, DialogContentText } from '@mui/material';
 
@@ -36,6 +36,9 @@ export  const PautaExcelImportar = (props) => {
     const [sheetData, setSheetData] = useState({});
     const fileRef = useRef();
     const dispatch = useDispatch();
+
+    //Busqueda de informaciòn
+    const { pautas } = useSelector(state => state.pauta);
 
     const options = ['PARLO 1 LINEA', 'PARLO FRAUDE','PARLO FRAUDE1','PARLO FRAUDE MONITOREO','PARLO EQUIPO ESP.','PARLO FIDELIZACION','PARLO VENTAS'];
 
@@ -93,7 +96,6 @@ const handleFile = async (e) => {
          return}
     const myFile = e.target.files[0];
     if (!myFile) { return; }
-
         if(!checkArchivo(myFile.name)){ 
             Swal.fire({
                 confirmButtonColor: '#2196f3',
@@ -116,7 +118,18 @@ const handleFile = async (e) => {
         //Selección o asignación  de hoja
         setFile(myFile)
         setfileName(myFile.name);
-
+        //Busqueda de informaciòn pauta y validación por si se encuentra cargada esta
+        let informacion =  'Pauta : ' + ' ' + selectComboName  +' Se encuentra en sistema, si gustas puedes visualizar o actualizar al momento guardar esta la información ...';
+        const resultados = pautas.filter((elemento) => elemento.formato === selectComboName);
+        if (resultados.length > 0) {
+            Swal.fire({
+                position: 'top-center',
+                icon: 'info',
+                title: informacion,
+                showConfirmButton: false,
+                timer: 5500
+              })
+        }
         props.onFileSubir(mySheetData);
     
 };
@@ -163,10 +176,49 @@ const handleClose = () => {
 const onGuardarExcel = () =>{
     handleClose();
     setBotonImport (false) ;
+    //Busqueda de informaciòn pauta y validación por si se encuentra cargada esta
+    let informacion =  'Pauta : ' + ' ' + selectComboName  +' Se encuentra en sistema, si gustas puedes visualizar o al momento de guardar esta se actualizará la información ...';
+    const resultados = pautas.filter((elemento) => elemento.formato === selectComboName);
+    console.log(resultados.length)
+    if (resultados.length > 0) {
+        Swal.fire({
+            title: 'Actualización de Pauta !',
+            text: "Estas seguro de actualizar pauta ingresada en sistema, recordar que esta actualización será utilizada para los formatos cargados desde este momento hacia adelante. ",
+            icon: 'info',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, deseo actualizar!'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              Swal.fire(
+                'Deleted!',
+                'Your file has been deleted.',
+                'success'
+              )
     dispatch(pautaStartNewExcel(lista,listaJson, selectComboName));
+     //Hacer 
+    setFile(null);
+    setfileName(null);
+    setSheetNames([]);
+    setSheetData(null); 
+    setListaJson([]);
+    setLista([]);
+    props.onFileSubir(null);
+    fileRef.current.value = "";
 
+    Swal.fire({
+        position: 'top-center',
+        icon: 'success',
+        title: 'Archivo Pauta actualizado con éxito.',
+        showConfirmButton: false,
+        timer: 1500
+      })
+            }
+          })
+    } else{
+    dispatch(pautaStartNewExcel(lista,listaJson, selectComboName));
      //Hacer
-    
     setFile(null);
     setfileName(null);
     setSheetNames([]);
@@ -183,6 +235,8 @@ const onGuardarExcel = () =>{
         showConfirmButton: false,
         timer: 1500
       })
+    }
+    
 
 };
   return (

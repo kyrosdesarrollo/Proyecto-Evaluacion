@@ -59,7 +59,7 @@ const CargaVisualPauta = (props) => {
   <>
   <ThemeProvider theme={defaultMaterialTheme}>
     <MaterialTable
-      title="Carga de archivo Excel"
+      title="Carga desde archivo Excel"
       columns={columnsWithTableData}
       data={columnsWithTableDetail}
       editable={{
