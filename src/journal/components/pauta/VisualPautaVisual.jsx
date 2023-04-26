@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import MaterialTable from 'material-table';
 import { ThemeProvider, createTheme } from '@mui/material';
@@ -6,35 +6,50 @@ import { de } from 'date-fns/locale';
 
 const VisualPautaVisual = ({nombrePauta = ''}) => {
 
+
+  const defaultMaterialTheme = createTheme(); 
+  
+  const [columns, setColumns] = useState([]);
+  const [data, setData] = useState([]);
   //Busqueda de informaciòn
   const { pautas } = useSelector(state => state.pauta);
   const resultados = pautas.filter((elemento) => elemento.formato === nombrePauta);
 
-  console.log(resultados)
+  useEffect(() => {
+
+
   //const titulo = 
+  let titulo=[];
+  //Recorre arreglo con los datos de titulos de la planilla Excel
+    for (let index = 0; index < resultados[0].cabezaJson.length; index++) {
+            titulo.push({ title: resultados[0].cabezaJson[index],
+                          field: resultados[0].cabezaJson[index]
+                          // ,
+                          // align: "center", 
+                          // headerStyle: { color: "#2196f3" }
+                        });
+    }
+ 
+    const datos = [];
 
-  const defaultMaterialTheme = createTheme(); 
-  // const [sheetData, setSheetData] = useState(null);
-  // const [sheetNames, setSheetNames] = useState(null);
-  // //Extrae el nombre de la hoja
-  // let nombre = props.nombre.toString();
+    for (let i = 0; i < resultados[0].detalleJson.length; i++) {
+      const id = resultados[0].detalleJson[i].ID;
+      const bloques = resultados[0].detalleJson[i]["BLOQUES DE EVALUACIÓN"];
+      const categoria = resultados[0].detalleJson[i]["CATEGORÍA"];
+      const conducta = resultados[0].detalleJson[i]["CONDUCTA"];//"CUMPLIMIENTO POR BLOQUES"
+      const cumplimiento = resultados[0].detalleJson[i]["CUMPLIMIENTO POR CATEGORIA"]
+      const cumplimientoBloque = resultados[0].detalleJson[i]["CUMPLIMIENTO POR BLOQUES"]
 
-  const [columns, setColumns] = useState([
-    { title: 'Name', field: 'name' },
-    { title: 'Surname', field: 'surname', initialEditValue: 'initial edit value' },
-    { title: 'Birth Year', field: 'birthYear', type: 'numeric' },
-    {
-      title: 'Birth Place',
-      field: 'birthCity',
-      lookup: { 34: 'İstanbul', 63: 'Şanlıurfa' },
-    },
-  ]);
+      datos.push({ ID: id,"BLOQUES DE EVALUACIÓN" : bloques, "CATEGORÍA": categoria,"CONDUCTA" : conducta, "CUMPLIMIENTO POR CATEGORIA" : cumplimiento ,"CUMPLIMIENTO POR BLOQUES": cumplimientoBloque });
+    }
 
-  const [data, setData] = useState([
-    { name: 'Mehmet', surname: 'Baran', birthYear: 1987, birthCity: 63 },
-    { name: 'Zerya Betül', surname: 'Baran', birthYear: 2017, birthCity: 34 },
-  ]);
+    setColumns(titulo);
+    setData(datos);
+   
+  }, [nombrePauta]);
+ 
 
+ 
   return (
   <>
   <ThemeProvider theme={defaultMaterialTheme}>
@@ -42,38 +57,56 @@ const VisualPautaVisual = ({nombrePauta = ''}) => {
       title={`Visualización de Pauta : ${nombrePauta}`}
       columns={columns}
       data={data}
-      editable={{
-        onRowAdd: newData =>
-          new Promise((resolve, reject) => {
-            setTimeout(() => {
-              setData([...data, newData]);
+      // editable={{
+      //   onRowAdd: newData =>
+      //     new Promise((resolve, reject) => {
+      //       setTimeout(() => {
+      //         setData([...data, newData]);
               
-              resolve();
-            }, 1000)
-          }),
-        onRowUpdate: (newData, oldData) =>
-          new Promise((resolve, reject) => {
-            setTimeout(() => {
-              const dataUpdate = [...data];
-              const index = oldData.tableData.id;
-              dataUpdate[index] = newData;
-              setData([...dataUpdate]);
+      //         resolve();
+      //       }, 1000)
+      //     }),
+      //   onRowUpdate: (newData, oldData) =>
+      //     new Promise((resolve, reject) => {
+      //       setTimeout(() => {
+      //         const dataUpdate = [...data];
+      //         const index = oldData.tableData.id;
+      //         dataUpdate[index] = newData;
+      //         setData([...dataUpdate]);
 
-              resolve();
-            }, 1000)
-          }),
-        onRowDelete: oldData =>
-          new Promise((resolve, reject) => {
-            setTimeout(() => {
-              const dataDelete = [...data];
-              const index = oldData.tableData.id;
-              dataDelete.splice(index, 1);
-              setData([...dataDelete]);
+      //         resolve();
+      //       }, 1000)
+      //     }),
+      //   onRowDelete: oldData =>
+      //     new Promise((resolve, reject) => {
+      //       setTimeout(() => {
+      //         const dataDelete = [...data];
+      //         const index = oldData.tableData.id;
+      //         dataDelete.splice(index, 1);
+      //         setData([...dataDelete]);
               
-              resolve()
-            }, 1000)
-          }),
-      }}
+      //         resolve()
+      //       }, 1000)
+      //     }),
+      // }}
+      options={{
+        //  showTextRowsSelected:false,
+        // selection:true,
+         grouping: true,
+         columnsButton: true,
+         filtering: true,
+         pageSizeOptions:[5,10,20,50,100],
+         pageSize:10,
+         paginationType:"stepped",
+         rowStyle: {
+              fontSize: 10,
+          },
+        // headerStyle: {
+        //   backgroundColor: '#01579b',
+        //   color: '#FFF',
+        //   fontSize: 12,
+        // }                                  
+        }}
     />
   )
     </ThemeProvider>

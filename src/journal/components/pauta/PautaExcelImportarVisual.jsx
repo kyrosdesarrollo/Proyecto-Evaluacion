@@ -7,7 +7,7 @@ export  const PautaExcelImportarVisual = (props) => {
     const [formato, setFormato] = useState();
     
     const { pautas } = useSelector(state => state.pauta);
-    console.log(pautas)
+
     let nuevoArreglo = []
     let  options = [];
    // Verificar si la propiedad formato existe y tiene elementos

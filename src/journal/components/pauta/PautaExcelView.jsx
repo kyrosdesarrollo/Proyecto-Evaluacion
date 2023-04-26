@@ -54,7 +54,7 @@ const handleSheetChange = (e) =>{
                         <p className='category'></p>
                     </CardHeader> */}
                     <CardBody className='all-icons'>
-                        <PautaExcelImportar onFileSubir = {(e) => handleFileSubir(e)} tipo = "Importar" />
+                        <PautaExcelImportar onFileSubir = {(e) => handleFileSubir(e)}  />
                     </CardBody>
 
                 </Card>
@@ -72,7 +72,7 @@ const handleSheetChange = (e) =>{
                         <p className='category'></p>
                     </CardHeader> */}
                     <CardBody className='all-icons'>
-                        <PautaExcelImportarVisual onFileSubirVisual = {(e) => handleFileSubirVisual(e)} tipo = "Importar" />
+                        <PautaExcelImportarVisual onFileSubirVisual = {(e) => handleFileSubirVisual(e)} />
                     </CardBody>
 
                 </Card>

@@ -42,6 +42,9 @@ const CargaVisualFormato = (props) => {
       tableData: { ...tableData }, // Asignar la propiedad tableData original al nuevo objeto
     };
   });
+ 
+  console.log('Estructura Ejemplo Detalle')
+  console.log(columnsWithTableDetail)
 
   const handleFileSubir = (e) =>{
     if (e) { 
