@@ -184,10 +184,6 @@ const onGuardarExcel = () =>{
         timer: 1500
       })
 
-
-
-
-
 };
   return (
     <>
@@ -205,10 +201,7 @@ const onGuardarExcel = () =>{
                              
                             />
         </Grid>
-    
-   
-    
-        
+
         <Grid item 
              xs={12}  sm={12} md={12}>
             <div className="mb-2">

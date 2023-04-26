@@ -34,8 +34,6 @@ const PautaListToolbar = () => {
     setOpen(false);
   };
 
-  const options = ['PARLO 1 LINEA', 'PARLO FRAUDE','PARLO FRAUDE MONITOREO','PARLO EQUIPO ESP.','PARLO FIDELIZACION','PARLO VENTAS'];
-
   const handleChange = (event) => {    
     
     setHabilitaTabla(true);
@@ -90,8 +88,8 @@ const PautaListToolbar = () => {
            
         //   });
         // }
-    
-        // console.log(jDatos);
+        console.log('Data')
+        console.log(data);
         resolve(data);
       };
   
@@ -125,11 +123,10 @@ const PautaListToolbar = () => {
 <>
     <Box md={12}>
       <Typography variant="h4" component="h2">
-       <br></br>Cargar archivo Pauta 
+       <br></br> Pauta 
       </Typography>
       
           {/* <BuscarPauta/> */}
-      
       <PautaExcelView />
     </Box>
 
