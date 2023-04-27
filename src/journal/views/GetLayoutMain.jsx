@@ -6,8 +6,8 @@ import { CampanaPage } from '../pages/campana/CampanaPage';
 import CargaPage from '../pages/cargaexcel/CargaPage';
 import { CierrePage } from '../pages/cierre/CierrePage';
 import { DashboardPage } from '../pages/dashboard/DashboardPage';
-import { EjecutivoPage } from '../pages/ejecutivo/EjecutivoPage';
 import { FormularioPage } from '../pages/formulario/FormularioPage';
+import { FuncionarioPage } from '../pages/funcionario/FuncionarioPage';
 import { InformesPage } from '../pages/informes/InformesPage';
 import MenuEleccion from '../pages/menueleccion/MenuEleccion';
 import { PautaPage } from '../pages/pauta/PautaPage';
@@ -34,8 +34,8 @@ const GetLayoutMain = ({ pagina }) => {
         case 'Carga Excel': 
           return <CargaPage />;
 
-        case 'Ejecutivo': 
-          return <EjecutivoPage />;
+        case 'Funcionario': 
+          return <FuncionarioPage />;
 
         case 'Formulario': 
           return <FormularioPage />;
