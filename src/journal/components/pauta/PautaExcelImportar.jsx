@@ -179,11 +179,8 @@ const onGuardarExcel = () =>{
     //Busqueda de informaciòn pauta y validación por si se encuentra cargada esta
     let informacion =  'Pauta : ' + ' ' + selectComboName  +' Se encuentra en sistema, si gustas puedes visualizar o al momento de guardar esta se actualizará la información ...';
     const resultados = pautas.filter((elemento) => elemento.formato === selectComboName);
-    const id = resultados[0].id;
-    console.log(id)
-    console.log(listaJson)
-    console.log(lista)
     if (resultados.length > 0) {
+        const id = resultados[0].id;
         Swal.fire({
             title: 'Actualización de Pauta !',
             text: "Estas seguro de actualizar pauta ingresada en sistema, recordar que esta actualización será utilizada para los formatos cargados desde este momento hacia adelante. ",

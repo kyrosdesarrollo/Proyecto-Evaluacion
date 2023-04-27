@@ -1,4 +1,4 @@
-import { collection, doc, setDoc , updateDoc} from "@firebase/firestore/lite";
+import { collection, doc, setDoc, getDoc , updateDoc} from "@firebase/firestore/lite";
 import { FirebaseDB } from "../../firebase/config";
 import  {loadExcelPautas} from "../../helpers/loadExcelPautas";
 import { addNewEmptyExcel, estadoFinalSaving, estadoInicioSaving, savingNewExcel, setPautas } from "./pautaSlice";
@@ -50,35 +50,33 @@ export const startUpdatePauta = (lista, listaJson, id = '')=>{
     return async(dispatch, getState) =>{
         //Incio de Estado para guardar
         dispatch(estadoInicioSaving());
+        console.log(id)
+        console.log(lista)
+        console.log(listaJson)
+        
         const { uid, displayName } = getState().auth;
         if(!uid) throw new Error('El UID del usuario no existe');
+        //Convertir Estructura
+        const newObject = Object.assign({}, lista);
+        const newObjectJson = Object.assign({}, listaJson);
         try {
+            //Ruta pauta Firebase
             const ruta = `pauta/formato/tipo/${ id }`;
-            //Tomo todo el documento
+            
+            // Actualizar el documento en Firestore con el objeto
             const plantillaRef = doc(FirebaseDB, ruta);
-            const plantillaSnapshot = await getDoc(plantillaRef);
-
-            // Obtener la matriz detalleJson de todo el documento o archivo
-            const detalleJsonArray = plantillaSnapshot.get("detalleJson");    
-            // Obtener la matriz detalleJson de todo el documento o archivo
-            const detalleArray = plantillaSnapshot.get("detalle");    
-
-            console.log(detalleJsonArray)
-            console.log(detalleArray)
-
-            const date = format(new Date(), 'dd/MM/yyyy HH:mm:ss ')
-            const documento = doc(FirebaseDB, ruta);
-            await updateDoc(documento, {
-                usuarioActualizador: displayName,
-                fechaActualizacion: date,
-                detalle: lista,
-                detalleJson: listaJson}, { merge: true });
+            await updateDoc(plantillaRef, {
+            detalleJson: newObjectJson,
+            detalle: newObject,
+            usuarioActualizador: displayName,
+            fechaActualizacion: format(new Date(), 'dd/MM/yyyy HH:mm:ss ')
+            });
         } catch (error) {
             console.log(error)
         }
         
         //Descarga de pautas actualizadas
-        loadExcelPautas();
+        loadExcelPautas(uid);
          //Cambia de estado el saving a false
         dispatch( estadoFinalSaving());
     }
