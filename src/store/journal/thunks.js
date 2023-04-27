@@ -29,8 +29,6 @@ export const startNewNote =()=>{
         //Dispatch activación de nota
     }
 }
-
-
 export const startLoadingNotes = ()=>{
     return async (dispatch, getState) =>{
         const { uid } = getState().auth;
@@ -41,7 +39,6 @@ export const startLoadingNotes = ()=>{
         dispatch(setNotes(notes));
     }
 }
-
 export const startSaveNote = ()=>{
 
     return async(dispatch, getState) =>{

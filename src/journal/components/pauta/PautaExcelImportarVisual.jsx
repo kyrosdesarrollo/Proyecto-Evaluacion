@@ -36,7 +36,7 @@ export  const PautaExcelImportarVisual = (props) => {
                               value= { formato }
                               options={options}
                               sx={{ width: 300 }}
-                              renderInput={(params) => <TextField {...params} label="** Pauta **" />}
+                              renderInput={(params) => <TextField {...params} label="** Pautas Cargadas **" />}
                               onChange= { handleChange }
                              
                             />

@@ -1,9 +1,8 @@
 import { collection, doc, setDoc, deleteDoc,getDocs, where, query ,updateDoc,getDoc } from "@firebase/firestore/lite";
 import { FirebaseDB } from "../../firebase/config";
 import { loadExcelFormatos } from "../../helpers/loadExcelFormatos";
-import { actualizarFormato, addNewEmptyExcelFormato, deleteFormatoById, savingNewExcelFormato, setFormatos } from "./formatoSlice";
+import { addNewEmptyExcelFormato, deleteFormatoById, savingNewExcelFormato, setFormatos } from "./formatoSlice";
 import { format } from 'date-fns'
-import { RepeatRounded } from "@mui/icons-material";
 
 export const startNewExcelFormato =( lista , listaJson, formato )=>{
     return async (dispatch, getSate) =>{
@@ -84,7 +83,6 @@ export const startUpdateFormato = (arreglo, id = '')=>{
         try {
             const date = format(new Date(), 'dd/MM/yyyy HH:mm:ss ')
             const documento = doc(FirebaseDB, `/plantilla/excel/formato/${ id }`);
-            console.log(documento)
             await updateDoc(documento, {
                 usuarioActualizador: displayName,
                 fechaActualizacion: date,

@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2'
 import { Button, Autocomplete, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField, DialogContentText } from '@mui/material';
 
-import { pautaStartNewExcel } from '../../../store/Pauta';
+import { pautaStartNewExcel, startUpdatePauta } from '../../../store/pauta/thunks';
 
 export  const PautaExcelImportar = (props) => {
     //Estados para controlar archivo
@@ -119,7 +119,7 @@ const handleFile = async (e) => {
         setFile(myFile)
         setfileName(myFile.name);
         //Busqueda de informaciòn pauta y validación por si se encuentra cargada esta
-        let informacion =  'Pauta : ' + ' ' + selectComboName  +' Se encuentra en sistema, si gustas puedes visualizar o actualizar al momento guardar esta la información ...';
+        let informacion =  ' ' + selectComboName  +' Se encuentra en sistema, si gustas puedes visualizar o actualizar al momento guardar esta la información ...';
         const resultados = pautas.filter((elemento) => elemento.formato === selectComboName);
         if (resultados.length > 0) {
             Swal.fire({
@@ -179,7 +179,10 @@ const onGuardarExcel = () =>{
     //Busqueda de informaciòn pauta y validación por si se encuentra cargada esta
     let informacion =  'Pauta : ' + ' ' + selectComboName  +' Se encuentra en sistema, si gustas puedes visualizar o al momento de guardar esta se actualizará la información ...';
     const resultados = pautas.filter((elemento) => elemento.formato === selectComboName);
-    console.log(resultados.length)
+    const id = resultados[0].id;
+    console.log(id)
+    console.log(listaJson)
+    console.log(lista)
     if (resultados.length > 0) {
         Swal.fire({
             title: 'Actualización de Pauta !',
@@ -196,26 +199,26 @@ const onGuardarExcel = () =>{
                 'Your file has been deleted.',
                 'success'
               )
-    dispatch(pautaStartNewExcel(lista,listaJson, selectComboName));
-     //Hacer 
-    setFile(null);
-    setfileName(null);
-    setSheetNames([]);
-    setSheetData(null); 
-    setListaJson([]);
-    setLista([]);
-    props.onFileSubir(null);
-    fileRef.current.value = "";
+                dispatch(startUpdatePauta(lista,listaJson,id));
+                //Hacer 
+                setFile(null);
+                setfileName(null);
+                setSheetNames([]);
+                setSheetData(null); 
+                setListaJson([]);
+                setLista([]);
+                props.onFileSubir(null);
+                fileRef.current.value = "";
 
-    Swal.fire({
-        position: 'top-center',
-        icon: 'success',
-        title: 'Archivo Pauta actualizado con éxito.',
-        showConfirmButton: false,
-        timer: 1500
-      })
-            }
-          })
+                Swal.fire({
+                    position: 'top-center',
+                    icon: 'success',
+                    title: 'Archivo Pauta actualizado con éxito.',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+                        }
+                    })
     } else{
     dispatch(pautaStartNewExcel(lista,listaJson, selectComboName));
      //Hacer

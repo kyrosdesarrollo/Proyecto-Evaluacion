@@ -52,13 +52,15 @@ export const pautaexcelSlice = createSlice({
             state.messageSaved = `${ action.payload.title }, actualizada correctamente`
 
         },
-
-        deleteNoteById: (state,  action ) => {
-            
+        estadoInicioSaving: (state)=>{
+            state.isSaving=true;
+        },
+        estadoFinalSaving: (state ) => {
+            state.isSaving=false;
         },
     }
 });
 
 // Action creators are generated for each case reducer function
 export const { addNewEmptyExcel,setActiveNote ,setDesActiveNote,setPautas,
-     setSaving, updateNote, deleteNoteById, savingNewExcel} = pautaexcelSlice.actions;
+     setSaving, updateNote, deleteNoteById, savingNewExcel,estadoInicioSaving,estadoFinalSaving} = pautaexcelSlice.actions;

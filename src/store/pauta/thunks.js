@@ -1,8 +1,8 @@
-import { collection, doc, setDoc } from "@firebase/firestore/lite";
+import { collection, doc, setDoc , updateDoc} from "@firebase/firestore/lite";
 import { FirebaseDB } from "../../firebase/config";
 import  {loadExcelPautas} from "../../helpers/loadExcelPautas";
-import { addNewEmptyExcel, savingNewExcel, setPautas } from "./pautaSlice";
-
+import { addNewEmptyExcel, estadoFinalSaving, estadoInicioSaving, savingNewExcel, setPautas } from "./pautaSlice";
+import { format } from 'date-fns'
 
 export const pautaStartNewExcel =( lista,listaJson , formato )=>{
     return async (dispatch, getSate) =>{
@@ -44,6 +44,43 @@ export const pautaStartNewExcel =( lista,listaJson , formato )=>{
        
         // dispatch(setActiveNote(newNote));
         //Dispatch activación de nota
+    }
+}
+export const startUpdatePauta = (lista, listaJson, id = '')=>{
+    return async(dispatch, getState) =>{
+        //Incio de Estado para guardar
+        dispatch(estadoInicioSaving());
+        const { uid, displayName } = getState().auth;
+        if(!uid) throw new Error('El UID del usuario no existe');
+        try {
+            const ruta = `pauta/formato/tipo/${ id }`;
+            //Tomo todo el documento
+            const plantillaRef = doc(FirebaseDB, ruta);
+            const plantillaSnapshot = await getDoc(plantillaRef);
+
+            // Obtener la matriz detalleJson de todo el documento o archivo
+            const detalleJsonArray = plantillaSnapshot.get("detalleJson");    
+            // Obtener la matriz detalleJson de todo el documento o archivo
+            const detalleArray = plantillaSnapshot.get("detalle");    
+
+            console.log(detalleJsonArray)
+            console.log(detalleArray)
+
+            const date = format(new Date(), 'dd/MM/yyyy HH:mm:ss ')
+            const documento = doc(FirebaseDB, ruta);
+            await updateDoc(documento, {
+                usuarioActualizador: displayName,
+                fechaActualizacion: date,
+                detalle: lista,
+                detalleJson: listaJson}, { merge: true });
+        } catch (error) {
+            console.log(error)
+        }
+        
+        //Descarga de pautas actualizadas
+        loadExcelPautas();
+         //Cambia de estado el saving a false
+        dispatch( estadoFinalSaving());
     }
 }
 export const startLoadingPautas = ()=>{
