@@ -17,7 +17,6 @@ export const JournalPage = () => {
 
   return (
     <>
-    
     <EvaluacionMainLayout>
     {
             (!!active)
@@ -25,57 +24,6 @@ export const JournalPage = () => {
             : <NothingSelectedView />
           }
     </EvaluacionMainLayout>
-
-   
-{/*       
-        <JournalLayout>
-        {
-            (!!active)
-            ?  <GetLayoutMain pagina = { active.title }  />
-            : <NothingSelectedView />
-          }
-
-            <IconButton
-            onClick = { onClickNewNote }
-            size='large'
-            disabled= { isSaving }
-            sx={{
-              color: 'white',
-              backgroundColor: orange.A400,
-              ':hover': { backgroundColor: 'error.main', opacity: 0.9 },
-              position: 'fixed',
-              right: 50,
-              bottom: 50
-            }}
-           >
-            <AddBoxOutlined sx={{ fontSize: 55 }} />
-           
-          </IconButton>
-        </JournalLayout>   */}
-
-        {/* <JournalLayout> */}
-        
-
-          {/* <IconButton
-            onClick = { onClickNewNote }
-            size='large'
-            disabled= { isSaving }
-            sx={{
-              color: 'white',
-              backgroundColor: orange.A400,
-              ':hover': { backgroundColor: 'error.main', opacity: 0.9 },
-              position: 'fixed',
-              right: 50,
-              bottom: 50
-            }}
-           >
-            <AddBoxOutlined sx={{ fontSize: 55 }} />
-           
-          </IconButton> */}
-
-          {/* <NoteView /> */}
-        {/* </JournalLayout> */}
-
     </>
 
   )

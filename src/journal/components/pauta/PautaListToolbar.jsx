@@ -8,7 +8,7 @@ import {Box, Typography } from '@mui/material'
 
 import { PautaExcelView } from './PautaExcelView';
 import { pautaStartNewExcel } from '../../../store/Pauta';
-import BuscarPauta from './BuscarPauta';
+import BuscarPauta from './EjemploSeleccionPauta';
 
 
 
