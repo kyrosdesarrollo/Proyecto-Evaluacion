@@ -12,6 +12,8 @@ export const pautaStartNewExcel =( lista,listaJson , formato )=>{
         // //uid este lo genera solo firebase database
         // //Estructrura de información
         const newObject = Object.assign({}, lista);
+        console.log('Aqui esta agregando Lista Json')
+        console.log(listaJson)
         // Creación de archivo JSON pauta
         const newExcel = {
 
@@ -50,15 +52,13 @@ export const startUpdatePauta = (lista, listaJson, id = '')=>{
     return async(dispatch, getState) =>{
         //Incio de Estado para guardar
         dispatch(estadoInicioSaving());
-        console.log(id)
-        console.log(lista)
-        console.log(listaJson)
         
         const { uid, displayName } = getState().auth;
         if(!uid) throw new Error('El UID del usuario no existe');
         //Convertir Estructura
         const newObject = Object.assign({}, lista);
         const newObjectJson = Object.assign({}, listaJson);
+        console.log(newObjectJson)
         try {
             //Ruta pauta Firebase
             const ruta = `pauta/formato/tipo/${ id }`;
@@ -66,7 +66,7 @@ export const startUpdatePauta = (lista, listaJson, id = '')=>{
             // Actualizar el documento en Firestore con el objeto
             const plantillaRef = doc(FirebaseDB, ruta);
             await updateDoc(plantillaRef, {
-            detalleJson: newObjectJson,
+            detalleJson: listaJson,
             detalle: newObject,
             usuarioActualizador: displayName,
             fechaActualizacion: format(new Date(), 'dd/MM/yyyy HH:mm:ss ')

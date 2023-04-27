@@ -16,9 +16,6 @@ const VisualPautaVisual = ({nombrePauta = ''}) => {
   const resultados = pautas.filter((elemento) => elemento.formato === nombrePauta);
 
   useEffect(() => {
-
-
-  //const titulo = 
   let titulo=[];
   //Recorre arreglo con los datos de titulos de la planilla Excel
     for (let index = 0; index < resultados[0].cabezaJson.length; index++) {
@@ -29,9 +26,10 @@ const VisualPautaVisual = ({nombrePauta = ''}) => {
                           // headerStyle: { color: "#2196f3" }
                         });
     }
+    console.log(titulo)
  
     const datos = [];
-
+    
     for (let i = 0; i < resultados[0].detalleJson.length; i++) {
       const id = resultados[0].detalleJson[i].ID;
       const bloques = resultados[0].detalleJson[i]["BLOQUES DE EVALUACIÓN"];
@@ -42,7 +40,7 @@ const VisualPautaVisual = ({nombrePauta = ''}) => {
 
       datos.push({ ID: id,"BLOQUES DE EVALUACIÓN" : bloques, "CATEGORÍA": categoria,"CONDUCTA" : conducta, "CUMPLIMIENTO POR CATEGORIA" : cumplimiento ,"CUMPLIMIENTO POR BLOQUES": cumplimientoBloque });
     }
-
+    
     setColumns(titulo);
     setData(datos);
    

@@ -123,7 +123,10 @@ const PautaListToolbar = () => {
 <>
     <Box md={12}>
       <Typography variant="h4" component="h2">
-       <br></br> Pauta 
+       <br></br>Configuración Pauta 
+      </Typography>
+      <Typography variant="h6" component="h2">
+       <br></br>En este módulo Ud. pordrá cargar y visualizar información 
       </Typography>
       
           {/* <BuscarPauta/> */}
