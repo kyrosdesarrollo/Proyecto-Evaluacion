@@ -1,10 +1,14 @@
 import React,{useState} from 'react'
 import MaterialTable from 'material-table';
 import { ThemeProvider, createTheme, Button } from '@mui/material';
+import Swal from 'sweetalert2'
+import { useDispatch } from 'react-redux';
+import { funcionarioStartNew } from '../../../../store/funcionario/thunks';
 
 const FuncionarioVisualFormato = () => {
  
     const defaultMaterialTheme = createTheme();
+    const dispatch = useDispatch();
 
     const columns = [
       { title: 'Nombre', field: 'Nombre' },
@@ -17,7 +21,30 @@ const FuncionarioVisualFormato = () => {
       { Nombre: 'Pedro Rojas', Correo: 'pedro.rojas@2call.cl', Tipo: 2 , Activo: 1},
       { Nombre: 'Diego Rojas', Correo: 'diego.rojas@2call.cl', Tipo: 2 , Activo: 1},
     ]);
-                
+    
+    const handleGuardarInformacion = () => {
+      console.log(data)
+      Swal.fire({
+        title: 'Funcionario',
+        text: "¿ Estas seguro de actualizar información ?",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si estoy seguro!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          dispatch(funcionarioStartNew(data));
+          Swal.fire(
+            'Deleted!',
+            'Your file has been deleted.',
+            'success'
+          )
+        }
+      })
+
+    };
+  
               
     return (
       <>
@@ -64,11 +91,16 @@ const FuncionarioVisualFormato = () => {
                 addRowPosition: 'last',
                 exportButton: true
               }}
+              
             />
           </ThemeProvider>
         </div>
         <p></p>
-        <Button variant="contained">Guardar Cambios</Button>
+        <Button 
+          variant="contained" 
+          onClick={handleGuardarInformacion}>
+            Guardar Cambios
+        </Button>
       </>
     )
   }
