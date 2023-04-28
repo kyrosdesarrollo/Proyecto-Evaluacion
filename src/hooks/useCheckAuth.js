@@ -8,6 +8,7 @@ import { startLoadingMenus } from "../store/menu/thunks";
 import { startLoadingPautas } from "../store/pauta/thunks";
 import { startLoadingPerfil } from "../store/perfil";
 import { startLoadingFormatos } from "../store/formato";
+import { startLoadingFuncionarios } from "../store/funcionario/thunks";
 
 export const useCheckAuth = () => {
   
@@ -23,6 +24,7 @@ export const useCheckAuth = () => {
 
        // dispatch( startLoadingNotes());
         dispatch( startLoadingMenus());
+        dispatch( startLoadingFuncionarios());
         //Benjamin
         dispatch (startLoadingPautas());
         dispatch(startLoadingPerfil());

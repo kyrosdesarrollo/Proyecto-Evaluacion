@@ -28,10 +28,13 @@ export const funcionarioSlice = createSlice({
         addNewFuncionario: (state,  action ) => {
             state.funcionario.push(action.payload);
         },
+        setFuncionario: (state,  action ) => {
+            state.funcionario = action.payload;
+        },
        
         
     }
 });
 
 // Action creators are generated for each case reducer function
-export const { estadoInicioSaving,estadoFinalSaving, savingFuncionario,addNewFuncionario} = funcionarioSlice.actions;
+export const { estadoInicioSaving,estadoFinalSaving, savingFuncionario,addNewFuncionario,setFuncionario} = funcionarioSlice.actions;
