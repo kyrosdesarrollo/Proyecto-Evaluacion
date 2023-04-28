@@ -98,6 +98,7 @@ const VisualFormato = (props ) => {
                            rowStyle: {
                                 fontSize: 10,
                             },
+                           exportButton: true
                           // headerStyle: {
                           //   backgroundColor: '#01579b',
                           //   color: '#FFF',

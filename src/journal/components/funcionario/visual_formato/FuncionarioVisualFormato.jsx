@@ -1,64 +1,75 @@
-import React,{useRef} from 'react'
+import React,{useState} from 'react'
 import MaterialTable from 'material-table';
-import { ThemeProvider, createTheme } from '@mui/material';
+import { ThemeProvider, createTheme, Button } from '@mui/material';
 
-
-const FuncionarioVisualFormato = (props) => {
+const FuncionarioVisualFormato = () => {
  
-  const defaultMaterialTheme = createTheme();
-  const tableRef = useRef(null);
+    const defaultMaterialTheme = createTheme();
 
-  //Agregar nuevo reegistro
-  function handleAdd(newData) {
-    // Obtener la lista actual de datos
-    const data = tableRef.current.dataManager.data;
-    // Agregar el nuevo registro a la lista
-    data.push(newData);
-    // Actualizar los datos de la tabla
-    tableRef.current.setData(data);
+    const columns = [
+      { title: 'Nombre', field: 'Nombre' },
+      { title: 'Correo', field: 'Correo' },
+      { title: 'Tipo',   field: 'Tipo',lookup: { 1: 'Monitor', 2: 'Encargado' }},
+      { title: 'Activo', field: 'Activo',lookup: { 1: 'SI', 2: 'NO' }},
+    ];
+    const [data, setData] = useState([
+      { Nombre: 'Juan Perez', Correo: 'juan.perez@2call.cl', Tipo: 1 , Activo: 1},
+      { Nombre: 'Pedro Rojas', Correo: 'pedro.rojas@2call.cl', Tipo: 2 , Activo: 1},
+      { Nombre: 'Diego Rojas', Correo: 'diego.rojas@2call.cl', Tipo: 2 , Activo: 1},
+    ]);
+                
+              
+    return (
+      <>
+        <div style={{ width: '90%', height: '90%' }}>
+          <ThemeProvider theme={defaultMaterialTheme}>
+            <MaterialTable
+              title="Configuración Funcionarios"
+              columns={columns}
+              data={data}
+              editable={{
+                onRowAdd: newData =>
+                  new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                      setData([...data, newData]);
+                      resolve();
+                    }, 1000)
+                  }),
+                onRowUpdate: (newData, oldData) =>
+                  new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                      const updatedData = [...data];
+                      updatedData[updatedData.indexOf(oldData)] = newData;
+                      setData(updatedData);
+                      resolve();
+                    }, 1000)
+                  }),
+                onRowDelete: oldData =>
+                  new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                      const updatedData = [...data];
+                      updatedData.splice(updatedData.indexOf(oldData), 1);
+                      setData(updatedData);
+                      resolve();
+                    }, 1000)
+                  }),
+              }}
+              options={{
+                //selection:true,
+                initialSelectedRowIds: [],
+                grouping: true,
+                columnsButton: true,
+                filtering: true,
+                //actionsColumnIndex: -1,
+                addRowPosition: 'last',
+                exportButton: true
+              }}
+            />
+          </ThemeProvider>
+        </div>
+        <p></p>
+        <Button variant="contained">Guardar Cambios</Button>
+      </>
+    )
   }
- 
-  return (
-    <>
-      <div style={{ width: '90%', height: '90%' }}>
-        <ThemeProvider theme={defaultMaterialTheme}>
-         <MaterialTable
-        title="Funcionarios "
-        columns={[
-          {title: 'Nombre', field: 'Nombre'},
-          {title: 'Correo', field: 'Correo'},
-          { title: 'Funcion', field: 'Funcion',lookup: { 34: 'MONITOR', 63: 'ENCARGADO' },},
-        ]}
-        data={[
-          { Nombre: 'Catherine Echeverria', Correo: 'catherine.echeverria@2call.cl', Funcion: 34 },
-          { Nombre: 'Paula Barrera', Correo: 'paula.barrera@2call.cl', Funcion: 63 },
-          { Nombre: 'Benjamín Arce', Correo: 'benjamin.arce@2call.cl', Funcion: 34 },
-        ]}
-        tableRef={tableRef}
-        options={{
-                           selection:true,
-                           initialSelectedRowIds: [],
-                           grouping: true,
-                           columnsButton: true,
-                           filtering: true,
-                           pageSizeOptions:[5,10,20,50,100],
-                           pageSize:10,
-                           
-        }}
-        editable={{
-          onRowAdd: (newData) =>
-            new Promise((resolve, reject) => {
-              setTimeout(() => {
-                handleAdd(newData);
-                resolve();
-              }, 1000);
-            }),
-        }}
-      />
-        </ThemeProvider>
-      </div>
-    </>
-  );
-};
-
-export default FuncionarioVisualFormato;
+ export default FuncionarioVisualFormato
