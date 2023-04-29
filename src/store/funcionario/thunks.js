@@ -1,6 +1,6 @@
-import { collection, doc, setDoc, getDoc , updateDoc} from "@firebase/firestore/lite";
+import { collection, doc, setDoc, getDoc , deleteDoc} from "@firebase/firestore/lite";
 import { FirebaseDB } from "../../firebase/config";
-import { addNewFuncionario, estadoFinalSaving, savingFuncionario, setFuncionario } from "./funcionarioSlice";
+import { addNewFuncionario, estadoFinalSaving, savingFuncionario, setActivaFuncionario } from "./funcionarioSlice";
 import { format } from 'date-fns'
 import { loadFuncionario } from "../../helpers/loadFuncionarios";
 
@@ -8,32 +8,54 @@ export const funcionarioStartNew =( funcionario )=>{
     return async (dispatch, getSate) =>{
         dispatch(savingFuncionario());
         const { displayName } = getSate().auth;
-        
+        console.log('Información')
+        console.log(funcionario)
+        const funcionariosArreglo = [];
+
+            for (let i = 0; i < funcionario.length; i++) {
+                const { Nombre, Correo, Tipo , Activo} = funcionario[i];
+                const nuevoFuncionario = { Nombre, Correo, Tipo, Activo };
+                funcionariosArreglo.push(nuevoFuncionario);
+            }
+            console.log('funcionariosArreglo')
+            console.log(funcionariosArreglo);
+
+
         try {
             //Ruta de ingreso de datos de funcionario Nota: ,'funcionario' estoy dando el nombre al documento
             const docRef = doc(collection(FirebaseDB, "/maestros"), "funcionario");
             const docSnap = await getDoc(docRef);
+        
 
             if (docSnap.exists()) {
                 const oldFuncionario = {
                     nombreActualizador :displayName,
-                    funcionarios: funcionario,
+                    funcionarios: funcionariosArreglo,
                     fechaActualizacion: format(new Date(), 'dd/MM/yyyy HH:mm:ss '),
                     status: 'Activo',
                 }
+                //await deleteDoc(docRef);
+
+                console.log('Lo que que se cargara Update')
+                console.log(oldFuncionario)
                 // Si el documento ya existe, actualizar los datos
-                await updateDoc(docRef, oldFuncionario);
-                dispatch(addNewFuncionario(oldFuncionario));
+                await setDoc(docRef, oldFuncionario);
+               // dispatch(addNewFuncionario(oldFuncionario));
+                dispatch(setActivaFuncionario(oldFuncionario));
+                
             } else {
                 // Si el documento no existe, crearlo con los nuevos datos
                 const newFuncionario = {
                     nombreCreador :displayName,
-                    funcionarios: funcionario,
+                    funcionarios: funcionariosArreglo,
                     fechaIngreso: format(new Date(), 'dd/MM/yyyy HH:mm:ss '),
                     status: 'Activo',
                 }
+                console.log('Lo que que se cargara Insert')
+                console.log(newFuncionario)
                 await setDoc(docRef, newFuncionario);
                 dispatch(addNewFuncionario(newFuncionario));
+                dispatch(setActivaFuncionario(newFuncionario));
             }
 
             //Extrae el id del Documento
@@ -47,6 +69,7 @@ export const funcionarioStartNew =( funcionario )=>{
         //Cambia de estado el saving a false
         dispatch( estadoFinalSaving());
        
+       
         // dispatch(setActiveNote(newNote));
         //Dispatch activación de nota
     }
@@ -58,7 +81,7 @@ export const startLoadingFuncionarios = ()=>{
        
         const funcionario = await loadFuncionario (uid);
         console.log(funcionario)
-       dispatch(setFuncionario(funcionario));
+       dispatch(setActivaFuncionario(funcionario));
         
     }
 }
