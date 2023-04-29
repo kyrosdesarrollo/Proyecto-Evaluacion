@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import MaterialTable from 'material-table';
 import { ThemeProvider, createTheme } from '@mui/material';
-import { de } from 'date-fns/locale';
 import { useSelector } from 'react-redux';
 
 const CargaVisualFormato = (props) => {
@@ -29,8 +28,6 @@ const CargaVisualFormato = (props) => {
       }
       }
   }
-
-
   //Extrae el nombre de la hoja
   let nombre = props.nombre.toString();
   let titulo=[];
@@ -50,7 +47,6 @@ const CargaVisualFormato = (props) => {
                     });
     }
 }
-    console.log(titulo)
   //Convierte los datos de titulo  para ser reflejados en MaterialTable  
   const columnsWithTableData = titulo.map((column) => {
     const { tableData, ...rest } = column; // Desestructurar la propiedad tableData del objeto y asignar el resto de propiedades a la variable "rest"
@@ -60,7 +56,7 @@ const CargaVisualFormato = (props) => {
     };
   });
 
-  const [data, setData] = useState(titulo);
+  
   const columns = window.myGlobalVariable;
 
    //Convierte los datos de detalle  para ser reflejados en MaterialTable  
@@ -71,7 +67,7 @@ const CargaVisualFormato = (props) => {
       tableData: { ...tableData }, // Asignar la propiedad tableData original al nuevo objeto
     };
   });
- 
+  const [data, setData] = useState(columnsWithTableDetail);
   const handleFileSubir = (e) =>{
     if (e) { 
         let sheetNames = Object.keys(e);
@@ -82,7 +78,7 @@ const CargaVisualFormato = (props) => {
     setSheetData(e);
  }
 
-
+console.log(data)
 
   return (
   <>
@@ -90,21 +86,26 @@ const CargaVisualFormato = (props) => {
     <MaterialTable
       title="Carga de archivo Excel"
       columns={columnsWithTableData}
-      data={columnsWithTableDetail}
+      data={data}
       editable={{
         // onRowAdd: (newData) =>
         //   new Promise((resolve, reject) => {
         //     setData([...data, newData]);
         //     resolve();
         //   }),
-        onRowUpdate: (newData, oldData) =>
-          new Promise((resolve, reject) => {
-            const index = data.indexOf(oldData);
-            const updatedData = [...data];
-            updatedData[index] = newData;
-            setData(updatedData);
-            resolve();
-          }),
+        // onRowUpdate: (newData, oldData) =>
+        //   new Promise((resolve, reject) => {
+        //     // Obtener el índice del registro a actualizar
+        //     const index = data.indexOf(oldData);
+        //      // Actualizar el registro
+        //      const updatedData = [
+        //       ...columnsWithTableDetail.slice(0, index),
+        //       { ...oldData, ...newData },
+        //       ...columnsWithTableDetail.slice(index + 1)
+        //     ];
+        //     setData(updatedData);
+        //     resolve();
+        //   }),
         // onRowDelete: (oldData) =>
         //   new Promise((resolve, reject) => {
         //     const updatedData = [...data];

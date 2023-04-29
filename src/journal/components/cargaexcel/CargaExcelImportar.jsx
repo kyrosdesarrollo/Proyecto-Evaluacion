@@ -151,6 +151,38 @@ const handleClose = () => {
     setOpen(false);
 };
 const onGuardarExcel = () =>{
+    console.log('Aqui comienza a guardar hay que extraer actualizacion')
+    console.log(listaJson);
+
+    for (let i = 0; i < listaJson.length; i++) {
+        console.log(listaJson[i].Monitor)
+        const monitorValue = listaJson[i].Monitor ? listaJson[i].Monitor.trim() : "";
+        if (monitorValue === "") {
+          alert("Se encontró dato con Monitor vacío favor corregir:", listaJson[i]);
+          return
+        //   Swal.fire({
+        //     position: 'top-center',
+        //     icon: 'error',
+        //     title: 'Favor verificar 1.- Campo Monitor contenga información 2.- Crear Monitor Gracias !!!',
+        //     showConfirmButton: false,
+        //     timer: 1500
+        //   })
+          // aquí podrías hacer lo que necesites con el objeto encontrado
+        }
+      }
+    // listaJson.forEach(item => {
+    //     if (item.Monitor === "") {
+    //       // aquí puedes agregar tu lógica de validación, como mostrar un mensaje de error
+    //       Swal.fire({
+    //         position: 'top-center',
+    //         icon: 'error',
+    //         title: 'Favor verificar 1.- Campo Monitor contenga información 2.- Crear Monitor Gracias !!!',
+    //         showConfirmButton: false,
+    //         timer: 1500
+    //       })
+    //     }
+    //   });
+    return
     handleClose();
     setBotonImport (false) ;
     dispatch(startNewExcelFormato(lista, listaJson ,selectComboName));
