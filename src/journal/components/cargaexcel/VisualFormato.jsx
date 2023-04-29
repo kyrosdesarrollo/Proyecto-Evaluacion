@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import MaterialTable from 'material-table';
 import { ThemeProvider, createTheme } from '@mui/material';
 import { de } from 'date-fns/locale';
+import { useSelector } from 'react-redux';
 
 const CargaVisualFormato = (props) => {
 
@@ -9,19 +10,47 @@ const CargaVisualFormato = (props) => {
   const [sheetData, setSheetData] = useState(null);
   const [sheetNames, setSheetNames] = useState(null);
 
+  //Extrae los formatos desde Redux
+  const { funcionario } = useSelector(state => state.funcionario);
+  //Filtramos solo los monitores activos 1 = SI y Tipo 1 = Monitor
+  const funcionariosFiltrados = [];
+  if (funcionario.length > 0) {
+    for (let i = 0; i < funcionario[0].funcionarios.length; i++) {
+      const funcionarioActual = funcionario[0].funcionarios[i];
+      if (funcionarioActual.Tipo === "1" && funcionarioActual.Activo === "1") {
+          funcionariosFiltrados.push(funcionarioActual.Nombre);
+      }
+      }
+  }else{
+    for (let i = 0; i < funcionario.funcionarios.length; i++) {
+      const funcionarioActual = funcionario.funcionarios[i];
+      if (funcionarioActual.Tipo === "1" && funcionarioActual.Activo === "1") {
+          funcionariosFiltrados.push(funcionarioActual.Nombre);
+      }
+      }
+  }
+
+
   //Extrae el nombre de la hoja
   let nombre = props.nombre.toString();
   let titulo=[];
-  //Recorre arreglo con los datos de titulos de la planilla Excel
-    for (let index = 0; index < props.plantilla[nombre][0].length; index++) {
-            titulo.push({ title: props.plantilla[nombre][0][index],
-                          field: props.plantilla[nombre][0][index]
-                          // ,
-                          // align: "center", 
-                          // headerStyle: { color: "#2196f3" }
-                        });
+  //Incluye monitores para selección
+  for (let index = 0; index < props.plantilla[nombre][0].length; index++) {
+    if (props.plantilla[nombre][0][index] === "Monitor") {
+        titulo.push({ title: "Monitor",
+                      field: "Monitor",
+                      lookup: funcionariosFiltrados.reduce((obj, item) => {
+                          obj[item] = item;
+                          return obj;
+                      }, {})
+        });
+    } else {
+        titulo.push({ title: props.plantilla[nombre][0][index],
+                      field: props.plantilla[nombre][0][index]
+                    });
     }
- 
+}
+    console.log(titulo)
   //Convierte los datos de titulo  para ser reflejados en MaterialTable  
   const columnsWithTableData = titulo.map((column) => {
     const { tableData, ...rest } = column; // Desestructurar la propiedad tableData del objeto y asignar el resto de propiedades a la variable "rest"
@@ -43,9 +72,6 @@ const CargaVisualFormato = (props) => {
     };
   });
  
-  console.log('Estructura Ejemplo Detalle')
-  console.log(columnsWithTableDetail)
-
   const handleFileSubir = (e) =>{
     if (e) { 
         let sheetNames = Object.keys(e);
@@ -71,14 +97,14 @@ const CargaVisualFormato = (props) => {
         //     setData([...data, newData]);
         //     resolve();
         //   }),
-        // onRowUpdate: (newData, oldData) =>
-        //   new Promise((resolve, reject) => {
-        //     const index = data.indexOf(oldData);
-        //     const updatedData = [...data];
-        //     updatedData[index] = newData;
-        //     setData(updatedData);
-        //     resolve();
-        //   }),
+        onRowUpdate: (newData, oldData) =>
+          new Promise((resolve, reject) => {
+            const index = data.indexOf(oldData);
+            const updatedData = [...data];
+            updatedData[index] = newData;
+            setData(updatedData);
+            resolve();
+          }),
         // onRowDelete: (oldData) =>
         //   new Promise((resolve, reject) => {
         //     const updatedData = [...data];
