@@ -8,8 +8,6 @@ export const funcionarioStartNew =( funcionario )=>{
     return async (dispatch, getSate) =>{
         dispatch(savingFuncionario());
         const { displayName } = getSate().auth;
-        console.log('Información')
-        console.log(funcionario)
         const funcionariosArreglo = [];
 
             for (let i = 0; i < funcionario.length; i++) {
@@ -17,9 +15,7 @@ export const funcionarioStartNew =( funcionario )=>{
                 const nuevoFuncionario = { Nombre, Correo, Tipo, Activo };
                 funcionariosArreglo.push(nuevoFuncionario);
             }
-            console.log('funcionariosArreglo')
-            console.log(funcionariosArreglo);
-
+          
 
         try {
             //Ruta de ingreso de datos de funcionario Nota: ,'funcionario' estoy dando el nombre al documento

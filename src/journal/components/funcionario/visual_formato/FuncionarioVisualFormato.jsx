@@ -1,4 +1,4 @@
-import React,{useState, useEffect} from 'react'
+import React,{useState} from 'react'
 import MaterialTable from 'material-table';
 import { ThemeProvider, createTheme, Button } from '@mui/material';
 import Swal from 'sweetalert2'
@@ -6,11 +6,11 @@ import { useDispatch, useSelector} from 'react-redux';
 import { funcionarioStartNew } from '../../../../store/funcionario/thunks';
 
 const FuncionarioVisualFormato = () => {
-    const [open, setOpen] = useState(false); // Estado para controlar la apertura y cierre de la ventana de agregado
     const defaultMaterialTheme = createTheme();
+    const dispatch = useDispatch();
     //Extrae los formatos desde Redux
     const { funcionario } = useSelector(state => state.funcionario);
-    console.log(funcionario.length)
+    console.log(funcionario)
     let arregloFuncionarios;
     if (funcionario.length > 0) {
        arregloFuncionarios = funcionario[0].funcionarios.map((funcionario) => {
@@ -21,23 +21,22 @@ const FuncionarioVisualFormato = () => {
           Activo: funcionario.Activo
         };
       });
+    }else{ //Esto sirve cuando no viene el indice 0
+      arregloFuncionarios = funcionario.funcionarios.map((funcionario) => {
+        return {
+          Nombre: funcionario.Nombre,
+          Correo: funcionario.Correo,
+          Tipo: funcionario.Tipo,
+          Activo: funcionario.Activo
+        };
+      });
     }
    
     
-    const dispatch = useDispatch();
-    let control = 1;
+   
 
 
-    useEffect(() => {
-      console.log('Open:', open);
-    }, [open, control]);
-    
-    
-    const handleOpen = () => {
-      console.log('open')
-      setOpen(true);
-      console.log(open)
-    };
+
 
     const columns = [
       { title: 'Nombre', field: 'Nombre' },
@@ -46,28 +45,28 @@ const FuncionarioVisualFormato = () => {
       { title: 'Activo', field: 'Activo',lookup: { 1: 'SI', 2: 'NO' }},
     ];
     //Estructura por si la dejan en Blanco solo habiliitar y comentar al de abajo
-    const [data, setData] = useState([
-      { Nombre: 'Juan Perez', Correo: 'juan.perez@2call.cl', Tipo: 1 , Activo: 1},
-      { Nombre: 'Pedro Rojas', Correo: 'pedro.rojas@2call.cl', Tipo: 2 , Activo: 1},
-      { Nombre: 'Diego Rojas', Correo: 'diego.rojas@2call.cl', Tipo: 2 , Activo: 1},
-    ]);
-    //const [data, setData] = useState(arregloFuncionarios);
+    // const [data, setData] = useState([
+    //   { Nombre: 'Juan Perez', Correo: 'juan.perez@2call.cl', Tipo: 1 , Activo: 1},
+    //   { Nombre: 'Pedro Rojas', Correo: 'pedro.rojas@2call.cl', Tipo: 2 , Activo: 1},
+    //   { Nombre: 'Diego Rojas', Correo: 'diego.rojas@2call.cl', Tipo: 2 , Activo: 1},
+    // ]);
+    const [data, setData] = useState(arregloFuncionarios);
     const handleGuardarInformacion = () => {
        console.log(data)
-      if (open) {
+      // if (open) {
         
-        Swal.fire({
-          position: 'top-center',
-          icon: 'error',
-          title: 'Debe cerrar la ventana de agregar/editar a nivel de registro.',
-          showConfirmButton: false,
-          timer: 1800
-        })
-        return
-      }
+      //   Swal.fire({
+      //     position: 'top-center',
+      //     icon: 'error',
+      //     title: 'Debe cerrar la ventana de agregar/editar a nivel de registro.',
+      //     showConfirmButton: false,
+      //     timer: 1800
+      //   })
+      //   return
+      // }
       Swal.fire({
         title: 'Funcionario',
-        text: "¿ Estas seguro de actualizar información ?",
+        text: "¿ Estas seguro de actualizar información ?, recordar verificar si ventana de registro o edición se encuentra abierta.",
         icon: 'question',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -76,7 +75,6 @@ const FuncionarioVisualFormato = () => {
       }).then((result) => {
         if (result.isConfirmed) {
           dispatch(funcionarioStartNew(data));
-          setOpen(false)
           Swal.fire(
             'Carga realizada !',
             'Se han actualizado los registros con éxito.',
@@ -105,6 +103,14 @@ const FuncionarioVisualFormato = () => {
                             reject();
                             return;
                           }
+                           // Validar formato de correo electrónico
+                          const emailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+                          if (!newData.Correo.match(emailFormat)) {
+                            alert("El formato de correo electrónico es incorrecto, favor corregir");
+                            reject();
+                            return;
+                          }
+
                           const updatedData = [...data, newData];
                           setData(updatedData);
                           resolve();
@@ -118,6 +124,13 @@ const FuncionarioVisualFormato = () => {
                             reject();
                             return;
                           }
+                           // Validar formato de correo electrónico
+                           const emailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+                           if (!newData.Correo.match(emailFormat)) {
+                             alert("El formato de correo electrónico es incorrecto, favor corregir");
+                             reject();
+                             return;
+                           }
                       
                           // Obtener el índice del registro a actualizar
                           const index = data.indexOf(oldData);
