@@ -15,7 +15,6 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ExitToAppTwoToneIcon from '@mui/icons-material/ExitToAppTwoTone';
 import { Badge, Grid } from '@mui/material';
 
-
 import { useDispatch, useSelector } from 'react-redux';
 import { startLogout } from '../../store/auth';
 import { SideBarItem } from '../components';
@@ -23,7 +22,6 @@ import GetLayoutMain from '../views/GetLayoutMain';
 
 import { startNewNote } from '../../store/journal';
 import { DashboardPage } from '../pages/dashboard/DashboardPage';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import CallRoundedIcon from '@mui/icons-material/CallRounded';
 
@@ -63,21 +61,21 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
-})(({ theme, open }) => ({
-  zIndex: theme.zIndex.drawer + 1,
-  transition: theme.transitions.create(['width', 'margin'], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  ...(open && {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  }),
-}));
+    })(({ theme, open }) => ({
+      zIndex: theme.zIndex.drawer + 1,
+      transition: theme.transitions.create(['width', 'margin'], {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+      }),
+      ...(open && {
+        marginLeft: drawerWidth,
+        width: `calc(100% - ${drawerWidth}px)`,
+        transition: theme.transitions.create(['width', 'margin'], {
+          easing: theme.transitions.easing.sharp,
+          duration: theme.transitions.duration.enteringScreen,
+        }),
+      }),
+    }));
 
 const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
@@ -95,9 +93,6 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     }),
   }),
 );
-
-
-
 
 export const EvaluacionMainLayout = () => {
 
@@ -134,12 +129,7 @@ export const EvaluacionMainLayout = () => {
         cantidadArchivos++;
       }
     })
-    console.log(cantidadRegistros)
   }
-  console.log('Aqui estoy')
-  console.log(formatos)
-
-  
   
   const numero = notes;
  
@@ -160,7 +150,6 @@ export const EvaluacionMainLayout = () => {
     dispatch(startNewNote());
   }
   return (
-
     <>
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -212,11 +201,6 @@ export const EvaluacionMainLayout = () => {
                       </Badge>
                     </IconButton>
                     </Box>
-
-                    
-                  
-                    {/* <p>Notifications</p> */}
-                   
                     <IconButton 
                     onClick = { onLogout }
                     color='secondary'>
@@ -224,10 +208,7 @@ export const EvaluacionMainLayout = () => {
                     <Typography>Salir</Typography>
                               </IconButton>
         </Grid>
-                
-        
         </Toolbar>
-        
       </AppBar>
       <Drawer 
           variant="permanent" 
@@ -268,14 +249,6 @@ export const EvaluacionMainLayout = () => {
                 }
             </List>
         <Divider />
-
-        {/* {
-        (!!menus) 
-              ? ( <List>
-                   Hola
-                 </List> )
-              : <ListItemText> Chao</ListItemText>
-        } */}
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
@@ -285,27 +258,9 @@ export const EvaluacionMainLayout = () => {
                       ? <GetLayoutMain pagina = { active.title }  />
                       : <DashboardPage />
                   : <GetLayoutMain pagina = "Inicio"  />
-                //  : <DashboardPage  />
           }
        
       </Box>
-
-       {/* <IconButton
-            onClick = { onClickNewNote }
-            size='large'
-            disabled= { isSaving }
-            sx={{
-              color: 'white',
-              backgroundColor: orange.A400,
-              ':hover': { backgroundColor: 'error.main', opacity: 0.9 },
-              position: 'fixed',
-              right: 50,
-              bottom: 50
-            }}
-           >
-            <AddBoxOutlined sx={{ fontSize: 55 }} />
-           
-          </IconButton> */}
     </Box>
     </>
   );
