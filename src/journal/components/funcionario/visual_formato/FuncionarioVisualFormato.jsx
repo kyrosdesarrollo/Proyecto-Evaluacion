@@ -1,6 +1,7 @@
 import React,{useState} from 'react'
 import MaterialTable from 'material-table';
 import { ThemeProvider, createTheme, Button } from '@mui/material';
+import { TextField } from '@material-ui/core';
 import Swal from 'sweetalert2'
 import { useDispatch, useSelector} from 'react-redux';
 import { funcionarioStartNew } from '../../../../store/funcionario/thunks';
@@ -17,6 +18,7 @@ const FuncionarioVisualFormato = () => {
         return {
           Nombre: funcionario.Nombre,
           Correo: funcionario.Correo,
+          Contrasena: funcionario.Contrasena,
           Tipo: funcionario.Tipo,
           Activo: funcionario.Activo
         };
@@ -26,25 +28,29 @@ const FuncionarioVisualFormato = () => {
         return {
           Nombre: funcionario.Nombre,
           Correo: funcionario.Correo,
+          Contrasena: funcionario.Contrasena,
           Tipo: funcionario.Tipo,
           Activo: funcionario.Activo
         };
       });
     }
    
-    
-   
-
-
-
-
     const columns = [
       { title: 'Nombre', field: 'Nombre' },
       { title: 'Correo', field: 'Correo' },
-      { title: 'Tipo',   field: 'Tipo',lookup: { 1: 'Monitor', 2: 'Encargado' }},
+      { title: 'Contraseña', field: 'Contrasena', render: rowData => (
+        <div>{rowData.Contrasena ? '*'.repeat(rowData.Contrasena.length) : ''}</div>
+      ), editComponent: props => (
+        <TextField
+          type="password"
+          value={props.value || ''}
+          onChange={e => props.onChange(e.target.value)}
+        />
+      ),},
+      { title: 'Tipo',   field: 'Tipo',lookup: { 1: 'Monitor', 2: 'Calidad', 3: 'Administrador' }},
       { title: 'Activo', field: 'Activo',lookup: { 1: 'SI', 2: 'NO' }},
     ];
-    //Estructura por si la dejan en Blanco solo habiliitar y comentar al de abajo
+    //Estructura por si la dejan en Blanco solo habilitar y comentar al de abajo
     // const [data, setData] = useState([
     //   { Nombre: 'Juan Perez', Correo: 'juan.perez@2call.cl', Tipo: 1 , Activo: 1},
     //   { Nombre: 'Pedro Rojas', Correo: 'pedro.rojas@2call.cl', Tipo: 2 , Activo: 1},

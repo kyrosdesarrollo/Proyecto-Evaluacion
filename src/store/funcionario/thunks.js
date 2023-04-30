@@ -9,10 +9,9 @@ export const funcionarioStartNew =( funcionario )=>{
         dispatch(savingFuncionario());
         const { displayName } = getSate().auth;
         const funcionariosArreglo = [];
-
             for (let i = 0; i < funcionario.length; i++) {
-                const { Nombre, Correo, Tipo , Activo} = funcionario[i];
-                const nuevoFuncionario = { Nombre, Correo, Tipo, Activo };
+                const { Nombre, Correo, Contrasena, Tipo , Activo} = funcionario[i];
+                const nuevoFuncionario = { Nombre, Correo,Contrasena, Tipo, Activo };
                 funcionariosArreglo.push(nuevoFuncionario);
             }
           
@@ -47,17 +46,10 @@ export const funcionarioStartNew =( funcionario )=>{
                     fechaIngreso: format(new Date(), 'dd/MM/yyyy HH:mm:ss '),
                     status: 'Activo',
                 }
-                console.log('Lo que que se cargara Insert')
-                console.log(newFuncionario)
                 await setDoc(docRef, newFuncionario);
                 dispatch(addNewFuncionario(newFuncionario));
                 dispatch(setActivaFuncionario(newFuncionario));
             }
-
-            //Extrae el id del Documento
-            //newExcel.id = newDoc.id;
-            //Dispatch
-            
             
         } catch (error) {
             console.log(error)
