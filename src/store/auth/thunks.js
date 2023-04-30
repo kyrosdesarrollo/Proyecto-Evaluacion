@@ -3,13 +3,11 @@ import { loadPerfil } from "../../helpers/loadPerfil";
 import { setDesActiveNote } from "../journal";
 import { chekingCredentials, chekingPerfil, login, logout } from "./authSlice";
 
-
 export const checkingAuthentication = (email , password) =>{
     return async (dispatch) =>{
         dispatch( chekingCredentials() );
     }
 }
-
 export const startGoogleSignIn = () =>{
     return async (dispatch) =>{
         dispatch( chekingCredentials() );

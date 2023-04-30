@@ -16,7 +16,9 @@ import ControlSeleccion from './AuditoriaActividadSeleccion';
   const opcion = [];
   
   //Verificación de lineas asignadas para visualización de archivo, mejora incorporar monitor en el filtro
+console.log(perfil)
 
+console.log(displayName)
  //Validación de perfil  
   if (perfil === "ADMINISTRADOR") {
     Object.entries(plantilla).forEach(([key, value]) => {
@@ -27,6 +29,7 @@ import ControlSeleccion from './AuditoriaActividadSeleccion';
     });
   }
   if (perfil === "MONITOR") {
+    console.log('Estoy en Monitor')
     Object.entries(plantilla).forEach(([key, value]) => {
       const asignaCount = value.detalleJson.filter((detalle) => detalle.Estado === 'Asigna' && detalle.Monitor === displayName).length;
       if (asignaCount > 0) {

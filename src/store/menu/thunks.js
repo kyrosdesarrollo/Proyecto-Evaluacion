@@ -19,6 +19,8 @@ export const startNewMenu = ( nombre )=>{
             estado: 'Activo',
             iniciado:'Si',
         }
+
+        console.log(newUser)
         //Verificación de datos de usuario    
         const verificaUser = collection(FirebaseDB,`${ uid }/evaluacion/usuario`);
         const datoUser = await getDocs(verificaUser);
