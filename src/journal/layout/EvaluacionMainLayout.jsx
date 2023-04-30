@@ -24,6 +24,8 @@ import GetLayoutMain from '../views/GetLayoutMain';
 import { startNewNote } from '../../store/journal';
 import { DashboardPage } from '../pages/dashboard/DashboardPage';
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import AssignmentIcon from '@mui/icons-material/Assignment';
+import CallRoundedIcon from '@mui/icons-material/CallRounded';
 
 import Logo from '../../assets/image/Logo.png'
 
@@ -163,11 +165,23 @@ export const EvaluacionMainLayout = () => {
                       color="inherit"
                       
                     >
-                    <Badge badgeContent={10} color="error">
-                        <NotificationsIcon />
+                     <Badge badgeContent={10} color="error">
+                        <AssignmentIcon />
+                      </Badge>
+                    </IconButton>
+                    <IconButton
+                      size="large"
+                      aria-label="show 17 new notifications"
+                      color="inherit"
+                      
+                    >
+                     <Badge badgeContent={10} color="error">
+                        <CallRoundedIcon />
                       </Badge>
                     </IconButton>
                     </Box>
+
+                    
                   
                     {/* <p>Notifications</p> */}
                    

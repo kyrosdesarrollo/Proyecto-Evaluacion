@@ -30,7 +30,6 @@ export const SideBar = ({ drawerWidth = 240 }) => {
                  { displayName } 
                </Typography>
            </Toolbar>
-
            <Divider />
            <List>
                 {

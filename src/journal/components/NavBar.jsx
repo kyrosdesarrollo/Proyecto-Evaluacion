@@ -23,8 +23,6 @@
             }}
 	    >
 	        <Toolbar>
-					
-
 	            <IconButton color='secondary' >
 	                <MenuOutlined />
 	            </IconButton>
@@ -39,9 +37,6 @@
                         </IconButton>
                  </Grid>
 	        </Toolbar>
-
-            
-	
 	    </AppBar>
 	  )
 	}
