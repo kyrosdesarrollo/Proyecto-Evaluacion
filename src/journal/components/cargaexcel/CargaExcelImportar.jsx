@@ -158,7 +158,7 @@ const onGuardarExcel = () =>{
         console.log(listaJson[i].Monitor)
         const monitorValue = listaJson[i].Monitor ? listaJson[i].Monitor.trim() : "";
         if (monitorValue === "") {
-          alert("Se encontró dato con Monitor vacío favor corregir:", listaJson[i]);
+          alert("Se encuentra un dato con Monitor vacío en archivo favor revisar y corregir. [ Opción 1 ] : Monitor no esta creado en sistema [ Opción 2 ] : Completar Monitor en archivo Excel. Gracias 🤨 !! ", listaJson[i]);
           return
         //   Swal.fire({
         //     position: 'top-center',

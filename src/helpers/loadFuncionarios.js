@@ -6,7 +6,6 @@ export const loadFuncionario = async ( uid = '') => {
     if(!uid) throw new Error('El UID del usuario no existe');    
     const docFuncionario = collection(FirebaseDB,`/maestros`); 
     const docs = await getDocs(docFuncionario);
-    console.log(docs)
     
     const funcionario = [];
     docs.forEach(doc => {

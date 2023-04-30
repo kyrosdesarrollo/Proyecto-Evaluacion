@@ -59,18 +59,39 @@ const handleChange = (e) => {
   const onGuardar = () =>{
     //Aqui recibie los registros seleccionado por usuario
     let registrosAsignados = selectRowValue;
+    console.log(registrosAsignados)
     //Extración id = numero de archivo
     const id = formatosReduxRespuesta[j].id ;
     //Extrae el detalleJson, los registros que contengan información respuestas
     const detalleJson = formatosReduxRespuesta[j].detalleJson;
-    //Filtrar los registros
-    const idsAsignados = registrosAsignados.map((respuesta) => respuesta.id - 1);
-    //Recorre el arreglo completo y cambia el estado Asigna a los registros seleccionados
-    const ArregloAsignados = detalleJson.map((obj, index) => {
-      return idsAsignados.includes(index) ? {...obj, Estado: "Asigna"} : {...obj};
-    });
+      //Filtrar los registros
+      const idsAsignados = registrosAsignados.map(respuesta => {
+        return {
+          id: respuesta.id - 1,
+          Monitor: respuesta.Monitor
+        };
+      });
+      // Crea un objeto de mapeo para los IDs asignados
+        const mapAsignados = {};
+        registrosAsignados.forEach((asignado) => {
+          mapAsignados[asignado.id - 1] = asignado.Monitor;
+        });
+
+      // Actualiza el estado y el monitor en el arreglo original
+      const detalleActualizado = detalleJson.map((obj, index) => {
+        if (mapAsignados[index]) {
+          return { ...obj, Estado: "Asigna", Monitor: mapAsignados[index] };
+        } else {
+          return obj;
+        }
+      });
+
+    console.log('Aqiu 1')
+    console.log(detalleActualizado)
+    
+   
     //Actualización en Firebase registros + ID de documento
-    dispatch(startUpdateFormato(ArregloAsignados,id));
+    dispatch(startUpdateFormato(detalleActualizado,id));
     //Cierre de ventana emergente
     handleClose(false);
     //Ventana de actualización

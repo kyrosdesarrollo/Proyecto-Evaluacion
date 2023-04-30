@@ -13,25 +13,62 @@ const VisualFormato = (props ) => {
     //Extrae los formatos desde Redux
     const { formatos } = useSelector(state => state.formato);
   //Mejora incorporar a nivel de detalle los campos qeu serán visualizado (cargo, asignación,auditoria,cierre)
+
+   //Extrae los formatos desde Redux
+   const { funcionario } = useSelector(state => state.funcionario);
+   //Filtramos solo los monitores activos 1 = SI y Tipo 1 = Monitor
+   const funcionariosFiltrados = [];
+   if (funcionario.length > 0) {
+     for (let i = 0; i < funcionario[0].funcionarios.length; i++) {
+       const funcionarioActual = funcionario[0].funcionarios[i];
+       if (funcionarioActual.Tipo === "1" && funcionarioActual.Activo === "1") {
+           funcionariosFiltrados.push(funcionarioActual.Nombre);
+       }
+       }
+   }else{
+     for (let i = 0; i < funcionario.funcionarios.length; i++) {
+       const funcionarioActual = funcionario.funcionarios[i];
+       if (funcionarioActual.Tipo === "1" && funcionarioActual.Activo === "1") {
+           funcionariosFiltrados.push(funcionarioActual.Nombre);
+       }
+       }
+   }
     useEffect(() => {
           j = Number(props.id);
           let titulo=[];
+          //Incluye monitores para selección
           for (let index = 0; index < formatos[j].cabezaJson.length; index++) {
-              // if (formatos[j].cabezaJson[index] === 'Monitor') {
-              //     titulo.push({ title: formatos[j].cabezaJson[index],field: formatos[j].cabezaJson[index],align: "center", headerStyle: { color: "#2196f3" }
-              //     ,lookup: { MONITOR1: "MONITOR 1", 
-              //                MONITOR2: "MONITOR 2", 
-              //                MONITOR3: "MONITOR 3", 
-              //                MONITOR4: "MONITOR 4", 
-              //                MONITOR5: "MONITOR 5", 
-              //                MONITOR6: "MONITOR 6", 
-              //                MONITOR7: "MONITOR 7", MONITOR :formatos[j].cabezaJson[index] },filteringPlaceHolder:"Monitor"});
-              // }
-              // else{
-                  titulo.push({ title: formatos[j].cabezaJson[index],field: formatos[j].cabezaJson[index],align: "center", headerStyle: { color: "#2196f3" }});
-             // }
-              //titulo.push({ title: formatos[j].cabezaJson[index],field: formatos[j].cabezaJson[index],align: "center", headerStyle: { color: "#2196f3" }});
-          }
+            if (formatos[j].cabezaJson[index] === "Monitor") {
+                titulo.push({ title: "Monitor",
+                              field: "Monitor",
+                              lookup: funcionariosFiltrados.reduce((obj, item) => {
+                                  obj[item] = item;
+                                  return obj;
+                              }, {})
+                });
+            } else {
+                titulo.push({ title: formatos[j].cabezaJson[index],
+                              field: formatos[j].cabezaJson[index],
+                              align: "center", headerStyle: { color: "#2196f3" }
+                            });
+            }
+        }
+          // for (let index = 0; index < formatos[j].cabezaJson.length; index++) {
+          //     // if (formatos[j].cabezaJson[index] === 'Monitor') {
+          //     //     titulo.push({ title: formatos[j].cabezaJson[index],field: formatos[j].cabezaJson[index],align: "center", headerStyle: { color: "#2196f3" }
+          //     //     ,lookup: { MONITOR1: "MONITOR 1", 
+          //     //                MONITOR2: "MONITOR 2", 
+          //     //                MONITOR3: "MONITOR 3", 
+          //     //                MONITOR4: "MONITOR 4", 
+          //     //                MONITOR5: "MONITOR 5", 
+          //     //                MONITOR6: "MONITOR 6", 
+          //     //                MONITOR7: "MONITOR 7", MONITOR :formatos[j].cabezaJson[index] },filteringPlaceHolder:"Monitor"});
+          //     // }
+          //     // else{
+          //         titulo.push({ title: formatos[j].cabezaJson[index],field: formatos[j].cabezaJson[index],align: "center", headerStyle: { color: "#2196f3" }});
+          //    // }
+          //     //titulo.push({ title: formatos[j].cabezaJson[index],field: formatos[j].cabezaJson[index],align: "center", headerStyle: { color: "#2196f3" }});
+          // }
           setTitulo(titulo);
           let detalle = formatos[j].detalleJson.map(o => ({ ...o }));
           //Filtro para considerar a nivel de línea estado con nombre Carga
@@ -54,6 +91,7 @@ const VisualFormato = (props ) => {
    if (selectedRows.length > 0) {
    props.onActualizaInfo(tableData);
    }
+   console.log(tableData)
   return (
     <>
     <div style={{ width: '100%', height: '80%' }}>
@@ -67,11 +105,13 @@ const VisualFormato = (props ) => {
                           //   setTableData([...tableData, newRow])
                           //   setTimeout(() => resolve(), 500)
                           // }),
-                          onRowUpdate: (newRow, oldRow) => new Promise((resolve, reject) => {
-                            const updatedData = [...tableData]
-                            updatedData[oldRow.tableData.id] = newRow
-                            setTableData(updatedData)
-                            setTimeout(() => resolve(), 500)
+                          onRowUpdate: (newData, oldData) =>
+                          new Promise((resolve, reject) => {
+                            const updatedData = [...tableData];
+                            const index = oldData.tableData.id;
+                            updatedData[index] = { ...oldData, Monitor: newData.Monitor };
+                            setTableData(updatedData);
+                            setTimeout(() => resolve(), 500);
                           })
                           // ,
                           // onRowDelete: (selectedRow) => new Promise((resolve, reject) => {
