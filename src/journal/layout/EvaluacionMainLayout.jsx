@@ -107,6 +107,41 @@ export const EvaluacionMainLayout = () => {
   const { displayName } = useSelector( state => state.auth);
   const { notes , active } = useSelector(state => state.journal);
   const { perfil } = useSelector(state => state.perfil);
+  const { formatos } = useSelector(state => state.formato);
+  
+
+  let cantidadArchivos = 0, cantidadRegistros=0;
+
+  if (perfil === "ADMINISTRADOR") {
+    cantidadArchivos = formatos.length;
+
+    for (let i = 0; i < formatos.length; i++) {
+      const lines = formatos[i].detalleJson.length;
+      //console.log(`El formato ${i + 1} tiene ${lines} líneas.`);
+      cantidadRegistros += lines;
+    }
+  }else if (perfil === "MONITOR") {
+    console.log('Monitorcito')
+    console.log(formatos.length)
+    console.log(cantidadRegistros)
+    formatos.forEach(elemento => {
+      const detalleJson = elemento.detalleJson;
+      let contieneMonitor = false;
+      for (let i = 0; i < detalleJson.length; i++) {
+        if (detalleJson[i].Monitor === displayName && detalleJson[i].Estado === "Asigna") {
+          cantidadRegistros++;
+          contieneMonitor = true;
+        }
+      }
+      if (contieneMonitor) {
+        cantidadArchivos++;
+      }
+    })
+    console.log(cantidadRegistros)
+  }
+  console.log('Aqui estoy')
+  console.log(formatos)
+
   
   
   const numero = notes;
@@ -165,7 +200,7 @@ export const EvaluacionMainLayout = () => {
                       color="inherit"
                       
                     >
-                     <Badge badgeContent={10} color="error">
+                     <Badge badgeContent={cantidadArchivos} color="error">
                         <AssignmentIcon />
                       </Badge>
                     </IconButton>
@@ -175,7 +210,7 @@ export const EvaluacionMainLayout = () => {
                       color="inherit"
                       
                     >
-                     <Badge badgeContent={10} color="error">
+                     <Badge badgeContent={cantidadRegistros} color="error">
                         <CallRoundedIcon />
                       </Badge>
                     </IconButton>
