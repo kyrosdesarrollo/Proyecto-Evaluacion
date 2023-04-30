@@ -112,7 +112,7 @@ export const EvaluacionMainLayout = () => {
 
   let cantidadArchivos = 0, cantidadRegistros=0;
 
-  if (perfil === "ADMINISTRADOR") {
+  if (perfil === "ADMINISTRADOR" || perfil === "CALIDAD") {
     cantidadArchivos = formatos.length;
 
     for (let i = 0; i < formatos.length; i++) {
@@ -121,9 +121,6 @@ export const EvaluacionMainLayout = () => {
       cantidadRegistros += lines;
     }
   }else if (perfil === "MONITOR") {
-    console.log('Monitorcito')
-    console.log(formatos.length)
-    console.log(cantidadRegistros)
     formatos.forEach(elemento => {
       const detalleJson = elemento.detalleJson;
       let contieneMonitor = false;
