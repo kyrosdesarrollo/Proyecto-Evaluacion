@@ -61,6 +61,30 @@ export const registerUserWithEmailPassword = async({ email, password, displayNam
 
 }
 
+export const registrarUsuario = async({ email, password, displayName }) => {
+    try {
+        console.log('Aqui estoy en registro Usuario');
+        console.log({email,password, displayName});
+        const resp = await createUserWithEmailAndPassword( FirebaseAuth, email, password );
+        const { uid, photoURL } = resp.user;
+
+        console.log(resp);
+        //Actualizar displayName en Firebase
+
+        // await updateProfile( FirebaseAuth.currentUser, { displayName });
+        //     console.log('Actualizaco')
+        // return {
+        //     ok: true,
+        //     uid, photoURL, email, displayName
+        // }
+
+    } catch (error) {
+        console.log(error);
+        return { ok: false, errorMessage: error.message }
+    }
+
+}
+
 export const loginWithEmailPassword = async({ email, password }) => {
 
     try {

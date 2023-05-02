@@ -5,13 +5,13 @@ import { TextField } from '@material-ui/core';
 import Swal from 'sweetalert2'
 import { useDispatch, useSelector} from 'react-redux';
 import { funcionarioStartNew } from '../../../../store/funcionario/thunks';
+import { startCreateUsers } from '../../../../store/auth/thunks';
 
-const FuncionarioVisualFormato = () => {
+const UsuarioVisualFormato = () => {
     const defaultMaterialTheme = createTheme();
     const dispatch = useDispatch();
     //Extrae los formatos desde Redux
     const { funcionario } = useSelector(state => state.funcionario);
-    console.log(funcionario)
     let arregloFuncionarios;
     if (funcionario.length > 0) {
        arregloFuncionarios = funcionario[0].funcionarios.map((funcionario) => {
@@ -35,6 +35,9 @@ const FuncionarioVisualFormato = () => {
       });
     }
    
+    
+
+
     const columns = [
       { title: 'Nombre', field: 'Nombre' },
       { title: 'Correo', field: 'Correo' },
@@ -57,6 +60,30 @@ const FuncionarioVisualFormato = () => {
     //   { Nombre: 'Diego Rojas', Correo: 'diego.rojas@2call.cl', Tipo: 2 , Activo: 1},
     // ]);
     const [data, setData] = useState(arregloFuncionarios);
+    //Verificación de usuarios nuevos para creación
+    let usuariosRegistrados;
+    if (funcionario.length > 0) {
+     usuariosRegistrados = funcionario[0].funcionarios;
+    }
+    else{
+      usuariosRegistrados = funcionario.funcionarios;
+    }
+    const nuevosFuncionarios = [];
+
+       for (let i = 0; i < data.length; i++) {
+         const funcionario = data[i];
+         let encontrado = false;
+         for (let j = 0; j < usuariosRegistrados.length; j++) {
+           const f = usuariosRegistrados[j];
+           if (f.Correo === funcionario.Correo) {
+             encontrado = true;
+             break;
+           }
+         }
+         if (!encontrado) {
+           nuevosFuncionarios.push(funcionario);
+         }
+       }
     const handleGuardarInformacion = () => {
        console.log(data)
       // if (open) {
@@ -80,9 +107,21 @@ const FuncionarioVisualFormato = () => {
         confirmButtonText: 'Si estoy seguro!'
       }).then((result) => {
         if (result.isConfirmed) {
-          console.log('Aqui esta para dispact')
+          console.log('Aqui esta para dispacth')
           console.log(data)
           dispatch(funcionarioStartNew(data));
+          //Creación de usuario nuevos en Firebase solo con correo nuevo
+          if (nuevosFuncionarios.length > 0 ) {
+
+            console.log('Creación de usuario')
+            console.log(nuevosFuncionarios)
+            for (let i = 0; i < nuevosFuncionarios.length; i++) {
+              dispatch( startCreateUsers(nuevosFuncionarios[i]));
+            }
+            
+          }
+
+
           Swal.fire(
             'Carga realizada !',
             'Se han actualizado los registros con éxito.',
@@ -99,7 +138,7 @@ const FuncionarioVisualFormato = () => {
         <div style={{ width: '90%', height: '90%' }}>
           <ThemeProvider theme={defaultMaterialTheme}>
             <MaterialTable
-              title="Configuración Funcionarios"
+              title="Configuración de Usuarios"
               columns={columns}
               data={data}
               editable={{
@@ -191,4 +230,4 @@ const FuncionarioVisualFormato = () => {
       </>
     )
   }
- export default FuncionarioVisualFormato
+ export default UsuarioVisualFormato

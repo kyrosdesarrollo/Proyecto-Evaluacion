@@ -1,4 +1,4 @@
-import { singWithGoogle , registerUserWithEmailPassword, loginWithEmailPassword, logoutFirebase} from "../../firebase/providers";
+import { singWithGoogle , registerUserWithEmailPassword, loginWithEmailPassword, logoutFirebase, registrarUsuario} from "../../firebase/providers";
 import { loadPerfil } from "../../helpers/loadPerfil";
 import { setDesActiveNote } from "../journal";
 import { chekingCredentials, chekingPerfil, login, logout } from "./authSlice";
@@ -24,6 +24,19 @@ export const startCreatingUserWithEmailPassword = ({ email, password, displayNam
         const {ok, uid, photoURL, errorMessage, } = await registerUserWithEmailPassword({ email, password, displayName });
         if ( !ok ) return dispatch( logout( { errorMessage } ) );
         dispatch( login( {uid, displayName, email, photoURL} ));
+
+    }
+
+} 
+export const startCreateUsers = ({ Correo, Password, Nombre }) => {
+    return async( dispatch ) => {
+        console.log('Estoy en startCreateUsers')
+        console.log({ Correo, Password, Nombre })
+        let email = Correo, password = Password, displayName = Nombre;
+       // dispatch( chekingCredentials() );
+        const {ok, uid, photoURL, errorMessage, } = await registrarUsuario({ email, password, displayName });
+       // if ( !ok ) return dispatch( logout( { errorMessage } ) );
+        //dispatch( login( {uid, displayName, email, photoURL} ));
 
     }
 

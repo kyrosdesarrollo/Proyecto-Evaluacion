@@ -10,8 +10,8 @@ export const funcionarioStartNew =( funcionario )=>{
         const { displayName } = getSate().auth;
         const funcionariosArreglo = [];
             for (let i = 0; i < funcionario.length; i++) {
-                const { Nombre, Correo, Contrasena, Tipo , Activo} = funcionario[i];
-                const nuevoFuncionario = { Nombre, Correo,Contrasena, Tipo, Activo };
+                const { Nombre, Correo, Password, Tipo , Activo} = funcionario[i];
+                const nuevoFuncionario = { Nombre, Correo,Password, Tipo, Activo };
                 funcionariosArreglo.push(nuevoFuncionario);
             }
           
@@ -30,9 +30,6 @@ export const funcionarioStartNew =( funcionario )=>{
                     status: 'Activo',
                 }
                 //await deleteDoc(docRef);
-
-                console.log('Lo que que se cargara Update')
-                console.log(oldFuncionario)
                 // Si el documento ya existe, actualizar los datos
                 await setDoc(docRef, oldFuncionario);
                // dispatch(addNewFuncionario(oldFuncionario));
@@ -66,10 +63,8 @@ export const startLoadingFuncionarios = ()=>{
     return async (dispatch, getState) =>{
         const { uid } = getState().auth;
         if(!uid) throw new Error('El UID del usuario no existe');
-       
         const funcionario = await loadFuncionario (uid);
-        console.log(funcionario)
-       dispatch(setActivaFuncionario(funcionario));
+        dispatch(setActivaFuncionario(funcionario));
         
     }
 }

@@ -43,6 +43,8 @@ export const RegisterPage = () => {
     
     if(!isFormValid) return;
     
+    console.log(formState)
+    return
     dispatch( startCreatingUserWithEmailPassword(formState) );
 
   }

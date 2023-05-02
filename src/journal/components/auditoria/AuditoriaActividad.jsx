@@ -16,9 +16,6 @@ import ControlSeleccion from './AuditoriaActividadSeleccion';
   const opcion = [];
   
   //Verificación de lineas asignadas para visualización de archivo, mejora incorporar monitor en el filtro
-console.log(perfil)
-
-console.log(displayName)
  //Validación de perfil  
   if (perfil === "ADMINISTRADOR") {
     Object.entries(plantilla).forEach(([key, value]) => {
