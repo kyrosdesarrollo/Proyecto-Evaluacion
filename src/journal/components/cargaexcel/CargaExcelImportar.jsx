@@ -182,7 +182,6 @@ const onGuardarExcel = () =>{
     //       })
     //     }
     //   });
-    return
     handleClose();
     setBotonImport (false) ;
     dispatch(startNewExcelFormato(lista, listaJson ,selectComboName));
