@@ -3,12 +3,12 @@ import { FirebaseDB } from "../../firebase/config";
 import { loadNotes } from "../../helpers";
 import { loadMenus } from "../../helpers/loadMenus";
 import { setActiveNote, setNotes } from "../journal";
-import { addNewEmptyMenu, savingNewMenu, setActiveMenu, setMenus } from "./menuSlice";
+import { addNewEmptyMenu, savingNewMenu, savingNewMenuEnd, setActiveMenu, setMenus } from "./menuSlice";
 import { thunkmenu } from "./thunksmenu";
 
 export const startNewMenu = ( nombre )=>{
-    return async (dispatch, getSate) =>{
-        dispatch(savingNewMenu);
+    return async (dispatch, getState) =>{
+        dispatch(savingNewMenu());
         //Rescate de informción de redux en auth
         const { displayName, email, uid } = getState().auth;
         
@@ -65,7 +65,7 @@ export const startNewMenu = ( nombre )=>{
             //menus.push({ id: doc.id, ...doc.data() });
            // console.log({ id: doc.id, ...doc.data() });
     
-  
+        dispatch(savingNewMenuEnd());
         // const notes = await loadNotes (uid);
         // dispatch(setNotes(notes));
         //Dispatch

@@ -11,10 +11,8 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { startLoadingMenus, startNewMenu } from '../../../store/menu/thunks';
-import { reload } from 'firebase/auth';
-import { startLogout } from '../../../store/auth';
-import { funcionarioStartNewRegister } from '../../../store/funcionario/thunks';
+import Swal from 'sweetalert2'
+import { startNewMenu } from '../../../store/menu/thunks';
 
 
  const MenuEleccion = () => {
@@ -23,8 +21,8 @@ import { funcionarioStartNewRegister } from '../../../store/funcionario/thunks';
   const [seleccionMenu, setSeleccionMenu] = useState();
   const [botonImport, setBotonImport]     = useState(true);
   const [open, setOpen]                   = useState(false);
-  //Extrae los formatos desde Redu
-const { displayName} = useSelector(state => state.auth)
+  //Extrae los formatos desde Redux
+  const { displayName} = useSelector(state => state.auth)
   const dispatch = useDispatch();
 
   const handleClickOpen = () => {
@@ -55,18 +53,21 @@ const { displayName} = useSelector(state => state.auth)
     console.log(seleccionMenu)
     //Crear perfil de usuario en base a selección y datos de usuario
     dispatch(startNewMenu( seleccionMenu ))
+
+   // Lógica para guardar los datos
+   Swal.fire({
+    title: 'Guardando datos...',
+    html: 'Espere un momento por favor, automáticamente se conectará con nuevo usuario',
+    allowOutsideClick: false,
+    didOpen: () => {
+      Swal.showLoading();
+    }
+  });
+  setTimeout(() => {
+    window.location.reload();
+  }, 10000);
    
-    // let perfil = transformarCadena(seleccionMenu)
-    // let funcionario = { Nombre: displayName, Correo: email, id: uid, Tipo : perfil , Activo: 1 };
-    // console.log('Inicio Funcionario')
-    // console.log(funcionario)
-    dispatch(funcionarioStartNewRegister(transformarCadena(seleccionMenu)));
-    // Recargar la página
-  //window.location.reload();
-    //dispatch(startLogout());
   };
-
-
 
   useEffect(() => {
     if (!seleccionMenu){ setBotonImport (true) ;}
@@ -88,67 +89,68 @@ const { displayName} = useSelector(state => state.auth)
       } 
    
   };
+
   return (
 <>
     <Box>
       <Typography variant="h4" component="h2">
-       Selección de menu para usuario  { displayName }
+       Selección de menu para usuario  { displayName } 
       </Typography>;
     </Box>
-
+    {/* { !!isSaving 
+      ?  <Button>Loading .........</Button>
+      : 
+ }   */}
     <Grid container spacing= { 2 } sx= {{ mb:2 , mt: 2}}>
+      <Grid item 
+             xs={6} 
+             sx= {{ mt:2 }}>
+                         <Autocomplete
+                             disablePortal
+                             id="combo-box-demo"
+                             value= { formato }
+                             options={options}
+                             sx={{ width: 300 }}
+                             renderInput={(params) => <TextField {...params} label="Escoger Menu" />}
+                             onChange= { handleChange }
+                            
+                           />
+                           <Grid item 
+                                 xs={2} 
+                                 sx= {{ mt:2 }}>
+                                   <Button
+                                   onClick={handleClickOpen}
+                                   disabled={botonImport}
+                                   variant="contained"
+                                   component="label"
+                                   startIcon={(<PersonAddAlt1Icon fontSize="small" />)}
+                                   sx={{ width: 150 }}>
+
+                                   Aceptar
+                               
+                                 </Button>
+                                 <Dialog open={open} onClose={handleClose}>
+                                     <DialogTitle>Aceptación  de perfil  </DialogTitle>
+                                     <DialogContent>
+                                       <DialogContentText>
+                                         ¿ Estás seguro de agregar perfil seleccionado ?
+                                       </DialogContentText>
+                               
+                                     </DialogContent>
+                                     <DialogActions>
+                                       <Button onClick={handleClose}>Cancelar</Button>
+                                       <Button onClick={handleAceptar}>Aceptar</Button>
+                                     </DialogActions>
+                               </Dialog>
+                             </Grid>
+       </Grid>
+       
        <Grid item 
-              xs={6} 
-              sx= {{ mt:2 }}>
-                          <Autocomplete
-                              disablePortal
-                              id="combo-box-demo"
-                              value= { formato }
-                              options={options}
-                              sx={{ width: 300 }}
-                              renderInput={(params) => <TextField {...params} label="Escoger Menu" />}
-                              onChange= { handleChange }
-                             
-                            />
-                            <Grid item 
-                                  xs={2} 
-                                  sx= {{ mt:2 }}>
-                                    <Button
-                                    onClick={handleClickOpen}
-                                    disabled={botonImport}
-                                    variant="contained"
-                                    component="label"
-                                    startIcon={(<PersonAddAlt1Icon fontSize="small" />)}
-                                    sx={{ width: 150 }}>
-
-                                    Aceptar
-                                
-                                  </Button>
-                                  <Dialog open={open} onClose={handleClose}>
-                                      <DialogTitle>Aceptación  de perfil  </DialogTitle>
-                                      <DialogContent>
-                                        <DialogContentText>
-                                          ¿ Estás seguro de agregar perfil seleccionado ?
-                                        </DialogContentText>
-                                
-                                      </DialogContent>
-                                      <DialogActions>
-                                        <Button onClick={handleClose}>Cancelar</Button>
-                                        <Button onClick={handleAceptar}>Aceptar</Button>
-                                      </DialogActions>
-                                </Dialog>
-                              </Grid>
-        </Grid>
-        
-        <Grid item 
-              xs={6} 
-              sx= {{ mt:0 }}>
-                          <DespliegaMenu  menu = { seleccionMenu } />
-        </Grid>
-        
-        
-      </Grid>
-
+             xs={6} 
+             sx= {{ mt:0 }}>
+                         <DespliegaMenu  menu = { seleccionMenu } />
+       </Grid>   
+     </Grid>
      
     </>
   )

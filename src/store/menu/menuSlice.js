@@ -18,6 +18,9 @@ export const menuSlice = createSlice({
         savingNewMenu: (state)=>{
             state.isSaving=true;
         },
+        savingNewMenuEnd: (state)=>{
+            state.isSaving=false;
+        },
         addNewEmptyMenu: (state,  action ) => {
             state.menus.push(action.payload);
             state.isSaving = false;
@@ -43,4 +46,4 @@ export const menuSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { addNewEmptyMenu,setActiveMenu ,setMenus, setSaving, updateMenu, deleteMenuById, savingNewMenu} = menuSlice.actions;
+export const { addNewEmptyMenu,setActiveMenu ,setMenus, setSaving, updateMenu, deleteMenuById, savingNewMenu, savingNewMenuEnd} = menuSlice.actions;
