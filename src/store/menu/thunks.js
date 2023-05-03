@@ -2,9 +2,24 @@ import { collection, doc, setDoc, getDocs } from "@firebase/firestore/lite";
 import { FirebaseDB } from "../../firebase/config";
 import { loadNotes } from "../../helpers";
 import { loadMenus } from "../../helpers/loadMenus";
+import { funcionarioStartNewRegister } from "../funcionario/thunks";
 import { setActiveNote, setNotes } from "../journal";
 import { addNewEmptyMenu, savingNewMenu, savingNewMenuEnd, setActiveMenu, setMenus } from "./menuSlice";
 import { thunkmenu } from "./thunksmenu";
+function transformarCadena(cadena) {
+    switch (cadena) {
+      case 'ADMINISTRADOR':
+        return 3;
+      case 'CALIDAD':
+        return 2;
+      case 'PLATAFORMA':
+        return 4;
+      case 'MONITOR':
+        return 1;
+      default:
+        return cadena;
+    }
+  }
 
 export const startNewMenu = ( nombre )=>{
     return async (dispatch, getState) =>{
@@ -65,6 +80,16 @@ export const startNewMenu = ( nombre )=>{
             //menus.push({ id: doc.id, ...doc.data() });
            // console.log({ id: doc.id, ...doc.data() });
     
+        try {
+            let perfilUser =  transformarCadena(nombre);
+            let funcionario = { Nombre: displayName, Correo: email, id: uid, Tipo : PerfilUser , Activo: 1 };
+            console.log('Inicio Funcionario')
+            console.log(funcionario)
+            dispatch(funcionarioStartNewRegister(funcionario));
+
+        } catch (error) {
+            
+        }
         dispatch(savingNewMenuEnd());
         // const notes = await loadNotes (uid);
         // dispatch(setNotes(notes));

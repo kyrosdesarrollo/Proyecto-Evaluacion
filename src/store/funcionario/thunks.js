@@ -59,6 +59,7 @@ export const funcionarioStartNew =( funcionario )=>{
         //Dispatch activación de nota
     }
 }
+
 export const funcionarioStartNewRegister =( funcionario )=>{
     return async (dispatch, getSate) =>{
         dispatch(savingFuncionario());    
