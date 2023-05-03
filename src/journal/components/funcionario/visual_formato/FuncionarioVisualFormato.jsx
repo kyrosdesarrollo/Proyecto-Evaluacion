@@ -169,7 +169,7 @@ const FuncionarioVisualFormato = () => {
               }}
              // actions={[    {      icon: 'add',      tooltip: 'Agregar funcionario',      isFreeAction: true,      onClick: () => setOpen(true),    },  ]}
               options={{
-                //selection:true,
+                selection:true,
                 initialSelectedRowIds: [],
                 grouping: true,
                 columnsButton: true,

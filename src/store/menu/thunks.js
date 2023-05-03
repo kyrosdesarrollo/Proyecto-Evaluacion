@@ -11,6 +11,7 @@ export const startNewMenu = ( nombre )=>{
         dispatch(savingNewMenu);
         //Rescate de informción de redux en auth
         const { displayName, email, uid } = getState().auth;
+        
         const newUser = {
             nombre: displayName,
             email: email,
@@ -52,7 +53,6 @@ export const startNewMenu = ( nombre )=>{
                 date:  new Date().getTime(),
                 order: doc.data().order,
             }
-            console.log(newMenu)
                 const retorno = thunkmenu(newMenu, uid);
             });
 

@@ -61,11 +61,14 @@ export const funcionarioStartNew =( funcionario )=>{
 }
 export const funcionarioStartNewRegister =( funcionario )=>{
     return async (dispatch, getSate) =>{
-        dispatch(savingFuncionario());
-         //Rescate de informción de redux en auth
-        const { displayName, email, uid } = getState().auth;
-        let perfil = transformarCadena(seleccionMenu)
+        dispatch(savingFuncionario());    
+        const { displayName } = getState().auth;      
+        const { uid } = getState().auth;      
+        const { email } = getState().auth;      
+       //let perfil = transformarCadena(seleccionMenu)
         let funcionario = { Nombre: displayName, Correo: email, id: uid, Tipo : funcionario , Activo: 1 };
+        console.log('Inicio Funcionario')
+        console.log(funcionario)
         console.log('Aqui viene')
         console.log(funcionario)
 

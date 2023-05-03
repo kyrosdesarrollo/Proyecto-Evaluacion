@@ -14,7 +14,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { startLoadingMenus, startNewMenu } from '../../../store/menu/thunks';
 import { reload } from 'firebase/auth';
 import { startLogout } from '../../../store/auth';
-import { funcionarioStartNew } from '../../../store/funcionario/thunks';
+import { funcionarioStartNewRegister } from '../../../store/funcionario/thunks';
 
 
  const MenuEleccion = () => {
@@ -23,8 +23,8 @@ import { funcionarioStartNew } from '../../../store/funcionario/thunks';
   const [seleccionMenu, setSeleccionMenu] = useState();
   const [botonImport, setBotonImport]     = useState(true);
   const [open, setOpen]                   = useState(false);
-
-
+  //Extrae los formatos desde Redu
+const { displayName} = useSelector(state => state.auth)
   const dispatch = useDispatch();
 
   const handleClickOpen = () => {
@@ -53,16 +53,20 @@ import { funcionarioStartNew } from '../../../store/funcionario/thunks';
   const handleAceptar = () => {
     setOpen(false);
     console.log(seleccionMenu)
+    //Crear perfil de usuario en base a selección y datos de usuario
     dispatch(startNewMenu( seleccionMenu ))
    
-    console.log('Inicio Funcionario')
-    dispatch(funcionarioStartNew(transformarCadena(seleccionMenu)));
+    // let perfil = transformarCadena(seleccionMenu)
+    // let funcionario = { Nombre: displayName, Correo: email, id: uid, Tipo : perfil , Activo: 1 };
+    // console.log('Inicio Funcionario')
+    // console.log(funcionario)
+    dispatch(funcionarioStartNewRegister(transformarCadena(seleccionMenu)));
     // Recargar la página
   //window.location.reload();
     //dispatch(startLogout());
   };
 
-  const { displayName } = useSelector(state=> state.auth);
+
 
   useEffect(() => {
     if (!seleccionMenu){ setBotonImport (true) ;}
