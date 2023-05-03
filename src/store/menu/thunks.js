@@ -10,7 +10,7 @@ export const startNewMenu = ( nombre )=>{
     return async (dispatch, getSate) =>{
         dispatch(savingNewMenu);
         //Rescate de informción de redux en auth
-        const { displayName, email, uid } = getSate().auth;
+        const { displayName, email, uid } = getState().auth;
         const newUser = {
             nombre: displayName,
             email: email,
@@ -40,8 +40,8 @@ export const startNewMenu = ( nombre )=>{
                 console.log('problema con ingreso : ' + error)
         }};
                
-        
-        //Ingreso de datos Menu, búsqueda de parametros de seleccion directo a FireBase
+        try {
+            //Ingreso de datos Menu, búsqueda de parametros de seleccion directo a FireBase
         const collectionRef = collection(FirebaseDB,`menu/MyhIglVpgD6g2AkXQdxu/${ nombre }`);
         const docs = await getDocs(collectionRef);
         let newMenu = ''
@@ -52,18 +52,25 @@ export const startNewMenu = ( nombre )=>{
                 date:  new Date().getTime(),
                 order: doc.data().order,
             }
+            console.log(newMenu)
                 const retorno = thunkmenu(newMenu, uid);
+            });
+
+            
+        } catch (error) {
+            console.log('Problema menu : '+error)
+        }
+        
           
             //menus.push({ id: doc.id, ...doc.data() });
            // console.log({ id: doc.id, ...doc.data() });
     
-        });
-
+  
         // const notes = await loadNotes (uid);
         // dispatch(setNotes(notes));
         //Dispatch
         // dispatch(addNewEmptyMenu(newUser));
-        // dispatch(setActiveMenu(newUser));
+        //dispatch(setActiveMenu(newUser));
         //dispatch(setActiveNote());
        // }
         

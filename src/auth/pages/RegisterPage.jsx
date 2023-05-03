@@ -35,16 +35,14 @@ export const RegisterPage = () => {
     isFormValid, displayNameValid, emailValid, passwordValid
   } = useForm( formData, formValidations );
 
-  //const options = ['ADMINISTRADOR', 'MONITOR', 'EJECUTIVO'];
+ // const options = ['ADMINISTRADOR', 'MONITOR', 'EJECUTIVO', 'PLATAFORMA'];
  
   const onSubmit =(event)=>{
     event.preventDefault();
     setformSubmitted(true);
     
     if(!isFormValid) return;
-    
     console.log(formState)
-    return
     dispatch( startCreatingUserWithEmailPassword(formState) );
 
   }
@@ -55,7 +53,6 @@ export const RegisterPage = () => {
     <AuthLayout title = 'Registro de cuenta'>
             <form onSubmit = { onSubmit } className='animate__animated animate__fadeIn animate__faster'>
                  <Grid container>
-
                          <Grid item 
                               xs={12} sx= {{ mt:2 }}>
                             <TextField
@@ -99,7 +96,7 @@ export const RegisterPage = () => {
                               onChange= { onInputChange }
                               error= { !!passwordValid && formSubmitted }
                               helperText= { passwordValid }
-                              
+                             
                               />
                         </Grid>
                         {/* <Grid item 
@@ -109,17 +106,15 @@ export const RegisterPage = () => {
                               id="combo-box-demo"
                               options={options}
                               sx={{ width: 300 }}
-                              renderInput={(params) => <TextField {...params} label="Rol" />}
+                              renderInput={(params) => <TextField {...params} label="Perfil" />}
                              
                             />
                       </Grid> */}
                     <Grid container spacing= { 2 } sx= {{ mb:2 , mt: 2}}>
-
                             <Grid item xs={12}  
                                   display = { !!errorMessage ? '': 'none' } >
                                           <Alert severity='error'> { errorMessage }</Alert>                             
                             </Grid>
-
                               <Grid item xs={12}  >
                                   <Button 
                                       

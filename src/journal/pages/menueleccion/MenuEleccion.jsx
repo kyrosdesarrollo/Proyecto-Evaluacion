@@ -14,6 +14,8 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { startLoadingMenus, startNewMenu } from '../../../store/menu/thunks';
 import { reload } from 'firebase/auth';
 import { startLogout } from '../../../store/auth';
+import { funcionarioStartNew } from '../../../store/funcionario/thunks';
+
 
  const MenuEleccion = () => {
 
@@ -33,9 +35,30 @@ import { startLogout } from '../../../store/auth';
     setOpen(false);
   };
 
+  function transformarCadena(cadena) {
+    switch (cadena) {
+      case 'ADMINISTRADOR':
+        return 3;
+      case 'CALIDAD':
+        return 2;
+      case 'PLATAFORMA':
+        return 4;
+      case 'MONITOR':
+        return 1;
+      default:
+        return cadena;
+    }
+  }
+  
   const handleAceptar = () => {
     setOpen(false);
+    console.log(seleccionMenu)
     dispatch(startNewMenu( seleccionMenu ))
+   
+    console.log('Inicio Funcionario')
+    dispatch(funcionarioStartNew(transformarCadena(seleccionMenu)));
+    // Recargar la página
+  //window.location.reload();
     //dispatch(startLogout());
   };
 
