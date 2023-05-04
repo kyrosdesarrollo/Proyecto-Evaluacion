@@ -20,7 +20,8 @@ const FuncionarioVisualFormato = () => {
           Correo: funcionario.Correo,
           Password: funcionario.Password,
           Tipo: funcionario.Tipo,
-          Activo: funcionario.Activo
+          Activo: funcionario.Activo,
+          Uid: funcionario.Uid,
         };
       });
     }else{ //Esto sirve cuando no viene el indice 0
@@ -30,11 +31,12 @@ const FuncionarioVisualFormato = () => {
           Correo: funcionario.Correo,
           Password: funcionario.Password,
           Tipo: funcionario.Tipo,
-          Activo: funcionario.Activo
+          Activo: funcionario.Activo,
+          Uid: funcionario.Uid,
         };
       });
     }
-   
+   console.log(arregloFuncionarios)
     const columns = [
       { title: 'Nombre', field: 'Nombre' },
       { title: 'Correo', field: 'Correo' },
@@ -49,6 +51,7 @@ const FuncionarioVisualFormato = () => {
       ),},
       { title: 'Tipo',   field: 'Tipo',lookup: { 1: 'Monitor', 2: 'Calidad', 3: 'Administrador', 4: 'Plataforma' }},
       { title: 'Activo', field: 'Activo',lookup: { 1: 'SI', 2: 'NO' }},
+      { title: 'Uid', field: 'Uid' },
     ];
     //Estructura por si la dejan en Blanco solo habilitar y comentar al de abajo
     // const [data, setData] = useState([

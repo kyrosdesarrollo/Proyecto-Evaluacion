@@ -10,8 +10,8 @@ export const funcionarioStartNew =( funcionario )=>{
         const { displayName } = getState().auth;        
         const funcionariosArreglo = [];
             for (let i = 0; i < funcionario.length; i++) {
-                const { Nombre, Correo, Password, Tipo , Activo} = funcionario[i];
-                const nuevoFuncionario = { Nombre, Correo,Password, Tipo, Activo };
+                const { Nombre, Correo, Password, Tipo , Activo, Uid} = funcionario[i];
+                const nuevoFuncionario = { Nombre, Correo,Password, Tipo, Activo, Uid };
                 funcionariosArreglo.push(nuevoFuncionario);
             }
           

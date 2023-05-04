@@ -64,10 +64,6 @@ import { startLoadingFuncionarios } from '../../../store/funcionario/thunks';
     setOpen(false);
    
     let tipo = transformarCadena( seleccionMenu)
-    console.log(tipo)
-    console.log(email)
-    console.log(displayName)
-   
     //Crear perfil de usuario en base a selección y datos de usuario
     
   let arregloFuncionarios;
@@ -78,7 +74,8 @@ import { startLoadingFuncionarios } from '../../../store/funcionario/thunks';
         Correo: funcionario.Correo,
         Password: funcionario.Password,
         Tipo: funcionario.Tipo,
-        Activo: funcionario.Activo
+        Activo: funcionario.Activo,
+        Uid : funcionario.Uid,
       };
     });
   }else{ //Esto sirve cuando no viene el indice 0
@@ -88,7 +85,8 @@ import { startLoadingFuncionarios } from '../../../store/funcionario/thunks';
         Correo: funcionario.Correo,
         Password: funcionario.Password,
         Tipo: funcionario.Tipo,
-        Activo: funcionario.Activo
+        Activo: funcionario.Activo,
+        Uid : funcionario.Uid,
       };
     });
   }
@@ -99,7 +97,7 @@ import { startLoadingFuncionarios } from '../../../store/funcionario/thunks';
     Password: "123456",
     Tipo: tipo,
     Activo: 1,
-    uid: uid,
+    Uid: uid,
   };
   // Busca si existe un usuario con el mismo correo electrónico
   const usuarioExistente = arregloFuncionarios.find((usuario) => usuario.Correo === nuevoUsuario.Correo);
