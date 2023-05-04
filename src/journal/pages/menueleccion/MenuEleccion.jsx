@@ -13,6 +13,8 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Swal from 'sweetalert2'
 import { startNewMenu } from '../../../store/menu/thunks';
+import { startLoadingFuncionarios } from '../../../store/funcionario/thunks';
+
 
 
  const MenuEleccion = () => {
@@ -21,10 +23,20 @@ import { startNewMenu } from '../../../store/menu/thunks';
   const [seleccionMenu, setSeleccionMenu] = useState();
   const [botonImport, setBotonImport]     = useState(true);
   const [open, setOpen]                   = useState(false);
+  const [isFetching, setIsFetching] = useState(false);
   //Extrae los formatos desde Redux
-  const { displayName} = useSelector(state => state.auth)
-  const dispatch = useDispatch();
+  const { displayName, email, uid} = useSelector(state => state.auth)
+  //Extrae los formatos desde Redux
+  const { funcionario } = useSelector(state => state.funcionario);
+  
 
+  const dispatch = useDispatch();
+  //Se ejecuta solo una vez
+  if (!isFetching) {
+    dispatch(startLoadingFuncionarios());
+    setIsFetching(true);
+  }
+  
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -50,9 +62,65 @@ import { startNewMenu } from '../../../store/menu/thunks';
   
   const handleAceptar = () => {
     setOpen(false);
-    console.log(seleccionMenu)
+   
+    let tipo = transformarCadena( seleccionMenu)
+    console.log(tipo)
+    console.log(email)
+    console.log(displayName)
+   
     //Crear perfil de usuario en base a selección y datos de usuario
-    dispatch(startNewMenu( seleccionMenu ))
+    
+  let arregloFuncionarios;
+  if (funcionario.length > 0) {
+     arregloFuncionarios = funcionario[0].funcionarios.map((funcionario) => {
+      return {
+        Nombre: funcionario.Nombre,
+        Correo: funcionario.Correo,
+        Password: funcionario.Password,
+        Tipo: funcionario.Tipo,
+        Activo: funcionario.Activo
+      };
+    });
+  }else{ //Esto sirve cuando no viene el indice 0
+    arregloFuncionarios = funcionario.funcionarios.map((funcionario) => {
+      return {
+        Nombre: funcionario.Nombre,
+        Correo: funcionario.Correo,
+        Password: funcionario.Password,
+        Tipo: funcionario.Tipo,
+        Activo: funcionario.Activo
+      };
+    });
+  }
+
+  const nuevoUsuario = {
+    Nombre: displayName,
+    Correo: email,
+    Password: "123456",
+    Tipo: tipo,
+    Activo: 1,
+    uid: uid,
+  };
+  // Busca si existe un usuario con el mismo correo electrónico
+  const usuarioExistente = arregloFuncionarios.find((usuario) => usuario.Correo === nuevoUsuario.Correo);
+
+if (usuarioExistente) {
+  // Muestra una alerta con SweetAlert si se encontró un usuario con el mismo correo electrónico
+    Swal.fire({
+          position: 'top-center',
+          icon: 'error',
+          title: `Correo de usuario ${ displayName } ya se encuentra registrado.`,
+          showConfirmButton: false,
+          timer: 1800
+        })
+        return
+  return
+} else {
+  // Agrega el nuevo usuario al array si no se encontró un usuario con el mismo correo electrónico
+  arregloFuncionarios.push(nuevoUsuario);
+}
+
+    dispatch(startNewMenu( seleccionMenu, arregloFuncionarios ))
 
    // Lógica para guardar los datos
    Swal.fire({

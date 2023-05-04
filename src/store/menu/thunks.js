@@ -6,6 +6,9 @@ import { funcionarioStartNewRegister } from "../funcionario/thunks";
 import { setActiveNote, setNotes } from "../journal";
 import { addNewEmptyMenu, savingNewMenu, savingNewMenuEnd, setActiveMenu, setMenus } from "./menuSlice";
 import { thunkmenu } from "./thunksmenu";
+
+
+
 function transformarCadena(cadena) {
     switch (cadena) {
       case 'ADMINISTRADOR':
@@ -21,9 +24,13 @@ function transformarCadena(cadena) {
     }
   }
 
-export const startNewMenu = ( nombre )=>{
+export const startNewMenu = ( nombre, todo )=>{
     return async (dispatch, getState) =>{
         dispatch(savingNewMenu());
+        console.log('startNewMenu')
+
+        console.log(nombre)
+        console.log(todo)
         //Rescate de informción de redux en auth
         const { displayName, email, uid } = getState().auth;
         
@@ -37,6 +44,7 @@ export const startNewMenu = ( nombre )=>{
         }
 
         console.log(newUser)
+        
         //Verificación de datos de usuario    
         const verificaUser = collection(FirebaseDB,`${ uid }/evaluacion/usuario`);
         const datoUser = await getDocs(verificaUser);
@@ -49,13 +57,13 @@ export const startNewMenu = ( nombre )=>{
         //Valida información
         if (!valida){ 
             try {
-            //Ingreso de datos Usuario
+            //PROCESO 1 : CARGA USUARIO 
             const newDoc = doc (collection(FirebaseDB, `${ uid }/evaluacion/usuario`));
             await setDoc(newDoc, newUser);
             } catch (error) {
                 console.log('problema con ingreso : ' + error)
         }};
-               
+        //PROCESO 2 : CARGA DE MENU EN BASE A PERFIL
         try {
             //Ingreso de datos Menu, búsqueda de parametros de seleccion directo a FireBase
         const collectionRef = collection(FirebaseDB,`menu/MyhIglVpgD6g2AkXQdxu/${ nombre }`);
@@ -76,19 +84,12 @@ export const startNewMenu = ( nombre )=>{
             console.log('Problema menu : '+error)
         }
         
-          
-            //menus.push({ id: doc.id, ...doc.data() });
-           // console.log({ id: doc.id, ...doc.data() });
-    
+         //PROCESO 3 : CARGA DE FUNCIONARIO ruta : maestros/funcionario
         try {
-            let perfilUser =  transformarCadena(nombre);
-            let funcionario = { Nombre: displayName, Correo: email, id: uid, Tipo : PerfilUser , Activo: 1 };
-            console.log('Inicio Funcionario')
-            console.log(funcionario)
-            dispatch(funcionarioStartNewRegister(funcionario));
+             dispatch(funcionarioStartNewRegister(todo, displayName));
 
         } catch (error) {
-            
+            console.log('Error detectado en proceso de creación Funcionario ' + error)
         }
         dispatch(savingNewMenuEnd());
         // const notes = await loadNotes (uid);
