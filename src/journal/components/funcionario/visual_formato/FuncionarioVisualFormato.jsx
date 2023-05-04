@@ -142,7 +142,12 @@ const FuncionarioVisualFormato = () => {
                              reject();
                              return;
                            }
-                      
+                            // Validar que no se actualice en las columnas "Nombre", "Correo" y "Uid"
+                            if (oldData.Nombre !== newData.Nombre || oldData.Correo !== newData.Correo || oldData.Uid !== newData.Uid) {
+                              alert("No se permite actualizar los campos Nombre, Correo o Uid");
+                              reject();
+                              return;
+                            }
                           // Obtener el índice del registro a actualizar
                           const index = data.indexOf(oldData);
                       
@@ -160,15 +165,15 @@ const FuncionarioVisualFormato = () => {
                         }, 1000);
                       }),
                       
-                onRowDelete: oldData =>
-                  new Promise((resolve, reject) => {
-                    setTimeout(() => {
-                      const updatedData = [...data];
-                      updatedData.splice(updatedData.indexOf(oldData), 1);
-                      setData(updatedData);
-                      resolve();
-                    }, 1000)
-                  }),
+                // onRowDelete: oldData =>
+                //   new Promise((resolve, reject) => {
+                //     setTimeout(() => {
+                //       const updatedData = [...data];
+                //       updatedData.splice(updatedData.indexOf(oldData), 1);
+                //       setData(updatedData);
+                //       resolve();
+                //     }, 1000)
+                //   }),
               }}
              // actions={[    {      icon: 'add',      tooltip: 'Agregar funcionario',      isFreeAction: true,      onClick: () => setOpen(true),    },  ]}
               options={{
