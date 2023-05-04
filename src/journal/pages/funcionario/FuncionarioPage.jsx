@@ -5,18 +5,18 @@ import { FuncionarioCRUD } from '../../components/funcionario/FuncionarioCRUD'
 export const FuncionarioPage = () => {
   return (
     <>
-     <Box
+     {/* <Box
         component="main"
         sx={{
           flexGrow: 1,
           py: 2
         }}
       >
-          <Box>
+          <Box> */}
            <FuncionarioCRUD/>
-          </Box>
+          {/* </Box>
       </Box>
-     
+      */}
     </>
   )
 }

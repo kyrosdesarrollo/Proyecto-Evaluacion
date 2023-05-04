@@ -1,6 +1,6 @@
 import React,{useState} from 'react'
 import MaterialTable from 'material-table';
-import { ThemeProvider, createTheme, Button } from '@mui/material';
+import { ThemeProvider, createTheme, Button, Grid } from '@mui/material';
 import { TextField } from '@material-ui/core';
 import Swal from 'sweetalert2'
 import { useDispatch, useSelector} from 'react-redux';
@@ -99,7 +99,7 @@ const FuncionarioVisualFormato = () => {
               
     return (
       <>
-        <div style={{ width: '90%', height: '90%' }}>
+        <div style={{ width: '110%', height: '120%' }}>
           <ThemeProvider theme={defaultMaterialTheme}>
             <MaterialTable
               title="Configuración Funcionarios"
@@ -191,11 +191,32 @@ const FuncionarioVisualFormato = () => {
           </ThemeProvider>
         </div>
         <p></p>
-        <Button 
-          variant="contained" 
-          onClick={handleGuardarInformacion}>
-            Guardar Cambios
-        </Button>
+        
+        <Grid container spacing={6}>
+            <Grid item xs={3} md={2}>
+            <Button 
+                    variant="contained" 
+                    onClick={handleGuardarInformacion}>
+                      Guardar Cambios
+                  </Button>
+            </Grid>
+            <Grid item xs={3} md={2}>
+                <Button 
+                    color="error"
+                    variant="contained" 
+                    onClick={handleGuardarInformacion}>
+                      Eliminar Usuarios
+                  </Button>
+            </Grid>
+            <Grid item xs={3} md={3}>
+                <Button 
+                    color= "success"
+                    variant="contained" 
+                    onClick={handleGuardarInformacion}>
+                      Resetear Password
+                  </Button>
+            </Grid>
+          </Grid>
       </>
     )
   }
