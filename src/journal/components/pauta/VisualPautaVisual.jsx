@@ -14,10 +14,15 @@ const VisualPautaVisual = ({nombrePauta = ''}) => {
   //Busqueda de informaciòn
   const { pautas } = useSelector(state => state.pauta);
   const resultados = pautas.filter((elemento) => elemento.formato === nombrePauta);
-
-console.log(resultados[0].detalleJson)
+ 
   useEffect(() => {
   let titulo=[];
+  //Verifica si hay infromación
+  if (!resultados || resultados.length === 0 || !resultados[0].cabezaJson) {
+    setColumns([]);
+    setData([]);
+    return; // No hay información, se sale del useEffect
+  }
   //Recorre arreglo con los datos de titulos de la planilla Excel
     for (let index = 0; index < resultados[0].cabezaJson.length; index++) {
             titulo.push({ title: resultados[0].cabezaJson[index],
@@ -27,7 +32,6 @@ console.log(resultados[0].detalleJson)
                           // headerStyle: { color: "#2196f3" }
                         });
     }
-    console.log(titulo)
  
     const datos = [];
     
@@ -42,7 +46,7 @@ console.log(resultados[0].detalleJson)
 
       datos.push({ ID: id,"BLOQUES DE EVALUACIÓN" : bloques, "CATEGORÍA": categoria,"CONDUCTA" : conducta, "CUMPLIMIENTO POR CATEGORIA" : cumplimiento ,"CUMPLIMIENTO POR BLOQUES": cumplimientoBloque, "QUIEBRE": quiebre });
     }
-    console.log(datos);
+   
     setColumns(titulo);
     setData(datos);
    

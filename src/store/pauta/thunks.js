@@ -68,6 +68,7 @@ export const startUpdatePauta = (lista, listaJson, id = '')=>{
             await updateDoc(plantillaRef, {
             detalleJson: listaJson,
             detalle: newObject,
+            cabezaJson: head,
             usuarioActualizador: displayName,
             fechaActualizacion: format(new Date(), 'dd/MM/yyyy HH:mm:ss ')
             });
