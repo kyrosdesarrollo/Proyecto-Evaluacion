@@ -8,8 +8,8 @@ export const FuncionarioPage = () => {
      <Box
         component="main"
         sx={{
-          flexGrow: 1,
-          py: 2
+          flexGrow: 0,
+          py: 0.5
         }}
       >
           <Box>

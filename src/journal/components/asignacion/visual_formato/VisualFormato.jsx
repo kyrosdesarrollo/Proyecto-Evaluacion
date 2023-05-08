@@ -94,7 +94,7 @@ const VisualFormato = (props ) => {
    console.log(tableData)
   return (
     <>
-    <div style={{ width: '100%', height: '80%' }}>
+    <div style={{ width: '110%', height: '100%' }}>
               <ThemeProvider theme={defaultMaterialTheme}>
                     <MaterialTable
                         title="Carga de Formato para realización de asignación"

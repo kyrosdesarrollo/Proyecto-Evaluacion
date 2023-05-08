@@ -1,6 +1,6 @@
 import React,{useState} from 'react'
 import MaterialTable from 'material-table';
-import { ThemeProvider, createTheme, Button } from '@mui/material';
+import { ThemeProvider, createTheme, Button, Grid } from '@mui/material';
 import { TextField } from '@material-ui/core';
 import Swal from 'sweetalert2'
 import { useDispatch, useSelector} from 'react-redux';
@@ -9,9 +9,9 @@ import { funcionarioStartNew } from '../../../../store/funcionario/thunks';
 const FuncionarioVisualFormato = () => {
     const defaultMaterialTheme = createTheme();
     const dispatch = useDispatch();
+    const [selectedRows, setSelectedRows] = useState([]);
     //Extrae los formatos desde Redux
     const { funcionario } = useSelector(state => state.funcionario);
-    console.log(funcionario)
     let arregloFuncionarios;
     if (funcionario.length > 0) {
        arregloFuncionarios = funcionario[0].funcionarios.map((funcionario) => {
@@ -36,7 +36,7 @@ const FuncionarioVisualFormato = () => {
         };
       });
     }
-   console.log(arregloFuncionarios)
+   
     const columns = [
       { title: 'Nombre', field: 'Nombre' },
       { title: 'Correo', field: 'Correo' },
@@ -61,7 +61,6 @@ const FuncionarioVisualFormato = () => {
     // ]);
     const [data, setData] = useState(arregloFuncionarios);
     const handleGuardarInformacion = () => {
-       console.log(data)
       // if (open) {
         
       //   Swal.fire({
@@ -95,11 +94,94 @@ const FuncionarioVisualFormato = () => {
       })
 
     };
-  
+     //Captura la información seleccionad de data para eliminación
+     const handleSelectionChange = (rows) => {
+      setSelectedRows([...rows]); // Copia los registros seleccionados en un nuevo array
+      console.log('Seleccion')
+      console.log(rows)
+      //props.updateSelectRowValue(rows);
+    }
+
+   // Eliminar Usuario(s) 
+     const handleEliminar = ()  =>{
+      console.log('Seleccion')
+
+      console.log(selectedRows)
+      if (selectedRows.length >0) {
+        Swal.fire({
+          title: 'Funcionario',
+          text: "¿ Estas seguro de eliminar estos Usuarios ?.",
+          icon: 'question',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Si estoy seguro!'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            console.log('Aqui esta para dispact')
+            console.log(data)
+            dispatch(funcionarioStartNew(data));
+            Swal.fire(
+              'Carga realizada !',
+              'Se han actualizado los registros con éxito.',
+              'success'
+            )
+          }
+        })
+      }else {
+        // la fila no está seleccionada, no hacer nada
+        Swal.fire({
+          confirmButtonColor: '#2196f3',
+          icon: 'error',
+          title: 'Selección de registro',
+          text: 'Favor de seleccionar registro para realizar eliminacion.',
+        });
+         return
+      }
+      
+     }
+     //Resetear contraseñas
+     const handleReset = ()  =>{
+      console.log('Seleccion')
+
+      console.log(selectedRows)
+      if (selectedRows.length >0) {
+        Swal.fire({
+          title: 'Funcionario',
+          text: "¿ Estas seguro de resetear contraseña para estos Usuarios ?.",
+          icon: 'question',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Si estoy seguro!'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            console.log('Aqui esta para dispact')
+            console.log(data)
+            dispatch(funcionarioStartNew(data));
+            Swal.fire(
+              'Carga realizada !',
+              'Se han actualizado los registros con éxito.',
+              'success'
+            )
+          }
+        })
+      }else {
+        // la fila no está seleccionada, no hacer nada
+        Swal.fire({
+          confirmButtonColor: '#2196f3',
+          icon: 'error',
+          title: 'Selección de registro',
+          text: 'Favor de seleccionar registro para realizar reseteo de contraseña.',
+        });
+         return
+      }
+      
+     }
               
     return (
       <>
-        <div style={{ width: '90%', height: '90%' }}>
+        <div style={{ width: '115%', height: '100%' }}>
           <ThemeProvider theme={defaultMaterialTheme}>
             <MaterialTable
               title="Configuración Funcionarios"
@@ -176,7 +258,8 @@ const FuncionarioVisualFormato = () => {
                 //   }),
               }}
              // actions={[    {      icon: 'add',      tooltip: 'Agregar funcionario',      isFreeAction: true,      onClick: () => setOpen(true),    },  ]}
-              options={{
+             onSelectionChange={handleSelectionChange}       
+             options={{
                 selection:true,
                 initialSelectedRowIds: [],
                 grouping: true,
@@ -184,18 +267,42 @@ const FuncionarioVisualFormato = () => {
                 filtering: true,
                 //actionsColumnIndex: -1,
                 addRowPosition: 'last',
-                exportButton: true
+                exportButton: true,
               }}
            //handleOpen={handleOpen}
             />
           </ThemeProvider>
         </div>
         <p></p>
-        <Button 
-          variant="contained" 
-          onClick={handleGuardarInformacion}>
-            Guardar Cambios
-        </Button>
+       
+        <Grid container spacing={3}>
+            <Grid item xs={3}>
+              <Button 
+                size='large'
+                variant="contained" 
+                onClick={handleGuardarInformacion}>
+                  Guardar
+              </Button>
+            </Grid>
+            <Grid item xs={3}>
+              <Button 
+                size='large'
+                color='error'
+                variant="contained" 
+                onClick={handleEliminar}>
+                  Eliminar 
+              </Button>
+            </Grid>
+            <Grid item xs={3}>
+              <Button 
+                size='large'
+                color='success'
+                variant="contained" 
+                onClick={handleReset}>
+                  Resetear 
+              </Button>
+            </Grid>
+        </Grid>
       </>
     )
   }

@@ -49,7 +49,7 @@ export const RegisterPage = () => {
 
   return (
     <>
-     
+      <div style={{ width: '0%', height: '30%' }}>
     <AuthLayout title = 'Registro de cuenta'>
             <form onSubmit = { onSubmit } className='animate__animated animate__fadeIn animate__faster'>
                  <Grid container>
@@ -143,6 +143,7 @@ export const RegisterPage = () => {
               </form>
 
      </AuthLayout>
+     </div>
     </>
   
   )

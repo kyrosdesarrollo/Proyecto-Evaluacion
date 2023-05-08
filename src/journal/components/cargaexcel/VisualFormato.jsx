@@ -82,6 +82,7 @@ console.log(data)
 
   return (
   <>
+  <div style={{ width: '120%', height: '100%' }}>
   <ThemeProvider theme={defaultMaterialTheme}>
     <MaterialTable
       title="Carga de archivo Excel"
@@ -136,6 +137,7 @@ console.log(data)
         }}
     />
     </ThemeProvider>
+    </div>
     </>
   );
 }

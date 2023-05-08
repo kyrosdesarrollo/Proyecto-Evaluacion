@@ -87,7 +87,7 @@ const handleRowClick = (event, rowData) => {
 
   return (
     <>
-      <div style={{ width: '90%', height: '90%' }}>
+      <div style={{ width: '110%', height: '100%' }}>
         <ThemeProvider theme={defaultMaterialTheme}>
           <MaterialTable
             title="Completar Evaluación a nivel de registro"

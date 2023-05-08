@@ -96,7 +96,7 @@ const handleRowClick = (event, rowData) => {
 
   return (
     <>
-    <div style={{ width: '100%', height: '80%' }}>
+    <div style={{ width: '120%', height: '100%' }}>
               <ThemeProvider theme={defaultMaterialTheme}>
                     <MaterialTable
                         title="Realización de cierre"

@@ -6,17 +6,13 @@
   import { AuthLayout } from '../layout/AuthLayout';
   import { useForm } from '../../hooks';
   import {  starLoginWithEmailPassword, startGoogleSignIn } from '../../store/auth';
-  
-
   import Logo from '../../assets/image/Logo.png'
-
 
 	const formData = 
     {
       email: '',
       password: ''
     }
-  
 
 	export const LoginPage = () => {
   const { status, errorMessage } = useSelector( state => state.auth);
@@ -123,9 +119,7 @@
 	
 	                 </Grid>
 	              </form>
-	
        </AuthLayout>
 	    </>
-	  
 	  )
 }

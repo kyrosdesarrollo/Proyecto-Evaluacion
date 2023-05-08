@@ -226,10 +226,10 @@ export const EvaluacionMainLayout = () => {
             
               cursor: 'pointer',
               display: 'flex',
-              justifyContent: 'space-between',
+              justifyContent: 'space-around',
               px: 3,
-              py: '11px',
-              borderRadius: 1
+              py: '1px',
+              borderRadius: 100
             }}>
                
                 <Typography variant= 'inherit' align= 'center' color= 'black' >{ displayName } </Typography>
@@ -250,7 +250,7 @@ export const EvaluacionMainLayout = () => {
             </List>
         <Divider />
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <Box component="main" sx={{ flexGrow: 0.1, p: 2 }}>
         <DrawerHeader />
         {
             (numero.length > 0) 
