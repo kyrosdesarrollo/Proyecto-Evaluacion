@@ -54,28 +54,17 @@ const handleSheetChange = (e) =>{
                         <p className='category'></p>
                     </CardHeader> */}
                     <CardBody className='all-icons'>
-                        <PautaExcelImportar onFileSubir = {(e) => handleFileSubir(e)}  />
+                        <PautaExcelImportar 
+                            onFileSubir = {(e) => handleFileSubir(e)}  
+                            onFileSubirVisual = {(e) => handleFileSubirVisual(e)}
+                            />
                     </CardBody>
 
                 </Card>
                 </div>
                 <div className="col-sm">
-                <Box md={12}>
-                    <Typography variant="h4" component="h2">
-                    <br></br> Visualizar Pautas
-                    </Typography>
-     
-                </Box>
-                <Card>
-                    {/* <CardHeader>
-                        <h5 className='title'>Leer Excel Hojas</h5>
-                        <p className='category'></p>
-                    </CardHeader> */}
-                    <CardBody className='all-icons'>
-                        <PautaExcelImportarVisual onFileSubirVisual = {(e) => handleFileSubirVisual(e)} />
-                    </CardBody>
-
-                </Card>
+              
+               
                 </div>
             </div>
             </div>
@@ -89,7 +78,9 @@ const handleSheetChange = (e) =>{
             <>
             <CargaVisualPauta  
                 plantilla = {sheetData}
-                nombre = { sheetNames.toString()} />
+                nombre = { sheetNames.toString()}
+                nombrePauta = { sheetDataVisual }
+                 />
             </>
         }
         {

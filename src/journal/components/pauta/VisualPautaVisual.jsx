@@ -15,6 +15,7 @@ const VisualPautaVisual = ({nombrePauta = ''}) => {
   const { pautas } = useSelector(state => state.pauta);
   const resultados = pautas.filter((elemento) => elemento.formato === nombrePauta);
 
+console.log(resultados[0].detalleJson)
   useEffect(() => {
   let titulo=[];
   //Recorre arreglo con los datos de titulos de la planilla Excel
@@ -37,10 +38,11 @@ const VisualPautaVisual = ({nombrePauta = ''}) => {
       const conducta = resultados[0].detalleJson[i]["CONDUCTA"];//"CUMPLIMIENTO POR BLOQUES"
       const cumplimiento = resultados[0].detalleJson[i]["CUMPLIMIENTO POR CATEGORIA"]
       const cumplimientoBloque = resultados[0].detalleJson[i]["CUMPLIMIENTO POR BLOQUES"]
+      const quiebre = resultados[0].detalleJson[i]["QUIEBRE"]
 
-      datos.push({ ID: id,"BLOQUES DE EVALUACIÓN" : bloques, "CATEGORÍA": categoria,"CONDUCTA" : conducta, "CUMPLIMIENTO POR CATEGORIA" : cumplimiento ,"CUMPLIMIENTO POR BLOQUES": cumplimientoBloque });
+      datos.push({ ID: id,"BLOQUES DE EVALUACIÓN" : bloques, "CATEGORÍA": categoria,"CONDUCTA" : conducta, "CUMPLIMIENTO POR CATEGORIA" : cumplimiento ,"CUMPLIMIENTO POR BLOQUES": cumplimientoBloque, "QUIEBRE": quiebre });
     }
-    
+    console.log(datos);
     setColumns(titulo);
     setData(datos);
    
@@ -50,6 +52,7 @@ const VisualPautaVisual = ({nombrePauta = ''}) => {
  
   return (
   <>
+  <div style={{ width: '120%', height: '100%' }}>
   <ThemeProvider theme={defaultMaterialTheme}>
     <MaterialTable
       title={`Visualización de Pauta : ${nombrePauta}`}
@@ -108,6 +111,7 @@ const VisualPautaVisual = ({nombrePauta = ''}) => {
     />
   )
     </ThemeProvider>
+    </div>
     </>
   );
 }

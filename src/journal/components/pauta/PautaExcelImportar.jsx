@@ -35,10 +35,21 @@ export  const PautaExcelImportar = (props) => {
     */
     const [sheetData, setSheetData] = useState({});
     const fileRef = useRef();
+
     const dispatch = useDispatch();
 
     //Busqueda de informaciòn
     const { pautas } = useSelector(state => state.pauta);
+    // // Verificar si la propiedad formato existe y tiene elementos
+    // if (pautas) {
+    //     const nuevoArreglo = [];
+    //     for (let i = 0; i < pautas.length; i++) {
+    //         nuevoArreglo.push(pautas[i].formato);
+    //       }
+    //       options = nuevoArreglo
+    // } else {
+    // console.log("No se encontraron pautas");
+    // }
 
     const options = ['PARLO 1 LINEA', 'PARLO FRAUDE','PARLO FRAUDE1','PARLO FRAUDE MONITOREO','PARLO EQUIPO ESP.','PARLO FIDELIZACION','PARLO VENTAS'];
 
@@ -148,6 +159,7 @@ const handleRemove = () => {
 };
 const handleChange = (event) => {    
     setHabilitaTabla(true);
+    props.onFileSubirVisual(event.target.innerText)
     if(event.target.id === ''){
         setBotonImport(true);
         setFile(null);
