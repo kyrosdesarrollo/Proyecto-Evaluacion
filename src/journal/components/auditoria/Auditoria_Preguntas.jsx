@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Card, CardContent, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, TextField, Button,Modal, Typography,Icon } from "@mui/material";
+import { Card, CardContent, Box,FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, TextField, Button,Modal, Typography,Icon } from "@mui/material";
 import { useSelector, useDispatch } from 'react-redux';
 import { actualizarDetalleJson } from "../../../store/formato/formatoSlice";
 import Swal from 'sweetalert2'
@@ -39,20 +39,113 @@ const Auditoria_Preguntas = (props) => {
   const [respuestas, setRespuestas] = useState({});
   const [showError, setShowError] = useState(false);
   const [showErrorNo, setShowErrorNo] = useState(false);
-
+  const [porcentajeAcumulado, setPorcentajeAcumulado] = useState(0);
+  const [porcentajeAcumuladoBloque, setPorcentajeAcumuladoBloque] = useState(0);
   //Cerrar modal 
- 
 
-  //Validación de respuesta No
+ //Respuesta a nivel de linea con acumulación
   const handleRespuesta = (preguntaId, respuesta) => {
-    setRespuestas({
-      ...respuestas,
+    const bloquePreguntas = Object.values(preguntasPorBloque);
+  
+    let nuevoPorcentajeAcumulado = 0;
+  
+    bloquePreguntas.forEach((bloque) => {
+      if (bloque[0].bloque !== "SOBRECUMPLIMIENTO") {
+          const pregunta = bloque.find((pregunta) => pregunta.id === preguntaId);
+          
+          if (pregunta) {
+            const porcentajePregunta = pregunta.porcentajePregunta;
+        
+            if (respuesta === "SI") {
+              nuevoPorcentajeAcumulado += porcentajePregunta;
+            } else if (respuesta === "NO" && respuestas[preguntaId]?.respuesta === "SI") {
+              nuevoPorcentajeAcumulado -= porcentajePregunta;
+            }
+          }
+        }
+    });
+  
+    setPorcentajeAcumulado(prevPorcentaje => prevPorcentaje + nuevoPorcentajeAcumulado);
+  
+    setRespuestas((prevRespuestas) => ({
+      ...prevRespuestas,
       [preguntaId]: {
         respuesta: respuesta,
-        comentario: respuestas[preguntaId]?.respuesta === "NO" ? respuestas[preguntaId].comentario : "",
+        comentario: prevRespuestas[preguntaId]?.respuesta === "NO" ? prevRespuestas[preguntaId].comentario : "",
       },
-    });
+    }));
   };
+  
+  //Validación de respuesta No
+  //VERSION 1 Sin acumnulacion
+  // const handleRespuesta = (preguntaId, respuesta) => {
+  //   const bloquePreguntas = Object.values(preguntasPorBloque);
+  //   const porcentajePregunta = bloquePreguntas[0][preguntaId].porcentajePregunta;
+  
+  //   let nuevoPorcentajeAcumulado = 0;
+  //   if (respuesta === "SI") {
+  //     nuevoPorcentajeAcumulado += porcentajePregunta;
+  //   } else if (respuesta === "NO" && respuestas[preguntaId]?.respuesta === "SI") {
+  //     nuevoPorcentajeAcumulado -= porcentajePregunta;
+  //   }
+  
+   
+  //   //setPorcentajeAcumulado(nuevoPorcentajeAcumulado);
+  //   setPorcentajeAcumulado(prevPorcentaje => prevPorcentaje + nuevoPorcentajeAcumulado);
+
+  //   setRespuestas((prevRespuestas) => ({
+  //     ...prevRespuestas,
+  //     [preguntaId]: {
+  //       respuesta: respuesta,
+  //       comentario: prevRespuestas[preguntaId]?.respuesta === "NO" ? prevRespuestas[preguntaId].comentario : "",
+  //     },
+  //   }));
+  // };
+  
+  // const handleRespuesta = (preguntaId, respuesta) => {
+  //   const bloquePreguntas = Object.values(preguntasPorBloque);
+  //   let nuevoPorcentajeAcumulado = 0;
+  //   console.log(bloquePreguntas)
+
+  //   const bloque = bloquePreguntas[0][preguntaId].bloque;
+  //   console.log(bloque)
+    
+  
+  // if (bloque) {
+  //   const porcentajePregunta = bloquePreguntas[0][preguntaId].porcentajePregunta;
+  
+  //   let nuevoPorcentajeAcumulado = 0;
+  //   if (respuesta === "SI") {
+  //     nuevoPorcentajeAcumulado += porcentajePregunta;
+  //   } else if (
+  //     respuesta === "NO" &&
+  //     respuestas[preguntaId]?.respuesta === "SI"
+  //   ) {
+  //     nuevoPorcentajeAcumulado -= porcentajePregunta;
+  //   }
+  
+  //   setPorcentajeAcumulado(prevPorcentaje => prevPorcentaje + nuevoPorcentajeAcumulado);
+  
+  //   setPorcentajeAcumuladoBloque(prevPorcentajeBloque => ({
+  //     ...prevPorcentajeBloque,
+  //     [bloque]: prevPorcentajeBloque[bloque] + nuevoPorcentajeAcumulado,
+  //   }));
+  // }
+  
+  // setRespuestas((prevRespuestas) => ({
+  //   ...prevRespuestas,
+  //   [preguntaId]: {
+  //     respuesta: respuesta,
+  //     comentario:
+  //       prevRespuestas[preguntaId]?.respuesta === "NO"
+  //         ? prevRespuestas[preguntaId].comentario
+  //         : "",
+  //   },
+  // }));
+  
+  // };
+  
+  
   //Extracción de pautas en redux
   const { pautas } = useSelector(state => state.pauta);
 
@@ -75,14 +168,20 @@ const Auditoria_Preguntas = (props) => {
     const { 
       "BLOQUES DE EVALUACIÓN": bloque,
       "CATEGORÍA": categoria,
-      "CONDUCTA": pregunta
+      "CONDUCTA": pregunta,
+      "CUMPLIMIENTO POR BLOQUES":porcentajeBloque,
+      "CUMPLIMIENTO POR CATEGORIA":porcentajePregunta
     } = consulta;
   
+    // if (!acc[bloque]) {
+    //   acc[bloque] = [];
+    // }
     if (!acc[bloque]) {
-      acc[bloque] = [];
+      acc[bloque] = []; // Inicializar acc[bloque] como un arreglo vacío
+      acc[bloque].porcentajeAcumuladoBloque = 0; // Inicializar porcentajeAcumuladoBloque en 0
     }
   
-    acc[bloque].push({ id: i, categoria, pregunta, bloque });
+    acc[bloque].push({ id: i, categoria, pregunta, bloque, porcentajePregunta, porcentajeBloque  });
   
     return acc;
   }, {});
@@ -150,6 +249,21 @@ const Auditoria_Preguntas = (props) => {
    return
    
   };
+
+  //ESTILOS Y PORCENTAJES
+      //Estilo de porcentaje Final
+      let porcentajeStyle = {};
+      if (porcentajeAcumulado < 0) {
+        porcentajeStyle.color = "red";
+      } else if (porcentajeAcumulado * 100 < 50) {
+        porcentajeStyle.color = "red";
+      } else {
+        porcentajeStyle.color = "green";
+      }
+
+      let porcentajeFormateado = (porcentajeAcumulado * 100).toFixed(0) + "%";
+
+
   return (
     <Card variant="outlined" sx={{ borderRadius: "12px", backgroundColor: "#f5f5f5", borderColor: "primary.main" }}>
     {Object.entries(preguntasPorBloque).map(([bloque, preguntas]) => (
@@ -171,35 +285,49 @@ const Auditoria_Preguntas = (props) => {
               <FormControlLabel value="SI" control={<Radio />} label="SI" />
               <FormControlLabel value="NO" control={<Radio />} label="NO" />
             </RadioGroup>
+            
+          {respuestas[pregunta.id]?.respuesta === "NO" && (
+              <font color="red" size="5">Porcentaje obtenido 0%</font>
+            )}
+            <br />
+          {respuestas[pregunta.id]?.respuesta === "SI" && (
+              <font color="primary" size="5">
+                Porcentaje obtenido {pregunta.porcentajePregunta * 100}%
+              </font>
+            )}
             {respuestas[pregunta.id]?.respuesta === "NO" && (
               <TextField
-                required
-                label="Comentario"
-                variant="outlined"
-                value={respuestas[pregunta.id]?.comentario}
-                onChange={(e) =>
-                  setRespuestas({
-                    ...respuestas,
-                    [pregunta.id]: {
-                      ...respuestas[pregunta.id],
-                      comentario: e.target.value,
-                    },
-                  })
-                }
-                margin="dense"
-              />
-            )}
+              required
+              label="Comentario"
+              variant="outlined"
+              value={respuestas[pregunta.id]?.comentario}
+              onChange={(e) =>
+                setRespuestas({
+                  ...respuestas,
+                  [pregunta.id]: {
+                    ...respuestas[pregunta.id],
+                    comentario: e.target.value,
+                  },
+                })
+              }
+              margin="dense"
+            />
+          )}
             <br />
           </div>
         ))}
       </FormControl>
       <br />
     </CardContent>
+    
   ))}
   <CardContent sx={{ borderColor: "primary.main" }}>
     <Button sx={{ mx: "auto" }} onClick={handleSubmit}>
       Guardar
     </Button>
+    <Typography variant="h4" gutterBottom sx={porcentajeStyle} >
+        Porcentaje Total : {porcentajeFormateado}
+      </Typography>
     <Modal open={showError} onClose={() => setShowError(false)}>
         <div
           style={{

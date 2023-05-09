@@ -14,6 +14,7 @@ const Cierre_Preguntas = (props) => {
   const [showError, setShowError] = useState(false);
   const [showErrorNo, setShowErrorNo] = useState(false);
   const [idLineaObjeto, setIdLineaObjeto] = useState({});  
+
   //Control por si el dato lineaObjeto ess null adicional devuelve el objeto
   useEffect(() => {
     if (!props.lineaObjeto) {
