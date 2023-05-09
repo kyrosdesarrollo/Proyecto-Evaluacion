@@ -1,8 +1,12 @@
 import { useState } from "react";
-import { Card, CardContent, Box,FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, TextField, Button,Modal, Typography,Icon } from "@mui/material";
+import { Card, CardContent,FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, TextField, Button,Modal, Typography,Icon } from "@mui/material";
+import {  InputLabel, Select, MenuItem } from '@material-ui/core';
+
 import { useSelector, useDispatch } from 'react-redux';
 import { actualizarDetalleJson } from "../../../store/formato/formatoSlice";
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
+import {campos , categoriasGenerales}  from '../auditoria/estructura/informacionGeneral'
+//import categoriasGenerales from '../auditoria/estructura/informacionGeneral'
 //Ejemplo de formato de archivo para construir
 // const preguntas = [
 //   {
@@ -193,6 +197,27 @@ const Auditoria_Preguntas = (props) => {
 
       let porcentajeFormateado = (porcentajeAcumulado * 100).toFixed(0) + "%";
 
+      const opcionesProducto = [
+        'Cliente Total Pack',
+        'Compras en Holding',
+        'Credito de Consumo',
+        'Credito Automotriz',
+        'Credito Hipotecario',
+        'Cuenta Corriente',
+        'Cuenta Vista',
+        'Deposito a Plazo',
+        'Falabella Connect',
+        'Fondos Mutuos',
+        'Internet',
+        'Producto CMR',
+        'Promociones',
+        'Puntos CMR',
+        'Recibe SMS',
+        'Sobre Oficinas',
+        'Tarjeta Crédito',
+        'Tarjeta Débito'
+      ];
+    
 
   return (
     <Card variant="outlined" sx={{ borderRadius: "12px", backgroundColor: "#f5f5f5", borderColor: "primary.main" }}>
@@ -206,15 +231,15 @@ const Auditoria_Preguntas = (props) => {
         {preguntas.map((pregunta) => (
           <div key={pregunta.id}>
             <p>{pregunta.categoria}</p>
-            <p>"{pregunta.pregunta}"</p>
-            {bloque === 'INFORMACION GENERAL'  &&(
-                <div>
+            <p>{pregunta.pregunta}</p>
 
+            {bloque === 'INFORMACION GENERAL'  && pregunta.categoria === 'GENERAL 1' &&(
+                <div>
                   <TextField
                     required
-                    label="Comentario"
+                    type = "date"
                     variant="outlined"
-                    value={respuestas[pregunta.id]?.fechadeconversion}
+                    value={respuestas[pregunta.id]?.fechadeconversion || ''}
                     onChange={(e) =>
                       setRespuestas({
                         ...respuestas,
@@ -225,12 +250,186 @@ const Auditoria_Preguntas = (props) => {
                       })
                     }
                     margin="dense"
+                    style={{ width: '200px', textAlign: 'center' }}
+                  />
+                </div>
+              )}
+              {bloque === 'INFORMACION GENERAL'  && pregunta.categoria === 'GENERAL 2' &&(
+                <div>
+
+                  <TextField
+                    required
+                    variant="outlined"
+                    value={respuestas[pregunta.id]?.idchat || ''}
+                    onChange={(e) =>
+                      setRespuestas({
+                        ...respuestas,
+                        [pregunta.id]: {
+                          ...respuestas[pregunta.id],
+                          idchat: e.target.value,
+                        },
+                      })
+                    }
+                    margin="dense"
+                    style={{ width: '200px' }}
                   />
                 </div>
               )}
 
+            {bloque === 'INFORMACION GENERAL'  && pregunta.categoria === 'GENERAL 3' &&(
+                <div>
 
-            
+                  <TextField
+                    required
+                    type = "time"
+                    variant="outlined"
+                    value={respuestas[pregunta.id]?.hora || ''}
+                    onChange={(e) =>
+                      setRespuestas({
+                        ...respuestas,
+                        [pregunta.id]: {
+                          ...respuestas[pregunta.id],
+                          hora: e.target.value,
+                        },
+                      })
+                    }
+                    margin="dense"
+                    style={{ width: '200px', textAlign: 'center' }}
+                  />
+                </div>
+              )}
+
+              {bloque === 'INFORMACION GENERAL' && pregunta.categoria === 'GENERAL 4' && (
+                <div>
+                   <FormControl required style={{ width: '200px' }}>
+                    <Select
+                      value={respuestas[pregunta.id]?.tipoatencion || ''}
+                      onChange={(e) =>
+                        setRespuestas({
+                          ...respuestas,
+                          [pregunta.id]: {
+                            ...respuestas[pregunta.id],
+                            tipoatencion: e.target.value,
+                          },
+                        })
+                      }
+                    >
+                      <MenuItem value="Consulta">Consulta</MenuItem>
+                      <MenuItem value="Reclamo">Reclamo</MenuItem>
+                      <MenuItem value="Solicitud">Solicitud</MenuItem>
+                    </Select>
+                  </FormControl>
+                </div>
+              )}
+
+
+              {bloque === 'INFORMACION GENERAL' && pregunta.categoria === 'GENERAL 5' && (
+                <div>
+                  <FormControl required style={{ width: '200px' }}>
+                    <Select
+                      value={respuestas[pregunta.id]?.producto || ''}
+                      onChange={(e) =>
+                        setRespuestas({
+                          ...respuestas,
+                          [pregunta.id]: {
+                            ...respuestas[pregunta.id],
+                            producto: e.target.value,
+                          },
+                        })
+                      }
+                    >
+                      {opcionesProducto.map((opcion) => (
+                        <MenuItem key={opcion} value={opcion}>{opcion}</MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </div>
+              )}
+           
+           {bloque === 'INFORMACION GENERAL' && pregunta.categoria === 'GENERAL 6' && (
+                <div>
+                   <FormControl required style={{ width: '200px' }}>
+                    <Select
+                      value={respuestas[pregunta.id]?.error || ''}
+                      onChange={(e) =>
+                        setRespuestas({
+                          ...respuestas,
+                          [pregunta.id]: {
+                            ...respuestas[pregunta.id],
+                            error: e.target.value,
+                          },
+                        })
+                      }
+                    >
+                      <MenuItem value="SI">SI</MenuItem>
+                      <MenuItem value="NO">NO</MenuItem>
+                    </Select>
+                  </FormControl>
+                </div>
+              )}
+
+            {bloque === 'INFORMACION GENERAL' && pregunta.categoria === 'GENERAL 7' && (
+              <div>
+                <FormControl required style={{ width: '1100px' }}>
+                  <Select
+                    value={respuestas[pregunta.id]?.tipoerror || ''}
+                    onChange={(e) =>
+                      setRespuestas({
+                        ...respuestas,
+                        [pregunta.id]: {
+                          ...respuestas[pregunta.id],
+                          tipoerror: e.target.value,
+                        },
+                      })
+                    }
+                  >
+                    <MenuItem value="">Seleccionar</MenuItem>
+                    <MenuItem value="Gestión indebida: Modificar datos personales la cuenta sin autorización de cliente o empresa.">
+                      Gestión indebida: Modificar datos personales la cuenta sin autorización de cliente o empresa.
+                    </MenuItem>
+                    <MenuItem value="Entregar información privada de la cuenta a un tercero sin autorización de titular.">
+                      Entregar información privada de la cuenta a un tercero sin autorización de titular.
+                    </MenuItem>
+                    <MenuItem value="Entregar información incorrecta o incompleta que afecta la resolución de la solicitud del cliente o entregar información de Sistema Comercial no autorizada (ej.; Mora Banco Itaú)">
+                      Entregar información incorrecta o incompleta que afecta la resolución de la solicitud del cliente o entregar información de Sistema Comercial no autorizada (ej.; Mora Banco Itaú)
+                    </MenuItem>
+                    <MenuItem value="Desatender o cortar la interacción con el cliente (Llamado/Chat)">
+                      Desatender o cortar la interacción con el cliente (Llamado/Chat)
+                    </MenuItem>
+                    <MenuItem value="Entrar en discusión con el cliente, realizar comentarios de desprestigio la empresa, compañero u otra áreas.">
+                      Entrar en discusión con el cliente, realizar comentarios de desprestigio la empresa, compañero u otra áreas.
+                    </MenuItem>
+                    <MenuItem value="Atender a los clientes de forma despectiva, grosera o con improperios.">
+                      Atender a los clientes de forma despectiva, grosera o con improperios.
+                    </MenuItem>
+                    <MenuItem value="Silencio Mayor a 12 minutos">Silencio Mayor a 12 minutos</MenuItem>
+                    <MenuItem value="No se despide despues de 4 minutos">No se despide despues de 4 minutos</MenuItem>
+                  </Select>
+                </FormControl>
+              </div>
+            )}
+
+            {bloque === 'INFORMACION GENERAL' && pregunta.categoria === 'GENERAL 8' && (
+                            <div>
+                              <FormControl required style={{ width: '200px' }}>
+                                <Select
+                                  value={respuestas[pregunta.id]?.quiebreparcial || ''}
+                                  onChange={(e) =>
+                                    setRespuestas({
+                                      ...respuestas,
+                                      [pregunta.id]: {
+                                        ...respuestas[pregunta.id],
+                                        quiebreparcial: e.target.value,
+                                      },
+                                    })
+                                  }
+                                >
+                                  <MenuItem value="SI">SI</MenuItem>
+                                  <MenuItem value="NO">NO</MenuItem>
+                                </Select>
+                              </FormControl>
+                            </div>
+                          )}
           {bloque !== 'INFORMACION GENERAL' && (
               <RadioGroup
                   aria-labelledby={`demo-radio-buttons-group-label-${pregunta.id}`}
