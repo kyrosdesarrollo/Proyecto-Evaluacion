@@ -122,6 +122,19 @@ const Auditoria_Preguntas = (props) => {
 
   //Contar cantidad de preguntas de pauta
   const totalPreguntas = Object.values(preguntasPorBloque).reduce((acc, bloque) => acc + bloque.length, 0);
+  
+  //Contar solo preguntas Generales
+  let cuentaGeneral = 0;
+  const totalPreguntasGeneral = Object.values(preguntasPorBloque).reduce((acc, bloque) => {
+    for (let i = 0; i < bloque.length; i++) {
+        if (bloque[i].bloque === 'INFORMACION GENERAL') {
+          cuentaGeneral++
+        }
+    }
+   
+  }, 0);
+
+  
   //Contar cantidad de respuestas si / no / comentarios indicadas por usuario
   //estructura Object { si: 1, no: 2, comentarios: 1 }
   const estadisticas = Object.values(respuestas).reduce((acc, respuesta) => {
@@ -143,7 +156,7 @@ const Auditoria_Preguntas = (props) => {
   // Boton guardar acción
   const handleSubmit = () => {
     //Validación de cantidad de respuestas ingresadas por usuario, utilizaremos la suma de si y no "estadistica"
-    if (totalPreguntas > estadisticas.si + estadisticas.no ) {
+    if (totalPreguntas > estadisticas.si + estadisticas.no + cuentaGeneral) {
        setShowError(true);
       return
     }
@@ -430,6 +443,72 @@ const Auditoria_Preguntas = (props) => {
                               </FormControl>
                             </div>
                           )}
+
+                {bloque === 'INFORMACION GENERAL' && pregunta.categoria === 'GENERAL 9' && (
+                                            <div>
+                                              <FormControl required style={{ width: '200px' }}>
+                                                <Select
+                                                  value={respuestas[pregunta.id]?.compromiso || ''}
+                                                  onChange={(e) =>
+                                                    setRespuestas({
+                                                      ...respuestas,
+                                                      [pregunta.id]: {
+                                                        ...respuestas[pregunta.id],
+                                                        compromiso: e.target.value,
+                                                      },
+                                                    })
+                                                  }
+                                                >
+                                                  <MenuItem value="SI">SI</MenuItem>
+                                                  <MenuItem value="NO">NO</MenuItem>
+                                                </Select>
+                                              </FormControl>
+                                            </div>
+                                          )}
+              {bloque === 'INFORMACION GENERAL'  && pregunta.categoria === 'GENERAL 10' &&(
+                <div>
+
+                  <TextField
+                    required
+                    variant="outlined"
+                    value={respuestas[pregunta.id]?.tipocompromiso || ''}
+                    onChange={(e) =>
+                      setRespuestas({
+                        ...respuestas,
+                        [pregunta.id]: {
+                          ...respuestas[pregunta.id],
+                          tipocompromiso: e.target.value,
+                        },
+                      })
+                    }
+                    margin="dense"
+                    style={{ width: '800px' }}
+                  />
+                </div>
+              )}
+
+            {bloque === 'INFORMACION GENERAL'  && pregunta.categoria === 'GENERAL 11' &&(
+                <div>
+
+                  <TextField
+                    required
+                    type = "time"
+                    variant="outlined"
+                    value={respuestas[pregunta.id]?.horacierre || ''}
+                    onChange={(e) =>
+                      setRespuestas({
+                        ...respuestas,
+                        [pregunta.id]: {
+                          ...respuestas[pregunta.id],
+                          horacierre: e.target.value,
+                        },
+                      })
+                    }
+                    margin="dense"
+                    style={{ width: '200px', textAlign: 'center' }}
+                  />
+                </div>
+              )}
           {bloque !== 'INFORMACION GENERAL' && (
               <RadioGroup
                   aria-labelledby={`demo-radio-buttons-group-label-${pregunta.id}`}
