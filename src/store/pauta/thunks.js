@@ -52,7 +52,7 @@ export const startUpdatePauta = (lista, listaJson, id = '')=>{
     return async(dispatch, getState) =>{
         //Incio de Estado para guardar
         dispatch(estadoInicioSaving());
-        
+        const head = lista[0];
         const { uid, displayName } = getState().auth;
         if(!uid) throw new Error('El UID del usuario no existe');
         //Convertir Estructura

@@ -76,76 +76,6 @@ const Auditoria_Preguntas = (props) => {
     }));
   };
   
-  //Validación de respuesta No
-  //VERSION 1 Sin acumnulacion
-  // const handleRespuesta = (preguntaId, respuesta) => {
-  //   const bloquePreguntas = Object.values(preguntasPorBloque);
-  //   const porcentajePregunta = bloquePreguntas[0][preguntaId].porcentajePregunta;
-  
-  //   let nuevoPorcentajeAcumulado = 0;
-  //   if (respuesta === "SI") {
-  //     nuevoPorcentajeAcumulado += porcentajePregunta;
-  //   } else if (respuesta === "NO" && respuestas[preguntaId]?.respuesta === "SI") {
-  //     nuevoPorcentajeAcumulado -= porcentajePregunta;
-  //   }
-  
-   
-  //   //setPorcentajeAcumulado(nuevoPorcentajeAcumulado);
-  //   setPorcentajeAcumulado(prevPorcentaje => prevPorcentaje + nuevoPorcentajeAcumulado);
-
-  //   setRespuestas((prevRespuestas) => ({
-  //     ...prevRespuestas,
-  //     [preguntaId]: {
-  //       respuesta: respuesta,
-  //       comentario: prevRespuestas[preguntaId]?.respuesta === "NO" ? prevRespuestas[preguntaId].comentario : "",
-  //     },
-  //   }));
-  // };
-  
-  // const handleRespuesta = (preguntaId, respuesta) => {
-  //   const bloquePreguntas = Object.values(preguntasPorBloque);
-  //   let nuevoPorcentajeAcumulado = 0;
-  //   console.log(bloquePreguntas)
-
-  //   const bloque = bloquePreguntas[0][preguntaId].bloque;
-  //   console.log(bloque)
-    
-  
-  // if (bloque) {
-  //   const porcentajePregunta = bloquePreguntas[0][preguntaId].porcentajePregunta;
-  
-  //   let nuevoPorcentajeAcumulado = 0;
-  //   if (respuesta === "SI") {
-  //     nuevoPorcentajeAcumulado += porcentajePregunta;
-  //   } else if (
-  //     respuesta === "NO" &&
-  //     respuestas[preguntaId]?.respuesta === "SI"
-  //   ) {
-  //     nuevoPorcentajeAcumulado -= porcentajePregunta;
-  //   }
-  
-  //   setPorcentajeAcumulado(prevPorcentaje => prevPorcentaje + nuevoPorcentajeAcumulado);
-  
-  //   setPorcentajeAcumuladoBloque(prevPorcentajeBloque => ({
-  //     ...prevPorcentajeBloque,
-  //     [bloque]: prevPorcentajeBloque[bloque] + nuevoPorcentajeAcumulado,
-  //   }));
-  // }
-  
-  // setRespuestas((prevRespuestas) => ({
-  //   ...prevRespuestas,
-  //   [preguntaId]: {
-  //     respuesta: respuesta,
-  //     comentario:
-  //       prevRespuestas[preguntaId]?.respuesta === "NO"
-  //         ? prevRespuestas[preguntaId].comentario
-  //         : "",
-  //   },
-  // }));
-  
-  // };
-  
-  
   //Extracción de pautas en redux
   const { pautas } = useSelector(state => state.pauta);
 
@@ -235,18 +165,18 @@ const Auditoria_Preguntas = (props) => {
    
     // Definir la acción de actualización con los datos que deseas enviar al store
     const action = actualizarDetalleJson({formatoIndex, indiceEncontrado, preguntasRespuestas})
-    dispatch(action);
+          dispatch(action);
 
-   props.handleClose();
-   setShowError(false);
-   setRespuestas({});
-   Swal.fire({
-    confirmButtonColor: '#2196f3',
-    icon: 'success',
-    title: 'Evaluación',
-    text: 'Almacenada correctamente, recordar presionar el bóton guardar en pantalla principal para ser enviadas esta(s) encuesta(s). Gracias !!!! 😉',
-  });
-   return
+        props.handleClose();
+        setShowError(false);
+        setRespuestas({});
+        Swal.fire({
+          confirmButtonColor: '#2196f3',
+          icon: 'success',
+          title: 'Evaluación',
+          text: 'Almacenada correctamente, recordar presionar el bóton guardar en pantalla principal para ser enviadas esta(s) encuesta(s). Gracias !!!! 😉',
+        });
+        return
    
   };
 
@@ -277,14 +207,41 @@ const Auditoria_Preguntas = (props) => {
           <div key={pregunta.id}>
             <p>{pregunta.categoria}</p>
             <p>"{pregunta.pregunta}"</p>
-            <RadioGroup
-              aria-labelledby={`demo-radio-buttons-group-label-${pregunta.id}`}
-              name={`radio-buttons-group-${pregunta.id}`}
-              onChange={(e) => handleRespuesta(pregunta.id, e.target.value)}
-            >
-              <FormControlLabel value="SI" control={<Radio />} label="SI" />
-              <FormControlLabel value="NO" control={<Radio />} label="NO" />
-            </RadioGroup>
+            {bloque === 'INFORMACION GENERAL'  &&(
+                <div>
+
+                  <TextField
+                    required
+                    label="Comentario"
+                    variant="outlined"
+                    value={respuestas[pregunta.id]?.fechadeconversion}
+                    onChange={(e) =>
+                      setRespuestas({
+                        ...respuestas,
+                        [pregunta.id]: {
+                          ...respuestas[pregunta.id],
+                          fechadeconversion: e.target.value,
+                        },
+                      })
+                    }
+                    margin="dense"
+                  />
+                </div>
+              )}
+
+
+            
+          {bloque !== 'INFORMACION GENERAL' && (
+              <RadioGroup
+                  aria-labelledby={`demo-radio-buttons-group-label-${pregunta.id}`}
+                  name={`radio-buttons-group-${pregunta.id}`}
+                  onChange={(e) => handleRespuesta(pregunta.id, e.target.value)}
+                >
+                  <FormControlLabel value="SI" control={<Radio />} label="SI" />
+                  <FormControlLabel value="NO" control={<Radio />} label="NO" />
+                </RadioGroup>)
+          }
+            
             
           {respuestas[pregunta.id]?.respuesta === "NO" && (
               <font color="red" size="5">Porcentaje obtenido 0%</font>
@@ -322,7 +279,7 @@ const Auditoria_Preguntas = (props) => {
     
   ))}
   <CardContent sx={{ borderColor: "primary.main" }}>
-    <Button sx={{ mx: "auto" }} onClick={handleSubmit}>
+    <Button variant="contained" sx={{ mx: "auto" }} onClick={handleSubmit}>
       Guardar
     </Button>
     <Typography variant="h4" gutterBottom sx={porcentajeStyle} >
