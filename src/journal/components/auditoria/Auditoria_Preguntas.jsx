@@ -244,8 +244,7 @@ const Auditoria_Preguntas = (props) => {
         <br />
         {preguntas.map((pregunta) => (
           <div key={pregunta.id}>
-           <p>{pregunta.categoria} {pregunta.quiebre === "SI" && <span style={{ color: "red", fontWeight: "bold" }}> [  QUIEBRE ]</span>}</p>
-
+           <p>{pregunta.categoria} {pregunta.quiebre === "SI" && <span style={{ display: "block", textAlign: "center" }}><span style={{ color: "red", fontWeight: "bold" }}>QUIEBRE</span></span>}</p>
             <p>{pregunta.pregunta} </p>
 
             {bloque === 'INFORMACION GENERAL'  && pregunta.categoria === 'GENERAL 1' &&(
