@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Card, CardContent,Box ,FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, TextField, Button,Modal, Typography,Icon } from "@mui/material";
+import {  InputLabel, Select, MenuItem } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
 import { actualizarDetalleJson } from "../../../store/formato/formatoSlice";
 import Swal from 'sweetalert2'
@@ -14,6 +15,7 @@ const Cierre_Preguntas = (props) => {
   const [showError, setShowError] = useState(false);
   const [showErrorNo, setShowErrorNo] = useState(false);
   const [idLineaObjeto, setIdLineaObjeto] = useState({});  
+  const [porcentajeAcumulado, setPorcentajeAcumulado] = useState(0);
 
   //Control por si el dato lineaObjeto ess null adicional devuelve el objeto
   useEffect(() => {
@@ -69,7 +71,8 @@ const Cierre_Preguntas = (props) => {
       "CATEGORÍA": categoria,
       "CONDUCTA": pregunta,
       "CUMPLIMIENTO POR BLOQUES":porcentajeBloque,
-      "CUMPLIMIENTO POR CATEGORIA":porcentajePregunta
+      "CUMPLIMIENTO POR CATEGORIA":porcentajePregunta,
+      "QUIEBRE":quiebre
     } = consulta;
   
     if (!acc[bloque]) {
@@ -77,7 +80,7 @@ const Cierre_Preguntas = (props) => {
     }
     //Incorporación de respuestas de usuario a nivel de indice
     const respuesta = respuestaDeUsuario[i].respuesta;
-    acc[bloque].push({ id: i, categoria, pregunta, respuesta,porcentajeBloque,porcentajePregunta, bloque });
+    acc[bloque].push({ id: i, categoria, pregunta, respuesta,porcentajeBloque,porcentajePregunta, bloque, quiebre });
   
     return acc;
   }, {});
@@ -85,8 +88,20 @@ const Cierre_Preguntas = (props) => {
   console.log('first')
   console.log(preguntasPorBloque)
 
+ 
+
   //Contar cantidad de preguntas de pauta
   const totalPreguntas = Object.values(preguntasPorBloque).reduce((acc, bloque) => acc + bloque.length, 0);
+  //Contar solo preguntas Generales
+  let cuentaGeneral = 0;
+  const totalPreguntasGeneral = Object.values(preguntasPorBloque).reduce((acc, bloque) => {
+    for (let i = 0; i < bloque.length; i++) {
+        if (bloque[i].bloque === 'INFORMACION GENERAL') {
+          cuentaGeneral++
+        }
+    }
+   
+  }, 0);
   //Contar cantidad de respuestas si / no / comentarios indicadas por usuario
   //estructura Object { si: 1, no: 2, comentarios: 1 }
   const estadisticas = Object.values(respuestas).reduce((acc, respuesta) => {
@@ -108,7 +123,7 @@ const Cierre_Preguntas = (props) => {
   // Boton guardar acción
   const handleSubmit = () => {
     //Validación de cantidad de respuestas ingresadas por usuario, utilizaremos la suma de si y no "estadistica"
-    if (totalPreguntas > estadisticas.si + estadisticas.no ) {
+    if (totalPreguntas > estadisticas.si + estadisticas.no + cuentaGeneral) {
        setShowError(true);
       return
     }
@@ -150,6 +165,63 @@ const Cierre_Preguntas = (props) => {
    return
    
   };
+
+   //SUMA DE PREGUNTAS SI
+   const bloquesOmitidos = ["INFORMACION GENERAL", "SOBRECUMPLIMIENTO"];
+   let sumaPorcentajeTotal = 0;
+   
+   for (const bloque in preguntasPorBloque) {
+     if (!bloquesOmitidos.includes(bloque)) {
+       const preguntasEnBloque = preguntasPorBloque[bloque];
+       for (const pregunta of preguntasEnBloque) {
+         console.log(pregunta.respuesta.respuesta)
+         if (pregunta.respuesta.respuesta === 'SI') {
+           sumaPorcentajeTotal += pregunta.porcentajePregunta * 100;
+         }
+         
+       }
+     }
+   }
+   
+   let porcentajeTotal = (sumaPorcentajeTotal ).toFixed(0) + "%";
+   
+
+//ESTILOS Y PORCENTAJES
+      //Estilo de porcentaje Final
+      let porcentajeStyle = {};
+      if (porcentajeTotal < 0) {
+        porcentajeStyle.color = "red";
+      } else if (porcentajeTotal  < 50) {
+        porcentajeStyle.color = "red";
+      } else {
+        porcentajeStyle.color = "green";
+      }
+
+      let porcentajeFormateado = (porcentajeAcumulado * 100).toFixed(0) + "%";
+
+      const opcionesProducto = [
+        'Cliente Total Pack',
+        'Compras en Holding',
+        'Credito de Consumo',
+        'Credito Automotriz',
+        'Credito Hipotecario',
+        'Cuenta Corriente',
+        'Cuenta Vista',
+        'Deposito a Plazo',
+        'Falabella Connect',
+        'Fondos Mutuos',
+        'Internet',
+        'Producto CMR',
+        'Promociones',
+        'Puntos CMR',
+        'Recibe SMS',
+        'Sobre Oficinas',
+        'Tarjeta Crédito',
+        'Tarjeta Débito'
+      ];
+    
+
+
   return (
     <Card variant="outlined" sx={{ borderRadius: "12px", backgroundColor: "#f5f5f5", borderColor: "primary.main" }}>
     {Object.entries(preguntasPorBloque).map(([bloque, preguntas, respuesta]) => (
@@ -162,17 +234,322 @@ const Cierre_Preguntas = (props) => {
         <br />
         {preguntas.map((pregunta) => (
           <div key={pregunta.id}>
-            <p>{pregunta.categoria}</p>
-            <p>"{pregunta.pregunta}"</p>
-            <RadioGroup
-              aria-labelledby={`demo-radio-buttons-group-label-${pregunta.id}`}
-              name={`radio-buttons-group-${pregunta.id}`}
-              defaultValue={pregunta.respuesta.respuesta || "NO"}
-              onChange={(e) => handleRespuesta(pregunta.id, e.target.value)}
-            >
-              <FormControlLabel value="SI" control={<Radio />} label="SI" />
-              <FormControlLabel value="NO" control={<Radio />} label="NO" />
-            </RadioGroup>
+           <p>{pregunta.categoria} {pregunta.quiebre === "SI" && <span style={{ display: "block", textAlign: "center" }}><span style={{ color: "red", fontWeight: "bold" }}>QUIEBRE</span></span>}</p>
+            <p>{pregunta.pregunta}</p>
+
+            {bloque === 'INFORMACION GENERAL' && pregunta.categoria === 'GENERAL 1' && (
+                  <div>
+                   <TextField
+                      required
+                      type="date"
+                      variant="outlined"
+                      value={pregunta.respuesta && pregunta.respuesta.fechadeconversion || ''}
+                      onChange={(e) =>
+                        setRespuestas({
+                          ...respuestas,
+                          [pregunta.id]: {
+                            ...respuestas[pregunta.id],
+                            respuesta: {
+                              ...respuestas[pregunta.id].respuesta,
+                              fechadeconversion: e.target.value,
+                            },
+                          },
+                        })
+                      }
+                      margin="dense"
+                      style={{ width: '200px', textAlign: 'center' }}
+                      disabled={false}
+                      readOnly={false}
+                  />
+
+                  </div>
+                )}
+               {bloque === 'INFORMACION GENERAL'  && pregunta.categoria === 'GENERAL 2' &&(
+                <div>
+
+                  <TextField
+                    required
+                    variant="outlined"
+                    value={pregunta.respuesta && pregunta.respuesta.idchat || ''}
+                    onChange={(e) =>
+                      setRespuestas({
+                        ...respuestas,
+                        [pregunta.id]: {
+                          ...respuestas[pregunta.id],
+                          respuesta: {
+                            ...respuestas[pregunta.id].respuesta,
+                            idchat: e.target.value,
+                          },
+                        },
+                      })
+                    }
+                      margin="dense"
+                      style={{ width: '200px', textAlign: 'center' }}
+                      disabled={false}
+                      readOnly={false}
+                  />
+                </div>
+              )}
+              {bloque === 'INFORMACION GENERAL'  && pregunta.categoria === 'GENERAL 3' &&(
+                <div>
+
+                  <TextField
+                    required
+                    type = "time"
+                    variant="outlined"
+                    value={pregunta.respuesta && pregunta.respuesta.hora || ''}
+                    onChange={(e) =>
+                      setRespuestas({
+                        ...respuestas,
+                        [pregunta.id]: {
+                          ...respuestas[pregunta.id],
+                          respuesta: {
+                            ...respuestas[pregunta.id].respuesta,
+                            hora: e.target.value,
+                          },
+                        },
+                      })
+                    }
+                      margin="dense"
+                      style={{ width: '200px', textAlign: 'center' }}
+                      disabled={false}
+                      readOnly={false}
+                  />
+                </div>
+              )}
+              {bloque === 'INFORMACION GENERAL' && pregunta.categoria === 'GENERAL 4' && (
+                <div>
+                   <FormControl required style={{ width: '200px' }}>
+                    <Select
+                      value={pregunta.respuesta && pregunta.respuesta.tipoatencion || ''}
+                      onChange={(e) =>
+                        setRespuestas({
+                          ...respuestas,
+                          [pregunta.id]: {
+                            ...respuestas[pregunta.id],
+                            respuesta: {
+                              ...respuestas[pregunta.id].respuesta,
+                              tipoatencion: e.target.value,
+                            },
+                          },
+                        })
+                      }
+                    >
+                      <MenuItem value="Consulta">Consulta</MenuItem>
+                      <MenuItem value="Reclamo">Reclamo</MenuItem>
+                      <MenuItem value="Solicitud">Solicitud</MenuItem>
+                    </Select>
+                  </FormControl>
+                </div>
+              )}
+
+{bloque === 'INFORMACION GENERAL' && pregunta.categoria === 'GENERAL 5' && (
+  <div>
+    <FormControl required style={{ width: '200px' }}>
+      <Select
+        value={pregunta.respuesta && pregunta.respuesta.producto || ''}
+        onChange={(e) =>
+          setRespuestas({
+            ...respuestas,
+            [pregunta.id]: {
+              ...respuestas[pregunta.id],
+              respuesta: {
+                ...respuestas[pregunta.id].respuesta,
+                producto: e.target.value,
+              },
+            },
+          })
+        }
+      >
+        {opcionesProducto.map((opcion) => (
+          <MenuItem key={opcion} value={opcion}>
+            {opcion}
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
+  </div>
+)}
+
+
+               {bloque === 'INFORMACION GENERAL' && pregunta.categoria === 'GENERAL 6' && (
+                <div>
+                   <FormControl required style={{ width: '200px' }}>
+                    <Select
+                      value={pregunta.respuesta && pregunta.respuesta.error || ''}
+                      onChange={(e) =>
+                        setRespuestas({
+                          ...respuestas,
+                          [pregunta.id]: {
+                            ...respuestas[pregunta.id],
+                            respuesta: {
+                              ...respuestas[pregunta.id].respuesta,
+                              error: e.target.value,
+                            },
+                          },
+                        })
+                      }
+                    >
+                      <MenuItem value="SI">SI</MenuItem>
+                      <MenuItem value="NO">NO</MenuItem>
+                    </Select>
+                  </FormControl>
+                </div>
+              )}  
+              {bloque === 'INFORMACION GENERAL' && pregunta.categoria === 'GENERAL 7' && (
+              <div>
+                <FormControl required style={{ width: '1100px' }}>
+                <Select
+                      value={pregunta.respuesta && pregunta.respuesta.tipoerror || ''}
+                      onChange={(e) =>
+                        setRespuestas({
+                          ...respuestas,
+                          [pregunta.id]: {
+                            ...respuestas[pregunta.id],
+                            respuesta: {
+                              ...respuestas[pregunta.id].respuesta,
+                              tipoerror: e.target.value,
+                            },
+                          },
+                        })
+                      }
+                    >
+                    <MenuItem value="">Seleccionar</MenuItem>
+                    <MenuItem value="Gestión indebida: Modificar datos personales la cuenta sin autorización de cliente o empresa.">
+                      Gestión indebida: Modificar datos personales la cuenta sin autorización de cliente o empresa.
+                    </MenuItem>
+                    <MenuItem value="Entregar información privada de la cuenta a un tercero sin autorización de titular.">
+                      Entregar información privada de la cuenta a un tercero sin autorización de titular.
+                    </MenuItem>
+                    <MenuItem value="Entregar información incorrecta o incompleta que afecta la resolución de la solicitud del cliente o entregar información de Sistema Comercial no autorizada (ej.; Mora Banco Itaú)">
+                      Entregar información incorrecta o incompleta que afecta la resolución de la solicitud del cliente o entregar información de Sistema Comercial no autorizada (ej.; Mora Banco Itaú)
+                    </MenuItem>
+                    <MenuItem value="Desatender o cortar la interacción con el cliente (Llamado/Chat)">
+                      Desatender o cortar la interacción con el cliente (Llamado/Chat)
+                    </MenuItem>
+                    <MenuItem value="Entrar en discusión con el cliente, realizar comentarios de desprestigio la empresa, compañero u otra áreas.">
+                      Entrar en discusión con el cliente, realizar comentarios de desprestigio la empresa, compañero u otra áreas.
+                    </MenuItem>
+                    <MenuItem value="Atender a los clientes de forma despectiva, grosera o con improperios.">
+                      Atender a los clientes de forma despectiva, grosera o con improperios.
+                    </MenuItem>
+                    <MenuItem value="Silencio Mayor a 12 minutos">Silencio Mayor a 12 minutos</MenuItem>
+                    <MenuItem value="No se despide despues de 4 minutos">No se despide despues de 4 minutos</MenuItem>
+                  </Select>
+                </FormControl>
+              </div>
+            )}
+
+                {bloque === 'INFORMACION GENERAL' && pregunta.categoria === 'GENERAL 8' && (
+                            <div>
+                              <FormControl required style={{ width: '200px' }}>
+                                <Select
+                                  value={pregunta.respuesta && pregunta.respuesta.quiebreparcial || ''}
+                                  onChange={(e) =>
+                                    setRespuestas({
+                                      ...respuestas,
+                                      [pregunta.id]: {
+                                        ...respuestas[pregunta.id],
+                                        respuesta: {
+                                          ...respuestas[pregunta.id].respuesta,
+                                          quiebreparcial: e.target.value,
+                                        },
+                                      },
+                                    })
+                                  }
+                                >
+                                  <MenuItem value="SI">SI</MenuItem>
+                                  <MenuItem value="NO">NO</MenuItem>
+                                </Select>
+                              </FormControl>
+                            </div>
+                          )}
+                {bloque === 'INFORMACION GENERAL' && pregunta.categoria === 'GENERAL 9' && (
+                        <div>
+                          <FormControl required style={{ width: '200px' }}>
+                            <Select
+                              value={pregunta.respuesta && pregunta.respuesta.compromiso || ''}
+                              onChange={(e) =>
+                                setRespuestas({
+                                  ...respuestas,
+                                  [pregunta.id]: {
+                                    ...respuestas[pregunta.id],
+                                    respuesta: {
+                                      ...respuestas[pregunta.id].respuesta,
+                                      compromiso: e.target.value,
+                                    },
+                                  },
+                                })
+                              }
+                            >
+                              <MenuItem value="SI">SI</MenuItem>
+                              <MenuItem value="NO">NO</MenuItem>
+                            </Select>
+                          </FormControl>
+                        </div>
+                )}
+                {bloque === 'INFORMACION GENERAL'  && pregunta.categoria === 'GENERAL 10' &&(
+                <div>
+
+                  <TextField
+                    required
+                    variant="outlined"
+                    value={pregunta.respuesta && pregunta.respuesta.tipocompromiso || ''}
+                    onChange={(e) =>
+                      setRespuestas({
+                        ...respuestas,
+                        [pregunta.id]: {
+                          ...respuestas[pregunta.id],
+                          respuesta: {
+                            ...respuestas[pregunta.id].respuesta,
+                            tipocompromiso: e.target.value,
+                          },
+                        },
+                      })
+                    }
+                    margin="dense"
+                      style={{ width: '800px'}}
+                      disabled={false}
+                      readOnly={false}
+                  />
+                </div>
+              )}
+
+            {bloque === 'INFORMACION GENERAL'  && pregunta.categoria === 'GENERAL 11' &&(
+                <div>
+
+                  <TextField
+                    required
+                    type = "time"
+                    variant="outlined"
+                    value={pregunta.respuesta && pregunta.respuesta.horacierre || ''}
+                    onChange={(e) =>
+                      setRespuestas({
+                        ...respuestas,
+                        [pregunta.id]: {
+                          ...respuestas[pregunta.id],
+                          respuesta: {
+                            ...respuestas[pregunta.id].respuesta,
+                            horacierre: e.target.value,
+                          },
+                        },
+                      })
+                    }
+                    margin="dense"
+                    style={{ width: '200px', textAlign: 'center' }}
+                  />
+                </div>
+              )}
+            {bloque !== 'INFORMACION GENERAL' && (
+              <RadioGroup
+                  aria-labelledby={`demo-radio-buttons-group-label-${pregunta.id}`}
+                  name={`radio-buttons-group-${pregunta.id}`}
+                  onChange={(e) => handleRespuesta(pregunta.id, e.target.value)}
+                >
+                  <FormControlLabel value="SI" control={<Radio />} label="SI" />
+                  <FormControlLabel value="NO" control={<Radio />} label="NO" />
+                </RadioGroup>)
+             }
             {pregunta.respuesta.respuesta === "NO" && (
               <TextField
                 required
@@ -201,7 +578,7 @@ const Cierre_Preguntas = (props) => {
             )}
             {pregunta.respuesta.respuesta === "SI" && (
               
-              <font color="primary" size="5">Porcentaje obtenido  {pregunta.porcentajePregunta * 1000} %</font> 
+              <font color="primary" size="5">Porcentaje obtenido  {pregunta.porcentajePregunta * 100} %</font> 
                
              )}
 
@@ -213,9 +590,12 @@ const Cierre_Preguntas = (props) => {
     </CardContent>
   ))}
   <CardContent sx={{ borderColor: "primary.main" }}>
-    <Button sx={{ mx: "auto" }} onClick={handleSubmit}>
+    <Button variant="contained" sx={{ mx: "auto" }} onClick={handleSubmit}>
       Guardar
     </Button>
+    <Typography variant="h4" gutterBottom sx={porcentajeStyle} >
+        Porcentaje Total : {porcentajeTotal}
+      </Typography>
     <Modal open={showError} onClose={() => setShowError(false)}>
         <div
           style={{
