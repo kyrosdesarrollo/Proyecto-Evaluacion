@@ -104,7 +104,8 @@ const Auditoria_Preguntas = (props) => {
       "CATEGORÍA": categoria,
       "CONDUCTA": pregunta,
       "CUMPLIMIENTO POR BLOQUES":porcentajeBloque,
-      "CUMPLIMIENTO POR CATEGORIA":porcentajePregunta
+      "CUMPLIMIENTO POR CATEGORIA":porcentajePregunta,
+      "QUIEBRE":quiebre
     } = consulta;
   
     // if (!acc[bloque]) {
@@ -115,7 +116,7 @@ const Auditoria_Preguntas = (props) => {
       acc[bloque].porcentajeAcumuladoBloque = 0; // Inicializar porcentajeAcumuladoBloque en 0
     }
   
-    acc[bloque].push({ id: i, categoria, pregunta, bloque, porcentajePregunta, porcentajeBloque  });
+    acc[bloque].push({ id: i, categoria, pregunta, bloque, porcentajePregunta, porcentajeBloque, quiebre  });
   
     return acc;
   }, {});
@@ -155,7 +156,7 @@ const Auditoria_Preguntas = (props) => {
   }
   // Boton guardar acción
   const handleSubmit = () => {
-    //Validación de cantidad de respuestas ingresadas por usuario, utilizaremos la suma de si y no "estadistica"
+    //Validación de cantidad de respuestas ingresadas por usuario, utilizaremos la suma de si y no "estadistica" adicional cuentaGeneral que se incluye
     if (totalPreguntas > estadisticas.si + estadisticas.no + cuentaGeneral) {
        setShowError(true);
       return
@@ -238,13 +239,14 @@ const Auditoria_Preguntas = (props) => {
     <CardContent key={bloque} sx={{ borderColor: "primary.main" }}>
       <FormControl>
         <FormLabel id={`demo-radio-buttons-group-label-${bloque}`} sx={{ textAlign: "center", backgroundColor: "#2196f3", borderRadius: "20px" ,fontWeight: "bold",color: "white" }}>
-          {bloque}
+          {bloque} 
         </FormLabel>
         <br />
         {preguntas.map((pregunta) => (
           <div key={pregunta.id}>
-            <p>{pregunta.categoria}</p>
-            <p>{pregunta.pregunta} {pregunta.quiebre}</p>
+           <p>{pregunta.categoria} {pregunta.quiebre === "SI" && <span style={{ color: "red", fontWeight: "bold" }}> [  QUIEBRE ]</span>}</p>
+
+            <p>{pregunta.pregunta} </p>
 
             {bloque === 'INFORMACION GENERAL'  && pregunta.categoria === 'GENERAL 1' &&(
                 <div>
