@@ -113,7 +113,7 @@ const VisualPautaVisual = ({nombrePauta = ''}) => {
         // }                                  
         }}
     />
-  )
+  
     </ThemeProvider>
     </div>
     </>

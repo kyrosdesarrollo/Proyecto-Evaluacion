@@ -10,7 +10,7 @@ const handleClose = () => {
   props.onClose();
 }
   return (
-    <Dialog open={props.open} onClose={props.onClose} sx={{ '& .MuiDialog-paper': { maxWidth: '1200px' } }}>
+    <Dialog open={props.open} onClose={props.onClose} sx={{ '& .MuiDialog-paper': { maxWidth: '1600px' } }}>
       <DialogTitle align='center'>E V A L U A C I O N </DialogTitle>
       <DialogContent>
      <Box sx={{ marginBottom: '20px' }}>
