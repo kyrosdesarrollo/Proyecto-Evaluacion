@@ -78,8 +78,6 @@ const CargaVisualFormato = (props) => {
     setSheetData(e);
  }
 
-console.log(data)
-
   return (
   <>
   <div style={{ width: '120%', height: '100%' }}>

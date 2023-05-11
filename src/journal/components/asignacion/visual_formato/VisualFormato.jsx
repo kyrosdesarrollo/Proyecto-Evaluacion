@@ -91,7 +91,6 @@ const VisualFormato = (props ) => {
    if (selectedRows.length > 0) {
    props.onActualizaInfo(tableData);
    }
-   console.log(tableData)
   return (
     <>
     <div style={{ width: '110%', height: '100%' }}>
