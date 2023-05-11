@@ -43,6 +43,7 @@ const Auditoria_Preguntas = (props) => {
   const [respuestas, setRespuestas] = useState({});
   const [showError, setShowError] = useState(false);
   const [showErrorNo, setShowErrorNo] = useState(false);
+  const [showErrorRespuestas, setShowErrorRespuestas] = useState(false);
   const [porcentajeAcumulado, setPorcentajeAcumulado] = useState(0);
   const [porcentajeAcumuladoBloque, setPorcentajeAcumuladoBloque] = useState(0);
   //Cerrar modal 
@@ -124,7 +125,7 @@ const Auditoria_Preguntas = (props) => {
   //Contar cantidad de preguntas de pauta
   const totalPreguntas = Object.values(preguntasPorBloque).reduce((acc, bloque) => acc + bloque.length, 0);
   
-  //Contar solo preguntas Generales
+  //Contar solo preguntas Generales // Control de respuestas no contestada
   let cuentaGeneral = 0;
   const totalPreguntasGeneral = Object.values(preguntasPorBloque).reduce((acc, bloque) => {
     for (let i = 0; i < bloque.length; i++) {
@@ -135,7 +136,6 @@ const Auditoria_Preguntas = (props) => {
    
   }, 0);
 
-  
   //Contar cantidad de respuestas si / no / comentarios indicadas por usuario
   //estructura Object { si: 1, no: 2, comentarios: 1 }
   const estadisticas = Object.values(respuestas).reduce((acc, respuesta) => {
@@ -156,6 +156,7 @@ const Auditoria_Preguntas = (props) => {
   }
   // Boton guardar acción
   const handleSubmit = () => {
+   
     //Validación de cantidad de respuestas ingresadas por usuario, utilizaremos la suma de si y no "estadistica" adicional cuentaGeneral que se incluye
     if (totalPreguntas > estadisticas.si + estadisticas.no + cuentaGeneral) {
        setShowError(true);
@@ -174,7 +175,16 @@ const Auditoria_Preguntas = (props) => {
         respuesta,
       };
     });
+    const camposUndefined = preguntasRespuestas.filter((pregunta) => pregunta.respuesta === undefined);
 
+    console.log(camposUndefined.length);
+    //Control de respuestas realizadas
+    if (camposUndefined.length > 0) {
+      setShowErrorRespuestas(true);
+      return
+    }
+   
+    console.log(preguntasRespuestas); 
     const idBuscado = props.lineaObjeto.id;
     const indiceEncontrado = props.formato.detalleJson.findIndex(elemento => elemento.id === idBuscado);    
     const idFormato = props.formato.id;
@@ -183,6 +193,7 @@ const Auditoria_Preguntas = (props) => {
    
     // Definir la acción de actualización con los datos que deseas enviar al store
     const action = actualizarDetalleJson({formatoIndex, indiceEncontrado, preguntasRespuestas})
+
           dispatch(action);
 
         props.handleClose();
@@ -418,6 +429,7 @@ const Auditoria_Preguntas = (props) => {
                     </MenuItem>
                     <MenuItem value="Silencio Mayor a 12 minutos">Silencio Mayor a 12 minutos</MenuItem>
                     <MenuItem value="No se despide despues de 4 minutos">No se despide despues de 4 minutos</MenuItem>
+                    <MenuItem value="No Aplica">No Aplica</MenuItem>
                   </Select>
                 </FormControl>
               </div>
@@ -561,10 +573,10 @@ const Auditoria_Preguntas = (props) => {
     <Button variant="contained" sx={{ mx: "auto" }} onClick={handleSubmit}>
       Guardar
     </Button>
-    <Typography variant="h4" gutterBottom sx={porcentajeStyle} >
+      <Typography variant="h4" gutterBottom sx={porcentajeStyle} >
         Porcentaje Total : {porcentajeFormateado}
       </Typography>
-    <Modal open={showError} onClose={() => setShowError(false)}>
+      <Modal open={showError} onClose={() => setShowError(false)}>
         <div
           style={{
             backgroundColor: "#f44336",
@@ -611,6 +623,30 @@ const Auditoria_Preguntas = (props) => {
            Debido a que no se encuentra ingresado el comentario de la opción No, Nota: ** Considerar que el campo comentario debe contener al menos 5 caracteres **. Favor de completar. 😓
         </Typography>
           <Button onClick={() => setShowErrorNo(false)}>Cerrar</Button>
+        </div>
+      </Modal>
+      <Modal open={showErrorRespuestas} onClose={() => setShowErrorRespuestas(false)}>
+        <div
+          style={{
+            backgroundColor: "#f44336",
+            color: "#fff",
+            padding: "16px",
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            maxWidth: "400px",
+            width: "100%",
+            textAlign: "center",
+          }}
+        >
+         <Typography variant="h6" gutterBottom>
+          <Icon color="white">error</Icon>  No se puede guardar la información
+         </Typography>
+        <Typography variant="body1" gutterBottom>
+           Debido a que no se encuentra ingresado la información requerida, Nota: ** Considerar Información General  **. Favor de completar. 😓
+        </Typography>
+          <Button onClick={() => setShowErrorRespuestas(false)}>Cerrar</Button>
         </div>
       </Modal>
   </CardContent>

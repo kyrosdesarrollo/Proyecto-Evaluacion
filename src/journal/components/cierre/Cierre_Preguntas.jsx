@@ -237,7 +237,7 @@ const Cierre_Preguntas = (props) => {
            <p>{pregunta.categoria} {pregunta.quiebre === "SI" && <span style={{ display: "block", textAlign: "center" }}><span style={{ color: "red", fontWeight: "bold" }}>QUIEBRE</span></span>}</p>
             <p>{pregunta.pregunta}</p>
 
-            {bloque === 'INFORMACION GENERAL' && pregunta.categoria === 'GENERAL 1' && (
+                {bloque === 'INFORMACION GENERAL' && pregunta.categoria === 'GENERAL 1' && (
                   <div>
                    <TextField
                       required
@@ -263,8 +263,8 @@ const Cierre_Preguntas = (props) => {
                   />
 
                   </div>
-                )}
-               {bloque === 'INFORMACION GENERAL'  && pregunta.categoria === 'GENERAL 2' &&(
+                 )}
+                {bloque === 'INFORMACION GENERAL'  && pregunta.categoria === 'GENERAL 2' &&(
                 <div>
 
                   <TextField
@@ -289,8 +289,8 @@ const Cierre_Preguntas = (props) => {
                       readOnly={false}
                   />
                 </div>
-              )}
-              {bloque === 'INFORMACION GENERAL'  && pregunta.categoria === 'GENERAL 3' &&(
+                 )}
+                {bloque === 'INFORMACION GENERAL'  && pregunta.categoria === 'GENERAL 3' &&(
                 <div>
 
                   <TextField
@@ -316,8 +316,8 @@ const Cierre_Preguntas = (props) => {
                       readOnly={false}
                   />
                 </div>
-              )}
-              {bloque === 'INFORMACION GENERAL' && pregunta.categoria === 'GENERAL 4' && (
+                 )}
+                {bloque === 'INFORMACION GENERAL' && pregunta.categoria === 'GENERAL 4' && (
                 <div>
                    <FormControl required style={{ width: '200px' }}>
                     <Select
@@ -341,9 +341,8 @@ const Cierre_Preguntas = (props) => {
                     </Select>
                   </FormControl>
                 </div>
-              )}
-
-{bloque === 'INFORMACION GENERAL' && pregunta.categoria === 'GENERAL 5' && (
+                 )}
+                {bloque === 'INFORMACION GENERAL' && pregunta.categoria === 'GENERAL 5' && (
   <div>
     <FormControl required style={{ width: '200px' }}>
       <Select
@@ -369,10 +368,8 @@ const Cierre_Preguntas = (props) => {
       </Select>
     </FormControl>
   </div>
-)}
-
-
-               {bloque === 'INFORMACION GENERAL' && pregunta.categoria === 'GENERAL 6' && (
+                 )}
+                {bloque === 'INFORMACION GENERAL' && pregunta.categoria === 'GENERAL 6' && (
                 <div>
                    <FormControl required style={{ width: '200px' }}>
                     <Select
@@ -395,8 +392,8 @@ const Cierre_Preguntas = (props) => {
                     </Select>
                   </FormControl>
                 </div>
-              )}  
-              {bloque === 'INFORMACION GENERAL' && pregunta.categoria === 'GENERAL 7' && (
+                 )}  
+                {bloque === 'INFORMACION GENERAL' && pregunta.categoria === 'GENERAL 7' && (
               <div>
                 <FormControl required style={{ width: '1100px' }}>
                 <Select
@@ -435,11 +432,11 @@ const Cierre_Preguntas = (props) => {
                     </MenuItem>
                     <MenuItem value="Silencio Mayor a 12 minutos">Silencio Mayor a 12 minutos</MenuItem>
                     <MenuItem value="No se despide despues de 4 minutos">No se despide despues de 4 minutos</MenuItem>
+                    <MenuItem value="No Aplica">No Aplica</MenuItem>
                   </Select>
                 </FormControl>
               </div>
-            )}
-
+                 )}
                 {bloque === 'INFORMACION GENERAL' && pregunta.categoria === 'GENERAL 8' && (
                             <div>
                               <FormControl required style={{ width: '200px' }}>
@@ -463,7 +460,7 @@ const Cierre_Preguntas = (props) => {
                                 </Select>
                               </FormControl>
                             </div>
-                          )}
+                 )}
                 {bloque === 'INFORMACION GENERAL' && pregunta.categoria === 'GENERAL 9' && (
                         <div>
                           <FormControl required style={{ width: '200px' }}>
@@ -487,7 +484,7 @@ const Cierre_Preguntas = (props) => {
                             </Select>
                           </FormControl>
                         </div>
-                )}
+                 )}
                 {bloque === 'INFORMACION GENERAL'  && pregunta.categoria === 'GENERAL 10' &&(
                 <div>
 
@@ -513,9 +510,8 @@ const Cierre_Preguntas = (props) => {
                       readOnly={false}
                   />
                 </div>
-              )}
-
-            {bloque === 'INFORMACION GENERAL'  && pregunta.categoria === 'GENERAL 11' &&(
+                 )}
+                {bloque === 'INFORMACION GENERAL'  && pregunta.categoria === 'GENERAL 11' &&(
                 <div>
 
                   <TextField
@@ -539,13 +535,14 @@ const Cierre_Preguntas = (props) => {
                     style={{ width: '200px', textAlign: 'center' }}
                   />
                 </div>
-              )}
+                 )}
             {bloque !== 'INFORMACION GENERAL' && (
               <RadioGroup
                   aria-labelledby={`demo-radio-buttons-group-label-${pregunta.id}`}
                   name={`radio-buttons-group-${pregunta.id}`}
+                  value={pregunta.respuesta.respuesta ? 'SI' : 'NO'}
                   onChange={(e) => handleRespuesta(pregunta.id, e.target.value)}
-                >
+               >
                   <FormControlLabel value="SI" control={<Radio />} label="SI" />
                   <FormControlLabel value="NO" control={<Radio />} label="NO" />
                 </RadioGroup>)
