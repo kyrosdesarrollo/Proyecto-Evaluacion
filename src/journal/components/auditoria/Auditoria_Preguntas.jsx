@@ -55,7 +55,7 @@ const Auditoria_Preguntas = (props) => {
     let nuevoPorcentajeAcumulado = 0;
   
     bloquePreguntas.forEach((bloque) => {
-      if (bloque[0].bloque !== "SOBRECUMPLIMIENTO") {
+     // if (bloque[0].bloque !== "SOBRECUMPLIMIENTO") {
           const pregunta = bloque.find((pregunta) => pregunta.id === preguntaId);
           
           if (pregunta) {
@@ -67,7 +67,7 @@ const Auditoria_Preguntas = (props) => {
               nuevoPorcentajeAcumulado -= porcentajePregunta;
             }
           }
-        }
+       // }
     });
   
     setPorcentajeAcumulado(prevPorcentaje => prevPorcentaje + nuevoPorcentajeAcumulado);
@@ -191,7 +191,7 @@ const Auditoria_Preguntas = (props) => {
     const formatoIndex = formatosRedux.findIndex(formato => formato.id === idFormato); 
     //Accion para actualizar en redux las respuestas   
    
-    // Definir la acción de actualización con los datos que deseas enviar al store
+    // Definir la acción de actualización con los datos que deseas enviar al store y firebase
     const action = actualizarDetalleJson({formatoIndex, indiceEncontrado, preguntasRespuestas})
 
           dispatch(action);
@@ -219,9 +219,66 @@ const Auditoria_Preguntas = (props) => {
       } else {
         porcentajeStyle.color = "green";
       }
+       //A nivel de linea agrega las respuestas correspondiente
+    const preguntasRespuestas = arreglo[0].detalleJson.map((pregunta, index) => {
+      const respuesta = respuestas[index];
+      return {
+        ...pregunta,
+        respuesta,
+      };
+    });
+console.log(preguntasRespuestas)
 
-      let porcentajeFormateado = (porcentajeAcumulado * 100).toFixed(0) + "%";
+let conductaErrorCritico;
+let conductaErrorQuebreParcial;
 
+for (let i = 0; i < preguntasRespuestas.length; i++) {
+  const conducta = preguntasRespuestas[i].CONDUCTA.trim();
+  const bloque = preguntasRespuestas[i].CONDUCTA.trim();
+  if (conducta === "Error Crítico" && preguntasRespuestas[i].respuesta?.error !== undefined) {
+    if (preguntasRespuestas[i].respuesta.error === "SI") {
+      conductaErrorCritico = preguntasRespuestas[i].respuesta.error;
+      break;
+    }
+    
+  } else if (conducta === "Quiebre parcial de Tiempo" && preguntasRespuestas[i].respuesta?.quiebreparcial !== undefined) {
+    if (preguntasRespuestas[i].respuesta.quiebreparcial === "SI") {
+      conductaErrorQuebreParcial = preguntasRespuestas[i].respuesta.quiebreparcial;
+      break;
+    }
+  }
+}
+//CALCULO PARA CONTROLAR QUIEBRE TOTAL O QUIEBRE PARCILA (CONSIDERA BLOQUE SOBRECUMPLIMIENTO Y PREGUNTAS CON QUIEBRE = SI)
+let porcentajeFormateado = (porcentajeAcumulado * 100).toFixed(0) + "%";
+//QUIEBRE TOTAL
+if (conductaErrorCritico === 'SI') {
+  porcentajeFormateado = (porcentajeAcumulado * 0).toFixed(0) + "%";
+} //QUIEBRE PARCIAL
+  else if (conductaErrorQuebreParcial === "SI") {
+  let totalPorcentajeQuiebre = 0;
+  let totalPorcentajeSobrecumplimiento = 0;
+
+  const preguntasConQuiebre = preguntasRespuestas.filter((pregunta) => pregunta.QUIEBRE === "SI");
+  const preguntasConSuministro = preguntasRespuestas.filter((pregunta) => pregunta['BLOQUES DE EVALUACIÓN'] === "SOBRECUMPLIMIENTO");
+
+  for (let i = 0; i < preguntasConQuiebre.length; i++) {
+    const conducta = preguntasConQuiebre[i]['CUMPLIMIENTO POR CATEGORIA'];
+    totalPorcentajeQuiebre += conducta;
+  }
+
+  for (let i = 0; i < preguntasConSuministro.length; i++) {
+    const sobrecumplimiento = preguntasConSuministro[i]['CUMPLIMIENTO POR CATEGORIA'];
+    totalPorcentajeSobrecumplimiento += sobrecumplimiento;
+  }
+
+  let quiebre = totalPorcentajeQuiebre * 100;
+  let parcial = porcentajeAcumulado * 100;
+  let suministroTotal = totalPorcentajeSobrecumplimiento * 100;
+
+  porcentajeFormateado = (parcial - quiebre - suministroTotal).toFixed(0) + "%";
+}
+
+   
       const opcionesProducto = [
         'Cliente Total Pack',
         'Compras en Holding',

@@ -24,10 +24,14 @@ const Cierre_Preguntas = (props) => {
     }
     setIdLineaObjeto(props.lineaObjeto.id)
   }, [props.lineaObjeto]);
+
+ 
   
   //Validación de respuesta No
   const handleRespuesta = (preguntaId, respuesta) => {
-
+    console.log(preguntaId)
+    console.log(respuesta)
+   
     setRespuestas({
       ...respuestas,
       [preguntaId]: {
@@ -54,10 +58,10 @@ const Cierre_Preguntas = (props) => {
   //convertir una cadena de texto pauta en formato JSON a un objeto de JavaScript.
   const arreglo = JSON.parse(pauta);
   //Extrae IOndice del objeto y captura las respuestas que realizo el usuario
-  console.log('LineaObjecto')
-  console.log(idLineaObjeto)
+  // console.log('LineaObjecto')
+  // console.log(idLineaObjeto)
   let idIndice = idLineaObjeto - 1;
-  console.log(idIndice)
+  // console.log(idIndice)
   let respuestaDeUsuario;
   try {
   respuestaDeUsuario = props.formato.detalleJson[idIndice].respuestas;
@@ -174,7 +178,6 @@ const Cierre_Preguntas = (props) => {
      if (!bloquesOmitidos.includes(bloque)) {
        const preguntasEnBloque = preguntasPorBloque[bloque];
        for (const pregunta of preguntasEnBloque) {
-         console.log(pregunta.respuesta.respuesta)
          if (pregunta.respuesta.respuesta === 'SI') {
            sumaPorcentajeTotal += pregunta.porcentajePregunta * 100;
          }
@@ -239,6 +242,7 @@ const Cierre_Preguntas = (props) => {
 
                 {bloque === 'INFORMACION GENERAL' && pregunta.categoria === 'GENERAL 1' && (
                   <div>
+                
                    <TextField
                       required
                       type="date"
@@ -250,7 +254,7 @@ const Cierre_Preguntas = (props) => {
                           [pregunta.id]: {
                             ...respuestas[pregunta.id],
                             respuesta: {
-                              ...respuestas[pregunta.id].respuesta,
+                              ...respuestas[pregunta.id],
                               fechadeconversion: e.target.value,
                             },
                           },
@@ -266,28 +270,30 @@ const Cierre_Preguntas = (props) => {
                  )}
                 {bloque === 'INFORMACION GENERAL'  && pregunta.categoria === 'GENERAL 2' &&(
                 <div>
+                <p>Este es el bloque de INFORMACION GENERAL y la categoría es GENERAL 2.</p>
 
-                  <TextField
-                    required
-                    variant="outlined"
-                    value={pregunta.respuesta && pregunta.respuesta.idchat || ''}
-                    onChange={(e) =>
-                      setRespuestas({
-                        ...respuestas,
-                        [pregunta.id]: {
-                          ...respuestas[pregunta.id],
-                          respuesta: {
-                            ...respuestas[pregunta.id].respuesta,
-                            idchat: e.target.value,
+                <TextField
+                      required
+                      variant="outlined"
+                      value={pregunta.respuesta && pregunta.respuesta.idchat || ''}
+                      onChange={(e) =>
+                        setRespuestas((prevRespuestas) => ({
+                          ...prevRespuestas,
+                          [pregunta.id]: {
+                            ...prevRespuestas[pregunta.id],
+                            respuesta: {
+                              ...(prevRespuestas[pregunta.id]?.respuesta || {}),
+                              idchat: e.target.value,
+                            },
                           },
-                        },
-                      })
-                    }
+                        }))
+                      }
                       margin="dense"
                       style={{ width: '200px', textAlign: 'center' }}
-                      disabled={false}
-                      readOnly={false}
-                  />
+                      disabled={false}   // Asegúrate de que disabled esté establecido en false
+                      readOnly={false}   // Asegúrate de que readOnly esté establecido en false
+                    />
+
                 </div>
                  )}
                 {bloque === 'INFORMACION GENERAL'  && pregunta.categoria === 'GENERAL 3' &&(
@@ -537,15 +543,17 @@ const Cierre_Preguntas = (props) => {
                 </div>
                  )}
             {bloque !== 'INFORMACION GENERAL' && (
+            
               <RadioGroup
                   aria-labelledby={`demo-radio-buttons-group-label-${pregunta.id}`}
                   name={`radio-buttons-group-${pregunta.id}`}
-                  value={pregunta.respuesta.respuesta ? 'SI' : 'NO'}
+                  value={pregunta.respuesta.respuesta || 'NO'}
                   onChange={(e) => handleRespuesta(pregunta.id, e.target.value)}
                >
                   <FormControlLabel value="SI" control={<Radio />} label="SI" />
                   <FormControlLabel value="NO" control={<Radio />} label="NO" />
-                </RadioGroup>)
+                </RadioGroup>
+              )
              }
             {pregunta.respuesta.respuesta === "NO" && (
               <TextField
