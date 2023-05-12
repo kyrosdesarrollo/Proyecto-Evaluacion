@@ -45,7 +45,9 @@ const Auditoria_Preguntas = (props) => {
   const [showErrorNo, setShowErrorNo] = useState(false);
   const [showErrorRespuestas, setShowErrorRespuestas] = useState(false);
   const [porcentajeAcumulado, setPorcentajeAcumulado] = useState(0);
-  const [porcentajeAcumuladoBloque, setPorcentajeAcumuladoBloque] = useState(0);
+
+
+  
   //Cerrar modal 
 
  //Respuesta a nivel de linea con acumulación
@@ -135,7 +137,6 @@ const Auditoria_Preguntas = (props) => {
     }
    
   }, 0);
-
   //Contar cantidad de respuestas si / no / comentarios indicadas por usuario
   //estructura Object { si: 1, no: 2, comentarios: 1 }
   const estadisticas = Object.values(respuestas).reduce((acc, respuesta) => {
@@ -149,14 +150,12 @@ const Auditoria_Preguntas = (props) => {
     }
     return acc;
   }, { si: 0, no: 0, comentarios: 0 });
-  
   //function cierre de ventana relacionado a la ventana modal
   const handleClose = () => {
     props.handleClose(); // Llamada a la función onClose del componente padre
   }
   // Boton guardar acción
   const handleSubmit = () => {
-   
     //Validación de cantidad de respuestas ingresadas por usuario, utilizaremos la suma de si y no "estadistica" adicional cuentaGeneral que se incluye
     if (totalPreguntas > estadisticas.si + estadisticas.no + cuentaGeneral) {
        setShowError(true);
@@ -183,8 +182,8 @@ const Auditoria_Preguntas = (props) => {
       setShowErrorRespuestas(true);
       return
     }
-   
-    console.log(preguntasRespuestas); 
+    
+
     const idBuscado = props.lineaObjeto.id;
     const indiceEncontrado = props.formato.detalleJson.findIndex(elemento => elemento.id === idBuscado);    
     const idFormato = props.formato.id;
@@ -227,10 +226,26 @@ const Auditoria_Preguntas = (props) => {
         respuesta,
       };
     });
-
+    const idBuscado = props.lineaObjeto && props.lineaObjeto.id;
+    const indiceEncontrado = props.formato.detalleJson.findIndex(elemento => elemento.id === idBuscado);    
+    const idFormato = props.formato.id;
+    const formatoIndex = formatosRedux.findIndex(formato => formato.id === idFormato); 
+    console.log('Preguntas y Respuestas')
+    console.log(formatosRedux); 
+    console.log('Indice')
+    console.log(indiceEncontrado)
+    console.log('Formato')
+    console.log(idFormato)
+    console.log('Formato Indice')
+    console.log(formatoIndex)
+    console.log('Preguntas y Respuestas')
+    console.log(formatosRedux[formatoIndex]?.detalleJson?.[indiceEncontrado]?.respuestas);
+    let respuestasRedux = formatosRedux[formatoIndex]?.detalleJson?.[indiceEncontrado]?.respuesta;
+    
+    
     //CALCULO PARA CONTROLAR QUIEBRE TOTAL PORCENTAJE O QUIEBRE PARCIAL (CONSIDERA BLOQUE SOBRECUMPLIMIENTO Y PREGUNTAS CON QUIEBRE = SI)
         let conductaErrorCritico;
-        let conductaErrorQuebreParcial;
+        let conductaErrorQuiebreParcial;
 
         preguntasRespuestas.some((pregunta) => {
           const conducta = pregunta.CONDUCTA.trim();
@@ -238,7 +253,7 @@ const Auditoria_Preguntas = (props) => {
             conductaErrorCritico = pregunta.respuesta.error;
             return true;
           } else if (conducta === "Quiebre parcial de Tiempo" && pregunta.respuesta?.quiebreparcial === "SI") {
-            conductaErrorQuebreParcial = pregunta.respuesta.quiebreparcial;
+            conductaErrorQuiebreParcial = pregunta.respuesta.quiebreparcial;
             return true;
           }
         });
@@ -247,7 +262,7 @@ const Auditoria_Preguntas = (props) => {
 
         if (conductaErrorCritico === 'SI') {
           porcentajeFormateado = (porcentajeAcumulado * 0).toFixed(0) + "%";
-        } else if (conductaErrorQuebreParcial === "SI") {
+        } else if (conductaErrorQuiebreParcial === "SI") {
           let totalPorcentajeQuiebre = 0;
           let totalPorcentajeSobrecumplimiento = 0;
 
@@ -266,61 +281,11 @@ const Auditoria_Preguntas = (props) => {
 
           let quiebre = totalPorcentajeQuiebre * 100;
           let parcial = porcentajeAcumulado * 100;
-          let suministroTotal = totalPorcentajeSobrecumplimiento * 100;
+          let sobrecumplimientoTotal = totalPorcentajeSobrecumplimiento * 100;
 
-          porcentajeFormateado = (parcial - quiebre - suministroTotal).toFixed(0) + "%";
+          porcentajeFormateado = (parcial - quiebre - sobrecumplimientoTotal).toFixed(0) + "%";
         }
 
-
-// let conductaErrorCritico;
-// let conductaErrorQuebreParcial;
-
-// for (let i = 0; i < preguntasRespuestas.length; i++) {
-//   const conducta = preguntasRespuestas[i].CONDUCTA.trim();
-//   if (conducta === "Error Crítico" && preguntasRespuestas[i].respuesta?.error !== undefined) {
-//     if (preguntasRespuestas[i].respuesta.error === "SI") {
-//       conductaErrorCritico = preguntasRespuestas[i].respuesta.error;
-//       break;
-//     }
-    
-//   } else if (conducta === "Quiebre parcial de Tiempo" && preguntasRespuestas[i].respuesta?.quiebreparcial !== undefined) {
-//     if (preguntasRespuestas[i].respuesta.quiebreparcial === "SI") {
-//       conductaErrorQuebreParcial = preguntasRespuestas[i].respuesta.quiebreparcial;
-//       break;
-//     }
-//   }
-// }
-// //CALCULO PARA CONTROLAR QUIEBRE TOTAL O QUIEBRE PARCIAL (CONSIDERA BLOQUE SOBRECUMPLIMIENTO Y PREGUNTAS CON QUIEBRE = SI)
-// let porcentajeFormateado = (porcentajeAcumulado * 100).toFixed(0) + "%";
-// //QUIEBRE TOTAL
-// if (conductaErrorCritico === 'SI') {
-//   porcentajeFormateado = (porcentajeAcumulado * 0).toFixed(0) + "%";
-// } //QUIEBRE PARCIAL
-//   else if (conductaErrorQuebreParcial === "SI") {
-//   let totalPorcentajeQuiebre = 0;
-//   let totalPorcentajeSobrecumplimiento = 0;
-
-//   const preguntasConQuiebre = preguntasRespuestas.filter((pregunta) => pregunta.QUIEBRE === "SI");
-//   const preguntasConSuministro = preguntasRespuestas.filter((pregunta) => pregunta['BLOQUES DE EVALUACIÓN'] === "SOBRECUMPLIMIENTO");
-
-//   for (let i = 0; i < preguntasConQuiebre.length; i++) {
-//     const conducta = preguntasConQuiebre[i]['CUMPLIMIENTO POR CATEGORIA'];
-//     totalPorcentajeQuiebre += conducta;
-//   }
-
-//   for (let i = 0; i < preguntasConSuministro.length; i++) {
-//     const sobrecumplimiento = preguntasConSuministro[i]['CUMPLIMIENTO POR CATEGORIA'];
-//     totalPorcentajeSobrecumplimiento += sobrecumplimiento;
-//   }
-
-//   let quiebre = totalPorcentajeQuiebre * 100;
-//   let parcial = porcentajeAcumulado * 100;
-//   let suministroTotal = totalPorcentajeSobrecumplimiento * 100;
-
-//   porcentajeFormateado = (parcial - quiebre - suministroTotal).toFixed(0) + "%";
-// }
-
-   
       const opcionesProducto = [
         'Cliente Total Pack',
         'Compras en Holding',
@@ -357,7 +322,7 @@ const Auditoria_Preguntas = (props) => {
            <p>{pregunta.categoria} {pregunta.quiebre === "SI" && <span style={{ display: "block", textAlign: "center" }}><span style={{ color: "red", fontWeight: "bold" }}>QUIEBRE</span></span>}</p>
             <p>{pregunta.pregunta} </p>
 
-            {bloque === 'INFORMACION GENERAL'  && pregunta.categoria === 'GENERAL 1' &&(
+              {bloque === 'INFORMACION GENERAL'  && pregunta.categoria === 'GENERAL 1' &&(
                 <div>
                   <TextField
                     required
@@ -380,11 +345,12 @@ const Auditoria_Preguntas = (props) => {
               )}
               {bloque === 'INFORMACION GENERAL'  && pregunta.categoria === 'GENERAL 2' &&(
                 <div>
-
+                      
                   <TextField
                     required
                     variant="outlined"
-                    value={respuestas[pregunta.id]?.idchat || ''}
+                    //value={respuestas[pregunta.id]?.idchat || ''}
+                    value={respuestas?.[pregunta.id]?.idchat || ''}
                     onChange={(e) =>
                       setRespuestas({
                         ...respuestas,
@@ -399,8 +365,7 @@ const Auditoria_Preguntas = (props) => {
                   />
                 </div>
               )}
-
-            {bloque === 'INFORMACION GENERAL'  && pregunta.categoria === 'GENERAL 3' &&(
+              {bloque === 'INFORMACION GENERAL'  && pregunta.categoria === 'GENERAL 3' &&(
                 <div>
 
                   <TextField
@@ -422,7 +387,6 @@ const Auditoria_Preguntas = (props) => {
                   />
                 </div>
               )}
-
               {bloque === 'INFORMACION GENERAL' && pregunta.categoria === 'GENERAL 4' && (
                 <div>
                    <FormControl required style={{ width: '200px' }}>
@@ -445,8 +409,6 @@ const Auditoria_Preguntas = (props) => {
                   </FormControl>
                 </div>
               )}
-
-
               {bloque === 'INFORMACION GENERAL' && pregunta.categoria === 'GENERAL 5' && (
                 <div>
                   <FormControl required style={{ width: '200px' }}>
@@ -469,8 +431,7 @@ const Auditoria_Preguntas = (props) => {
                   </FormControl>
                 </div>
               )}
-           
-           {bloque === 'INFORMACION GENERAL' && pregunta.categoria === 'GENERAL 6' && (
+              {bloque === 'INFORMACION GENERAL' && pregunta.categoria === 'GENERAL 6' && (
                 <div>
                    <FormControl required style={{ width: '200px' }}>
                     <Select
@@ -491,8 +452,7 @@ const Auditoria_Preguntas = (props) => {
                   </FormControl>
                 </div>
               )}
-
-            {bloque === 'INFORMACION GENERAL' && pregunta.categoria === 'GENERAL 7' && (
+              {bloque === 'INFORMACION GENERAL' && pregunta.categoria === 'GENERAL 7' && (
               <div>
                 <FormControl required style={{ width: '1100px' }}>
                   <Select
@@ -532,9 +492,8 @@ const Auditoria_Preguntas = (props) => {
                   </Select>
                 </FormControl>
               </div>
-            )}
-
-            {bloque === 'INFORMACION GENERAL' && pregunta.categoria === 'GENERAL 8' && (
+               )}
+              {bloque === 'INFORMACION GENERAL' && pregunta.categoria === 'GENERAL 8' && (
                             <div>
                               <FormControl required style={{ width: '200px' }}>
                                 <Select
@@ -554,9 +513,8 @@ const Auditoria_Preguntas = (props) => {
                                 </Select>
                               </FormControl>
                             </div>
-                          )}
-
-                {bloque === 'INFORMACION GENERAL' && pregunta.categoria === 'GENERAL 9' && (
+               )}
+              {bloque === 'INFORMACION GENERAL' && pregunta.categoria === 'GENERAL 9' && (
                                             <div>
                                               <FormControl required style={{ width: '200px' }}>
                                                 <Select
@@ -576,7 +534,7 @@ const Auditoria_Preguntas = (props) => {
                                                 </Select>
                                               </FormControl>
                                             </div>
-                                          )}
+               )}
               {bloque === 'INFORMACION GENERAL'  && pregunta.categoria === 'GENERAL 10' &&(
                 <div>
 
@@ -597,9 +555,8 @@ const Auditoria_Preguntas = (props) => {
                     style={{ width: '800px' }}
                   />
                 </div>
-              )}
-
-            {bloque === 'INFORMACION GENERAL'  && pregunta.categoria === 'GENERAL 11' &&(
+               )}
+              {bloque === 'INFORMACION GENERAL'  && pregunta.categoria === 'GENERAL 11' &&(
                 <div>
 
                   <TextField
@@ -620,8 +577,8 @@ const Auditoria_Preguntas = (props) => {
                     style={{ width: '200px', textAlign: 'center' }}
                   />
                 </div>
-              )}
-          {bloque !== 'INFORMACION GENERAL' && (
+               )}
+              {bloque !== 'INFORMACION GENERAL' && (
               <RadioGroup
                   aria-labelledby={`demo-radio-buttons-group-label-${pregunta.id}`}
                   name={`radio-buttons-group-${pregunta.id}`}
