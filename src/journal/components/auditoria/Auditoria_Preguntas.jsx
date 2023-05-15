@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { actualizarDetalleJson } from "../../../store/formato/formatoSlice";
 import Swal from 'sweetalert2';
 import {campos , categoriasGenerales}  from '../auditoria/estructura/informacionGeneral'
+import { letterSpacing } from "@mui/system";
 //import categoriasGenerales from '../auditoria/estructura/informacionGeneral'
 //Ejemplo de formato de archivo para construir
 // const preguntas = [
@@ -45,15 +46,14 @@ const Auditoria_Preguntas = (props) => {
   const [showErrorNo, setShowErrorNo] = useState(false);
   const [showErrorRespuestas, setShowErrorRespuestas] = useState(false);
   const [porcentajeAcumulado, setPorcentajeAcumulado] = useState(0);
-
-
+  
   
   //Cerrar modal 
 
  //Respuesta a nivel de linea con acumulación
   const handleRespuesta = (preguntaId, respuesta) => {
     const bloquePreguntas = Object.values(preguntasPorBloque);
-  
+    
     let nuevoPorcentajeAcumulado = 0;
   
     bloquePreguntas.forEach((bloque) => {
@@ -100,6 +100,7 @@ const Auditoria_Preguntas = (props) => {
   const pauta = JSON.stringify(objetosEncontrados);
   //convertir una cadena de texto pauta en formato JSON a un objeto de JavaScript.
   const arreglo = JSON.parse(pauta);
+
   //Recorre pauta para extración de preguntas dejando estas agrupadas en bloque de evaluación.
   const preguntasPorBloque = arreglo[0].detalleJson.reduce((acc, consulta, i) => {
     const { 
@@ -156,33 +157,51 @@ const Auditoria_Preguntas = (props) => {
   }
   // Boton guardar acción
   const handleSubmit = () => {
-    //Validación de cantidad de respuestas ingresadas por usuario, utilizaremos la suma de si y no "estadistica" adicional cuentaGeneral que se incluye
-    if (totalPreguntas > estadisticas.si + estadisticas.no + cuentaGeneral) {
-       setShowError(true);
-      return
+    console.log(tieneInformacion)
+    if (!tieneInformacion) {
+        //Validación de cantidad de respuestas ingresadas por usuario, utilizaremos la suma de si y no "estadistica" adicional cuentaGeneral que se incluye
+        if (totalPreguntas > estadisticas.si + estadisticas.no + cuentaGeneral) {
+          setShowError(true);
+        return
+        }
+        //Validación de respuestas no con su comentario
+        if (estadisticas.comentarios !== estadisticas.no) {
+          setShowErrorNo(true);
+        return;
+        }
     }
-    //Validación de respuestas no con su comentario
-    if (estadisticas.comentarios !== estadisticas.no) {
-        setShowErrorNo(true);
-      return;
-    }
-    //A nivel de linea agrega las respuestas correspondiente
-    const preguntasRespuestas = arreglo[0].detalleJson.map((pregunta, index) => {
-      const respuesta = respuestas[index];
-      return {
-        ...pregunta,
-        respuesta,
-      };
-    });
+        if (!tieneInformacion) {
+        //A nivel de linea agrega las respuestas correspondiente
+        let preguntasRespuestas = arreglo[0].detalleJson.map((pregunta, index) => {
+          const respuesta = respuestas[index];
+          return {
+            ...pregunta,
+            respuesta,
+          };
+        });
+      }
+      else{
+       
+          //A nivel de linea agrega las respuestas correspondiente
+          let preguntasRespuestas = arreglo[0].detalleJson.map((pregunta, index) => {
+            const respuesta = respuestas[index];
+            return {
+              ...pregunta,
+              respuesta,
+            };
+          });
+        
+      }
     const camposUndefined = preguntasRespuestas.filter((pregunta) => pregunta.respuesta === undefined);
 
     console.log(camposUndefined.length);
     //Control de respuestas realizadas
+    if (!tieneInformacion) {
     if (camposUndefined.length > 0) {
       setShowErrorRespuestas(true);
       return
     }
-    
+  }
 
     const idBuscado = props.lineaObjeto.id;
     const indiceEncontrado = props.formato.detalleJson.findIndex(elemento => elemento.id === idBuscado);    
@@ -208,17 +227,8 @@ const Auditoria_Preguntas = (props) => {
    
   };
 
-  //ESTILOS Y PORCENTAJES
-      //Estilo de porcentaje Final
-      let porcentajeStyle = {};
-      if (porcentajeAcumulado < 0) {
-        porcentajeStyle.color = "red";
-      } else if (porcentajeAcumulado * 100 < 50) {
-        porcentajeStyle.color = "red";
-      } else {
-        porcentajeStyle.color = "green";
-      }
-       //A nivel de linea agrega las respuestas correspondiente
+  
+    //A nivel de linea agrega las respuestas correspondiente
     const preguntasRespuestas = arreglo[0].detalleJson.map((pregunta, index) => {
       const respuesta = respuestas[index];
       return {
@@ -230,22 +240,49 @@ const Auditoria_Preguntas = (props) => {
     const indiceEncontrado = props.formato.detalleJson.findIndex(elemento => elemento.id === idBuscado);    
     const idFormato = props.formato.id;
     const formatoIndex = formatosRedux.findIndex(formato => formato.id === idFormato); 
-    console.log('Preguntas y Respuestas')
-    console.log(formatosRedux); 
-    console.log('Indice')
-    console.log(indiceEncontrado)
-    console.log('Formato')
-    console.log(idFormato)
+    // console.log('Preguntas y Respuestas')
+    // console.log(formatosRedux); 
+    // console.log('Indice')
+    // console.log(indiceEncontrado)
+    // console.log('Formato')
+    // console.log(idFormato)
     console.log('Formato Indice')
     console.log(formatoIndex)
     console.log('Preguntas y Respuestas')
     console.log(formatosRedux[formatoIndex]?.detalleJson?.[indiceEncontrado]?.respuestas);
-    let respuestasRedux = formatosRedux[formatoIndex]?.detalleJson?.[indiceEncontrado]?.respuesta;
+    let respuestasRedux = formatosRedux[formatoIndex]?.detalleJson?.[indiceEncontrado]?.respuestas;
     
-    
+    const [tieneInformacion, setTieneInformacion] = useState(!!formatosRedux[formatoIndex]?.detalleJson?.[indiceEncontrado]?.respuestas);
+    let porcentajeFormateado
+      
     //CALCULO PARA CONTROLAR QUIEBRE TOTAL PORCENTAJE O QUIEBRE PARCIAL (CONSIDERA BLOQUE SOBRECUMPLIMIENTO Y PREGUNTAS CON QUIEBRE = SI)
         let conductaErrorCritico;
         let conductaErrorQuiebreParcial;
+        // console.log('Tiene Informacion Redux')
+        // if (tieneInformacion) {
+        //   console.log(respuestasRedux)
+        //  // console.log(preguntasRespuestas)
+        //  //Contar solo preguntas Generales // Control de respuestas no contestada
+        //   let cuentaGeneral = 0;
+        //   const totalPreguntasGeneral = Object.values(respuestasRedux).reduce((acc, bloque) => {
+        //     for (let i = 0; i < bloque.length; i++) {
+        //         if (bloque[i].bloque === 'INFORMACION GENERAL') {
+        //           cuentaGeneral++
+        //         }
+        //     }
+          
+        //   }, 0);
+        //   console.log(tieneInformacion);
+        //   console.log(totalPreguntasGeneral)
+          
+
+        // }
+        // else{
+        //   console.log(respuestasRedux)
+        //   console.log(preguntasRespuestas)
+        //   console.log(tieneInformacion);
+
+        // }
 
         preguntasRespuestas.some((pregunta) => {
           const conducta = pregunta.CONDUCTA.trim();
@@ -258,7 +295,7 @@ const Auditoria_Preguntas = (props) => {
           }
         });
 
-        let porcentajeFormateado = (porcentajeAcumulado * 100).toFixed(0) + "%";
+         porcentajeFormateado = (porcentajeAcumulado * 100).toFixed(0) + "%";
 
         if (conductaErrorCritico === 'SI') {
           porcentajeFormateado = (porcentajeAcumulado * 0).toFixed(0) + "%";
@@ -286,6 +323,38 @@ const Auditoria_Preguntas = (props) => {
           porcentajeFormateado = (parcial - quiebre - sobrecumplimientoTotal).toFixed(0) + "%";
         }
 
+        if (tieneInformacion) {
+        
+          //Necesito saber  la nota
+          //Contar cantidad de respuestas si / no / comentarios indicadas por usuario
+            //estructura Object { si: 1, no: 2, comentarios: 1 }
+            if (respuestasRedux && respuestasRedux.length > 0) {
+              const sumaPorcentajes = respuestasRedux.reduce((acumulador, elemento) => {
+                if (elemento["BLOQUES DE EVALUACIÓN"] !== 'INFORMACION GENERAL' && elemento.respuesta?.respuesta === 'SI') {
+                  return acumulador + elemento["CUMPLIMIENTO POR CATEGORIA"];
+                } else {
+                  return acumulador;
+                }
+              }, 0);
+              
+                      
+                      console.log(sumaPorcentajes);
+                      porcentajeFormateado = (sumaPorcentajes * 100).toFixed(0) + "%";
+          }
+            
+          }
+
+
+          //ESTILOS Y PORCENTAJES
+      //Estilo de porcentaje Final
+      let porcentajeStyle = {};
+      if (porcentajeAcumulado < 0) {
+        porcentajeStyle.color = "red";
+      } else if (porcentajeAcumulado * 100 < 50) {
+        porcentajeStyle.color = "red";
+      } else {
+        porcentajeStyle.color = "green";
+      }
       const opcionesProducto = [
         'Cliente Total Pack',
         'Compras en Holding',
@@ -328,7 +397,11 @@ const Auditoria_Preguntas = (props) => {
                     required
                     type = "date"
                     variant="outlined"
-                    value={respuestas[pregunta.id]?.fechadeconversion || ''}
+                    value={
+                      respuestas?.[pregunta.id]?.fechadeconversion !== undefined
+                        ? respuestas?.[pregunta.id]?.fechadeconversion
+                        : respuestasRedux?.[pregunta.id]?.respuesta?.fechadeconversion || ''
+                    }
                     onChange={(e) =>
                       setRespuestas({
                         ...respuestas,
@@ -345,12 +418,18 @@ const Auditoria_Preguntas = (props) => {
               )}
               {bloque === 'INFORMACION GENERAL'  && pregunta.categoria === 'GENERAL 2' &&(
                 <div>
-                      
+                  
                   <TextField
                     required
                     variant="outlined"
                     //value={respuestas[pregunta.id]?.idchat || ''}
-                    value={respuestas?.[pregunta.id]?.idchat || ''}
+                    value={
+                      respuestas?.[pregunta.id]?.idchat !== undefined
+                        ? respuestas?.[pregunta.id]?.idchat
+                        : respuestasRedux?.[pregunta.id]?.respuesta?.idchat || ''
+                    }
+                    
+                    
                     onChange={(e) =>
                       setRespuestas({
                         ...respuestas,
@@ -372,7 +451,11 @@ const Auditoria_Preguntas = (props) => {
                     required
                     type = "time"
                     variant="outlined"
-                    value={respuestas[pregunta.id]?.hora || ''}
+                    value={
+                      respuestas?.[pregunta.id]?.hora !== undefined
+                        ? respuestas?.[pregunta.id]?.hora
+                        : respuestasRedux?.[pregunta.id]?.respuesta?.hora || ''
+                    }
                     onChange={(e) =>
                       setRespuestas({
                         ...respuestas,
@@ -391,7 +474,11 @@ const Auditoria_Preguntas = (props) => {
                 <div>
                    <FormControl required style={{ width: '200px' }}>
                     <Select
-                      value={respuestas[pregunta.id]?.tipoatencion || ''}
+                      value={
+                        respuestas?.[pregunta.id]?.tipoatencion !== undefined
+                          ? respuestas?.[pregunta.id]?.tipoatencion
+                          : respuestasRedux?.[pregunta.id]?.respuesta?.tipoatencion || ''
+                      }
                       onChange={(e) =>
                         setRespuestas({
                           ...respuestas,
@@ -413,7 +500,11 @@ const Auditoria_Preguntas = (props) => {
                 <div>
                   <FormControl required style={{ width: '200px' }}>
                     <Select
-                      value={respuestas[pregunta.id]?.producto || ''}
+                      value={
+                        respuestas?.[pregunta.id]?.producto !== undefined
+                          ? respuestas?.[pregunta.id]?.producto
+                          : respuestasRedux?.[pregunta.id]?.respuesta?.producto || ''
+                      }
                       onChange={(e) =>
                         setRespuestas({
                           ...respuestas,
@@ -435,7 +526,11 @@ const Auditoria_Preguntas = (props) => {
                 <div>
                    <FormControl required style={{ width: '200px' }}>
                     <Select
-                      value={respuestas[pregunta.id]?.error || ''}
+                      value={
+                        respuestas?.[pregunta.id]?.error !== undefined
+                          ? respuestas?.[pregunta.id]?.error
+                          : respuestasRedux?.[pregunta.id]?.respuesta?.error || ''
+                      }
                       onChange={(e) =>
                         setRespuestas({
                           ...respuestas,
@@ -456,7 +551,11 @@ const Auditoria_Preguntas = (props) => {
               <div>
                 <FormControl required style={{ width: '1100px' }}>
                   <Select
-                    value={respuestas[pregunta.id]?.tipoerror || ''}
+                     value={
+                      respuestas?.[pregunta.id]?.tipoerror !== undefined
+                        ? respuestas?.[pregunta.id]?.tipoerror
+                        : respuestasRedux?.[pregunta.id]?.respuesta?.tipoerror || ''
+                    }
                     onChange={(e) =>
                       setRespuestas({
                         ...respuestas,
@@ -497,7 +596,11 @@ const Auditoria_Preguntas = (props) => {
                             <div>
                               <FormControl required style={{ width: '200px' }}>
                                 <Select
-                                  value={respuestas[pregunta.id]?.quiebreparcial || ''}
+                                  value={
+                                    respuestas?.[pregunta.id]?.quiebreparcial !== undefined
+                                      ? respuestas?.[pregunta.id]?.quiebreparcial
+                                      : respuestasRedux?.[pregunta.id]?.respuesta?.quiebreparcial || ''
+                                  }
                                   onChange={(e) =>
                                     setRespuestas({
                                       ...respuestas,
@@ -518,7 +621,11 @@ const Auditoria_Preguntas = (props) => {
                                             <div>
                                               <FormControl required style={{ width: '200px' }}>
                                                 <Select
-                                                  value={respuestas[pregunta.id]?.compromiso || ''}
+                                                  value={
+                                                    respuestas?.[pregunta.id]?.compromiso !== undefined
+                                                      ? respuestas?.[pregunta.id]?.compromiso
+                                                      : respuestasRedux?.[pregunta.id]?.respuesta?.compromiso || ''
+                                                  }
                                                   onChange={(e) =>
                                                     setRespuestas({
                                                       ...respuestas,
@@ -541,7 +648,11 @@ const Auditoria_Preguntas = (props) => {
                   <TextField
                     required
                     variant="outlined"
-                    value={respuestas[pregunta.id]?.tipocompromiso || ''}
+                    value={
+                      respuestas?.[pregunta.id]?.tipocompromiso !== undefined
+                        ? respuestas?.[pregunta.id]?.tipocompromiso
+                        : respuestasRedux?.[pregunta.id]?.respuesta?.tipocompromiso || ''
+                    }
                     onChange={(e) =>
                       setRespuestas({
                         ...respuestas,
@@ -558,12 +669,37 @@ const Auditoria_Preguntas = (props) => {
                )}
               {bloque === 'INFORMACION GENERAL'  && pregunta.categoria === 'GENERAL 11' &&(
                 <div>
-
+                  {tieneInformacion ? (
                   <TextField
                     required
                     type = "time"
                     variant="outlined"
-                    value={respuestas[pregunta.id]?.horacierre || ''}
+                    value={
+                      respuestas?.[pregunta.id]?.horacierre !== undefined
+                        ? respuestas?.[pregunta.id]?.horacierre
+                        : respuestasRedux?.[pregunta.id]?.respuesta?.horacierre || ''
+                    }
+                    onChange={(e) =>
+                      setRespuestas({
+                        ...respuestas,
+                        [pregunta.id]: {
+                          ...respuestas[pregunta.id],
+                          horacierre: e.target.value,
+                        },
+                      })
+                    }
+                    margin="dense"
+                    style={{ width: '200px', textAlign: 'center' }}
+                  /> ): (
+                    <TextField
+                    required
+                    type = "time"
+                    variant="outlined"
+                    value={
+                      respuestas?.[pregunta.id]?.horacierre !== undefined
+                        ? respuestas?.[pregunta.id]?.horacierre
+                        : respuestas?.[pregunta.id]?.respuesta?.horacierre || ''
+                    }
                     onChange={(e) =>
                       setRespuestas({
                         ...respuestas,
@@ -576,53 +712,105 @@ const Auditoria_Preguntas = (props) => {
                     margin="dense"
                     style={{ width: '200px', textAlign: 'center' }}
                   />
+
+                  )}
                 </div>
                )}
-              {bloque !== 'INFORMACION GENERAL' && (
-              <RadioGroup
+
+               {bloque !== 'INFORMACION GENERAL' && (
+                <RadioGroup
                   aria-labelledby={`demo-radio-buttons-group-label-${pregunta.id}`}
                   name={`radio-buttons-group-${pregunta.id}`}
+                  value={
+                    respuestas?.[pregunta.id]?.respuesta !== undefined
+                      ? respuestas?.[pregunta.id]?.respuesta
+                      : (respuestasRedux?.[pregunta.id]?.respuesta?.respuesta || '')
+                  }
                   onChange={(e) => handleRespuesta(pregunta.id, e.target.value)}
                 >
                   <FormControlLabel value="SI" control={<Radio />} label="SI" />
                   <FormControlLabel value="NO" control={<Radio />} label="NO" />
-                </RadioGroup>)
-          }
-            
-            
-          {respuestas[pregunta.id]?.respuesta === "NO" && (
-              <font color="red" size="5">Porcentaje obtenido 0%</font>
-            )}
-            <br />
-          {respuestas[pregunta.id]?.respuesta === "SI" && (
-              <font color="primary" size="5">
-                Porcentaje obtenido {pregunta.porcentajePregunta * 100}%
-              </font>
-            )}
-            {respuestas[pregunta.id]?.respuesta === "NO" && (
-              <TextField
-              required
-              label="Comentario"
-              variant="outlined"
-              value={respuestas[pregunta.id]?.comentario}
-              onChange={(e) =>
-                setRespuestas({
-                  ...respuestas,
-                  [pregunta.id]: {
-                    ...respuestas[pregunta.id],
-                    comentario: e.target.value,
-                  },
-                })
-              }
-              margin="dense"
-            />
-          )}
+                </RadioGroup>
+              )}
+
+              {tieneInformacion ? (
+                respuestasRedux?.[pregunta.id]?.respuesta?.respuesta === "NO" && (
+                  <font color="red" size="5">Porcentaje obtenido 0%</font>
+                )
+              ) : (
+                respuestas?.[pregunta.id]?.respuesta === "NO" && (
+                  <font color="red" size="5">Porcentaje obtenido 0%</font>
+                )
+              )}
+              
+              <br />
+
+              {tieneInformacion ? (
+                respuestasRedux?.[pregunta.id]?.respuesta?.respuesta === "SI" && (
+                  <font color="primary" size="5">
+                  Porcentaje obtenido {pregunta.porcentajePregunta * 100}%
+                  </font>
+                )
+              ) : (
+                respuestas[pregunta.id]?.respuesta === "SI" && (
+                  <font color="primary" size="5">
+                    Porcentaje obtenido {pregunta.porcentajePregunta * 100}%
+                  </font>
+                )
+              )}
+              
+              {tieneInformacion ? (
+                respuestasRedux?.[pregunta.id]?.respuesta?.respuesta === "NO" && (
+                  <TextField
+                      required
+                      label="Comentario"
+                      variant="outlined"
+                      value={
+                        respuestas?.[pregunta.id]?.comentario !== undefined
+                          ? respuestas?.[pregunta.id]?.comentario
+                          : (respuestasRedux?.[pregunta.id]?.respuesta?.comentario || '')
+                      }
+                      onChange={(e) => {
+                        const { value } = e.target;
+                        setRespuestas((prevState) => ({
+                          ...prevState,
+                          [pregunta.id]: {
+                            ...prevState[pregunta.id],
+                            comentario: value,
+                          },
+                        }));
+                      }}
+                      margin="dense"
+                    />
+                )
+              ) : (
+                respuestas[pregunta.id]?.respuesta === "NO" && (
+                  <TextField
+                    required
+                    label="Comentario"
+                    variant="outlined"
+                    value={respuestas?.[pregunta.id]?.comentario || ''}
+                    onChange={(e) =>
+                      setRespuestas({
+                        ...respuestas,
+                        [pregunta.id]: {
+                          ...respuestas[pregunta.id],
+                          comentario: e.target.value,
+                        },
+                      })
+                    }
+                    margin="dense"
+                  />
+                )
+              )}
+              
             <br />
           </div>
         ))}
       </FormControl>
       <br />
     </CardContent>
+    
     
   ))}
   <CardContent sx={{ borderColor: "primary.main" }}>
