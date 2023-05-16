@@ -1,61 +1,61 @@
-import * as React from 'react';
-import TextField from '@mui/material/TextField';
+
+import React, { useState, useEffect } from 'react';
 import Autocomplete from '@mui/material/Autocomplete';
-import AuditoriaActividadView from './CierreActividadView';
+import TextField from '@mui/material/TextField';
+import CierreActividadView from './CierreActividadView';
 
-const monitor = ['Monitor 1', 'Monitor 2','Monitor 3'];
+export default function ControlSeleccion({ opcion = '' }) {
+  const [value, setValue] = useState(null);
+  const [inputValue, setInputValue] = useState('');
+  const [options, setOptions] = useState([]);
 
-let options = [''];
-
-export default function ControlSeleccion( {opcion = ''} ) {
-  const [value, setValue] = React.useState(options[0]);
-  const [inputValue, setInputValue] = React.useState('');
-  options = opcion;
-  let identificador = '';
-
-  const handleChangeSeleccion = (e) =>{
-    setValue(null);
-    // setSheet(e.target.value);
-  }
-  try {
-  
-    if (value) {
-      identificador = value.substring(0,2);
+  useEffect(() => {
+    if (opcion.length > 0) {
+      setOptions(opcion);
+      setValue(opcion[0]);
     }
-    
-  } catch (error) {
-    alert(error)
+  }, [opcion]);
+
+  const handleChangeSeleccion = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  let identificador = '';
+  if (value) {
+    try {
+      identificador = value.substring(0, 2);
+    } catch (error) {
+      alert(error);
+    }
   }
 
   return (
     <>
-    <div>
-      {/* <div>{`value: ${value !== null ? `'${value}'` : 'null'}`}</div>
-      <div>{`inputValue: '${inputValue}'`}</div> */}
-      <br />
-  <br/>
-<Autocomplete
-        value={value}
-        onChange={(event, newValue) => {
-          setValue(newValue);
-        }}
-        inputValue={inputValue}
-        onInputChange={(event, newInputValue) => {
-          setInputValue(newInputValue);
-        }}
-        id="controllable-states-demo"
-        options={options}
-        sx={{ width: 800 }}
-        renderInput={(params) => <TextField {...params} label="Selección de archivo asignado para cierre " />}
-      />
-    </div>
+      <div>
+        <br />
+        <br />
+        <Autocomplete
+          value={value || null}
+          onChange={handleChangeSeleccion}
+          inputValue={inputValue}
+          onInputChange={(event, newInputValue) => {
+            setInputValue(newInputValue);
+          }}
+          id="controllable-states-demo"
+          options={options}
+          sx={{ width: 800 }}
+          renderInput={(params) => (
+            <TextField {...params} label="Selección de archivo asignado para cierre" />
+          )}
+        />
+      </div>
 
-      {value &&( <AuditoriaActividadView 
-          opcion = { value }
-          onBorrarInformacionSeleccion ={(e)=>handleChangeSeleccion(e)}
-          />)}
-
+      {value && (
+        <CierreActividadView
+          opcion={value}
+          onBorrarInformacionSeleccion={handleChangeSeleccion}
+        />
+      )}
     </>
-
   );
 }

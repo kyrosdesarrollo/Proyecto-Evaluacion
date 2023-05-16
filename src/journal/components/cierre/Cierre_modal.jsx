@@ -20,7 +20,8 @@ const handleClose = () => {
           pautasSeleccion={props.pauta} 
           lineaObjeto={props.rowData} 
           formato ={props.formato} 
-          handleClose={handleClose}/>
+          handleClose={handleClose}
+          />
       </DialogContent>
       <DialogActions>
         <Button variant="outlined" onClick={handleClose}>Cerrar</Button>

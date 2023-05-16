@@ -1,13 +1,11 @@
-import { useState , useEffect} from "react";
+import { useState, useEffect} from "react";
 import { Card, CardContent,FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, TextField, Button,Modal, Typography,Icon } from "@mui/material";
-import {  InputLabel, Select, MenuItem } from '@material-ui/core';
-
+import { Select, MenuItem } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
 import { actualizarDetalleJson } from "../../../store/formato/formatoSlice";
 import Swal from 'sweetalert2';
-import {campos , categoriasGenerales}  from '../auditoria/estructura/informacionGeneral'
-import { letterSpacing } from "@mui/system";
-//import categoriasGenerales from '../auditoria/estructura/informacionGeneral'
+
+
 //Ejemplo de formato de archivo para construir
 // const preguntas = [
 //   {
@@ -35,7 +33,6 @@ import { letterSpacing } from "@mui/system";
 // .   cumplimientoBloque:"Total bloque"
 //   },
 // ];
-
 const Auditoria_Preguntas = (props) => {
   //Tomando los formatos
   const formatosRedux = useSelector(state => state.formato.formatos);
@@ -202,16 +199,12 @@ const Auditoria_Preguntas = (props) => {
       };
     });
     const camposUndefined = preguntasRespuestas.filter((pregunta) => pregunta.respuesta === undefined);
-
-    console.log(camposUndefined.length);
     //Control de respuestas realizadas
     if (camposUndefined.length > 0) {
       setShowErrorRespuestas(true);
       return
     }
-    
     //Accion para actualizar en redux las respuestas   
-   
     // Definir la acción de actualización con los datos que deseas enviar al store y firebase
     const action = actualizarDetalleJson({formatoIndex, indiceEncontrado, preguntasRespuestas})
 

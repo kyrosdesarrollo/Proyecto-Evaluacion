@@ -15,8 +15,6 @@ const handleClose = () => {
       <DialogContent>
      <Box sx={{ marginBottom: '20px' }}>
       <p sx={{ fontSize: '16px' }}>Nombre: {props.rowData?.Ejecutivo}</p>
-      {/* <p sx={{ fontSize: '16px' }}>Rut: {rowData?.Rut}</p>
-      <p sx={{ fontSize: '16px' }}>Fecha: {rowData?.['Fecha de Auditoria']}</p> */}
     </Box>
         <Auditoria_Preguntas 
           pautasSeleccion={props.pauta} 
