@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState , useEffect} from "react";
 import { Card, CardContent,FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, TextField, Button,Modal, Typography,Icon } from "@mui/material";
 import {  InputLabel, Select, MenuItem } from '@material-ui/core';
 
@@ -46,20 +46,18 @@ const Auditoria_Preguntas = (props) => {
   const [showErrorNo, setShowErrorNo] = useState(false);
   const [showErrorRespuestas, setShowErrorRespuestas] = useState(false);
   const [porcentajeAcumulado, setPorcentajeAcumulado] = useState(0);
-  
-  
-  //Cerrar modal 
+
 
  //Respuesta a nivel de linea con acumulación
   const handleRespuesta = (preguntaId, respuesta) => {
-    const bloquePreguntas = Object.values(preguntasPorBloque);
     
+    const bloquePreguntas = Object.values(preguntasPorBloque);
+     
     let nuevoPorcentajeAcumulado = 0;
   
     bloquePreguntas.forEach((bloque) => {
-     // if (bloque[0].bloque !== "SOBRECUMPLIMIENTO") {
+     // Busqueda de respuesta a nivel de linea
           const pregunta = bloque.find((pregunta) => pregunta.id === preguntaId);
-          
           if (pregunta) {
             const porcentajePregunta = pregunta.porcentajePregunta;
         
@@ -69,11 +67,8 @@ const Auditoria_Preguntas = (props) => {
               nuevoPorcentajeAcumulado -= porcentajePregunta;
             }
           }
-       // }
     });
-  
     setPorcentajeAcumulado(prevPorcentaje => prevPorcentaje + nuevoPorcentajeAcumulado);
-  
     setRespuestas((prevRespuestas) => ({
       ...prevRespuestas,
       [preguntaId]: {
@@ -100,16 +95,46 @@ const Auditoria_Preguntas = (props) => {
   const pauta = JSON.stringify(objetosEncontrados);
   //convertir una cadena de texto pauta en formato JSON a un objeto de JavaScript.
   const arreglo = JSON.parse(pauta);
+  //Busquueda id para extración de respuestas
+  let idBuscado = props.lineaObjeto && props.lineaObjeto.id;
+  let indiceEncontrado = props.formato.detalleJson.findIndex(elemento => elemento.id === idBuscado);    
+  let idFormato = props.formato.id;
+  let formatoIndex = formatosRedux.findIndex(formato => formato.id === idFormato); 
+
+    let respuestasRedux1;
+    if (props.lineaObjeto && props.lineaObjeto.id) {
+      // Acceder a props.lineaObjeto.id y realizar las operaciones necesarias
+      respuestasRedux1 = formatosRedux[0].detalleJson?.[indiceEncontrado].respuestas;
+    } 
+
+  const todasLasRespuestas = [];
+  for (const key in respuestasRedux1) {
+    if (respuestasRedux1.hasOwnProperty(key)) {
+      todasLasRespuestas.push(respuestasRedux1[key].respuesta);
+    }
+  }
+
+  useEffect(() => {
+  setRespuestas(todasLasRespuestas);
+  }, [respuestasRedux1]);
+
+  let arregloDetalle;
+    if (respuestasRedux1) {
+      arregloDetalle = respuestasRedux1.slice();
+    } else {
+      arregloDetalle = arreglo[0].detalleJson;
+    }
 
   //Recorre pauta para extración de preguntas dejando estas agrupadas en bloque de evaluación.
-  const preguntasPorBloque = arreglo[0].detalleJson.reduce((acc, consulta, i) => {
+  const preguntasPorBloque = arregloDetalle.reduce((acc, consulta, i) => {
     const { 
       "BLOQUES DE EVALUACIÓN": bloque,
       "CATEGORÍA": categoria,
       "CONDUCTA": pregunta,
       "CUMPLIMIENTO POR BLOQUES":porcentajeBloque,
       "CUMPLIMIENTO POR CATEGORIA":porcentajePregunta,
-      "QUIEBRE":quiebre
+      "QUIEBRE":quiebre,
+      "respuesta": respuesta
     } = consulta;
   
     // if (!acc[bloque]) {
@@ -120,11 +145,12 @@ const Auditoria_Preguntas = (props) => {
       acc[bloque].porcentajeAcumuladoBloque = 0; // Inicializar porcentajeAcumuladoBloque en 0
     }
   
-    acc[bloque].push({ id: i, categoria, pregunta, bloque, porcentajePregunta, porcentajeBloque, quiebre  });
+    acc[bloque].push({ id: i, categoria, pregunta, bloque, porcentajePregunta, porcentajeBloque, quiebre, respuesta  });
   
     return acc;
   }, {});
 
+  
   //Contar cantidad de preguntas de pauta
   const totalPreguntas = Object.values(preguntasPorBloque).reduce((acc, bloque) => acc + bloque.length, 0);
   
@@ -157,56 +183,33 @@ const Auditoria_Preguntas = (props) => {
   }
   // Boton guardar acción
   const handleSubmit = () => {
-    console.log(tieneInformacion)
-    if (!tieneInformacion) {
-        //Validación de cantidad de respuestas ingresadas por usuario, utilizaremos la suma de si y no "estadistica" adicional cuentaGeneral que se incluye
-        if (totalPreguntas > estadisticas.si + estadisticas.no + cuentaGeneral) {
-          setShowError(true);
-        return
-        }
-        //Validación de respuestas no con su comentario
-        if (estadisticas.comentarios !== estadisticas.no) {
-          setShowErrorNo(true);
-        return;
-        }
+    //Validación de cantidad de respuestas ingresadas por usuario, utilizaremos la suma de si y no "estadistica" adicional cuentaGeneral que se incluye
+    if (totalPreguntas > estadisticas.si + estadisticas.no + cuentaGeneral) {
+       setShowError(true);
+      return
     }
-        if (!tieneInformacion) {
-        //A nivel de linea agrega las respuestas correspondiente
-        let preguntasRespuestas = arreglo[0].detalleJson.map((pregunta, index) => {
-          const respuesta = respuestas[index];
-          return {
-            ...pregunta,
-            respuesta,
-          };
-        });
-      }
-      else{
-       
-          //A nivel de linea agrega las respuestas correspondiente
-          let preguntasRespuestas = arreglo[0].detalleJson.map((pregunta, index) => {
-            const respuesta = respuestas[index];
-            return {
-              ...pregunta,
-              respuesta,
-            };
-          });
-        
-      }
+    //Validación de respuestas no con su comentario
+    if (estadisticas.comentarios !== estadisticas.no) {
+        setShowErrorNo(true);
+      return;
+    }
+    //A nivel de linea agrega las respuestas correspondiente
+    let preguntasRespuestas = arregloDetalle.map((pregunta, index) => {
+      const respuesta = respuestas[index];
+      return {
+        ...pregunta,
+        respuesta,
+      };
+    });
     const camposUndefined = preguntasRespuestas.filter((pregunta) => pregunta.respuesta === undefined);
 
     console.log(camposUndefined.length);
     //Control de respuestas realizadas
-    if (!tieneInformacion) {
     if (camposUndefined.length > 0) {
       setShowErrorRespuestas(true);
       return
     }
-  }
-
-    const idBuscado = props.lineaObjeto.id;
-    const indiceEncontrado = props.formato.detalleJson.findIndex(elemento => elemento.id === idBuscado);    
-    const idFormato = props.formato.id;
-    const formatoIndex = formatosRedux.findIndex(formato => formato.id === idFormato); 
+    
     //Accion para actualizar en redux las respuestas   
    
     // Definir la acción de actualización con los datos que deseas enviar al store y firebase
@@ -224,68 +227,23 @@ const Auditoria_Preguntas = (props) => {
           text: 'Almacenada correctamente, recordar presionar el bóton guardar en pantalla principal para ser enviadas esta(s) encuesta(s). Gracias !!!! 😉',
         });
         return
-   
   };
-
   
     //A nivel de linea agrega las respuestas correspondiente
-    const preguntasRespuestas = arreglo[0].detalleJson.map((pregunta, index) => {
+    const preguntasRespuestas = arregloDetalle.map((pregunta, index) => {
       const respuesta = respuestas[index];
       return {
         ...pregunta,
         respuesta,
       };
     });
-    const idBuscado = props.lineaObjeto && props.lineaObjeto.id;
-    const indiceEncontrado = props.formato.detalleJson.findIndex(elemento => elemento.id === idBuscado);    
-    const idFormato = props.formato.id;
-    const formatoIndex = formatosRedux.findIndex(formato => formato.id === idFormato); 
-    // console.log('Preguntas y Respuestas')
-    // console.log(formatosRedux); 
-    // console.log('Indice')
-    // console.log(indiceEncontrado)
-    // console.log('Formato')
-    // console.log(idFormato)
-    console.log('Formato Indice')
-    console.log(formatoIndex)
-    console.log('Preguntas y Respuestas')
-    console.log(formatosRedux[formatoIndex]?.detalleJson?.[indiceEncontrado]?.respuestas);
-    let respuestasRedux = formatosRedux[formatoIndex]?.detalleJson?.[indiceEncontrado]?.respuestas;
-    
-    const [tieneInformacion, setTieneInformacion] = useState(!!formatosRedux[formatoIndex]?.detalleJson?.[indiceEncontrado]?.respuestas);
-    let porcentajeFormateado
-      
     //CALCULO PARA CONTROLAR QUIEBRE TOTAL PORCENTAJE O QUIEBRE PARCIAL (CONSIDERA BLOQUE SOBRECUMPLIMIENTO Y PREGUNTAS CON QUIEBRE = SI)
         let conductaErrorCritico;
         let conductaErrorQuiebreParcial;
-        // console.log('Tiene Informacion Redux')
-        // if (tieneInformacion) {
-        //   console.log(respuestasRedux)
-        //  // console.log(preguntasRespuestas)
-        //  //Contar solo preguntas Generales // Control de respuestas no contestada
-        //   let cuentaGeneral = 0;
-        //   const totalPreguntasGeneral = Object.values(respuestasRedux).reduce((acc, bloque) => {
-        //     for (let i = 0; i < bloque.length; i++) {
-        //         if (bloque[i].bloque === 'INFORMACION GENERAL') {
-        //           cuentaGeneral++
-        //         }
-        //     }
-          
-        //   }, 0);
-        //   console.log(tieneInformacion);
-        //   console.log(totalPreguntasGeneral)
-          
-
-        // }
-        // else{
-        //   console.log(respuestasRedux)
-        //   console.log(preguntasRespuestas)
-        //   console.log(tieneInformacion);
-
-        // }
-
+       
         preguntasRespuestas.some((pregunta) => {
           const conducta = pregunta.CONDUCTA.trim();
+          
           if (conducta === "Error Crítico" && pregunta.respuesta?.error === "SI") {
             conductaErrorCritico = pregunta.respuesta.error;
             return true;
@@ -295,66 +253,70 @@ const Auditoria_Preguntas = (props) => {
           }
         });
 
-         porcentajeFormateado = (porcentajeAcumulado * 100).toFixed(0) + "%";
+        let porcentajeFormateado = (porcentajeAcumulado * 100).toFixed(0) + "%";
+
+        //Verificación
+        const sumaPorcentajes = preguntasRespuestas.reduce((acumulador, elemento) => {
+          if (elemento["BLOQUES DE EVALUACIÓN"] !== 'INFORMACION GENERAL' && elemento.respuesta?.respuesta === 'SI') {
+            return acumulador + elemento["CUMPLIMIENTO POR CATEGORIA"];
+          } else {
+            return acumulador;
+          }
+        }, 0);
+        
+                porcentajeFormateado = (sumaPorcentajes * 100).toFixed(0) + "%";
 
         if (conductaErrorCritico === 'SI') {
           porcentajeFormateado = (porcentajeAcumulado * 0).toFixed(0) + "%";
         } else if (conductaErrorQuiebreParcial === "SI") {
           let totalPorcentajeQuiebre = 0;
           let totalPorcentajeSobrecumplimiento = 0;
+          let quiebre = 0;
+          let parcial = 0;
+          let sobrecumplimientoTotal = 0;
 
           const preguntasConQuiebre = preguntasRespuestas.filter((pregunta) => pregunta.QUIEBRE === "SI");
           const preguntasConSuministro = preguntasRespuestas.filter((pregunta) => pregunta['BLOQUES DE EVALUACIÓN'] === "SOBRECUMPLIMIENTO");
 
+          let conducta;
           for (let i = 0; i < preguntasConQuiebre.length; i++) {
-            const conducta = preguntasConQuiebre[i]['CUMPLIMIENTO POR CATEGORIA'];
+             conducta = preguntasConQuiebre[i]['CUMPLIMIENTO POR CATEGORIA'];
             totalPorcentajeQuiebre += conducta;
           }
-
+        
+          let sobrecumplimiento
           for (let i = 0; i < preguntasConSuministro.length; i++) {
-            const sobrecumplimiento = preguntasConSuministro[i]['CUMPLIMIENTO POR CATEGORIA'];
+            sobrecumplimiento = preguntasConSuministro[i]['CUMPLIMIENTO POR CATEGORIA'];
             totalPorcentajeSobrecumplimiento += sobrecumplimiento;
           }
+         
+           quiebre = totalPorcentajeQuiebre * 100;
+           parcial = porcentajeAcumulado * 100;
+           sobrecumplimientoTotal = totalPorcentajeSobrecumplimiento * 100;
 
-          let quiebre = totalPorcentajeQuiebre * 100;
-          let parcial = porcentajeAcumulado * 100;
-          let sobrecumplimientoTotal = totalPorcentajeSobrecumplimiento * 100;
+           const porcentajeExtrae = parseFloat(porcentajeFormateado) / 100
+           if (respuestasRedux1) {
+            porcentajeFormateado = ( porcentajeExtrae * 100  - quiebre - sobrecumplimientoTotal).toFixed(0) + "%";
+           }else{
+            porcentajeFormateado = (parcial - quiebre - sobrecumplimientoTotal).toFixed(0) + "%";
+           }
 
-          porcentajeFormateado = (parcial - quiebre - sobrecumplimientoTotal).toFixed(0) + "%";
+          
         }
 
-        if (tieneInformacion) {
-        
-          //Necesito saber  la nota
-          //Contar cantidad de respuestas si / no / comentarios indicadas por usuario
-            //estructura Object { si: 1, no: 2, comentarios: 1 }
-            if (respuestasRedux && respuestasRedux.length > 0) {
-              const sumaPorcentajes = respuestasRedux.reduce((acumulador, elemento) => {
-                if (elemento["BLOQUES DE EVALUACIÓN"] !== 'INFORMACION GENERAL' && elemento.respuesta?.respuesta === 'SI') {
-                  return acumulador + elemento["CUMPLIMIENTO POR CATEGORIA"];
-                } else {
-                  return acumulador;
-                }
-              }, 0);
-              
-                      
-                      console.log(sumaPorcentajes);
-                      porcentajeFormateado = (sumaPorcentajes * 100).toFixed(0) + "%";
-          }
-            
-          }
-
-
-          //ESTILOS Y PORCENTAJES
+        //ESTILOS Y PORCENTAJES
       //Estilo de porcentaje Final
+    
+      const porcentajeNumerico = parseFloat(porcentajeFormateado) / 100;
       let porcentajeStyle = {};
-      if (porcentajeAcumulado < 0) {
+      if (porcentajeNumerico < 0.01) {
         porcentajeStyle.color = "red";
-      } else if (porcentajeAcumulado * 100 < 50) {
-        porcentajeStyle.color = "red";
+      } else if (porcentajeNumerico < 0.5) {
+        porcentajeStyle.color = "orange";
       } else {
         porcentajeStyle.color = "green";
       }
+      
       const opcionesProducto = [
         'Cliente Total Pack',
         'Compras en Holding',
@@ -382,13 +344,30 @@ const Auditoria_Preguntas = (props) => {
     {Object.entries(preguntasPorBloque).map(([bloque, preguntas]) => (
     <CardContent key={bloque} sx={{ borderColor: "primary.main" }}>
       <FormControl>
-        <FormLabel id={`demo-radio-buttons-group-label-${bloque}`} sx={{ textAlign: "center", backgroundColor: "#2196f3", borderRadius: "20px" ,fontWeight: "bold",color: "white" }}>
-          {bloque} 
-        </FormLabel>
+      <FormLabel
+            id={`demo-radio-buttons-group-label-${bloque}`}
+            sx={{
+              textAlign: "center",
+              backgroundColor: "#2196f3",
+              borderRadius: "20px",
+              fontWeight: "bold",
+              color: "white"
+            }}
+          >
+            {bloque}
+          </FormLabel>
+
         <br />
         {preguntas.map((pregunta) => (
           <div key={pregunta.id}>
-           <p>{pregunta.categoria} {pregunta.quiebre === "SI" && <span style={{ display: "block", textAlign: "center" }}><span style={{ color: "red", fontWeight: "bold" }}>QUIEBRE</span></span>}</p>
+           <p>
+                <strong>{pregunta.categoria}</strong>{" "}
+                {pregunta.quiebre === "SI" && (
+                  <span style={{ display: "block", textAlign: "center" }}>
+                    <span style={{ color: "red", fontWeight: "bold" }}>QUIEBRE</span>
+                  </span>
+                )}
+              </p>
             <p>{pregunta.pregunta} </p>
 
               {bloque === 'INFORMACION GENERAL'  && pregunta.categoria === 'GENERAL 1' &&(
@@ -400,7 +379,7 @@ const Auditoria_Preguntas = (props) => {
                     value={
                       respuestas?.[pregunta.id]?.fechadeconversion !== undefined
                         ? respuestas?.[pregunta.id]?.fechadeconversion
-                        : respuestasRedux?.[pregunta.id]?.respuesta?.fechadeconversion || ''
+                        : respuestas?.[pregunta.id]?.respuesta?.fechadeconversion || ''
                     }
                     onChange={(e) =>
                       setRespuestas({
@@ -426,7 +405,7 @@ const Auditoria_Preguntas = (props) => {
                     value={
                       respuestas?.[pregunta.id]?.idchat !== undefined
                         ? respuestas?.[pregunta.id]?.idchat
-                        : respuestasRedux?.[pregunta.id]?.respuesta?.idchat || ''
+                        : respuestas?.[pregunta.id]?.respuesta?.idchat || ''
                     }
                     
                     
@@ -454,7 +433,7 @@ const Auditoria_Preguntas = (props) => {
                     value={
                       respuestas?.[pregunta.id]?.hora !== undefined
                         ? respuestas?.[pregunta.id]?.hora
-                        : respuestasRedux?.[pregunta.id]?.respuesta?.hora || ''
+                        : respuestas?.[pregunta.id]?.respuesta?.hora || ''
                     }
                     onChange={(e) =>
                       setRespuestas({
@@ -477,7 +456,7 @@ const Auditoria_Preguntas = (props) => {
                       value={
                         respuestas?.[pregunta.id]?.tipoatencion !== undefined
                           ? respuestas?.[pregunta.id]?.tipoatencion
-                          : respuestasRedux?.[pregunta.id]?.respuesta?.tipoatencion || ''
+                          : respuestas?.[pregunta.id]?.respuesta?.tipoatencion || ''
                       }
                       onChange={(e) =>
                         setRespuestas({
@@ -503,7 +482,7 @@ const Auditoria_Preguntas = (props) => {
                       value={
                         respuestas?.[pregunta.id]?.producto !== undefined
                           ? respuestas?.[pregunta.id]?.producto
-                          : respuestasRedux?.[pregunta.id]?.respuesta?.producto || ''
+                          : respuestas?.[pregunta.id]?.respuesta?.producto || ''
                       }
                       onChange={(e) =>
                         setRespuestas({
@@ -529,7 +508,7 @@ const Auditoria_Preguntas = (props) => {
                       value={
                         respuestas?.[pregunta.id]?.error !== undefined
                           ? respuestas?.[pregunta.id]?.error
-                          : respuestasRedux?.[pregunta.id]?.respuesta?.error || ''
+                          : respuestas?.[pregunta.id]?.respuesta?.error || ''
                       }
                       onChange={(e) =>
                         setRespuestas({
@@ -554,7 +533,7 @@ const Auditoria_Preguntas = (props) => {
                      value={
                       respuestas?.[pregunta.id]?.tipoerror !== undefined
                         ? respuestas?.[pregunta.id]?.tipoerror
-                        : respuestasRedux?.[pregunta.id]?.respuesta?.tipoerror || ''
+                        : respuestas?.[pregunta.id]?.respuesta?.tipoerror || ''
                     }
                     onChange={(e) =>
                       setRespuestas({
@@ -599,7 +578,7 @@ const Auditoria_Preguntas = (props) => {
                                   value={
                                     respuestas?.[pregunta.id]?.quiebreparcial !== undefined
                                       ? respuestas?.[pregunta.id]?.quiebreparcial
-                                      : respuestasRedux?.[pregunta.id]?.respuesta?.quiebreparcial || ''
+                                      : respuestas?.[pregunta.id]?.respuesta?.quiebreparcial || ''
                                   }
                                   onChange={(e) =>
                                     setRespuestas({
@@ -624,7 +603,7 @@ const Auditoria_Preguntas = (props) => {
                                                   value={
                                                     respuestas?.[pregunta.id]?.compromiso !== undefined
                                                       ? respuestas?.[pregunta.id]?.compromiso
-                                                      : respuestasRedux?.[pregunta.id]?.respuesta?.compromiso || ''
+                                                      : respuestas?.[pregunta.id]?.respuesta?.compromiso || ''
                                                   }
                                                   onChange={(e) =>
                                                     setRespuestas({
@@ -651,7 +630,7 @@ const Auditoria_Preguntas = (props) => {
                     value={
                       respuestas?.[pregunta.id]?.tipocompromiso !== undefined
                         ? respuestas?.[pregunta.id]?.tipocompromiso
-                        : respuestasRedux?.[pregunta.id]?.respuesta?.tipocompromiso || ''
+                        : respuestas?.[pregunta.id]?.respuesta?.tipocompromiso || ''
                     }
                     onChange={(e) =>
                       setRespuestas({
@@ -669,28 +648,6 @@ const Auditoria_Preguntas = (props) => {
                )}
               {bloque === 'INFORMACION GENERAL'  && pregunta.categoria === 'GENERAL 11' &&(
                 <div>
-                  {tieneInformacion ? (
-                  <TextField
-                    required
-                    type = "time"
-                    variant="outlined"
-                    value={
-                      respuestas?.[pregunta.id]?.horacierre !== undefined
-                        ? respuestas?.[pregunta.id]?.horacierre
-                        : respuestasRedux?.[pregunta.id]?.respuesta?.horacierre || ''
-                    }
-                    onChange={(e) =>
-                      setRespuestas({
-                        ...respuestas,
-                        [pregunta.id]: {
-                          ...respuestas[pregunta.id],
-                          horacierre: e.target.value,
-                        },
-                      })
-                    }
-                    margin="dense"
-                    style={{ width: '200px', textAlign: 'center' }}
-                  /> ): (
                     <TextField
                     required
                     type = "time"
@@ -713,10 +670,8 @@ const Auditoria_Preguntas = (props) => {
                     style={{ width: '200px', textAlign: 'center' }}
                   />
 
-                  )}
                 </div>
                )}
-
                {bloque !== 'INFORMACION GENERAL' && (
                 <RadioGroup
                   aria-labelledby={`demo-radio-buttons-group-label-${pregunta.id}`}
@@ -724,7 +679,7 @@ const Auditoria_Preguntas = (props) => {
                   value={
                     respuestas?.[pregunta.id]?.respuesta !== undefined
                       ? respuestas?.[pregunta.id]?.respuesta
-                      : (respuestasRedux?.[pregunta.id]?.respuesta?.respuesta || '')
+                      : (respuestas?.[pregunta.id]?.respuesta?.respuesta || '')
                   }
                   onChange={(e) => handleRespuesta(pregunta.id, e.target.value)}
                 >
@@ -732,78 +687,38 @@ const Auditoria_Preguntas = (props) => {
                   <FormControlLabel value="NO" control={<Radio />} label="NO" />
                 </RadioGroup>
               )}
-
-              {tieneInformacion ? (
-                respuestasRedux?.[pregunta.id]?.respuesta?.respuesta === "NO" && (
-                  <font color="red" size="5">Porcentaje obtenido 0%</font>
-                )
-              ) : (
-                respuestas?.[pregunta.id]?.respuesta === "NO" && (
-                  <font color="red" size="5">Porcentaje obtenido 0%</font>
-                )
-              )}
-              
+              {respuestas[pregunta.id]?.respuesta === "NO" && (
+               <font color="red" size="5">Porcentaje obtenido 0%</font>
+               )}
               <br />
 
-              {tieneInformacion ? (
-                respuestasRedux?.[pregunta.id]?.respuesta?.respuesta === "SI" && (
-                  <font color="primary" size="5">
-                  Porcentaje obtenido {pregunta.porcentajePregunta * 100}%
-                  </font>
-                )
-              ) : (
-                respuestas[pregunta.id]?.respuesta === "SI" && (
-                  <font color="primary" size="5">
-                    Porcentaje obtenido {pregunta.porcentajePregunta * 100}%
-                  </font>
-                )
-              )}
-              
-              {tieneInformacion ? (
-                respuestasRedux?.[pregunta.id]?.respuesta?.respuesta === "NO" && (
-                  <TextField
-                      required
-                      label="Comentario"
-                      variant="outlined"
-                      value={
-                        respuestas?.[pregunta.id]?.comentario !== undefined
-                          ? respuestas?.[pregunta.id]?.comentario
-                          : (respuestasRedux?.[pregunta.id]?.respuesta?.comentario || '')
-                      }
-                      onChange={(e) => {
-                        const { value } = e.target;
-                        setRespuestas((prevState) => ({
-                          ...prevState,
-                          [pregunta.id]: {
-                            ...prevState[pregunta.id],
-                            comentario: value,
-                          },
-                        }));
-                      }}
-                      margin="dense"
-                    />
-                )
-              ) : (
-                respuestas[pregunta.id]?.respuesta === "NO" && (
-                  <TextField
-                    required
-                    label="Comentario"
-                    variant="outlined"
-                    value={respuestas?.[pregunta.id]?.comentario || ''}
-                    onChange={(e) =>
-                      setRespuestas({
-                        ...respuestas,
-                        [pregunta.id]: {
-                          ...respuestas[pregunta.id],
-                          comentario: e.target.value,
-                        },
-                      })
-                    }
-                    margin="dense"
-                  />
-                )
-              )}
-              
+              {respuestas[pregunta.id]?.respuesta === "SI" && (
+              <font color="primary" size="5">
+                Porcentaje obtenido {pregunta.porcentajePregunta * 100}%
+              </font>
+            )}
+
+            {respuestas[pregunta.id]?.respuesta === "NO" && (
+                          <TextField
+                          required
+                          label="Comentario"
+                          variant="outlined"
+                          value={respuestas[pregunta.id]?.comentario}
+                          onChange={(e) =>
+                            setRespuestas({
+                              ...respuestas,
+                              [pregunta.id]: {
+                                ...respuestas[pregunta.id],
+                                comentario: e.target.value,
+                              },
+                            })
+                          }
+                          margin="dense"
+                          multiline
+                          rows={2} // Ajusta el número de filas para aumentar la altura
+                          style={{ width: '1500px' }} // Ajusta el ancho del TextField
+                        />
+                      )}
             <br />
           </div>
         ))}
@@ -811,12 +726,13 @@ const Auditoria_Preguntas = (props) => {
       <br />
     </CardContent>
     
-    
   ))}
   <CardContent sx={{ borderColor: "primary.main" }}>
     <Button variant="contained" sx={{ mx: "auto" }} onClick={handleSubmit}>
       Guardar
     </Button>
+    <br />
+    <br />
       <Typography variant="h4" gutterBottom sx={porcentajeStyle} >
         Porcentaje Total : {porcentajeFormateado}
       </Typography>
