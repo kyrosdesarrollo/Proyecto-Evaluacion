@@ -74,7 +74,7 @@ const handleRowClick = (event, rowData) => {
 }
   //Cierre
   const handleModalClose = useCallback(() => {
-    setSelectedRowData(null);
+   //setSelectedRowData(null);
     setOpenModal(false);
   }, []);
   

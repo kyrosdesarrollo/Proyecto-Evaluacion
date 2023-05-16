@@ -75,12 +75,15 @@ const handleChange = (e) => {
     const id = formatosReduxRespuesta[j].id ;
     //Extrae el detalleJson, los registros que contengan información respuestas
     const detalleJson = formatosReduxRespuesta[j].detalleJson;
+   
     //Filtrar los registros
     const idsAsignados = registrosAsignados.map((respuesta) => respuesta.id - 1);
+    
     //Recorre el arreglo completo y cambia el estado Asigna a los registros seleccionados
     const ArregloAsignados = detalleJson.map((obj, index) => {
       return idsAsignados.includes(index) ? {...obj, Estado: "Finalizado"} : {...obj};
     });
+    
     //Actualización en Firebase registros + ID de documento
     dispatch(startUpdateFormato(ArregloAsignados,id));
     //Cierre de ventana emergente

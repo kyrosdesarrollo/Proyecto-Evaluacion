@@ -39,9 +39,10 @@ const AuditoriaActividadViewDetalle = (props) => {
    // console.log(formatosReduxRespuesta[j])
     //Extrae el detalleJson, los registros que contengan información respuestas
     const detalleJson = formatosReduxRespuesta[j].detalleJson;
+
      //Aqui recibie los registros seleccionado por usuario
      let registrosAsignados = selectRowValue;
-    console.log(registrosAsignados)
+
      if (registrosAsignados.length < 1) {
        setOpen(false);
        Swal.fire({
@@ -58,9 +59,6 @@ const AuditoriaActividadViewDetalle = (props) => {
     const elementosFiltrados = detalleJson.filter(elemento => {
       return elemento.Estado === "Asigna";
     });
-    console.log('Elementos filtrados')
-    console.log(elementosFiltrados);
-    
 
     const objetosConRespuestas = [];
     detalleJson.forEach(objeto => {
@@ -70,9 +68,6 @@ const AuditoriaActividadViewDetalle = (props) => {
       }
     });
 
-
-    console.log('Objeto solo con respeustas')
-    console.log(objetosConRespuestas)
     //Validación si existe encuestas
     if (objetosConRespuestas.length<1) {
       handleClose(false);
@@ -85,21 +80,28 @@ const AuditoriaActividadViewDetalle = (props) => {
       })
       return
     }
-    //Filtrar los registros
-    const idsAsignados = objetosConRespuestas.map((respuesta) => respuesta.id - 1);
+    //Filtrar los registros solo con estado Asigna para extracción de Ids, se incorpora -1 para registro
+    const filtrarRegistros = (objetos) => {
+      const registrosFiltrados = objetos.filter((objeto) => objeto.Estado === 'Asigna');
+      const idsAsignados = registrosFiltrados.map((objeto) => objeto.id -1);
+      return idsAsignados;
+    };
+    
+    const idsAsignados = filtrarRegistros(objetosConRespuestas);
     //Recorre el arreglo completo y cambia el estado Asigna a los registros seleccionados
     const ArregloAsignados = detalleJson.map((obj, index) => {
       return idsAsignados.includes(index) ? {...obj, Estado: "Cierre"} : {...obj};
     });
 
      //Actualización en Firebase todos los registros + ID de documento
+     
     dispatch(startUpdateFormato(ArregloAsignados,id));
     
     handleClose(false);
     Swal.fire({
       position: 'top-center',
       icon: 'success',
-      title: 'Asignación realizada con éxito.',
+      title: 'Evaluación realizada con éxito.',
       showConfirmButton: false,
       timer: 1500
     });

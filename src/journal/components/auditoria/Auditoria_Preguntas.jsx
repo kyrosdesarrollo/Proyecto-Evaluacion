@@ -98,10 +98,10 @@ const Auditoria_Preguntas = (props) => {
   let idFormato = props.formato.id;
   let formatoIndex = formatosRedux.findIndex(formato => formato.id === idFormato); 
 
-    let respuestasRedux1;
+  let respuestasRedux1;
     if (props.lineaObjeto && props.lineaObjeto.id) {
       // Acceder a props.lineaObjeto.id y realizar las operaciones necesarias
-      respuestasRedux1 = formatosRedux[0].detalleJson?.[indiceEncontrado].respuestas;
+      respuestasRedux1 = formatosRedux[formatoIndex].detalleJson?.[indiceEncontrado].respuestas;
     } 
 
   const todasLasRespuestas = [];
@@ -212,7 +212,7 @@ const Auditoria_Preguntas = (props) => {
 
         props.handleClose();
         setShowError(false);
-        setRespuestas({});
+       // setRespuestas({});
         Swal.fire({
           confirmButtonColor: '#2196f3',
           icon: 'success',

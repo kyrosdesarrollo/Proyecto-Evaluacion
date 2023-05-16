@@ -14,13 +14,15 @@ import ControlSeleccion from './AuditoriaActividadSeleccion';
 
   const plantilla = Object.assign({},formatos);
   const opcion = [];
-  
+  console.log('Plantllas')
+  console.log(plantilla)
   //Verificación de lineas asignadas para visualización de archivo, mejora incorporar monitor en el filtro
  //Validación de perfil  
   if (perfil === "ADMINISTRADOR") {
     Object.entries(plantilla).forEach(([key, value]) => {
       const asignaCount = value.detalleJson.filter((detalle) => detalle.Estado === 'Asigna' ).length;
-      if (asignaCount > 0) {
+      console.log(value.detalleJson)
+      if (asignaCount > 1) {
         opcion.push(`${key} FORMATO [ ${value.formato} ] CARGADO POR [ ${value.nombre} ]`);
       }
     });
@@ -34,6 +36,7 @@ import ControlSeleccion from './AuditoriaActividadSeleccion';
       }
     });
   }   
+  console.log(opcion)
   return (
     <>
      <Box md={1}>

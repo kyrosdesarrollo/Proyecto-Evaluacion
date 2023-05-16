@@ -101,7 +101,7 @@ const Cierre_Preguntas = (props) => {
     let respuestasRedux1;
     if (props.lineaObjeto && props.lineaObjeto.id) {
       // Acceder a props.lineaObjeto.id y realizar las operaciones necesarias
-      respuestasRedux1 = formatosRedux[0].detalleJson?.[indiceEncontrado].respuestas;
+      respuestasRedux1 = formatosRedux[formatoIndex].detalleJson?.[indiceEncontrado].respuestas;
     } 
 
   const todasLasRespuestas = [];

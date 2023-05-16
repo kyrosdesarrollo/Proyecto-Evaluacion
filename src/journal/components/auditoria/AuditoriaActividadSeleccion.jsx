@@ -1,16 +1,15 @@
-import * as React from 'react';
-import TextField from '@mui/material/TextField';
+
+import React, { useState, useEffect } from 'react';
 import Autocomplete from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
 import AuditoriaActividadView from './AuditoriaActividadView';
 
-let options = [''];
-
 export default function ControlSeleccion({ opcion = '' }) {
-  const [value, setValue] = React.useState(null);
-  const [inputValue, setInputValue] = React.useState('');
-  const [options, setOptions] = React.useState([]);
+  const [value, setValue] = useState(null);
+  const [inputValue, setInputValue] = useState('');
+  const [options, setOptions] = useState([]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (opcion.length > 0) {
       setOptions(opcion);
       setValue(opcion[0]);
@@ -22,12 +21,12 @@ export default function ControlSeleccion({ opcion = '' }) {
   };
 
   let identificador = '';
-  try {
-    if (value) {
+  if (value) {
+    try {
       identificador = value.substring(0, 2);
+    } catch (error) {
+      alert(error);
     }
-  } catch (error) {
-    alert(error);
   }
 
   return (
@@ -36,7 +35,7 @@ export default function ControlSeleccion({ opcion = '' }) {
         <br />
         <br />
         <Autocomplete
-          value={value}
+          value={value || null}
           onChange={handleChangeSeleccion}
           inputValue={inputValue}
           onInputChange={(event, newInputValue) => {
@@ -45,7 +44,9 @@ export default function ControlSeleccion({ opcion = '' }) {
           id="controllable-states-demo"
           options={options}
           sx={{ width: 800 }}
-          renderInput={(params) => <TextField {...params} label="Selección de archivo asignado para auditar" />}
+          renderInput={(params) => (
+            <TextField {...params} label="Selección de archivo auditado para evaluación" />
+          )}
         />
       </div>
 
