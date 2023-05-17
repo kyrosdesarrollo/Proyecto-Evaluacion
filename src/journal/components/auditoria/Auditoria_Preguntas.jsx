@@ -58,6 +58,7 @@ const Auditoria_Preguntas = (props) => {
           if (pregunta) {
             const porcentajePregunta = pregunta.porcentajePregunta;
         
+      
             if (respuesta === "SI") {
               nuevoPorcentajeAcumulado += porcentajePregunta;
             } else if (respuesta === "NO" && respuestas[preguntaId]?.respuesta === "SI") {
@@ -66,6 +67,7 @@ const Auditoria_Preguntas = (props) => {
           }
     });
     setPorcentajeAcumulado(prevPorcentaje => prevPorcentaje + nuevoPorcentajeAcumulado);
+
     setRespuestas((prevRespuestas) => ({
       ...prevRespuestas,
       [preguntaId]: {
@@ -73,6 +75,8 @@ const Auditoria_Preguntas = (props) => {
         comentario: prevRespuestas[preguntaId]?.respuesta === "NO" ? prevRespuestas[preguntaId].comentario : "",
       },
     }));
+
+
   };
   
   //Extracción de pautas en redux
@@ -282,16 +286,23 @@ const Auditoria_Preguntas = (props) => {
             sobrecumplimiento = preguntasConSuministro[i]['CUMPLIMIENTO POR CATEGORIA'];
             totalPorcentajeSobrecumplimiento += sobrecumplimiento;
           }
-         
+          //Control de suminstro para el calculo total no considerar cuando es NO
+          let controlCumplimiento = 0;
+          for (let i = 0; i < preguntasConSuministro.length; i++) {
+            if (preguntasConSuministro[i].respuesta?.respuesta === 'NO') {
+              controlCumplimiento += preguntasConSuministro[i]['CUMPLIMIENTO POR CATEGORIA'];
+            }
+            
+          }
            quiebre = totalPorcentajeQuiebre * 100;
            parcial = porcentajeAcumulado * 100;
-           sobrecumplimientoTotal = totalPorcentajeSobrecumplimiento * 100;
+           sobrecumplimientoTotal = (totalPorcentajeSobrecumplimiento - controlCumplimiento) * 100;
 
            const porcentajeExtrae = parseFloat(porcentajeFormateado) / 100
            if (respuestasRedux1) {
-            porcentajeFormateado = ( porcentajeExtrae * 100  - quiebre - sobrecumplimientoTotal).toFixed(0) + "%";
+            porcentajeFormateado = ( porcentajeExtrae * 100  - quiebre - sobrecumplimientoTotal ).toFixed(0) + "%";
            }else{
-            porcentajeFormateado = (parcial - quiebre - sobrecumplimientoTotal).toFixed(0) + "%";
+            porcentajeFormateado = (parcial - quiebre - sobrecumplimientoTotal ).toFixed(0) + "%";
            }
 
           

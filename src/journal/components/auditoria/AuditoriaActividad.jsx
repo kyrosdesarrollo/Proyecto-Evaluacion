@@ -22,7 +22,7 @@ import ControlSeleccion from './AuditoriaActividadSeleccion';
     Object.entries(plantilla).forEach(([key, value]) => {
       const asignaCount = value.detalleJson.filter((detalle) => detalle.Estado === 'Asigna' ).length;
       console.log(value.detalleJson)
-      if (asignaCount > 1) {
+      if (asignaCount > 0) {
         opcion.push(`${key} FORMATO [ ${value.formato} ] CARGADO POR [ ${value.nombre} ]`);
       }
     });

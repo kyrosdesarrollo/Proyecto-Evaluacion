@@ -284,9 +284,17 @@ const Cierre_Preguntas = (props) => {
             totalPorcentajeSobrecumplimiento += sobrecumplimiento;
           }
          
+          //Control de suminstro para el calculo total no considerar cuando es NO
+          let controlCumplimiento = 0;
+          for (let i = 0; i < preguntasConSuministro.length; i++) {
+            if (preguntasConSuministro[i].respuesta?.respuesta === 'NO') {
+              controlCumplimiento += preguntasConSuministro[i]['CUMPLIMIENTO POR CATEGORIA'];
+            }
+            
+          }
            quiebre = totalPorcentajeQuiebre * 100;
            parcial = porcentajeAcumulado * 100;
-           sobrecumplimientoTotal = totalPorcentajeSobrecumplimiento * 100;
+           sobrecumplimientoTotal = (totalPorcentajeSobrecumplimiento - controlCumplimiento) * 100;
 
            const porcentajeExtrae = parseFloat(porcentajeFormateado) / 100
            if (respuestasRedux1) {
@@ -294,7 +302,6 @@ const Cierre_Preguntas = (props) => {
            }else{
             porcentajeFormateado = (parcial - quiebre - sobrecumplimientoTotal).toFixed(0) + "%";
            }
-
           
         }
 
