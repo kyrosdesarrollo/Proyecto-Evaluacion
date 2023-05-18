@@ -6,9 +6,9 @@ import SaveAltIcon from '@mui/icons-material/SaveAlt';
 import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
-import { useDispatch } from 'react-redux';
+import { useSelector,useDispatch } from 'react-redux';
 import Swal from 'sweetalert2'
-import { Button, Autocomplete, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField, DialogContentText } from '@mui/material';
+import { Button, Autocomplete, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField, DialogContentText, Modal, Typography,Icon } from '@mui/material';
 import { startLoadingFormatos, startNewExcelFormato } from '../../../store/formato';
 
 export const CargaExcelImportar = (props) => {
@@ -23,6 +23,8 @@ export const CargaExcelImportar = (props) => {
     const [habilitaTabla, setHabilitaTabla] = useState(true);
     const [lista, setLista] = useState([]);
     const [listaJson, setListaJson] = useState([]);
+    const [showError, setShowError] = useState(false);
+    const [showErrorMonitor, setShowErrorMonitor] = useState(false);
     //Estado para control de hoja
     const [sheetNames, setSheetNames] = useState([]);
    
@@ -31,7 +33,16 @@ export const CargaExcelImportar = (props) => {
     const dispatch = useDispatch();
 
     const options = ['PARLO 1 LINEA', 'PARLO FRAUDE','PARLO FRAUDE1','PARLO FRAUDE MONITOREO','PARLO EQUIPO ESP.','PARLO FIDELIZACION','PARLO VENTAS'];
-
+    //Extraer Nombres de funcionarios  tipo = 1 = Monitor
+    const funcionariosRedux = useSelector(state => state.funcionario.funcionario[0].funcionarios);
+    console.log(funcionariosRedux)
+    const nombresFuncionariosMonitor = funcionariosRedux.reduce((nombres, funcionario) => {
+        if (funcionario.Tipo === '1') {
+          nombres.push(funcionario.Nombre);
+        }
+        return nombres;
+      }, []);
+    console.log(nombresFuncionariosMonitor)
     //Para validar archivo
     const acceptaExtension = ["xlsx","xls"];
 const checkArchivo = (name) =>{
@@ -151,37 +162,21 @@ const handleClose = () => {
     setOpen(false);
 };
 const onGuardarExcel = () =>{
-    console.log('Aqui comienza a guardar hay que extraer actualizacion')
-    console.log(listaJson);
-
+   //Controla campo Monitor dentro del archivo
+    if (!lista[0].includes('Monitor')) {
+        console.log('paso por aqui cuando hay Monitor')
+        setShowErrorMonitor(true);
+        return
+    }
+    //Control de Monitor dentro del archivo
     for (let i = 0; i < listaJson.length; i++) {
-        console.log(listaJson[i].Monitor)
-        const monitorValue = listaJson[i].Monitor ? listaJson[i].Monitor.trim() : "";
-        if (monitorValue === "") {
-          alert("Se encuentra un dato con Monitor vacío en archivo favor revisar y corregir. [ Opción 1 ] : Monitor no esta creado en sistema [ Opción 2 ] : Completar Monitor en archivo Excel. Gracias 🤨 !! ", listaJson[i]);
-          return
-        //   Swal.fire({
-        //     position: 'top-center',
-        //     icon: 'error',
-        //     title: 'Favor verificar 1.- Campo Monitor contenga información 2.- Crear Monitor Gracias !!!',
-        //     showConfirmButton: false,
-        //     timer: 1500
-        //   })
-          // aquí podrías hacer lo que necesites con el objeto encontrado
-        }
+        if (!nombresFuncionariosMonitor.includes(listaJson[i].Monitor)) {
+            // El valor no está presente en nombresFuncionariosTipo1
+            setShowError(true);
+            break; // Salir del bucle
+          }
       }
-    // listaJson.forEach(item => {
-    //     if (item.Monitor === "") {
-    //       // aquí puedes agregar tu lógica de validación, como mostrar un mensaje de error
-    //       Swal.fire({
-    //         position: 'top-center',
-    //         icon: 'error',
-    //         title: 'Favor verificar 1.- Campo Monitor contenga información 2.- Crear Monitor Gracias !!!',
-    //         showConfirmButton: false,
-    //         timer: 1500
-    //       })
-    //     }
-    //   });
+    
     handleClose();
     setBotonImport (false) ;
     dispatch(startNewExcelFormato(lista, listaJson ,selectComboName));
@@ -323,6 +318,57 @@ const onGuardarExcel = () =>{
        
                </Grid>
         
+
+    <Modal open={showError} onClose={() => setShowError(false)}>
+        <div
+          style={{
+            backgroundColor: "#f44336",
+            color: "#fff",
+            padding: "16px",
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            maxWidth: "400px",
+            width: "100%",
+            textAlign: "center",
+          }}
+        >
+          
+          <Typography variant="h6" gutterBottom>
+            <Icon color="white">error</Icon> No se puede guardar archivo de formato.
+         </Typography>
+        <Typography variant="body1" gutterBottom>
+           Debido a que No se encuentra Monitor, favor chequear e incorporar . 👻
+        </Typography>
+          <Button onClick={() => setShowError(false)}>Cerrar</Button>
+        </div>
+      </Modal>
+      <Modal open={showErrorMonitor} onClose={() => setShowErrorMonitor(false)}>
+        <div
+          style={{
+            backgroundColor: "#f44336",
+            color: "#fff",
+            padding: "16px",
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            maxWidth: "400px",
+            width: "100%",
+            textAlign: "center",
+          }}
+        >
+          
+          <Typography variant="h6" gutterBottom>
+            <Icon color="white">error</Icon> No se puede guardar archivo de formato.
+         </Typography>
+        <Typography variant="body1" gutterBottom>
+           Debido a que No se encuentra el campo Monitor dentro del archivo, favor chequear e incorporar . 👻
+        </Typography>
+          <Button onClick={() => setShowErrorMonitor(false)}>Cerrar</Button>
+        </div>
+      </Modal>
     </>
   )
 }
