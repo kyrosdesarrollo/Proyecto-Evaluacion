@@ -65,9 +65,11 @@ import { startLoadingFuncionarios } from '../../../store/funcionario/thunks';
    
     let tipo = transformarCadena( seleccionMenu)
     //Crear perfil de usuario en base a selección y datos de usuario
+
     
   let arregloFuncionarios;
   if (funcionario.length > 0) {
+    console.log('Si hay funcionarios')
      arregloFuncionarios = funcionario[0].funcionarios.map((funcionario) => {
       return {
         Nombre: funcionario.Nombre,
@@ -91,16 +93,18 @@ import { startLoadingFuncionarios } from '../../../store/funcionario/thunks';
     });
   }
 
+
   const nuevoUsuario = {
     Nombre: displayName,
     Correo: email,
     Password: "123456",
-    Tipo: tipo,
-    Activo: 1,
+    Tipo: tipo.toString(),
+    Activo: '1',
     Uid: uid,
   };
   // Busca si existe un usuario con el mismo correo electrónico
-  const usuarioExistente = arregloFuncionarios.find((usuario) => usuario.Correo === nuevoUsuario.Correo);
+  const usuarioExistente = arregloFuncionarios.find((usuario) => usuario.Correo === nuevoUsuario.Correo || usuario.Nombre === nuevoUsuario.Nombre);
+
 
 if (usuarioExistente) {
   // Muestra una alerta con SweetAlert si se encontró un usuario con el mismo correo electrónico
@@ -111,12 +115,13 @@ if (usuarioExistente) {
           showConfirmButton: false,
           timer: 1800
         })
-        return
   return
 } else {
   // Agrega el nuevo usuario al array si no se encontró un usuario con el mismo correo electrónico
   arregloFuncionarios.push(nuevoUsuario);
 }
+console.log(arregloFuncionarios);
+
 
     dispatch(startNewMenu( seleccionMenu, arregloFuncionarios ))
 

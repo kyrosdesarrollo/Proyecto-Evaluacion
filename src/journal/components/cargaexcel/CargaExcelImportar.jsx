@@ -35,14 +35,12 @@ export const CargaExcelImportar = (props) => {
     const options = ['PARLO 1 LINEA', 'PARLO FRAUDE','PARLO FRAUDE1','PARLO FRAUDE MONITOREO','PARLO EQUIPO ESP.','PARLO FIDELIZACION','PARLO VENTAS'];
     //Extraer Nombres de funcionarios  tipo = 1 = Monitor
     const funcionariosRedux = useSelector(state => state.funcionario.funcionario[0].funcionarios);
-    console.log(funcionariosRedux)
     const nombresFuncionariosMonitor = funcionariosRedux.reduce((nombres, funcionario) => {
         if (funcionario.Tipo === '1') {
           nombres.push(funcionario.Nombre);
         }
         return nombres;
       }, []);
-    console.log(nombresFuncionariosMonitor)
     //Para validar archivo
     const acceptaExtension = ["xlsx","xls"];
 const checkArchivo = (name) =>{
@@ -164,7 +162,6 @@ const handleClose = () => {
 const onGuardarExcel = () =>{
    //Controla campo Monitor dentro del archivo
     if (!lista[0].includes('Monitor')) {
-        console.log('paso por aqui cuando hay Monitor')
         setShowErrorMonitor(true);
         return
     }
@@ -173,7 +170,7 @@ const onGuardarExcel = () =>{
         if (!nombresFuncionariosMonitor.includes(listaJson[i].Monitor)) {
             // El valor no está presente en nombresFuncionariosTipo1
             setShowError(true);
-            break; // Salir del bucle
+           return
           }
       }
     

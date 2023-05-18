@@ -4,7 +4,7 @@ import { ThemeProvider, createTheme, Button, Grid } from '@mui/material';
 import { TextField } from '@material-ui/core';
 import Swal from 'sweetalert2'
 import { useDispatch, useSelector} from 'react-redux';
-import { funcionarioStartNew } from '../../../../store/funcionario/thunks';
+import { funcionarioReset, funcionarioStartNew } from '../../../../store/funcionario/thunks';
 
 const FuncionarioVisualFormato = () => {
     const defaultMaterialTheme = createTheme();
@@ -97,54 +97,12 @@ const FuncionarioVisualFormato = () => {
      //Captura la información seleccionad de data para eliminación
      const handleSelectionChange = (rows) => {
       setSelectedRows([...rows]); // Copia los registros seleccionados en un nuevo array
-      console.log('Seleccion')
-      console.log(rows)
       //props.updateSelectRowValue(rows);
     }
 
-   // Eliminar Usuario(s) 
-     const handleEliminar = ()  =>{
-      console.log('Seleccion')
-
-      console.log(selectedRows)
-      if (selectedRows.length >0) {
-        Swal.fire({
-          title: 'Funcionario',
-          text: "¿ Estas seguro de eliminar estos Usuarios ?.",
-          icon: 'question',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Si estoy seguro!'
-        }).then((result) => {
-          if (result.isConfirmed) {
-            console.log('Aqui esta para dispact')
-            console.log(data)
-            dispatch(funcionarioStartNew(data));
-            Swal.fire(
-              'Carga realizada !',
-              'Se han actualizado los registros con éxito.',
-              'success'
-            )
-          }
-        })
-      }else {
-        // la fila no está seleccionada, no hacer nada
-        Swal.fire({
-          confirmButtonColor: '#2196f3',
-          icon: 'error',
-          title: 'Selección de registro',
-          text: 'Favor de seleccionar registro para realizar eliminacion.',
-        });
-         return
-      }
-      
-     }
      //Resetear contraseñas
      const handleReset = ()  =>{
-      console.log('Seleccion')
 
-      console.log(selectedRows)
       if (selectedRows.length >0) {
         Swal.fire({
           title: 'Funcionario',
@@ -156,12 +114,10 @@ const FuncionarioVisualFormato = () => {
           confirmButtonText: 'Si estoy seguro!'
         }).then((result) => {
           if (result.isConfirmed) {
-            console.log('Aqui esta para dispact')
-            console.log(data)
-            dispatch(funcionarioStartNew(data));
+            dispatch(funcionarioReset(selectedRows));
             Swal.fire(
-              'Carga realizada !',
-              'Se han actualizado los registros con éxito.',
+              'Correo !!!',
+              'Se han enviado enlace(s) para que los usuario(s) puedan resetear su contraseña.',
               'success'
             )
           }
@@ -284,15 +240,7 @@ const FuncionarioVisualFormato = () => {
                   Guardar
               </Button>
             </Grid>
-            <Grid item xs={3}>
-              <Button 
-                size='large'
-                color='error'
-                variant="contained" 
-                onClick={handleEliminar}>
-                  Eliminar 
-              </Button>
-            </Grid>
+           
             <Grid item xs={3}>
               <Button 
                 size='large'

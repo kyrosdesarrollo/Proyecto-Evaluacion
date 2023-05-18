@@ -1,5 +1,5 @@
 import { collection, doc, setDoc, deleteDoc,getDocs, where, query ,updateDoc,getDoc } from "@firebase/firestore/lite";
-import { FirebaseDB } from "../../firebase/config";
+import { FirebaseDB, FirebaseAuth } from "../../firebase/config";
 import { loadExcelFormatos } from "../../helpers/loadExcelFormatos";
 import { addNewEmptyExcelFormato, deleteFormatoById, savingNewExcelFormato, setFormatos } from "./formatoSlice";
 import { format } from 'date-fns'

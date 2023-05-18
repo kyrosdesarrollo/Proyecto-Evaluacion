@@ -34,8 +34,6 @@ export const RegisterPage = () => {
     formState, displayName, email, password, onInputChange,
     isFormValid, displayNameValid, emailValid, passwordValid
   } = useForm( formData, formValidations );
-
- // const options = ['ADMINISTRADOR', 'MONITOR', 'EJECUTIVO', 'PLATAFORMA'];
  
   const onSubmit =(event)=>{
     event.preventDefault();

@@ -1,5 +1,6 @@
-import { collection, doc, setDoc, getDoc , deleteDoc} from "@firebase/firestore/lite";
-import { FirebaseDB } from "../../firebase/config";
+import { collection, doc, setDoc, getDoc } from "@firebase/firestore/lite";
+import { FirebaseDB, FirebaseAuth } from "../../firebase/config";
+import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
 import { addNewFuncionario, estadoFinalSaving, savingFuncionario, setActivaFuncionario } from "./funcionarioSlice";
 import { format } from 'date-fns'
 import { loadFuncionario } from "../../helpers/loadFuncionarios";
@@ -59,7 +60,6 @@ export const funcionarioStartNew =( funcionario )=>{
         //Dispatch activación de nota
     }
 }
-
 export const funcionarioStartNewRegister =( todo , displayName)=>{
     return async (dispatch, getState) =>{
         dispatch(savingFuncionario());    
@@ -100,5 +100,34 @@ export const startLoadingFuncionarios = ()=>{
         const funcionario = await loadFuncionario (uid);
         dispatch(setActivaFuncionario(funcionario));
         
+    }
+}
+
+export const funcionarioReset =( funcionario )=>{
+    return async (dispatch, getState) =>{
+        dispatch(savingFuncionario());
+       // Obtener la instancia del servicio de autenticación
+        const auth = FirebaseAuth;
+        try {
+            for (let i = 0; i < funcionario.length; i++) {
+                const {  Correo } = funcionario[i];
+               sendPasswordResetEmail(auth, Correo)
+               .then(() => {
+                 console.log("Se ha enviado un correo para restablecer la contraseña");
+               })
+               .catch((error) => {
+                 console.log("Error al enviar el correo de restablecimiento de contraseña:", error);
+               });
+            }
+            
+        } catch (error) {
+            console.log(error)
+        }
+        //Cambia de estado el saving a false
+        dispatch( estadoFinalSaving());
+       
+       
+        // dispatch(setActiveNote(newNote));
+        //Dispatch activación de nota
     }
 }

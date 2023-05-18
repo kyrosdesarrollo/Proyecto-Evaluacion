@@ -21,6 +21,7 @@ import ControlSeleccion from './AuditoriaActividadSeleccion';
   if (perfil === "ADMINISTRADOR") {
     Object.entries(plantilla).forEach(([key, value]) => {
       const asignaCount = value.detalleJson.filter((detalle) => detalle.Estado === 'Asigna' ).length;
+      console.log('Verificacion')
       console.log(value.detalleJson)
       if (asignaCount > 0) {
         opcion.push(`${key} FORMATO [ ${value.formato} ] CARGADO POR [ ${value.nombre} ]`);
@@ -36,6 +37,7 @@ import ControlSeleccion from './AuditoriaActividadSeleccion';
       }
     });
   }   
+  console.log('Opcion')
   console.log(opcion)
   return (
     <>

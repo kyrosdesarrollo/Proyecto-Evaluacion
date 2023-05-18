@@ -8,14 +8,11 @@ import ControlSeleccion from './AsignacionActividadSeleccion';
   const plantilla = Object.assign({},formatos);
   //Llenado de combobox en constante opcion
   const opcion =['']; 
-console.log('Estoy en asigna')
-console.log(plantilla)
-
-const filtrarPlantilla = (plantilla) => {
+  
+  const filtrarPlantilla = (plantilla) => {
   const formatos = Object.assign({}, plantilla);
   const filteredOptions = Object.keys(formatos).filter((key) => {
-    const detalleJson = formatos[key].detalleJson;
-    console.log(detalleJson);
+  const detalleJson = formatos[key].detalleJson;
 
     const totalRegistros = detalleJson.length;
     let asignaCount = 0;
@@ -25,9 +22,6 @@ const filtrarPlantilla = (plantilla) => {
         asignaCount++;
       }
     }
-
-    console.log(totalRegistros);
-    console.log(asignaCount);
 
     return detalleJson && formatos[key].estado === 'Asigna' && asignaCount > 0;
   });
@@ -41,15 +35,18 @@ const filtrarPlantilla = (plantilla) => {
 };
 
 const plantillaFiltrada = filtrarPlantilla(formatos);
-console.log(plantillaFiltrada);
 
-
-
- 
   Object.keys(plantilla).forEach((e) => { 
-        opcion.push( e + ' FORMATO [ ' + plantilla[e].formato + ' ]  CARGADO POR [ ' + plantilla[e].nombre +' ]');
-   });
-  
+  const detalleJson = plantilla[e].detalleJson;
+
+  if (detalleJson && Object.keys(detalleJson).length > 0) {
+    const tieneEstadoCarga = Object.values(detalleJson).some((detalle) => detalle.Estado === 'Carga');
+    
+    if (tieneEstadoCarga) {
+      opcion.push(e + ' FORMATO [ ' + plantilla[e].formato + ' ]  CARGADO POR [ ' + plantilla[e].nombre +' ]');
+    } 
+  }
+});
  
   return (
     <>
