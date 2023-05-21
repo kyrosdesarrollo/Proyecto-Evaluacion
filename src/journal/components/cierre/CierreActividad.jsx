@@ -42,8 +42,6 @@ import ControlSeleccion from './CierreActividadSeleccion';
   const dispatch = useDispatch();
   //Extraer información de formatos
   const { formatos } = useSelector(state => state.formato);
-  //Extraer nombre de usario
-  const { displayName } = useSelector(state => state.auth);
   //Extraer perfil de usuario
   const { perfil } = useSelector(state => state.perfil);
 
@@ -52,7 +50,7 @@ import ControlSeleccion from './CierreActividadSeleccion';
   
   //Verificación de lineas asignadas para visualización de archivo, mejora incorporar monitor en el filtro
  //Validación de perfil  
-  if (perfil === "ADMINISTRADOR") {
+  if (perfil === "ADMINISTRADOR" || perfil === "CALIDAD") {
     Object.entries(plantilla).forEach(([key, value]) => {
       const asignaCount = value.detalleJson.filter((detalle) => detalle.Estado === 'Cierre' ).length;
       if (asignaCount > 0) {
@@ -60,15 +58,7 @@ import ControlSeleccion from './CierreActividadSeleccion';
       }
     });
   }
-  if (perfil === "MONITOR") {
-    console.log('Estoy en Monitor')
-    Object.entries(plantilla).forEach(([key, value]) => {
-      const asignaCount = value.detalleJson.filter((detalle) => detalle.Estado === 'Cierre' && detalle.Monitor === displayName).length;
-      if (asignaCount > 0) {
-        opcion.push(`${key} FORMATO [ ${value.formato} ] CARGADO POR [ ${value.nombre} ]`);
-      }
-    });
-  }   
+  
   return (
     <>
      <Box md={1}>

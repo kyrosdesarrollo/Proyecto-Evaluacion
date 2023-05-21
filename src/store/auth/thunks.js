@@ -1,7 +1,8 @@
 import { singWithGoogle , registerUserWithEmailPassword, loginWithEmailPassword, logoutFirebase, registrarUsuario} from "../../firebase/providers";
-import { loadPerfil } from "../../helpers/loadPerfil";
+import { loadActivo, loadPerfil } from "../../helpers/loadPerfil";
 import { setDesActiveNote } from "../journal";
-import { chekingCredentials, chekingPerfil, login, logout } from "./authSlice";
+import { setDesActivePerfil } from "../perfil";
+import { chekingCredentials, chekingEstado, chekingPerfil, login, logout } from "./authSlice";
 
 export const checkingAuthentication = (email , password) =>{
     return async (dispatch) =>{
@@ -49,9 +50,10 @@ export const starLoginWithEmailPassword = ({ email, password})=>{
         const result = await loginWithEmailPassword({ email, password });
         if ( !result.ok ) return dispatch( logout( result ) ); 
         dispatch( login( result ));
-
         const usuarioPerfil = await loadPerfil(result);
+        const usuarioEstado = await loadActivo(result);
         dispatch( chekingPerfil(usuarioPerfil) );
+        dispatch( chekingEstado(usuarioEstado) );
         
     }
 }
@@ -60,6 +62,7 @@ export const startLogout = () => {
     return async( dispatch ) => {
         await logoutFirebase();
         dispatch( logout() );
+        dispatch(setDesActivePerfil());
         dispatch(setDesActiveNote());
     }
 }

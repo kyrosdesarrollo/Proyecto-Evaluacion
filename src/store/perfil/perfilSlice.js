@@ -6,7 +6,7 @@ export const perfilSlice = createSlice({
         isSaving: false,
         messageSaved: '',
         perfil: '',
-        active: null,
+        estado: null,
         // active: {
         //     id:'ABC123',
         //     title:'',
@@ -24,9 +24,13 @@ export const perfilSlice = createSlice({
             state.active ='';
             state.messageSaved = ''
             state.perfil = ''
+            state.estado = ''
         },
         setPerfil: (state,  action ) => {
             state.perfil = action.payload;
+        },
+        setEstado: (state,  action ) => {
+            state.estado = action.payload;
         },
 
         savingOutPerfil: (state)=>{
@@ -36,4 +40,4 @@ export const perfilSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { savingPerfil ,setDesActivePerfil,setPerfil,savingOutPerfil} = perfilSlice.actions;
+export const { savingPerfil ,setEstado,setDesActivePerfil,setPerfil,savingOutPerfil} = perfilSlice.actions;

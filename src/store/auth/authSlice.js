@@ -36,16 +36,15 @@ export const authSlice = createSlice({
             state.status = 'checking';
         },
         chekingPerfil: (state,  {payload} ) => {
-
-            console.log('cheking Perfil' )
-            console.log(payload)
             state.perfil = payload;
         },
+        chekingEstado: (state,  {payload} ) => {
+            state.estado = payload;
+        },
         ingresoPerfil: (state, action ) => {
-           
             state.perfil = 'Listo...';
         },
     }
 });
 // Action creators are generated for each case reducer function
-export const { login, logout, chekingCredentials, chekingPerfil, ingresoPerfil } = authSlice.actions;
+export const { login, logout, chekingCredentials,chekingEstado, chekingPerfil, ingresoPerfil } = authSlice.actions;

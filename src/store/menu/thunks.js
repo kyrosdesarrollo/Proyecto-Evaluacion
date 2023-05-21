@@ -31,7 +31,7 @@ export const startNewMenu = ( nombre, todo )=>{
 
         console.log(nombre)
         console.log(todo)
-        //Rescate de informción de redux en auth
+        //Rescate de información de redux en auth
         const { displayName, email, uid } = getState().auth;
         
         const newUser = {
@@ -65,7 +65,7 @@ export const startNewMenu = ( nombre, todo )=>{
         }};
         //PROCESO 2 : CARGA DE MENU EN BASE A PERFIL
         try {
-            //Ingreso de datos Menu, búsqueda de parametros de seleccion directo a FireBase
+        //Ingreso de datos Menu, búsqueda de parametros de seleccion directo a FireBase
         const collectionRef = collection(FirebaseDB,`menu/MyhIglVpgD6g2AkXQdxu/${ nombre }`);
         const docs = await getDocs(collectionRef);
         let newMenu = ''
@@ -92,17 +92,7 @@ export const startNewMenu = ( nombre, todo )=>{
             console.log('Error detectado en proceso de creación Funcionario ' + error)
         }
         dispatch(savingNewMenuEnd());
-        // const notes = await loadNotes (uid);
-        // dispatch(setNotes(notes));
-        //Dispatch
-        // dispatch(addNewEmptyMenu(newUser));
-        //dispatch(setActiveMenu(newUser));
-        //dispatch(setActiveNote());
-       // }
         
-      
-
-       
     }
 }
 export const startLoadingMenus = ()=>{

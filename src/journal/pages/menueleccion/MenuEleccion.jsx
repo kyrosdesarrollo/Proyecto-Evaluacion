@@ -92,8 +92,6 @@ import { startLoadingFuncionarios } from '../../../store/funcionario/thunks';
       };
     });
   }
-
-
   const nuevoUsuario = {
     Nombre: displayName,
     Correo: email,

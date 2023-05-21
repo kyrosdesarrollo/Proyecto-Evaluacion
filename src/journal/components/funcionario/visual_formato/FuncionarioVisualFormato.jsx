@@ -12,6 +12,7 @@ const FuncionarioVisualFormato = () => {
     const [selectedRows, setSelectedRows] = useState([]);
     //Extrae los formatos desde Redux
     const { funcionario } = useSelector(state => state.funcionario);
+
     let arregloFuncionarios;
     if (funcionario.length > 0) {
        arregloFuncionarios = funcionario[0].funcionarios.map((funcionario) => {
@@ -60,18 +61,68 @@ const FuncionarioVisualFormato = () => {
     //   { Nombre: 'Diego Rojas', Correo: 'diego.rojas@2call.cl', Tipo: 2 , Activo: 1},
     // ]);
     const [data, setData] = useState(arregloFuncionarios);
+    
     const handleGuardarInformacion = () => {
-      // if (open) {
-        
-      //   Swal.fire({
-      //     position: 'top-center',
-      //     icon: 'error',
-      //     title: 'Debe cerrar la ventana de agregar/editar a nivel de registro.',
-      //     showConfirmButton: false,
-      //     timer: 1800
-      //   })
-      //   return
-      // }
+
+      const modificacionPerfil = [];
+      const modificacionActivo = [];
+
+      // Comprobar si hay modificaciones en el campo "Tipo" y agregar registros a los arreglos correspondientes
+      for (let i = 0; i < funcionario[0]?.funcionarios?.length; i++) {
+        const original = funcionario[0]?.funcionarios[i];
+        const modificado = data[i];
+
+        if (original.Tipo !== modificado.Tipo) {
+          modificacionPerfil.push(modificado);
+        }
+
+        if (original.Activo !== modificado.Activo) {
+          modificacionActivo.push(modificado);
+        }
+      }
+
+
+      console.log('Registros modificados:', modificacionPerfil);
+      console.log('Registros activos:', modificacionActivo);
+      //Control si no hay registros actualizados
+      if (modificacionPerfil.length === 0 && modificacionActivo.length === 0) {
+        // Lógica para guardar los datos
+        const duracion = 9000; // Duración total del proceso en milisegundos
+        const intervalo = 100; // Intervalo de actualización del porcentaje en milisegundos
+        const porcentajeIncremento = 10; // Porcentaje de incremento en cada intervalo
+        let porcentaje = 0;
+      
+        Swal.fire({
+          title: 'Actualización...',
+          html: 'Buscando datos para actualizar, hasta el momento no se ha detectado cambios ...... 0%',
+          allowOutsideClick: false,
+          didOpen: () => {
+            Swal.showLoading();
+      
+            const popup = Swal.getPopup();
+            const htmlContainer = popup.querySelector('.swal2-html-container');
+      
+            const interval = setInterval(() => {
+              porcentaje += porcentajeIncremento;
+              htmlContainer.innerHTML = `Buscando datos para actualizar, hasta el momento no se ha detectado cambios ...... ${porcentaje}%`;
+      
+              if (porcentaje >= 100) {
+                clearInterval(interval);
+                setSelectedRows([]);
+                Swal.close();
+              }
+            }, intervalo);
+          }
+        });
+      
+        setTimeout(() => {
+          Swal.close();
+        }, duracion);
+      
+        return;
+      }
+      
+      
       Swal.fire({
         title: 'Funcionario',
         text: "¿ Estas seguro de actualizar información ?, recordar verificar si ventana de registro o edición se encuentra abierta.",
@@ -84,13 +135,21 @@ const FuncionarioVisualFormato = () => {
         if (result.isConfirmed) {
           console.log('Aqui esta para dispact')
           console.log(data)
-          dispatch(funcionarioStartNew(data));
-          Swal.fire(
-            'Carga realizada !',
-            'Se han actualizado los registros con éxito.',
-            'success'
-          )
-        }
+          dispatch(funcionarioStartNew(data,modificacionPerfil,modificacionActivo));
+          // Lógica para guardar los datos
+              Swal.fire({
+                title: 'Actualizando datos...',
+                html: 'Espere un momento por favor',
+                allowOutsideClick: false,
+                didOpen: () => {
+                  Swal.showLoading();
+                }
+              });
+              setTimeout(() => {
+                setSelectedRows([]);
+                Swal.close();
+              }, 10000);
+                    }
       })
 
     };
@@ -122,6 +181,7 @@ const FuncionarioVisualFormato = () => {
             )
           }
         })
+        setSelectedRows([]);
       }else {
         // la fila no está seleccionada, no hacer nada
         Swal.fire({
