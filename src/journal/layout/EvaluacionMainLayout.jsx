@@ -109,58 +109,49 @@ export const EvaluacionMainLayout = () => {
 
   let cantidadArchivos = 0, cantidadRegistros=0;
   if (estado === 'Inactivo') {
+      let timerInterval;
+        Swal.fire({
+          title: 'Usuario Bloqueado !!!',
+          html: 'No cuentas con autorización, favor contactar a su administrador Gracias !!',
+          timer: 7000,
+          timerProgressBar: true,
+          didOpen: () => {
+            Swal.showLoading();
+            const container = Swal.getHtmlContainer();
+            const b = container ? container.querySelector('b') : null;
 
-    // Swal.fire({
-    //   position: 'top-end',
-    //   icon: 'error',
-    //   title: 'No posee permiso, contactar a su administrador',
-    //   showConfirmButton: false,
-    //   timer: 1500
-    // })
+            if (b) {
+              timerInterval = setInterval(() => {
+                b.textContent = Swal.getTimerLeft();
+              }, 100);
+            }
+          },
+          willClose: () => {
+            clearInterval(timerInterval);
+          }
+        }).then((result) => {
+          // /* Read more about handling dismissals below */
+          // if (result.dismiss === Swal.DismissReason.timer) {
+          //   //Swal.fire('Usuario bloqueado')
+          //   Swal.fire({
+          //     title: 'Custom width, padding, color, background.',
+          //     width: 600,
+          //     padding: '3em',
+          //     color: '#716add',
+          //     background: '#fff url(/images/trees.png)',
+          //     backdrop: `
+          //       rgba(0,0,123,0.4)
+          //       url("/images/nyan-cat.gif")
+          //       left top
+          //       no-repeat
+          //     `
+          //   })
+          // }
+        });
 
-    let timerInterval;
-Swal.fire({
-  title: 'Usuario Bloqueado !!!',
-  html: 'No cuentas con autorización, favor contactar a su administrador Gracias !!',
-  timer: 7000,
-  timerProgressBar: true,
-  didOpen: () => {
-    Swal.showLoading();
-    const container = Swal.getHtmlContainer();
-    const b = container ? container.querySelector('b') : null;
-
-    if (b) {
-      timerInterval = setInterval(() => {
-        b.textContent = Swal.getTimerLeft();
-      }, 100);
-    }
-  },
-  willClose: () => {
-    clearInterval(timerInterval);
-  }
-}).then((result) => {
-  // /* Read more about handling dismissals below */
-  // if (result.dismiss === Swal.DismissReason.timer) {
-  //   //Swal.fire('Usuario bloqueado')
-  //   Swal.fire({
-  //     title: 'Custom width, padding, color, background.',
-  //     width: 600,
-  //     padding: '3em',
-  //     color: '#716add',
-  //     background: '#fff url(/images/trees.png)',
-  //     backdrop: `
-  //       rgba(0,0,123,0.4)
-  //       url("/images/nyan-cat.gif")
-  //       left top
-  //       no-repeat
-  //     `
-  //   })
-  // }
-});
-
-   // Swal.fire('Usuario bloqueado')
-    dispatch( startLogout() );
-    // window.location.reload();
+          // Swal.fire('Usuario bloqueado')
+            dispatch( startLogout() );
+            // window.location.reload();
   }
   
   if (perfil === "ADMINISTRADOR" || perfil === "CALIDAD") {
