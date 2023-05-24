@@ -17,7 +17,6 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-
 const AsignaciónActividadViewDetalle = ( props ) => {
       
     const [open, setOpen] = React.useState(false);

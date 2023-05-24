@@ -3,11 +3,20 @@ import React from 'react'
 import { useSelector } from 'react-redux';
 import ControlSeleccion from './AsignacionActividadSeleccion';
 
- const AsignacionActividad = () => {
+ const AsignacionActividad = (props) => {
   const { formatos } = useSelector(state => state.formato);
   const plantilla = Object.assign({},formatos);
+  const [valueCampana, setValueCampana] = React.useState(null);
   //Llenado de combobox en constante opcion
   const opcion =['']; 
+  let campanaTipo = '';
+  //Trae información desde AsignacionActividadSelecciion que es CAMPAÑA
+  const handleSeleccionCampaña = (seleccionCampaña) => {
+    // Hacer algo con el valor seleccionado de la campaña
+    setValueCampana(seleccionCampaña)
+    console.log("Selección de campaña:", seleccionCampaña);
+  };
+  
   
   const filtrarPlantilla = (plantilla) => {
   const formatos = Object.assign({}, plantilla);
@@ -34,20 +43,20 @@ import ControlSeleccion from './AsignacionActividadSeleccion';
   return filteredPlantilla;
 };
 
-const plantillaFiltrada = filtrarPlantilla(formatos);
-
-  Object.keys(plantilla).forEach((e) => { 
-  const detalleJson = plantilla[e].detalleJson;
-
-  if (detalleJson && Object.keys(detalleJson).length > 0) {
-    const tieneEstadoCarga = Object.values(detalleJson).some((detalle) => detalle.Estado === 'Carga');
+  if (valueCampana) {
+    Object.keys(plantilla).forEach((e) => {
+      const detalleJson = plantilla[e].detalleJson;
+      if (detalleJson && Object.keys(detalleJson).length > 0) {
+        const tieneEstadoCarga = Object.values(detalleJson).some((detalle) => detalle.Estado === 'Carga');
+        // Agregar condición para verificar el campo "campania"
+        if (tieneEstadoCarga && plantilla[e].campania === valueCampana) {
+          opcion.push(e + ' FORMATO [ ' + plantilla[e].formato + ' ]  CARGADO POR [ ' + plantilla[e].nombre +' ]');
+        } 
+      }
+    });
     
-    if (tieneEstadoCarga) {
-      opcion.push(e + ' FORMATO [ ' + plantilla[e].formato + ' ]  CARGADO POR [ ' + plantilla[e].nombre +' ]');
-    } 
   }
-});
- 
+
   return (
     <>
      <Box md={12}>
@@ -55,7 +64,7 @@ const plantillaFiltrada = filtrarPlantilla(formatos);
         Asignación de Actividad
       </Typography>
     </Box>
-      <ControlSeleccion opcion = {opcion} />
+      <ControlSeleccion opcion = {opcion} onSeleccionCampaña={handleSeleccionCampaña} />
     </>
   )
 }
