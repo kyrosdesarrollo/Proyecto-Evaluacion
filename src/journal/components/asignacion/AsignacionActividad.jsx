@@ -9,7 +9,6 @@ import ControlSeleccion from './AsignacionActividadSeleccion';
   const [valueCampana, setValueCampana] = React.useState(null);
   //Llenado de combobox en constante opcion
   const opcion =['']; 
-  let campanaTipo = '';
   //Trae información desde AsignacionActividadSelecciion que es CAMPAÑA
   const handleSeleccionCampaña = (seleccionCampaña) => {
     // Hacer algo con el valor seleccionado de la campaña
@@ -53,9 +52,7 @@ import ControlSeleccion from './AsignacionActividadSeleccion';
         } 
       }
     });
-    
   }
-
   return (
     <>
      <Box md={12}>

@@ -4,10 +4,14 @@ import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import AuditoriaActividadView from './AuditoriaActividadView';
 
-export default function ControlSeleccion({ opcion = '' }) {
+export default function ControlSeleccion({ opcion = '',  onSeleccionCampaña}) {
   const [value, setValue] = useState(null);
+  const [valueCampana, setValueCampana] = React.useState(null);
+  const [inputValueCampana, setInputValueCampana] = React.useState('');
   const [inputValue, setInputValue] = useState('');
   const [options, setOptions] = useState([]);
+  
+  const campana = ['FALABELLA', 'RIPLEY','CRM'];
 
   useEffect(() => {
     if (opcion.length > 0) {
@@ -20,7 +24,7 @@ export default function ControlSeleccion({ opcion = '' }) {
     setValue(newValue);
   };
 
-  let identificador = '';
+  let identificador = '', campanaTipo ='';;
   if (value) {
     try {
       identificador = value.substring(0, 2);
@@ -33,6 +37,24 @@ export default function ControlSeleccion({ opcion = '' }) {
     <>
       <div>
         <br />
+            <Autocomplete
+            value={valueCampana}
+            onChange={(event, newValue) => {
+              setValueCampana(newValue);
+              // Llamar a la función de devolución de llamada con el valor seleccionado para ser Utilizado en AsignaActividad
+              onSeleccionCampaña(newValue);
+            }}
+            
+            inputValue={inputValueCampana}
+            onInputChange={(event, newInputValue) => {
+              setInputValueCampana(newInputValue);
+            }}
+            id="controllable-states-demo1"
+            options={campana}
+            sx={{ width: 1200 }}
+            renderInput={(params) => <TextField {...params} label="Selección de Campañia" />}
+          />
+  
         <br />
         <Autocomplete
           value={value || null}
@@ -43,7 +65,7 @@ export default function ControlSeleccion({ opcion = '' }) {
           }}
           id="controllable-states-demo"
           options={options}
-          sx={{ width: 800 }}
+          sx={{ width: 1200 }}
           renderInput={(params) => (
             <TextField {...params} label="Selección de archivo auditado para evaluación" />
           )}

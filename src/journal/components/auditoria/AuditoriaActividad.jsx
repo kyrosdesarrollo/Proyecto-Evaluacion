@@ -11,28 +11,37 @@ import ControlSeleccion from './AuditoriaActividadSeleccion';
   const { displayName } = useSelector(state => state.auth);
   //Extraer perfil de usuario
   const { perfil } = useSelector(state => state.perfil);
+  const [valueCampana, setValueCampana] = React.useState(null);
 
   const plantilla = Object.assign({},formatos);
   const opcion = [];
+  //Trae información desde AsignacionActividadSelecciion que es CAMPAÑIA
+  const handleSeleccionCampaña = (seleccionCampaña) => {
+    // Hacer algo con el valor seleccionado de la campaña
+    setValueCampana(seleccionCampaña)
+  };
   //Verificación de lineas asignadas para visualización de archivo, mejora incorporar monitor en el filtro
  //Validación de perfil  
-  if (perfil === "ADMINISTRADOR") {
-    Object.entries(plantilla).forEach(([key, value]) => {
-      const asignaCount = value.detalleJson.filter((detalle) => detalle.Estado === 'Asigna' ).length;
-      if (asignaCount > 0) {
-        opcion.push(`${key} FORMATO [ ${value.formato} ] CARGADO POR [ ${value.nombre} ]`);
-      }
-    });
-  }
-  if (perfil === "MONITOR") {
+ if (valueCampana) {
+        if (perfil === "ADMINISTRADOR") {
+          Object.entries(plantilla).forEach(([key, value]) => {
+            const asignaCount = value.detalleJson.filter((detalle) => detalle.Estado === 'Asigna').length;
+            // Agregar condición para verificar el campo "campania"
+            if (asignaCount > 0 && value.campania === valueCampana) {
+              opcion.push(`${key} FORMATO [ ${value.formato} ] CARGADO POR [ ${value.nombre} ]`);
+            }
+          });
+        }
+        if (perfil === "MONITOR") {
 
-    Object.entries(plantilla).forEach(([key, value]) => {
-      const asignaCount = value.detalleJson.filter((detalle) => detalle.Estado === 'Asigna' && detalle.Monitor === displayName).length;
-      if (asignaCount > 0) {
-        opcion.push(`${key} FORMATO [ ${value.formato} ] CARGADO POR [ ${value.nombre} ]`);
-      }
-    });
-  }   
+          Object.entries(plantilla).forEach(([key, value]) => {
+            const asignaCount = value.detalleJson.filter((detalle) => detalle.Estado === 'Asigna' && detalle.Monitor === displayName).length;
+            if (asignaCount > 0) {
+              opcion.push(`${key} FORMATO [ ${value.formato} ] CARGADO POR [ ${value.nombre} ]`);
+            }
+          });
+        }   
+}
 
   return (
     <>
@@ -41,7 +50,7 @@ import ControlSeleccion from './AuditoriaActividadSeleccion';
        Evaluación
       </Typography>
     </Box>
-      <ControlSeleccion opcion = {opcion} />
+      <ControlSeleccion opcion = {opcion} onSeleccionCampaña={handleSeleccionCampaña}/>
 
     </>
   )

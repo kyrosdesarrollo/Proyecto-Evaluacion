@@ -72,7 +72,6 @@ export default function ControlSeleccion( {opcion = null,  onSeleccionCampaña }
       {value &&(
                  <AsignacionActividadView 
                     opcion = { identificador } 
-
                     onBorrarInformacionSeleccion ={(e)=>handleChangeSeleccion(e)}
                   />
                 )
