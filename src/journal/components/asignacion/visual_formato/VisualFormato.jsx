@@ -19,8 +19,8 @@ const VisualFormato = (props ) => {
    //Filtramos solo los monitores activos 1 = SI y Tipo 1 = Monitor
    const funcionariosFiltrados = [];
    if (funcionario.length > 0) {
-     for (let i = 0; i < funcionario[0].funcionarios.length; i++) {
-       const funcionarioActual = funcionario[0].funcionarios[i];
+     for (let i = 0; i < funcionario[1].funcionarios.length; i++) {
+       const funcionarioActual = funcionario[1].funcionarios[i];
        if (funcionarioActual.Tipo === "1" && funcionarioActual.Activo === "1") {
            funcionariosFiltrados.push(funcionarioActual.Nombre);
        }
@@ -53,22 +53,7 @@ const VisualFormato = (props ) => {
                             });
             }
         }
-          // for (let index = 0; index < formatos[j].cabezaJson.length; index++) {
-          //     // if (formatos[j].cabezaJson[index] === 'Monitor') {
-          //     //     titulo.push({ title: formatos[j].cabezaJson[index],field: formatos[j].cabezaJson[index],align: "center", headerStyle: { color: "#2196f3" }
-          //     //     ,lookup: { MONITOR1: "MONITOR 1", 
-          //     //                MONITOR2: "MONITOR 2", 
-          //     //                MONITOR3: "MONITOR 3", 
-          //     //                MONITOR4: "MONITOR 4", 
-          //     //                MONITOR5: "MONITOR 5", 
-          //     //                MONITOR6: "MONITOR 6", 
-          //     //                MONITOR7: "MONITOR 7", MONITOR :formatos[j].cabezaJson[index] },filteringPlaceHolder:"Monitor"});
-          //     // }
-          //     // else{
-          //         titulo.push({ title: formatos[j].cabezaJson[index],field: formatos[j].cabezaJson[index],align: "center", headerStyle: { color: "#2196f3" }});
-          //    // }
-          //     //titulo.push({ title: formatos[j].cabezaJson[index],field: formatos[j].cabezaJson[index],align: "center", headerStyle: { color: "#2196f3" }});
-          // }
+         
           setTitulo(titulo);
           let detalle = formatos[j].detalleJson.map(o => ({ ...o }));
           //Filtro para considerar a nivel de línea estado con nombre Carga

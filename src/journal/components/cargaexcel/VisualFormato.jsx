@@ -14,8 +14,8 @@ const CargaVisualFormato = (props) => {
   //Filtramos solo los monitores activos 1 = SI y Tipo 1 = Monitor
   const funcionariosFiltrados = [];
   if (funcionario.length > 0) {
-    for (let i = 0; i < funcionario[0].funcionarios.length; i++) {
-      const funcionarioActual = funcionario[0].funcionarios[i];
+    for (let i = 0; i < funcionario[1].funcionarios.length; i++) {
+      const funcionarioActual = funcionario[1].funcionarios[i];
       if (funcionarioActual.Tipo === "1" && funcionarioActual.Activo === "1") {
           funcionariosFiltrados.push(funcionarioActual.Nombre);
       }

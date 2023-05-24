@@ -14,7 +14,7 @@ const UsuarioVisualFormato = () => {
     const { funcionario } = useSelector(state => state.funcionario);
     let arregloFuncionarios;
     if (funcionario.length > 0) {
-       arregloFuncionarios = funcionario[0].funcionarios.map((funcionario) => {
+       arregloFuncionarios = funcionario[1].funcionarios.map((funcionario) => {
         return {
           Nombre: funcionario.Nombre,
           Correo: funcionario.Correo,
@@ -63,7 +63,7 @@ const UsuarioVisualFormato = () => {
     //Verificación de usuarios nuevos para creación
     let usuariosRegistrados;
     if (funcionario.length > 0) {
-     usuariosRegistrados = funcionario[0].funcionarios;
+     usuariosRegistrados = funcionario[1].funcionarios;
     }
     else{
       usuariosRegistrados = funcionario.funcionarios;

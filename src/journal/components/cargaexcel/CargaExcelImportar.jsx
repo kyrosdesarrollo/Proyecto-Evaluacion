@@ -11,13 +11,17 @@ import Swal from 'sweetalert2'
 import { Button, Autocomplete, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField, DialogContentText, Modal, Typography,Icon } from '@mui/material';
 import { startLoadingFormatos, startNewExcelFormato } from '../../../store/formato';
 
+
 export const CargaExcelImportar = (props) => {
     //Estados para controlar archivo
     const [file, setFile] = useState(null);
     const [filename, setfileName] = useState(null);
     const [formato, setFormato] = useState();
+    const [campanaTipo, setCampanaTipo] = useState();
     const [selectCombo, setSelectCombo] = useState('');
     const [selectComboName, setSelectComboName] = useState('');
+    const [selectComboCampania, setSelectComboCampania] = useState('');
+    const [selectComboNameCampania, setSelectComboNameCampania] = useState('');
     const [open, setOpen] = React.useState(false);
     const [botonImport, setBotonImport] = useState(true);
     const [habilitaTabla, setHabilitaTabla] = useState(true);
@@ -33,8 +37,10 @@ export const CargaExcelImportar = (props) => {
     const dispatch = useDispatch();
 
     const options = ['PARLO 1 LINEA', 'PARLO FRAUDE','PARLO FRAUDE1','PARLO FRAUDE MONITOREO','PARLO EQUIPO ESP.','PARLO FIDELIZACION','PARLO VENTAS'];
+    const campana = ['FALABELLA', 'RIPLEY','CRM'];
     //Extraer Nombres de funcionarios  tipo = 1 = Monitor
-    const funcionariosRedux = useSelector(state => state.funcionario.funcionario[0].funcionarios);
+    //Posible problema al incorporar otro dato en maestros, debdio a que numero será distinto ***** verificar en redux
+    const funcionariosRedux = useSelector(state => state.funcionario.funcionario[1].funcionarios);
     const nombresFuncionariosMonitor = funcionariosRedux.reduce((nombres, funcionario) => {
         if (funcionario.Tipo === '1') {
           nombres.push(funcionario.Nombre);
@@ -83,12 +89,12 @@ const readDataFromExcel = (data) =>{
 }
 const handleFile = async (e) => {
     
-    if (selectCombo === ''){  
+    if (selectCombo === '' || selectComboCampania === ''){  
         Swal.fire({
           confirmButtonColor: '#2196f3',
           icon: 'error',
-          title: 'Formato de archivo',
-          text: 'Favor de seleccionar formato para agregar archivo Excel, recordar que extensión soportada XLSX y XLS. ',
+          title: 'Formato | Campaña  | Extensión archivo',
+          text: 'Favor de seleccionar Formato y Campañia para poder agregar archivo Excel, recordar que extensión soportada XLSX y XLS. ',
         });
          return}
     const myFile = e.target.files[0];
@@ -153,6 +159,27 @@ const handleChange = (event) => {
             //   console.log(event.target.id + 'Aqui')
             //   setBotonimport (true);}
 };
+const handleChangeCampana = (event) => {    
+  setHabilitaTabla(true);
+  if(event.target.id === ''){
+      setBotonImport(true);
+      setFile(null);
+      setfileName(null);
+      setSheetNames([]);
+      setSheetData(null);
+      setLista([]);
+      setListaJson([]);
+      props.onFileSubir(null);
+      fileRef.current.value = "";}
+ // if (event.target.id != 'combo-box-demo') { setSelectCombo (true); }
+ 
+  setBotonImport(false);
+  setSelectComboNameCampania(event.target.innerText);
+  setSelectComboCampania (event.target.id );
+          //  else { 
+          //   console.log(event.target.id + 'Aqui')
+          //   setBotonimport (true);}
+};
 const handleClickOpen = () => {
     setOpen(true);
 };
@@ -160,6 +187,14 @@ const handleClose = () => {
     setOpen(false);
 };
 const onGuardarExcel = () =>{
+  if (selectCombo === '' || selectComboCampania === ''){  
+    Swal.fire({
+      confirmButtonColor: '#2196f3',
+      icon: 'error',
+      title: 'Formato | Campaña ',
+      text: 'Favor de seleccionar Formato o Campañia para poder guardar archivo Excel, recordar que extensión soportada XLSX y XLS. ',
+    });
+     return}
    //Controla campo Monitor dentro del archivo
     if (!lista[0].includes('Monitor')) {
         setShowErrorMonitor(true);
@@ -176,7 +211,7 @@ const onGuardarExcel = () =>{
     
     handleClose();
     setBotonImport (false) ;
-    dispatch(startNewExcelFormato(lista, listaJson ,selectComboName));
+    dispatch(startNewExcelFormato(lista, listaJson ,selectComboName, selectComboNameCampania));
     //Borrar Data de excel una vez que guarda 
     setFile(null);
     setfileName(null);
@@ -214,6 +249,19 @@ const onGuardarExcel = () =>{
                              
                             />
         </Grid>
+        <Grid item 
+              xs={12} sm={6} md={4} >
+                          <Autocomplete
+                              disablePortal
+                              id="combo-box-demo1"
+                              value= { campanaTipo }
+                              options={campana}
+                              sx={{ width: 300 }}
+                              renderInput={(params) => <TextField {...params} label="** Campaña **" />}
+                              onChange= { handleChangeCampana }
+                             
+                            />
+        </Grid>
     
    
     
@@ -222,7 +270,7 @@ const onGuardarExcel = () =>{
              xs={12}  sm={12} md={12}>
             <div className="mb-2">
                 {filename && <Label>Archivo Excel descargado { filename }</Label>}
-                {!filename && <Label>Adjuntar archivo Excel con formato { selectComboName } ...</Label>}
+                {!filename && <Label>Adjuntar archivo Excel con Formato :   { selectComboName }  |  Campañia :   { selectComboNameCampania }</Label>}
             </div>
         </Grid>
         <Grid item 

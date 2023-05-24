@@ -12,31 +12,26 @@ const FuncionarioVisualFormato = () => {
     const [selectedRows, setSelectedRows] = useState([]);
     //Extrae los formatos desde Redux
     const { funcionario } = useSelector(state => state.funcionario);
-
     let arregloFuncionarios;
-    if (funcionario.length > 0) {
-       arregloFuncionarios = funcionario[0].funcionarios.map((funcionario) => {
+
+    const funcionarioEncontrado = funcionario.find((elemento) => elemento.id === 'funcionario');
+    
+    if (funcionarioEncontrado) {
+      arregloFuncionarios = funcionarioEncontrado.funcionarios.map((funcionario) => {
+        const { Nombre, Correo, Password, Tipo, Activo, Uid } = funcionario;
         return {
-          Nombre: funcionario.Nombre,
-          Correo: funcionario.Correo,
-          Password: funcionario.Password,
-          Tipo: funcionario.Tipo,
-          Activo: funcionario.Activo,
-          Uid: funcionario.Uid,
+          Nombre,
+          Correo,
+          Password,
+          Tipo,
+          Activo,
+          Uid,
         };
       });
-    }else{ //Esto sirve cuando no viene el indice 0
-      arregloFuncionarios = funcionario.funcionarios.map((funcionario) => {
-        return {
-          Nombre: funcionario.Nombre,
-          Correo: funcionario.Correo,
-          Password: funcionario.Password,
-          Tipo: funcionario.Tipo,
-          Activo: funcionario.Activo,
-          Uid: funcionario.Uid,
-        };
-      });
+    } else {
+      arregloFuncionarios = [];
     }
+    
    
     const columns = [
       { title: 'Nombre', field: 'Nombre' },

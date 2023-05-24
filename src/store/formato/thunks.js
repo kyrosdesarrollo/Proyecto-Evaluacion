@@ -4,7 +4,7 @@ import { loadExcelFormatos } from "../../helpers/loadExcelFormatos";
 import { addNewEmptyExcelFormato, deleteFormatoById, savingNewExcelFormato, setFormatos } from "./formatoSlice";
 import { format } from 'date-fns'
 
-export const startNewExcelFormato =( lista , listaJson, formato )=>{
+export const startNewExcelFormato =( lista , listaJson, formato, campania )=>{
     return async (dispatch, getSate) =>{
         dispatch(savingNewExcelFormato());
         const { uid, displayName } = getSate().auth;
@@ -19,6 +19,7 @@ export const startNewExcelFormato =( lista , listaJson, formato )=>{
             nombre :displayName,
             body:'Ingreso de formato',
             formato: formato,
+            campania: campania,
             date: date,
             detalle : newObject,
             detalleJson: listaJson,
