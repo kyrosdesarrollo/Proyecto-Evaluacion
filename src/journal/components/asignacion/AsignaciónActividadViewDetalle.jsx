@@ -58,7 +58,6 @@ const handleChange = (e) => {
   const onGuardar = () =>{
     //Aqui recibie los registros seleccionado por usuario
     let registrosAsignados = selectRowValue;
-    console.log(registrosAsignados)
     //Extración id = numero de archivo
     const id = formatosReduxRespuesta[j].id ;
     //Extrae el detalleJson, los registros que contengan información respuestas
@@ -83,12 +82,7 @@ const handleChange = (e) => {
         } else {
           return obj;
         }
-      });
-
-    console.log('Aqiu 1')
-    console.log(detalleActualizado)
-    
-   
+      });   
     //Actualización en Firebase registros + ID de documento
     dispatch(startUpdateFormato(detalleActualizado,id));
     //Cierre de ventana emergente

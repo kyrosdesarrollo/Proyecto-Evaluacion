@@ -93,7 +93,7 @@ const handleFile = async (e) => {
         Swal.fire({
           confirmButtonColor: '#2196f3',
           icon: 'error',
-          title: 'Formato | Campaña  | Extensión archivo',
+          title: 'Formato | Campañia  | Extensión archivo',
           text: 'Favor de seleccionar Formato y Campañia para poder agregar archivo Excel, recordar que extensión soportada XLSX y XLS. ',
         });
          return}
@@ -191,7 +191,7 @@ const onGuardarExcel = () =>{
     Swal.fire({
       confirmButtonColor: '#2196f3',
       icon: 'error',
-      title: 'Formato | Campaña ',
+      title: 'Formato | Campañia ',
       text: 'Favor de seleccionar Formato o Campañia para poder guardar archivo Excel, recordar que extensión soportada XLSX y XLS. ',
     });
      return}

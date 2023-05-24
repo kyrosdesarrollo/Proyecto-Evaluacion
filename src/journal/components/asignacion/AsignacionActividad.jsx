@@ -14,7 +14,6 @@ import ControlSeleccion from './AsignacionActividadSeleccion';
   const handleSeleccionCampaña = (seleccionCampaña) => {
     // Hacer algo con el valor seleccionado de la campaña
     setValueCampana(seleccionCampaña)
-    console.log("Selección de campaña:", seleccionCampaña);
   };
   
   
