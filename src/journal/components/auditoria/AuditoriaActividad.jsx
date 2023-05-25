@@ -3,7 +3,7 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import ControlSeleccion from './AuditoriaActividadSeleccion';
 
- const AuditoriaActividad = (props) => {
+ const AuditoriaActividad = () => {
   const dispatch = useDispatch();
   //Extraer información de formatos
   const { formatos } = useSelector(state => state.formato);
@@ -50,8 +50,9 @@ import ControlSeleccion from './AuditoriaActividadSeleccion';
        Evaluación
       </Typography>
     </Box>
-      <ControlSeleccion opcion = {opcion} onSeleccionCampaña={handleSeleccionCampaña}/>
-
+      <ControlSeleccion 
+          opcion = {opcion} 
+          onSeleccionCampaña={handleSeleccionCampaña}/>
     </>
   )
 }
