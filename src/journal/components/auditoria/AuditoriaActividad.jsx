@@ -3,7 +3,7 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import ControlSeleccion from './AuditoriaActividadSeleccion';
 
- const AuditoriaActividad = () => {
+ const AuditoriaActividad = (props) => {
   const dispatch = useDispatch();
   //Extraer información de formatos
   const { formatos } = useSelector(state => state.formato);

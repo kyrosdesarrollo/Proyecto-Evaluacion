@@ -11,13 +11,14 @@ export default function ControlSeleccion({ opcion = '',  onSeleccionCampaña}) {
   const [inputValue, setInputValue] = useState('');
   const [options, setOptions] = useState([]);
   
-  const campana = ['FALABELLA', 'RIPLEY','CRM'];
+  const campana = ['FALABELLA', 'RIPLEY','CRM','SODIMAC'];
 
   useEffect(() => {
-    if (opcion.length > 0) {
-      setOptions(opcion);
-      setValue(opcion[0]);
-    }
+    setOptions(opcion || ['']);
+  }, [opcion]);
+
+  useEffect(() => {
+    setValue(null); // Restablecer el valor cuando la opción cambie
   }, [opcion]);
 
   const handleChangeSeleccion = (event, newValue) => {
@@ -83,55 +84,3 @@ export default function ControlSeleccion({ opcion = '',  onSeleccionCampaña}) {
 }
 
 
-// export default function ControlSeleccion( {opcion = ''} ) {
-//   const [value, setValue] = React.useState(options.length > 0 ? options[0] : null);
-//   const [inputValue, setInputValue] = React.useState('');
-//   options = opcion;
-//   let identificador = '';
-  
-//   const handleChangeSeleccion = (e) =>{
-//     setValue(opcion[0]);
-//     // setSheet(e.target.value);
-//   }
-//   try {
-  
-//     if (value) {
-//       identificador = value.substring(0,2);
-//     }
-    
-//   } catch (error) {
-//     alert(error)
-//   }
-
-//   return (
-//     <>
-//     <div>
-//       {/* <div>{`value: ${value !== null ? `'${value}'` : 'null'}`}</div>
-//       <div>{`inputValue: '${inputValue}'`}</div> */}
-//       <br />
-//   <br/>
-// <Autocomplete
-//         value={value}
-//         onChange={(event, newValue) => {
-//           setValue(newValue);
-//         }}
-//         inputValue={inputValue}
-//         onInputChange={(event, newInputValue) => {
-//           setInputValue(newInputValue);
-//         }}
-//         id="controllable-states-demo"
-//         options={options}
-//         sx={{ width: 800 }}
-//         renderInput={(params) => <TextField {...params} label="Selección de archivo asignado para auditar " />}
-//       />
-//     </div>
-
-//       {value &&( <AuditoriaActividadView 
-//                 opcion = { value }
-//                 onBorrarInformacionSeleccion ={(e)=>handleChangeSeleccion(e)}
-//                 />)}
-
-//     </>
-
-//   );
-// }

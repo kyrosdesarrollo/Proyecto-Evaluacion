@@ -2,6 +2,7 @@ import { Box, Typography } from '@mui/material';
 import React from 'react'
 import { useSelector } from 'react-redux';
 import ControlSeleccion from './AsignacionActividadSeleccion';
+//import Swal from 'sweetalert2'
 
 
  const AsignacionActividad = (props) => {
@@ -55,6 +56,16 @@ import ControlSeleccion from './AsignacionActividadSeleccion';
       
       }
     });
+
+    // if (opcion.length < 1) {
+    //   Swal.fire({
+    //     position: 'top-center',
+    //     icon: 'success',
+    //     title: 'Asignación realizada con éxito.',
+    //     showConfirmButton: false,
+    //     timer: 1800
+    //   })
+    // }
   }
   return (
     <>
