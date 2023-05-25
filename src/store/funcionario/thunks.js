@@ -62,7 +62,7 @@ export const funcionarioStartNew =( funcionario , perfil , activo)=>{
                         ...data,
                         perfil: nombrePerfil, // Aquí reemplaza 'ADMINISTRADOR' con el nuevo valor deseado
                         };
-                    console.log(updatedData)
+                   
                         await updateDoc(docRef, updatedData);
                     });
 
@@ -124,7 +124,7 @@ export const funcionarioStartNew =( funcionario , perfil , activo)=>{
                             ...data,
                             estado: estadoUser, // Aquí reemplaza 'Estado' con el nuevo valor deseado Activo / Inactivo
                             };
-                        console.log(updatedData)
+                      
                             await updateDoc(docRef, updatedData);
                         });
                         
