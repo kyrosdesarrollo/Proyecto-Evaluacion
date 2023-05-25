@@ -68,7 +68,9 @@ export default function ControlSeleccion({ opcion = '' ,  onSeleccionCampaña}) 
           }}
           id="controllable-states-demo"
           options={options}
-          sx={{ width: 1200 }}
+          lg={{ width: 1200 }} // Anchura para el tamaño lg
+          md={{ width: 900 }} // Anchura para el tamaño md
+          sx={{ width: 1200 }} // Anchura por defecto
           renderInput={(params) => (
             <TextField {...params} label="Selección de archivo asignado para cierre" />
           )}
