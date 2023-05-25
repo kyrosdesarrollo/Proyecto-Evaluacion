@@ -13,26 +13,30 @@ const FuncionarioVisualFormato = () => {
     //Extrae los formatos desde Redux
     const { funcionario } = useSelector(state => state.funcionario);
     let arregloFuncionarios;
-
-    const funcionarioEncontrado = funcionario.find((elemento) => elemento.id === 'funcionario');
-    
-    if (funcionarioEncontrado) {
-      arregloFuncionarios = funcionarioEncontrado.funcionarios.map((funcionario) => {
-        const { Nombre, Correo, Password, Tipo, Activo, Uid } = funcionario;
+    if (funcionario.length > 0) {
+       arregloFuncionarios = funcionario[1].funcionarios.map((funcionario) => {
         return {
-          Nombre,
-          Correo,
-          Password,
-          Tipo,
-          Activo,
-          Uid,
+          Nombre: funcionario.Nombre,
+          Correo: funcionario.Correo,
+          Password: funcionario.Password,
+          Tipo: funcionario.Tipo,
+          Activo: funcionario.Activo,
+          Uid: funcionario.Uid,
         };
       });
-    } else {
-      arregloFuncionarios = [];
+    }else{ //Esto sirve cuando no viene el indice 0
+      arregloFuncionarios = funcionario.funcionarios.map((funcionario) => {
+        return {
+          Nombre: funcionario.Nombre,
+          Correo: funcionario.Correo,
+          Password: funcionario.Password,
+          Tipo: funcionario.Tipo,
+          Activo: funcionario.Activo,
+          Uid: funcionario.Uid,
+        };
+      });
     }
     
-   
     const columns = [
       { title: 'Nombre', field: 'Nombre' },
       { title: 'Correo', field: 'Correo' },
@@ -63,8 +67,8 @@ const FuncionarioVisualFormato = () => {
       const modificacionActivo = [];
 
       // Comprobar si hay modificaciones en el campo "Tipo" y agregar registros a los arreglos correspondientes
-      for (let i = 0; i < funcionario[0]?.funcionarios?.length; i++) {
-        const original = funcionario[0]?.funcionarios[i];
+      for (let i = 0; i < funcionario[1]?.funcionarios?.length; i++) {
+        const original = funcionario[1]?.funcionarios[i];
         const modificado = data[i];
 
         if (original.Tipo !== modificado.Tipo) {

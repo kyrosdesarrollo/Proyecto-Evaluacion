@@ -40,7 +40,7 @@ const GetLayoutMain = ({ pagina }) => {
         case 'Formulario': 
           return <FormularioPage />;
 
-        case 'Campaña': 
+        case 'Campañia': 
           return <CampanaPage />;
 
         case 'Pauta': 

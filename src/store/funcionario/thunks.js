@@ -132,27 +132,7 @@ export const funcionarioStartNew =( funcionario , perfil , activo)=>{
                         console.log('Problema actualizacion Activo : '+ error)
                     }
                     
-                    // const auth = FirebaseAuth;
-
-                    // try {
-                    //     // Ruta al archivo JSON de configuración del servicio
-                    //     //const serviceAccount = require('/ruta/al/archivo-de-configuracion.json');
-                    //      // Desactivar la cuenta estableciendo el campo 'disabled' en true
                     
-                    //     let valida = true;
-                    //     if (Activo === 1) {
-                    //             valida = true;
-                    //     }else{ valida = false}
-                    //     // Desactivar la cuenta estableciendo el campo 'disabled' en true
-                    //     await updateProfile(auth, Uid, {
-                    //         disabled: true
-                    //     });
-
-                    //     console.log("La cuenta ha sido "+ estadoUser +" para el usuario con correo:", Correo);
-                        
-                    // } catch (error) {
-                    //     console.log(error)
-                    // }
                 }
              }
             //Ruta de ingreso de datos de funcionario Nota: ,'funcionario' estoy dando el nombre al documento
