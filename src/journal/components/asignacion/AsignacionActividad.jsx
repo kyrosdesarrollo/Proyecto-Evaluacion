@@ -3,18 +3,20 @@ import React from 'react'
 import { useSelector } from 'react-redux';
 import ControlSeleccion from './AsignacionActividadSeleccion';
 
+
  const AsignacionActividad = (props) => {
   const { formatos } = useSelector(state => state.formato);
   const plantilla = Object.assign({},formatos);
   const [valueCampana, setValueCampana] = React.useState(null);
+  const [valueArchivo, setValueArchivo] = React.useState(null);
   //Llenado de combobox en constante opcion
-  const opcion =['']; 
+  const opcion =[]; 
   //Trae información desde AsignacionActividadSelecciion que es CAMPAÑA
   const handleSeleccionCampaña = (seleccionCampaña) => {
     // Hacer algo con el valor seleccionado de la campaña
     setValueCampana(seleccionCampaña)
   };
-  
+    
   
   const filtrarPlantilla = (plantilla) => {
   const formatos = Object.assign({}, plantilla);
@@ -50,6 +52,7 @@ import ControlSeleccion from './AsignacionActividadSeleccion';
         if (tieneEstadoCarga && plantilla[e].campania === valueCampana) {
           opcion.push(e + ' FORMATO [ ' + plantilla[e].formato + ' ]  CARGADO POR [ ' + plantilla[e].nombre +' ]');
         } 
+      
       }
     });
   }
@@ -60,7 +63,10 @@ import ControlSeleccion from './AsignacionActividadSeleccion';
         Asignación de Actividad
       </Typography>
     </Box>
-      <ControlSeleccion opcion = {opcion} onSeleccionCampaña={handleSeleccionCampaña} />
+      <ControlSeleccion 
+          opcion = {opcion} 
+          onSeleccionCampaña={handleSeleccionCampaña} 
+      />
     </>
   )
 }
