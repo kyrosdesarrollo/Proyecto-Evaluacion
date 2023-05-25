@@ -37,7 +37,7 @@
 	  return (
 	    <>
       
-      <AuthLayout title = 'Inicio de sessión'>
+      <AuthLayout title = 'Inicio de sesión'>
         
       <Box sx={{ display: 'flex' }}>
           <Box>
