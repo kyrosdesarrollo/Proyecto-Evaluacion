@@ -1,11 +1,9 @@
 import React , { useState, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { Link as RouterLink } from 'react-router-dom';
-import { Alert,Grid, TextField, Typography, Button, Link }  from '@mui/material'
+import { Alert,Grid, TextField, Button }  from '@mui/material'
 import { AuthLayout } from '../layout/AuthLayout';
 import { useForm } from '../../hooks';
 import { startCreatingUserWithEmailPassword } from '../../store/auth';
-import {Autocomplete} from '@mui/material';
 
 
 const formData = 
@@ -47,7 +45,6 @@ export const RegisterPage = () => {
 
   return (
     <>
-      <div style={{ width: '0%', height: '30%' }}>
     <AuthLayout title = 'Registro de cuenta'>
             <form onSubmit = { onSubmit } className='animate__animated animate__fadeIn animate__faster'>
                  <Grid container>
@@ -139,9 +136,8 @@ export const RegisterPage = () => {
 
                  </Grid>
               </form>
-
      </AuthLayout>
-     </div>
+    
     </>
   
   )
