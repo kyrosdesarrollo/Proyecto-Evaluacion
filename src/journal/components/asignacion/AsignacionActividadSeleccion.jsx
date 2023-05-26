@@ -3,7 +3,7 @@ import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import AsignacionActividadView from './AsignacionActividadView';
 
-const campanaOptions = ['FALABELLA', 'RIPLEY', 'CRM'];
+const campanaOptions = ['FALABELLA', 'RIPLEY', 'CRM','SODIMAC'];
 
 export default function ControlSeleccion({ opcion = null, onSeleccionCampaña }) {
   const [value, setValue] = React.useState(null);
