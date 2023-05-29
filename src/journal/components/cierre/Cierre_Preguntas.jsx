@@ -170,7 +170,9 @@ const Cierre_Preguntas = (props) => {
       acc.no++;
     }
     if (respuesta.comentario && respuesta.comentario.length > 4) {
-      acc.comentarios++;
+      if (respuesta.respuesta === "NO") {
+        acc.comentarios++;
+      }
     }
     return acc;
   }, { si: 0, no: 0, comentarios: 0 });

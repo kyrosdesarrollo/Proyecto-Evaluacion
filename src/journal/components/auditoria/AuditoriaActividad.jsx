@@ -22,6 +22,7 @@ import ControlSeleccion from './AuditoriaActividadSeleccion';
   };
   //Verificación de lineas asignadas para visualización de archivo, mejora incorporar monitor en el filtro
  //Validación de perfil  
+
  if (valueCampana) {
         if (perfil === "ADMINISTRADOR") {
           Object.entries(plantilla).forEach(([key, value]) => {
@@ -36,7 +37,7 @@ import ControlSeleccion from './AuditoriaActividadSeleccion';
 
           Object.entries(plantilla).forEach(([key, value]) => {
             const asignaCount = value.detalleJson.filter((detalle) => detalle.Estado === 'Asigna' && detalle.Monitor === displayName).length;
-            if (asignaCount > 0) {
+            if (asignaCount > 0 && value.campania === valueCampana) {
               opcion.push(`${key} FORMATO [ ${value.formato} ] CARGADO POR [ ${value.nombre} ]`);
             }
           });

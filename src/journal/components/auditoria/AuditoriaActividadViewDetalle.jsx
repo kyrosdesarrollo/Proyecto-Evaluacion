@@ -46,7 +46,7 @@ const AuditoriaActividadViewDetalle = (props) => {
      if (registrosAsignados.length < 1) {
        setOpen(false);
        Swal.fire({
-         position: 'top-center',
+         position: 'center',
          icon: 'error',
          title: 'No hay registros seleccionados',
          showConfirmButton: false,
@@ -72,7 +72,7 @@ const AuditoriaActividadViewDetalle = (props) => {
     if (objetosConRespuestas.length<1) {
       handleClose(false);
       Swal.fire({
-        position: 'top-center',
+        position: 'center',
         icon: 'error',
         title: 'No hay encuestas realizadas.',
         showConfirmButton: false,
@@ -99,7 +99,7 @@ const AuditoriaActividadViewDetalle = (props) => {
     
     handleClose(false);
     Swal.fire({
-      position: 'top-center',
+      position: 'center',
       icon: 'success',
       title: 'Evaluación realizada con éxito.',
       showConfirmButton: false,

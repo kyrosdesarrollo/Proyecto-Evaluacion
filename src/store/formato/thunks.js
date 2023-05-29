@@ -74,9 +74,9 @@ export const startUpdateFormato = (arreglo, id = '')=>{
 
     return async(dispatch, getState) =>{
         //Deja estado saving en true
-        console.log('Arreglo en update');
-        console.log(arreglo);
-        console.log(id)
+        // console.log('Arreglo en update');
+        // console.log(arreglo);
+        // console.log(id)
         
         //Incio de Estado para guardar
         dispatch(savingNewExcelFormato());

@@ -169,28 +169,50 @@ const Auditoria_Preguntas = (props) => {
   //estructura Object { si: 1, no: 2, comentarios: 1 }
   const estadisticas = Object.values(respuestas).reduce((acc, respuesta) => {
     if (respuesta.respuesta === "SI") {
+      
       acc.si++;
     } else if (respuesta.respuesta === "NO") {
       acc.no++;
     }
     if (respuesta.comentario && respuesta.comentario.length > 4) {
-      acc.comentarios++;
+      if (respuesta.respuesta === "NO") {
+        acc.comentarios++;
+      }
+      
     }
     return acc;
   }, { si: 0, no: 0, comentarios: 0 });
+  
   //function cierre de ventana relacionado a la ventana modal
   const handleClose = () => {
     props.handleClose(); // Llamada a la función onClose del componente padre
   }
   // Boton guardar acción
   const handleSubmit = () => {
+    console.log('Si')
+    console.log(estadisticas.si)
+    console.log('No')
+    console.log(estadisticas.no)
+    console.log('Todas las Preguntas')
+    console.log(totalPreguntas)
+    console.log('Cuenta General')
+    console.log(cuentaGeneral )
+    console.log('Estadistica Comentario')
+    console.log(estadisticas.comentarios)
+    console.log('Respuesstas')
+    console.log(respuestas)
+
+
     //Validación de cantidad de respuestas ingresadas por usuario, utilizaremos la suma de si y no "estadistica" adicional cuentaGeneral que se incluye
     if (totalPreguntas > estadisticas.si + estadisticas.no + cuentaGeneral) {
+      console.log('Validación cantidad de respuestas')
        setShowError(true);
       return
     }
     //Validación de respuestas no con su comentario
     if (estadisticas.comentarios !== estadisticas.no) {
+
+        console.log('Validacion comentarios distintos a estadisticas.No')
         setShowErrorNo(true);
       return;
     }
