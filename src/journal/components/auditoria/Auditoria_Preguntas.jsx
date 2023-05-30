@@ -183,36 +183,20 @@ const Auditoria_Preguntas = (props) => {
     return acc;
   }, { si: 0, no: 0, comentarios: 0 });
   
-  //function cierre de ventana relacionado a la ventana modal
-  const handleClose = () => {
-    props.handleClose(); // Llamada a la función onClose del componente padre
-  }
+  // //function cierre de ventana relacionado a la ventana modal
+  // const handleClose = () => {
+  //   props.handleClose(); // Llamada a la función onClose del componente padre
+  // }
   // Boton guardar acción
   const handleSubmit = () => {
-    console.log('Si')
-    console.log(estadisticas.si)
-    console.log('No')
-    console.log(estadisticas.no)
-    console.log('Todas las Preguntas')
-    console.log(totalPreguntas)
-    console.log('Cuenta General')
-    console.log(cuentaGeneral )
-    console.log('Estadistica Comentario')
-    console.log(estadisticas.comentarios)
-    console.log('Respuesstas')
-    console.log(respuestas)
-
-
+    
     //Validación de cantidad de respuestas ingresadas por usuario, utilizaremos la suma de si y no "estadistica" adicional cuentaGeneral que se incluye
     if (totalPreguntas > estadisticas.si + estadisticas.no + cuentaGeneral) {
-      console.log('Validación cantidad de respuestas')
        setShowError(true);
       return
     }
     //Validación de respuestas no con su comentario
     if (estadisticas.comentarios !== estadisticas.no) {
-
-        console.log('Validacion comentarios distintos a estadisticas.No')
         setShowErrorNo(true);
       return;
     }
@@ -232,12 +216,12 @@ const Auditoria_Preguntas = (props) => {
     }
     //Accion para actualizar en redux las respuestas   
     // Definir la acción de actualización con los datos que deseas enviar al store y firebase
-    const action = actualizarDetalleJson({formatoIndex, indiceEncontrado, preguntasRespuestas})
+    //const action = actualizarDetalleJson({formatoIndex, indiceEncontrado, preguntasRespuestas})
 
-          dispatch(action);
+    dispatch(actualizarDetalleJson({formatoIndex, indiceEncontrado, preguntasRespuestas}));
 
-        props.handleClose();
-        setShowError(false);
+       props.handleClose();
+       setShowError(false);
        // setRespuestas({});
         Swal.fire({
           confirmButtonColor: '#2196f3',
@@ -245,7 +229,7 @@ const Auditoria_Preguntas = (props) => {
           title: 'Evaluación',
           text: 'Almacenada correctamente, recordar presionar el bóton guardar en pantalla principal para ser enviadas esta(s) encuesta(s). Gracias !!!! 😉',
         });
-        return
+        
   };
   
     //A nivel de linea agrega las respuestas correspondiente

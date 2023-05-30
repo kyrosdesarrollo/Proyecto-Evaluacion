@@ -17,6 +17,7 @@ import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
 import HiveIcon from '@mui/icons-material/Hive';
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
 import VideoLabelIcon from '@mui/icons-material/VideoLabel';
+import GavelIcon from '@mui/icons-material/Gavel';
 import { blue } from '@mui/material/colors';
 
 export const SideBarItem = ({ title = '', body, id , date, imageUrls = []}) => {
@@ -51,6 +52,7 @@ export const SideBarItem = ({ title = '', body, id , date, imageUrls = []}) => {
         {  newTitle == 'Cierre' ?            <HiveIcon  /> : '' }
         {  newTitle == 'Informes' ?          <AssessmentTwoToneIcon  /> : '' }
         {  newTitle == 'Auditoría' ?         <VideoLabelIcon  /> : '' }
+        {  newTitle == 'Objeción' ?         <GavelIcon  /> : '' }
 
         </ListItemIcon>
         <Grid container>

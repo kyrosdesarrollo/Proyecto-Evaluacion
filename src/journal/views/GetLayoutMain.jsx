@@ -10,6 +10,7 @@ import { FormularioPage } from '../pages/formulario/FormularioPage';
 import { FuncionarioPage } from '../pages/funcionario/FuncionarioPage';
 import { InformesPage } from '../pages/informes/InformesPage';
 import MenuEleccion from '../pages/menueleccion/MenuEleccion';
+import { ObjecionPage } from '../pages/objecion/ObjecionPage';
 import { PautaPage } from '../pages/pauta/PautaPage';
 import { RolPage } from '../pages/rol/RolPage';
 import { NoteView } from './NoteView';
@@ -54,6 +55,9 @@ const GetLayoutMain = ({ pagina }) => {
 
         case 'Cierre': 
           return <CierrePage />;
+
+        case 'Objeción': 
+        return <ObjecionPage />;
 
         case 'Informes': 
           return <InformesPage />;
