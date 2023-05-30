@@ -34,15 +34,10 @@ const AsignaciónActividadViewDetalle = ( props ) => {
      }
    
     var j =Number(props.id);
-
-    console.log('Indice en vie detalle')
-    console.log(j)
-
     let registrosActualizado = [];
     const plantilla = Object.assign({},formatos[j]);
     const identifico = plantilla.id;
-    console.log(identifico)
-
+    
    const handleClickOpen = () => {
         setOpen(true);
     };
@@ -63,11 +58,11 @@ const handleChange = (e) => {
   const onGuardar = () =>{
     //Aqui recibie los registros seleccionado por usuario
     let registrosAsignados = selectRowValue;
-    // //Busqueda de indice en redux
+    //Busqueda de indice en redux por numeroCorrelativo
     const indice = formatos.findIndex((item) => item.numeroCorrelativo === j);
     //Cambio a Indice
     j=indice;
-    console.log(j)
+  
     //Extración id = numero de archivo
     const id = formatosReduxRespuesta[j].id ;
     //Extrae el detalleJson, los registros que contengan información respuestas

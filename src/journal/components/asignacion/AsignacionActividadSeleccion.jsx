@@ -26,8 +26,7 @@ export default function ControlSeleccion({ opcion = null, onSeleccionCampaña })
   if (value) {
     identificador = value.substring(0, 2);
   }
-console.log('Identificador')
-console.log(identificador)
+
   const handleChangeSeleccion = (e) => {
     setValue(null);
   };

@@ -3,8 +3,6 @@ import React from 'react'
 import { useSelector } from 'react-redux';
 import ControlSeleccion from './AsignacionActividadSeleccion';
 //import Swal from 'sweetalert2'
-
-
  const AsignacionActividad = (props) => {
   const { formatos } = useSelector(state => state.formato);
   const plantilla = Object.assign({},formatos);
