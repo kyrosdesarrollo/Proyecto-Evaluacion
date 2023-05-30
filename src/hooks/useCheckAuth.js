@@ -73,7 +73,7 @@ export const useCheckAuth = () => {
       loadDataFromFirebase();
 
       // Intervalo de tiempo para cargar los datos periódicamente
-      const interval = 600000; // Intervalo de 5 minuto en milisegundos
+      const interval = 700000; // Intervalo de 10 minuto en milisegundos
       const intervalId = setInterval(loadDataFromFirebase, interval);
 
       // Limpiar el intervalo cuando el componente se desmonte
