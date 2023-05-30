@@ -134,7 +134,7 @@ const handleFile = async (e) => {
         const resultados = pautas.filter((elemento) => elemento.formato === selectComboName);
         if (resultados.length > 0) {
             Swal.fire({
-                position: 'top-center',
+                position: 'center',
                 icon: 'info',
                 title: informacion,
                 showConfirmButton: false,
@@ -220,7 +220,7 @@ const onGuardarExcel = () =>{
                 fileRef.current.value = "";
 
                 Swal.fire({
-                    position: 'top-center',
+                    position: 'center',
                     icon: 'success',
                     title: 'Archivo Pauta actualizado con éxito.',
                     showConfirmButton: false,
@@ -241,7 +241,7 @@ const onGuardarExcel = () =>{
     fileRef.current.value = "";
 
     Swal.fire({
-        position: 'top-center',
+        position: 'center',
         icon: 'success',
         title: 'Archivo Pauta importado con éxito.',
         showConfirmButton: false,

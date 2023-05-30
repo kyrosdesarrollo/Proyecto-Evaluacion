@@ -223,7 +223,7 @@ const onGuardarExcel = () =>{
     fileRef.current.value = "";
 
     Swal.fire({
-        position: 'top-center',
+        position: 'center',
         icon: 'success',
         title: 'Archivo importado con éxito.',
         showConfirmButton: false,

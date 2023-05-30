@@ -20,6 +20,10 @@ const AuditoriaActividadViewDetalle = (props) => {
     const formatosReduxRespuesta = useSelector(state => state.formato.formatos);
 
     var j = Number(props.id);
+    // //Busqueda de indice en redux
+    const indice = formatos.findIndex((item) => item.numeroCorrelativo === j);
+    //Cambio a Indice
+    j=indice;
 
     const plantilla = Object.assign({},formatos[j]);
     let pauta = JSON.stringify(formatos[j].formato)
@@ -34,12 +38,22 @@ const AuditoriaActividadViewDetalle = (props) => {
 
   //Guardar las encuestas completas
   const onGuardar = () =>{
+
+     // //Busqueda de indice en redux
+    //  const indice = formatos.findIndex((item) => item.numeroCorrelativo === j);
+    //  //Cambio a Indice
+    //  j=indice;
+     console.log(j)
+     console.log(formatosReduxRespuesta[j])
     //Extración id = numero de archivo
     const id = formatosReduxRespuesta[j].id ;
    // console.log(formatosReduxRespuesta[j])
     //Extrae el detalleJson, los registros que contengan información respuestas
+    console.log(id)
     const detalleJson = formatosReduxRespuesta[j].detalleJson;
 
+
+    console.log(detalleJson)
      //Aqui recibie los registros seleccionado por usuario
      let registrosAsignados = selectRowValue;
 
@@ -94,6 +108,10 @@ const AuditoriaActividadViewDetalle = (props) => {
     });
 
      //Actualización en Firebase todos los registros + ID de documento
+
+
+
+     
      
     dispatch(startUpdateFormato(ArregloAsignados,id));
     

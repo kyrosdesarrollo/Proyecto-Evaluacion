@@ -107,7 +107,7 @@ import { startLoadingFuncionarios } from '../../../store/funcionario/thunks';
 if (usuarioExistente) {
   // Muestra una alerta con SweetAlert si se encontró un usuario con el mismo correo electrónico
     Swal.fire({
-          position: 'top-center',
+          position: 'center',
           icon: 'error',
           title: `Correo de usuario ${ displayName } ya se encuentra registrado.`,
           showConfirmButton: false,

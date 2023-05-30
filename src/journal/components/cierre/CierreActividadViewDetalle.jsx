@@ -33,6 +33,10 @@ const CierreActividadViewDetalle = ( props ) => {
      }
    
     var j =Number(props.id);
+     // //Busqueda de indice en redux
+     const indice = formatos.findIndex((item) => item.numeroCorrelativo === j);
+     //Cambio a Indice
+     j=indice;
     let registrosActualizado = [];
     const plantilla = Object.assign({},formatos[j]);
     let pauta = JSON.stringify(formatos[j].formato)
@@ -62,7 +66,7 @@ const handleChange = (e) => {
     if (registrosAsignados === null) {
       setOpen(false);
       Swal.fire({
-        position: 'top-center',
+        position: 'center',
         icon: 'error',
         title: 'No hay registros seleccionados',
         showConfirmButton: false,
@@ -90,7 +94,7 @@ const handleChange = (e) => {
     handleClose(false);
     //Ventana de actualización
     Swal.fire({
-      position: 'top-center',
+      position: 'center',
       icon: 'success',
       title: 'Cierre realizado con éxito.',
       showConfirmButton: false,

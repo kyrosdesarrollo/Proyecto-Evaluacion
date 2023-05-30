@@ -33,6 +33,10 @@ const ObjecionActividadViewDetalle = ( props ) => {
      }
    
     var j =Number(props.id);
+     // //Busqueda de indice en redux
+     const indice = formatos.findIndex((item) => item.numeroCorrelativo === j);
+     //Cambio a Indice
+     j=indice;
     let registrosActualizado = [];
     const plantilla = Object.assign({},formatos[j]);
     let pauta = JSON.stringify(formatos[j].formato)

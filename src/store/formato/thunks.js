@@ -1,4 +1,4 @@
-import { collection, doc, setDoc, deleteDoc,getDocs, where, query ,updateDoc,getDoc } from "@firebase/firestore/lite";
+import { collection, doc, setDoc, deleteDoc,getDocs, where, query ,updateDoc,getDoc,orderBy, limit } from "@firebase/firestore/lite";
 import { FirebaseDB, FirebaseAuth } from "../../firebase/config";
 import { loadExcelFormatos } from "../../helpers/loadExcelFormatos";
 import { addNewEmptyExcelFormato, deleteFormatoById, savingNewExcelFormato, setFormatos } from "./formatoSlice";
@@ -9,6 +9,21 @@ export const startNewExcelFormato =( lista , listaJson, formato, campania )=>{
         dispatch(savingNewExcelFormato());
         const { uid, displayName } = getSate().auth;
         //uid este lo genera solo firebase database
+
+        //Correlaivo Inicio
+          const collectionRef = collection(FirebaseDB, '/plantilla/excel/formato');
+
+            // Obtener el último número correlativo utilizado
+            const querySnapshot = await getDocs(query(collectionRef, orderBy('numeroCorrelativo', 'desc'), limit(1)));
+            let numeroCorrelativo = 1; // Valor predeterminado si no hay documentos en la colección
+
+            if (!querySnapshot.empty) {
+              querySnapshot.forEach((doc) => {
+                const lastDocData = doc.data();
+                numeroCorrelativo = lastDocData.numeroCorrelativo + 1;
+              });
+            }
+        //Correlaivo Final
         //Estructrura de información
         const newObject = Object.assign({}, lista);
         const date = format(new Date(), 'dd/MM/yyyy HH:mm:ss ')
@@ -25,6 +40,7 @@ export const startNewExcelFormato =( lista , listaJson, formato, campania )=>{
             detalleJson: listaJson,
             cabezaJson: head,
             estado: 'Carga',
+            numeroCorrelativo: numeroCorrelativo,
         }
         try {
             const newDoc = doc (collection(FirebaseDB,  `/plantilla/excel/formato`));

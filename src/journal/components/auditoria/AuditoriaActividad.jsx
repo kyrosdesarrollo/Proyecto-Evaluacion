@@ -29,7 +29,7 @@ import ControlSeleccion from './AuditoriaActividadSeleccion';
             const asignaCount = value.detalleJson.filter((detalle) => detalle.Estado === 'Asigna').length;
             // Agregar condición para verificar el campo "campania"
             if (asignaCount > 0 && value.campania === valueCampana) {
-              opcion.push(`${key} FORMATO [ ${value.formato} ] CARGADO POR [ ${value.nombre} ]`);
+              opcion.push(`${value.numeroCorrelativo} FORMATO [ ${value.formato} ] CARGADO POR [ ${value.nombre} ]`);
             }
           });
         }
@@ -38,7 +38,7 @@ import ControlSeleccion from './AuditoriaActividadSeleccion';
           Object.entries(plantilla).forEach(([key, value]) => {
             const asignaCount = value.detalleJson.filter((detalle) => detalle.Estado === 'Asigna' && detalle.Monitor === displayName).length;
             if (asignaCount > 0 && value.campania === valueCampana) {
-              opcion.push(`${key} FORMATO [ ${value.formato} ] CARGADO POR [ ${value.nombre} ]`);
+              opcion.push(`${value.numeroCorrelativo} FORMATO [ ${value.formato} ] CARGADO POR [ ${value.nombre} ]`);
             }
           });
         }   

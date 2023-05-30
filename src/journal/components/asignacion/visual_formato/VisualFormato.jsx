@@ -35,6 +35,10 @@ const VisualFormato = (props ) => {
    }
     useEffect(() => {
           j = Number(props.id);
+          // //Busqueda de indice en redux
+          const indice = formatos.findIndex((item) => item.numeroCorrelativo === j);
+          //Cambio a Indice
+          j=indice;
           let titulo=[];
           //Incluye monitores para selección
           for (let index = 0; index < formatos[j].cabezaJson.length; index++) {
@@ -58,6 +62,7 @@ const VisualFormato = (props ) => {
           let detalle = formatos[j].detalleJson.map(o => ({ ...o }));
           //Filtro para considerar a nivel de línea estado con nombre Carga
           let filtro = detalle.filter(o => o.Estado === "Carga");
+         
           setTableData(filtro);
     },[j])
    

@@ -43,7 +43,6 @@ import ControlSeleccion from './AsignacionActividadSeleccion';
 
   return filteredPlantilla;
 };
-
   if (valueCampana) {
     Object.keys(plantilla).forEach((e) => {
       const detalleJson = plantilla[e].detalleJson;
@@ -51,21 +50,11 @@ import ControlSeleccion from './AsignacionActividadSeleccion';
         const tieneEstadoCarga = Object.values(detalleJson).some((detalle) => detalle.Estado === 'Carga');
         // Agregar condición para verificar el campo "campania"
         if (tieneEstadoCarga && plantilla[e].campania === valueCampana) {
-          opcion.push(e + ' FORMATO [ ' + plantilla[e].formato + ' ]  CARGADO POR [ ' + plantilla[e].nombre +' ]');
+          opcion.push(plantilla[e].numeroCorrelativo + ' FORMATO [ ' + plantilla[e].formato + ' ]  CARGADO POR [ ' + plantilla[e].nombre +' ]');
         } 
       
       }
     });
-
-    // if (opcion.length < 1) {
-    //   Swal.fire({
-    //     position: 'top-center',
-    //     icon: 'success',
-    //     title: 'Asignación realizada con éxito.',
-    //     showConfirmButton: false,
-    //     timer: 1800
-    //   })
-    // }
   }
   return (
     <>

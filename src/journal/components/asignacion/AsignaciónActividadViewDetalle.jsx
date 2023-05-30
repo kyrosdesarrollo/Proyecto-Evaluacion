@@ -34,9 +34,14 @@ const AsignaciónActividadViewDetalle = ( props ) => {
      }
    
     var j =Number(props.id);
+
+    console.log('Indice en vie detalle')
+    console.log(j)
+
     let registrosActualizado = [];
     const plantilla = Object.assign({},formatos[j]);
     const identifico = plantilla.id;
+    console.log(identifico)
 
    const handleClickOpen = () => {
         setOpen(true);
@@ -58,6 +63,11 @@ const handleChange = (e) => {
   const onGuardar = () =>{
     //Aqui recibie los registros seleccionado por usuario
     let registrosAsignados = selectRowValue;
+    // //Busqueda de indice en redux
+    const indice = formatos.findIndex((item) => item.numeroCorrelativo === j);
+    //Cambio a Indice
+    j=indice;
+    console.log(j)
     //Extración id = numero de archivo
     const id = formatosReduxRespuesta[j].id ;
     //Extrae el detalleJson, los registros que contengan información respuestas
@@ -89,7 +99,7 @@ const handleChange = (e) => {
     handleClose(false);
     //Ventana de actualización
     Swal.fire({
-      position: 'top-center',
+      position: 'center',
       icon: 'success',
       title: 'Asignación realizada con éxito.',
       showConfirmButton: false,
@@ -105,7 +115,7 @@ const handleChange = (e) => {
     dispatch(startDeleteFormato(identifico));
     dispatch(startLoadingFormatos());
     Swal.fire({
-      position: 'top-center',
+      position: 'center',
       icon: 'error',
       title: 'Eliminación realizada con éxito.',
       showConfirmButton: false,

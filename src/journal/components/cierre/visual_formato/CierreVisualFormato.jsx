@@ -20,6 +20,10 @@ const CierreVisualFormato = (props ) => {
 
     const [titulo, setTitulo] = useState([]);
     let j = Number(props.id);
+     // //Busqueda de indice en redux
+     const indice = formatos.findIndex((item) => item.numeroCorrelativo === j);
+     //Cambio a Indice
+     j=indice;
   
   //Mejora incorporar a nivel de detalle los campos qeu serán visualizado (cargo, asignación,auditoria,cierre)
     useEffect(() => {

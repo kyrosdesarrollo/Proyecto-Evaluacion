@@ -27,7 +27,7 @@ import ControlSeleccion from './ObjecionActividadSeleccion';
         const asignaCount = value.detalleJson.filter((detalle) => detalle.Estado === 'Finalizado' ).length;
         // Agregar condición para verificar el campo "campania"
         if (asignaCount > 0 && value.campania === valueCampana) {
-          opcion.push(`${key} FORMATO [ ${value.formato} ] CARGADO POR [ ${value.nombre} ]`);
+          opcion.push(`${value.numeroCorrelativo} FORMATO [ ${value.formato} ] CARGADO POR [ ${value.nombre} ]`);
         }
       });
     }
