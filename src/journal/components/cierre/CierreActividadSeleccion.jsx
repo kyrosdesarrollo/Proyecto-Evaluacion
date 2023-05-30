@@ -20,7 +20,7 @@ export default function ControlSeleccion({ opcion = '' ,  onSeleccionCampaña}) 
 
   useEffect(() => {
     setValue(null); // Restablecer el valor cuando la opción cambie
-  }, [opcion]);
+  }, [valueCampana]);
 
   const handleChangeSeleccion = (event, newValue) => {
     setValue(newValue);

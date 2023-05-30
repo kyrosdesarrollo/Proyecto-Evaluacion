@@ -99,6 +99,36 @@ export const startUpdateFormato = (arreglo, id = '')=>{
         dispatch( deleteFormatoById());
     }
 }
+//Actualización Objeción
+export const startUpdateFormatoObjecion = (arreglo, id = '')=>{
+
+  return async(dispatch, getState) =>{
+      //Deja estado saving en true
+      // console.log('Arreglo en update');
+      // console.log(arreglo);
+      console.log(id)
+      
+      //Incio de Estado para guardar
+      dispatch(savingNewExcelFormato());
+      const { uid, displayName } = getState().auth;
+      if(!uid) throw new Error('El UID del usuario no existe');
+      try {
+          const date = format(new Date(), 'dd/MM/yyyy HH:mm:ss ')
+          const documento = doc(FirebaseDB, `/plantilla/excel/formato/${ id }`);
+          await updateDoc(documento, {
+              usuarioActualizadorObjeción: displayName,
+              fechaActualizacionObjeción: date,
+              detalleJson: arreglo});
+      } catch (error) {
+          console.log(error)
+      }
+      
+      //Descarga de formatos actualizados
+      dispatch(startLoadingFormatos());
+       //Cambia de estado el saving a false
+      dispatch( deleteFormatoById());
+  }
+}
 //Actualizacion de respuestas
 export const startUpdateFormatoRespuesta = (id = '', respuestas = '', proceso = '') => {
   return async (dispatch, getState) => {

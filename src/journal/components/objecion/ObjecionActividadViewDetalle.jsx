@@ -4,7 +4,7 @@ import { styled } from '@mui/material/styles';
 import { useSelector, useDispatch } from 'react-redux';
 import Swal from 'sweetalert2'
 
-import { startUpdateFormato } from '../../../store/formato';
+import { startUpdateFormatoObjecion } from '../../../store/formato';
 import ObjecionVisualFormato from './visual_formato/ObjecionVisualFormato';
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -57,6 +57,8 @@ const handleChange = (e) => {
 };
   const onGuardar = () =>{
     //Aqui recibie los registros seleccionado por usuario
+
+    console.log('Estoy en Objeción')
     let registrosAsignados = selectRowValue;
     
     if (registrosAsignados === null) {
@@ -85,7 +87,7 @@ const handleChange = (e) => {
     });
     
     //Actualización en Firebase registros + ID de documento
-    dispatch(startUpdateFormato(ArregloAsignados,id));
+    dispatch(startUpdateFormatoObjecion(ArregloAsignados,id));
     //Cierre de ventana emergente
     handleClose(false);
     //Ventana de actualización
