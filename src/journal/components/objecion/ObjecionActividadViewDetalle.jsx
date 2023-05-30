@@ -57,14 +57,12 @@ const handleChange = (e) => {
 };
   const onGuardar = () =>{
     //Aqui recibie los registros seleccionado por usuario
-
-    console.log('Estoy en Objeción')
     let registrosAsignados = selectRowValue;
     
     if (registrosAsignados === null) {
       setOpen(false);
       Swal.fire({
-        position: 'top-center',
+        position: 'center',
         icon: 'error',
         title: 'No hay registros seleccionados',
         showConfirmButton: false,
@@ -92,9 +90,9 @@ const handleChange = (e) => {
     handleClose(false);
     //Ventana de actualización
     Swal.fire({
-      position: 'top-center',
+      position: 'center',
       icon: 'success',
-      title: 'Cierre realizado con éxito.',
+      title: 'Objeción realizada con éxito.',
       showConfirmButton: false,
       timer: 1800
     })
@@ -119,7 +117,7 @@ const handleChange = (e) => {
                                                 aria-describedby="alert-dialog-description"
                                             >
                                                 <DialogTitle id="alert-dialog-title">
-                                                {" ¿ Estas seguro de cerrar Evaluación ? "}
+                                                {" ¿ Estas seguro de objetar Evaluación ? "}
                                                 </DialogTitle>
                                                 <DialogContent>
                                                 <DialogContentText id="alert-dialog-description">
