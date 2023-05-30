@@ -67,11 +67,9 @@ export const registrarUsuario = async({ email, password, displayName }) => {
     const auth = getAuth(FirebaseApp);
     // crear el usuario sin autenticar
 try {
-    console.log('aqui vamos')
-    console.log({ email, password, displayName })
+  
     const userCredential = await createUserWithEmailAndPassword(auth,email, password, displayName);
     const uid = userCredential.user.uid;
-    console.log(`Usuario creado exitosamente: ${uid}`);
 } catch (error) {
     console.log(error)
 }

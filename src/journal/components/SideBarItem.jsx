@@ -16,7 +16,7 @@ import AssessmentTwoToneIcon from '@mui/icons-material/AssessmentTwoTone';
 import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
 import HiveIcon from '@mui/icons-material/Hive';
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
-import VideoLabelIcon from '@mui/icons-material/VideoLabel';
+import AssignmentRoundedIcon from '@mui/icons-material/AssignmentRounded';
 import GavelIcon from '@mui/icons-material/Gavel';
 import { blue } from '@mui/material/colors';
 
@@ -51,7 +51,7 @@ export const SideBarItem = ({ title = '', body, id , date, imageUrls = []}) => {
         {  newTitle == 'Asignación' ?        <GroupAddIcon  /> : '' }
         {  newTitle == 'Cierre' ?            <HiveIcon  /> : '' }
         {  newTitle == 'Informes' ?          <AssessmentTwoToneIcon  /> : '' }
-        {  newTitle == 'Auditoría' ?         <VideoLabelIcon  /> : '' }
+        {  newTitle == 'Auditoría' ?         <AssignmentRoundedIcon  /> : '' }
         {  newTitle == 'Objeción' ?         <GavelIcon  /> : '' }
 
         </ListItemIcon>

@@ -8,9 +8,10 @@ import StepLabel from '@mui/material/StepLabel';
 import Check from '@mui/icons-material/Check';
 import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
-import VideoLabelIcon from '@mui/icons-material/VideoLabel';
+import AssignmentRoundedIcon from '@mui/icons-material/AssignmentRounded';
 import HiveIcon from '@mui/icons-material/Hive';
 import GavelIcon from '@mui/icons-material/Gavel';
+
 import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector';
 
 const QontoConnector = styled(StepConnector)(({ theme }) => ({
@@ -137,7 +138,7 @@ function ColorlibStepIcon(props) {
   const icons = {
     1: <CloudDownloadIcon />,
     2: <GroupAddIcon />,
-    3: <VideoLabelIcon />,
+    3: <AssignmentRoundedIcon />,
     4: <HiveIcon />,
     5: <GavelIcon />,
   };

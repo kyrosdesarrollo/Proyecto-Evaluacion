@@ -9,11 +9,10 @@ export const JournalPage = () => {
   const { isSaving, active } = useSelector(state => state.journal);
   
   let pagina = active?.title; // Página activa obtenida del estado, por ejemplo, 'Dashboard'
-  console.log(pagina)
-  if (!pagina) {
-    console.log('hoalalalalala nullla undei')
+  // if (!pagina) {
+  //   console.log('hoalalalalala nullla undei')
     
-  }
+  // }
   return (
     <>
       <EvaluacionMainLayout>

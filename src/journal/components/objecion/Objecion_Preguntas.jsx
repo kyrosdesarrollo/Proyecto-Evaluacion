@@ -33,7 +33,7 @@ import Swal from 'sweetalert2';
 // .   cumplimientoBloque:"Total bloque"
 //   },
 // ];
-const Cierre_Preguntas = (props) => {
+const Objecion_Preguntas = (props) => {
   //Tomando los formatos
   const formatosRedux = useSelector(state => state.formato.formatos);
   const dispatch = useDispatch();
@@ -815,5 +815,5 @@ const Cierre_Preguntas = (props) => {
 </Card>
   );
 };
-export default Cierre_Preguntas;
+export default Objecion_Preguntas;
 

@@ -2,6 +2,7 @@ import React from 'react';
 import { Box  } from '@mui/material';
 import AsigncionLinea from '../../components/asignacion/AsignacionPage1';
 import  AsignacionActividad  from '../../components/asignacion/AsignacionActividad';
+import ObjecionActividad from '../../components/objecion/ObjecionActividad';
 
 export const ObjecionPage = () => {
   
@@ -22,7 +23,7 @@ export const ObjecionPage = () => {
       </Box>
 
       <Box>
-        <AsignacionActividad />
+        <ObjecionActividad />
       </Box>
      
       
