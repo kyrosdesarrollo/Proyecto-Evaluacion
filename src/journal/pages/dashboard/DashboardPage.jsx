@@ -12,6 +12,7 @@ import Asignacion from '../../components/dashboard/Asignacion';
 import Encuestas from '../../components/dashboard/Encuestas';
 import Cierre from '../../components/dashboard/Cierre';
 import Finalizado from '../../components/dashboard/Finalizado';
+import Funcionarios from '../../components/dashboard/Funcionarios';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -97,7 +98,16 @@ export const DashboardPage = () => {
             xs={12}
           >
             <TotalProfit sx={{ height: '100%' }} />
-          </Grid>             
+          </Grid> 
+          <Grid
+            item
+            xl={3}
+            lg={3}
+            sm={6}
+            xs={12}
+          >
+            <Funcionarios />
+          </Grid>                  
           </Grid>
          
         </Container>

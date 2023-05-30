@@ -1,23 +1,16 @@
 import { Avatar, Box, Card, CardContent, Grid, Typography } from '@mui/material';
-import ArrowUpwardRoundedIcon from '@mui/icons-material/ArrowUpwardRounded';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
+import SupervisedUserCircleRoundedIcon from '@mui/icons-material/SupervisedUserCircleRounded';
 import { useSelector } from 'react-redux';
 
 import React from 'react'
 
-const Asignacion = () => {
+const Funcionarios = () => {
 
-  const { formatos } = useSelector(state => state.formato);
-  let cantidadAsignaciones = 0;
+  const { funcionario } = useSelector(state => state.funcionario);
+  let cantidadAsignaciones = funcionario[1].funcionarios.length;
 
-  formatos.forEach(formato => {
-    formato.detalleJson.forEach(item => {
-
-      if (item.Estado === 'Carga') {
-        cantidadAsignaciones++;
-      }
-    });
-  });
+  
   return (
     <>
      <Card
@@ -35,7 +28,7 @@ const Asignacion = () => {
             gutterBottom
             variant="overline"
           >
-            ASIGNACION POR REALIZAR
+            FUNCIONARIOS
           </Typography>
           <Typography
             color="textPrimary"
@@ -47,12 +40,12 @@ const Asignacion = () => {
         <Grid item>
           <Avatar
             sx={{
-              backgroundColor: 'yellowgreen',
+              backgroundColor: 'blueviolet',
               height: 56,
               width: 56
             }}
           >
-            <GroupAddIcon />
+            <SupervisedUserCircleRoundedIcon />
           </Avatar>
         </Grid>
       </Grid>
@@ -63,7 +56,6 @@ const Asignacion = () => {
           alignItems: 'center'
         }}
       >
-        <ArrowUpwardRoundedIcon color="success" />
         <Typography
           color="error"
           sx={{
@@ -71,7 +63,7 @@ const Asignacion = () => {
           }}
           variant="body2"
         >
-          10%
+        
         </Typography>
         <Typography
           color="textSecondary"
@@ -87,4 +79,4 @@ const Asignacion = () => {
   )
 }
 
-export default Asignacion
+export default Funcionarios
