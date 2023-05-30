@@ -4,12 +4,14 @@ import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
-import { Budget } from '../../components/dashboard/budget';
 import { Container } from '@mui/material';
-import { TotalCustomers } from '../../components/dashboard/total-customers';
 import { TasksProgress } from '../../components/dashboard/tasks-progress';
 import { TotalProfit } from '../../components/dashboard/total-profit';
 import RegistrosTotal from '../../components/dashboard/RegistrosTotal';
+import Asignacion from '../../components/dashboard/Asignacion';
+import Encuestas from '../../components/dashboard/Encuestas';
+import Cierre from '../../components/dashboard/Cierre';
+import Finalizado from '../../components/dashboard/Finalizado';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -49,7 +51,7 @@ export const DashboardPage = () => {
               xl={3}
               xs={12}
               >
-                <Budget />
+                <Asignacion />
               </Grid>
               <Grid
               item
@@ -58,7 +60,25 @@ export const DashboardPage = () => {
               xl={3}
               xs={12}
               >
-                <TotalCustomers />
+                <Encuestas />
+              </Grid>
+              <Grid
+              item
+              lg={3}
+              sm={6}
+              xl={3}
+              xs={12}
+              >
+                <Cierre />
+              </Grid>
+              <Grid
+              item
+              lg={3}
+              sm={6}
+              xl={3}
+              xs={12}
+              >
+                <Finalizado />
               </Grid>
               <Grid
               item
@@ -77,18 +97,7 @@ export const DashboardPage = () => {
             xs={12}
           >
             <TotalProfit sx={{ height: '100%' }} />
-          </Grid>
-
-          {/* <Grid
-            item
-            xl={3}
-            lg={3}
-            sm={6}
-            xs={12}
-          >
-            <TrafficByDevice sx={{ height: '100%' }} />
-          </Grid> */}
-             
+          </Grid>             
           </Grid>
          
         </Container>

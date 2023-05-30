@@ -1,5 +1,5 @@
 import { Avatar, Card, CardContent, Grid, Typography } from '@mui/material';
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import CampaignRoundedIcon from '@mui/icons-material/CampaignRounded';
 
 export const TotalProfit = (props) => (
   <Card {...props}>
@@ -21,7 +21,7 @@ export const TotalProfit = (props) => (
             color="textPrimary"
             variant="h4"
           >
-            230
+            4
           </Typography>
         </Grid>
         <Grid item>
@@ -32,7 +32,7 @@ export const TotalProfit = (props) => (
               width: 56
             }}
           >
-            <AttachMoneyIcon />
+            <CampaignRoundedIcon />
           </Avatar>
         </Grid>
       </Grid>

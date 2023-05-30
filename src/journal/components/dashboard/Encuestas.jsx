@@ -1,12 +1,29 @@
 import { Avatar, Box, Card, CardContent, Grid, Typography } from '@mui/material';
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import MoneyIcon from '@mui/icons-material/Money';
+import ArrowUpwardRoundedIcon from '@mui/icons-material/ArrowUpwardRounded';
+import AssignmentRoundedIcon from '@mui/icons-material/AssignmentRounded';
 
-export const Budget = (props) => (
-  <Card
+import { useSelector } from 'react-redux';
+
+import React from 'react'
+
+const Encuestas = () => {
+
+  const { formatos } = useSelector(state => state.formato);
+  let cantidadAsignaciones = 0;
+
+  formatos.forEach(formato => {
+    formato.detalleJson.forEach(item => {
+
+      if (item.Estado === 'Asigna') {
+        cantidadAsignaciones++;
+      }
+    });
+  });
+  return (
+    <>
+     <Card
     sx={{ height: '100%' }}
-    {...props}
-  >
+    >
     <CardContent>
       <Grid
         container
@@ -19,24 +36,24 @@ export const Budget = (props) => (
             gutterBottom
             variant="overline"
           >
-            REGISTROS
+            ENCUESTAS POR REALIZAR
           </Typography>
           <Typography
             color="textPrimary"
             variant="h4"
           >
-            24 Mil 
+            {cantidadAsignaciones}
           </Typography>
         </Grid>
         <Grid item>
           <Avatar
             sx={{
-              backgroundColor: 'error.main',
+              backgroundColor: 'olive',
               height: 56,
               width: 56
             }}
           >
-            <MoneyIcon />
+            <AssignmentRoundedIcon />
           </Avatar>
         </Grid>
       </Grid>
@@ -47,7 +64,7 @@ export const Budget = (props) => (
           alignItems: 'center'
         }}
       >
-        <ArrowDownwardIcon color="error" />
+        <ArrowUpwardRoundedIcon color="success" />
         <Typography
           color="error"
           sx={{
@@ -55,15 +72,20 @@ export const Budget = (props) => (
           }}
           variant="body2"
         >
-          12%
+          80%
         </Typography>
         <Typography
           color="textSecondary"
           variant="caption"
         >
-          Desde enero 2022
+          Desde mayo 2023
         </Typography>
       </Box>
     </CardContent>
   </Card>
-);
+      
+    </>
+  )
+}
+
+export default Encuestas
