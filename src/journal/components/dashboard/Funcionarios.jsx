@@ -8,7 +8,7 @@ import React from 'react'
 const Funcionarios = () => {
 
   const { funcionario } = useSelector(state => state.funcionario);
-  let cantidadAsignaciones = funcionario[1].funcionarios.length;
+  let cantidadAsignaciones = funcionario[1]?.funcionarios.length;
 
   
   return (
