@@ -87,9 +87,11 @@ export const InformeCampana = () => {
         </Grid>
       </Grid>
      
+      <br />
 
-
-        { controlInforme && <InformeCampanaDetalle/>}
+        <Box mt={4} display={controlInforme ? 'block' : 'none'}>
+          <InformeCampanaDetalle />
+        </Box>
     </>
   );
 };
