@@ -208,7 +208,7 @@ const Objecion_Preguntas = (props) => {
     }
     //Accion para actualizar en redux las respuestas   
     // Definir la acción de actualización con los datos que deseas enviar al store y firebase
-    const action = actualizarDetalleJson({formatoIndex, indiceEncontrado, preguntasRespuestas})
+    const action = actualizarDetalleJson({formatoIndex, indiceEncontrado, preguntasRespuestas, porcentajeFormateado})
 
           dispatch(action);
 

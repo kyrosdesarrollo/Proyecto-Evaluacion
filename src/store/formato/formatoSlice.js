@@ -50,13 +50,16 @@ export const formatoSlice = createSlice({
             state.formatos = action.payload;
           },
         actualizarDetalleJson: (state, action) => {
-            const { formatoIndex, indiceEncontrado, preguntasRespuestas } = action.payload;
+            const { formatoIndex, indiceEncontrado, preguntasRespuestas , porcentajeFormateado} = action.payload;
             // Verificar si state.formato está definido antes de continuar
             if (!state.formatos) {
                 console.error("El estado formato no está definido");
                 return;
             }
+            console.log('Estoy en Actualizar Detalle Json')
+            console.log(porcentajeFormateado)
             state.formatos[formatoIndex].detalleJson[indiceEncontrado].respuestas = preguntasRespuestas;
+            state.formatos[formatoIndex].detalleJson[indiceEncontrado].Nota = porcentajeFormateado;
           },
           
         deleteFormatoById: (state,  action ) => {

@@ -93,7 +93,7 @@ export const startUpdateFormato = (arreglo, id = '')=>{
         // console.log('Arreglo en update');
         // console.log(arreglo);
         // console.log(id)
-        
+
         //Incio de Estado para guardar
         dispatch(savingNewExcelFormato());
         const { uid, displayName } = getState().auth;
