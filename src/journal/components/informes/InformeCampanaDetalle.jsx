@@ -1,39 +1,115 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { ThemeProvider, createTheme } from '@mui/material';
 import MaterialTable from 'material-table';
+import { useSelector } from 'react-redux'
 
-export const InformeCampanaDetalle = () => {
+export const InformeCampanaDetalle = ( { fechaInicio, fechaTermino, controlBotonClick}) => {
   const defaultMaterialTheme = createTheme();
 
-  const tableData = [
-    { id: 1, name: 'John Doe', age: 30, city: 'New York' },
-    { id: 2, name: 'Jane Smith', age: 25, city: 'Los Angeles' },
-    { id: 3, name: 'Bob Johnson', age: 40, city: 'Chicago' },
-    { id: 4, name: 'Alice Williams', age: 35, city: 'Houston' },
-  ];
+  const [titulo, setTitulo] = useState([])
+  const [data, setData] = useState([])
+  
+ //Extrae los formatos desde Redux
+ const { formatos } = useSelector(state => state.formato);
+
+// useEffect(() => {
+//               if (controlBotonClick && fechaInicio && fechaTermino) {
+//                       const detalleJsonCierre = [];
+//                       //Selección de formatos con estado Cierre y Finalizado
+//                       formatos.forEach(formato => {
+//                         const detalleJson = formato.detalleJson;
+//                         for (let i = 0; i < detalleJson.length; i++) {
+//                           if (detalleJson[i].Estado === 'Cierre' || detalleJson[i].Estado === 'Finalizado') {
+//                             const { respuestas, ...resto } = detalleJson[i]; // Utiliza desestructuración para omitir la propiedad "respuestas"
+//                             const objetoModificado = { Nº: formato.numeroCorrelativo,campania: formato.campania ,...resto}; // Crear un nuevo objeto con todas las propiedades existentes y agregar campania
+//                             detalleJsonCierre.push(objetoModificado);
+//                           }
+//                         }
+//                       });
+//                       const detalleJsonCierre0 = detalleJsonCierre[0]; // Accedes al primer elemento del arreglo detalleJsonCierre
+//                       const campos = Object.keys(detalleJsonCierre0); // Campos de Titulo
+                     
+//                       const nuevoTitulo = campos.map(campo => ({
+//                         title: campo,
+//                         field: campo,
+//                         align: "center",
+//                         headerStyle: { color: "#2196f3" }
+//                       }));
+                    
+//                       console.log('Aqui viene Todo')
+//                       console.log(detalleJsonCierre);
+//                       let detalle = detalleJsonCierre.map(o => ({ ...o }));
+//                       setData(detalle)
+//                       setTitulo(nuevoTitulo)
+                      
+                     
+//                   }
+  
+// }, [controlBotonClick, fechaInicio, fechaTermino])
+useEffect(() => {
+  if (controlBotonClick && fechaInicio && fechaTermino) {
+    const detalleJsonCierre = [];
+    // Selección de formatos con estado Cierre y Finalizado
+    formatos.forEach(formato => {
+      const detalleJson = formato.detalleJson;
+      for (let i = 0; i < detalleJson.length; i++) {
+        if (detalleJson[i].Estado === 'Cierre' || detalleJson[i].Estado === 'Finalizado') {
+          const {  ...resto } = detalleJson[i]; // Utiliza desestructuración para omitir la propiedad "respuestas"
+          const objetoModificado = { Nº: formato.numeroCorrelativo, campania: formato.campania, ...resto };
+          detalleJsonCierre.push(objetoModificado);
+        }
+      }
+    });
+
+    const detalle = detalleJsonCierre.map(o => ({ ...o })); // Copia de cada objeto en el array
+    setData(detalle);
+
+    const detalleJsonCierre0 = detalle[0]; // Accedes al primer elemento del arreglo detalle
+    const campos = Object.keys(detalleJsonCierre0); // Campos de Titulo
+    const nuevoTitulo = campos.map(campo => ({
+      title: campo,
+      field: campo,
+      align: "center",
+      headerStyle: { color: "#2196f3" }
+    }));
+
+    // Agregar la columna "respuestas" al título y a los datos
+    nuevoTitulo.push({
+      title: "Respuestas",
+      field: "respuestas",
+      align: "center",
+      headerStyle: { color: "#2196f3" }
+    });
+    detalle.forEach(item => {
+      if (item.respuestas && Array.isArray(item.respuestas)) {
+        const respuestas = item.respuestas.map(respuesta => respuesta.texto); // Extraer solo la propiedad "texto" de cada objeto respuesta
+        item.respuestas = respuestas.join(", "); // Unir las respuestas en un solo string
+      }
+    });
+
+    setTitulo(nuevoTitulo);
+  }
+}, [controlBotonClick, fechaInicio, fechaTermino]);
+
+
+
+
 
   const getInitialExpandedState = () => {
     // Devuelve un objeto con el estado de expansión inicial para cada fila
     const initialExpandedState = {};
-    tableData.forEach((row) => {
+    data.forEach((row) => {
       initialExpandedState[row.id] = false;
     });
     return initialExpandedState;
   };
 
-  const columns = [
-    { title: 'ID', field: 'id' },
-    { title: 'Name', field: 'name' },
-    { title: 'Age', field: 'age' },
-    { title: 'City', field: 'city' },
-  ];
-
   return (
     <ThemeProvider theme={defaultMaterialTheme}>
       <MaterialTable
-        title="User Data"
-        data={tableData}
-        columns={columns}
+        title="Reporte por Campaña"
+        data={data}
+        columns={titulo}
         options={{
           search: true,
           paging: true,

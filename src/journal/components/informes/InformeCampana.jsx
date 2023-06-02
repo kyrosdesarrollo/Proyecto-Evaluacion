@@ -7,6 +7,7 @@ export const InformeCampana = () => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [controlInforme, setControlInforme] = useState(false);
+  const [controlClick, setControlClick] = useState(false);
 
   const handleStartDateChange = (event) => {
     setStartDate(event.target.value);
@@ -26,8 +27,10 @@ export const InformeCampana = () => {
         timer: 3000
       });
       setControlInforme(false);
+      setControlClick(false);
     } else if (startDate > endDate) {
       setControlInforme(false);
+      setControlClick(false);
       Swal.fire({
         position: 'center',
         icon: 'error',
@@ -38,6 +41,7 @@ export const InformeCampana = () => {
       
     } else {
       setControlInforme(true);
+      setControlClick(true);
     }
   };
 
@@ -90,7 +94,11 @@ export const InformeCampana = () => {
       <br />
 
         <Box mt={4} display={controlInforme ? 'block' : 'none'}>
-          <InformeCampanaDetalle />
+          <InformeCampanaDetalle 
+            fechaInicio = {startDate}
+            fechaTermino = { endDate }
+            controlBotonClick = { controlClick }
+          />
         </Box>
     </>
   );
