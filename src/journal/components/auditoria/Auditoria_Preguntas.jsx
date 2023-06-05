@@ -217,8 +217,9 @@ const Auditoria_Preguntas = (props) => {
     //Accion para actualizar en redux las respuestas   
     // Definir la acción de actualización con los datos que deseas enviar al store y firebase
     //const action = actualizarDetalleJson({formatoIndex, indiceEncontrado, preguntasRespuestas}
-    // Se incorpora Nota
-    dispatch(actualizarDetalleJson({formatoIndex, indiceEncontrado, preguntasRespuestas,porcentajeFormateado}));
+    // Se incorpora Nota, Tipo Encuesta / Cierre / Objeción
+    let tipo = 'Encuesta'
+    dispatch(actualizarDetalleJson({formatoIndex, indiceEncontrado, preguntasRespuestas,porcentajeFormateado, tipo}));
 
        props.handleClose();
        setShowError(false);

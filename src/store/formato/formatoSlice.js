@@ -50,16 +50,29 @@ export const formatoSlice = createSlice({
             state.formatos = action.payload;
           },
         actualizarDetalleJson: (state, action) => {
-            const { formatoIndex, indiceEncontrado, preguntasRespuestas , porcentajeFormateado} = action.payload;
+            const { formatoIndex, indiceEncontrado, preguntasRespuestas , porcentajeFormateado, tipo} = action.payload;
             // Verificar si state.formato está definido antes de continuar
             if (!state.formatos) {
                 console.error("El estado formato no está definido");
                 return;
             }
-            console.log('Estoy en Actualizar Detalle Json')
-            console.log(porcentajeFormateado)
+            const currentDate = new Date();
+            const day = String(currentDate.getDate()).padStart(2, '0');
+            const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+            const year = String(currentDate.getFullYear());
+            const formattedDate = `${day}-${month}-${year}`;
             state.formatos[formatoIndex].detalleJson[indiceEncontrado].respuestas = preguntasRespuestas;
             state.formatos[formatoIndex].detalleJson[indiceEncontrado].Nota = porcentajeFormateado;
+            if (tipo === 'Encuesta') {
+                state.formatos[formatoIndex].detalleJson[indiceEncontrado].fechaEncuesta = formattedDate;
+            }
+            if (tipo === 'Cierre') {
+                state.formatos[formatoIndex].detalleJson[indiceEncontrado].fechaCierre = formattedDate;
+            }
+            if (tipo === 'Objeción') {
+                state.formatos[formatoIndex].detalleJson[indiceEncontrado].fechaObjeción = formattedDate;
+            }
+            
           },
           
         deleteFormatoById: (state,  action ) => {

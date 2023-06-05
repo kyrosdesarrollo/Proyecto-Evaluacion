@@ -54,7 +54,17 @@ useEffect(() => {
       const detalleJson = formato.detalleJson;
       for (let i = 0; i < detalleJson.length; i++) {
         if (detalleJson[i].Estado === 'Cierre' || detalleJson[i].Estado === 'Finalizado') {
-          const {  ...resto } = detalleJson[i]; // Utiliza desestructuración para omitir la propiedad "respuestas"
+          console.log(detalleJson[i].respuestas)
+          const { respuestas, ...resto } = detalleJson[i]; // Utiliza desestructuración para omitir la propiedad "respuestas" en resto
+          console.log(detalleJson[i].respuestas[0])
+          let AlmacenaRespuesta = ''; // Variable para almacenar las respuestas
+          for (let j = 0; j < respuestas.length; j++) {
+            const campos = Object.keys(respuestas[j]); // Campos de Titulo
+            console.log(campos)
+            const respuestaString = JSON.stringify(respuestas[j]); // Convierte cada objeto en una cadena JSON
+            AlmacenaRespuesta += respuestaString + ", "; // Concatena cada respuesta en la variable AlmacenaRespuesta
+          }
+          console.log(AlmacenaRespuesta)
           const objetoModificado = { Nº: formato.numeroCorrelativo, campania: formato.campania, ...resto };
           detalleJsonCierre.push(objetoModificado);
         }
@@ -62,6 +72,7 @@ useEffect(() => {
     });
 
     const detalle = detalleJsonCierre.map(o => ({ ...o })); // Copia de cada objeto en el array
+    console.log(detalle)
     setData(detalle);
 
     const detalleJsonCierre0 = detalle[0]; // Accedes al primer elemento del arreglo detalle
