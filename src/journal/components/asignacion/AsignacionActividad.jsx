@@ -53,6 +53,7 @@ import ControlSeleccion from './AsignacionActividadSeleccion';
       
       }
     });
+    opcion.sort();
   }
   return (
     <>

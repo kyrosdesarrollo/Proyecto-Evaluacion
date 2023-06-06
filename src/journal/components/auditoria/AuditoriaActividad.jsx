@@ -42,6 +42,7 @@ import ControlSeleccion from './AuditoriaActividadSeleccion';
             }
           });
         }   
+        opcion.sort();
 }
 
   return (

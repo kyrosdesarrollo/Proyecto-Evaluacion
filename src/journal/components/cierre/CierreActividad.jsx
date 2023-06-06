@@ -32,6 +32,7 @@ import ControlSeleccion from './CierreActividadSeleccion';
         }
       });
     }
+    opcion.sort();
 }
   return (
     <>

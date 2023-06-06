@@ -31,6 +31,7 @@ import ControlSeleccion from './ObjecionActividadSeleccion';
         }
       });
     }
+    opcion.sort();
 }
   return (
     <>

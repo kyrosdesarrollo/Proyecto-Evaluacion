@@ -26,6 +26,11 @@ const AsignaciónActividadViewDetalle = ( props ) => {
     const dispatch = useDispatch();
      //Tomando los formatos
      const formatosReduxRespuesta = useSelector(state => state.formato.formatos);
+     const formatosReduxRespuesta1 = useSelector(state => state.formato);
+
+
+     console.log('Resctata aa a a .   ' + formatosReduxRespuesta)
+     console.log('Resctata aa a a formatos .   ' + formatosReduxRespuesta1)
 
      // useSate donde devuelve la información obtenida del componete VisualFormnato.jsx
      const [selectRowValue, setSelectRowValue] = useState(null);
@@ -34,10 +39,16 @@ const AsignaciónActividadViewDetalle = ( props ) => {
      }
    
     var j =Number(props.id);
+    console.log('Trae j desde prosp id :' + j)
+     //Busqueda de indice en redux por numeroCorrelativo
+     const indice = formatos.findIndex((item) => item.numeroCorrelativo === j);
+     //Cambio a Indice
+     console.log('Cambio de J a indice ' + indice)
+     j=indice;
     let registrosActualizado = [];
     const plantilla = Object.assign({},formatos[j]);
     const identifico = plantilla.id;
-    
+    console.log(plantilla)
    const handleClickOpen = () => {
         setOpen(true);
     };
@@ -59,11 +70,14 @@ const handleChange = (e) => {
     //Aqui recibie los registros seleccionado por usuario
     let registrosAsignados = selectRowValue;
     //Busqueda de indice en redux por numeroCorrelativo
-    const indice = formatos.findIndex((item) => item.numeroCorrelativo === j);
-    //Cambio a Indice
-    j=indice;
+    console.log(j)
+    // const indice = formatos.findIndex((item) => item.numeroCorrelativo === j);
+    // //Cambio a Indice
+    // j=indice;
   
+    console.log(formatosReduxRespuesta)
     //Extración id = numero de archivo
+
     const id = formatosReduxRespuesta[j].id ;
     //Extrae el detalleJson, los registros que contengan información respuestas
     const detalleJson = formatosReduxRespuesta[j].detalleJson;

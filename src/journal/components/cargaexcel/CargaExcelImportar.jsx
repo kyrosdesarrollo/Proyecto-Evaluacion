@@ -40,7 +40,7 @@ export const CargaExcelImportar = (props) => {
     const campana = ['FALABELLA', 'RIPLEY','CRM','SODIMAC'];
     //Extraer Nombres de funcionarios  tipo = 1 = Monitor
     //Posible problema al incorporar otro dato en maestros, debdio a que numero será distinto ***** verificar en redux
-    const funcionariosRedux = useSelector(state => state.funcionario.funcionario[1].funcionarios);
+    const funcionariosRedux = useSelector(state => state.funcionario?.funcionario[1]?.funcionarios);
     const nombresFuncionariosMonitor = funcionariosRedux.reduce((nombres, funcionario) => {
         if (funcionario.Tipo === '1') {
           nombres.push(funcionario.Nombre);

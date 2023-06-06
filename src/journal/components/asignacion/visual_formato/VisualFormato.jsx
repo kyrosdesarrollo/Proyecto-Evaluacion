@@ -35,10 +35,6 @@ const VisualFormato = (props ) => {
    }
     useEffect(() => {
           j = Number(props.id);
-          // //Busqueda de indice en redux
-          const indice = formatos.findIndex((item) => item.numeroCorrelativo === j);
-          //Cambio a Indice
-          j=indice;
           let titulo=[];
           //Incluye monitores para selección
           for (let index = 0; index < formatos[j].cabezaJson.length; index++) {
