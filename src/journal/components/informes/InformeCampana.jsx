@@ -1,13 +1,28 @@
 import React, { useState } from 'react';
 import { Box, Grid, TextField, Typography, Button } from '@mui/material';
+import Autocomplete from '@mui/material/Autocomplete';
 import Swal from 'sweetalert2';
 import { InformeCampanaDetalle } from './InformeCampanaDetalle';
+import { useSelector } from 'react-redux';
+import { obtenerCampanaOptions } from '../../../utilities/utlidades';
 
 export const InformeCampana = () => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [controlInforme, setControlInforme] = useState(false);
   const [controlClick, setControlClick] = useState(false);
+  const [valueCampana, setValueCampana] = useState(null);
+  const [inputValueCampana, setInputValueCampana] = useState('');
+  const [nombreCampana, setNombreCampana] = useState('');
+
+  const { campania } = useSelector(state => state.campania);
+  //Funcion para obtener nombre de campañas ir a ruta Utilities
+  const campanaOptions = obtenerCampanaOptions(campania);
+
+  //Selección Campaña
+  const onSeleccionCampaña = (e) => {
+    setNombreCampana(e);
+  };
 
   const handleStartDateChange = (event) => {
     setStartDate(event.target.value);
@@ -18,30 +33,31 @@ export const InformeCampana = () => {
   };
 
   const handleAccept = () => {
-    if (!startDate || !endDate) {
+    console.log(nombreCampana)
+    console.log(startDate)
+    console.log(endDate)
+    let errorMessage;
+    if (nombreCampana === "" || nombreCampana === null) {
+      errorMessage = "Favor de seleccionar campaña ¡Gracias! 😉";
+    } else if (!startDate || !endDate) {
+      errorMessage = "Favor de seleccionar fechas ¡Gracias! 😉";
+    } else if (startDate > endDate) {
+      errorMessage = "La fecha de inicio debe ser superior o igual a la fecha de término.. ¡Gracias! 😉";
+    } else {
+      setControlInforme(true);
+      setControlClick(true);
+    }
+    
+    if (errorMessage) {
       Swal.fire({
         position: 'center',
         icon: 'error',
-        title: 'Favor de seleccionar fechas ¡Gracias! 😉',
+        title: errorMessage,
         showConfirmButton: false,
         timer: 3000
       });
       setControlInforme(false);
       setControlClick(false);
-    } else if (startDate > endDate) {
-      setControlInforme(false);
-      setControlClick(false);
-      Swal.fire({
-        position: 'center',
-        icon: 'error',
-        title: 'La fecha de inicio debe ser superior o igual a la fecha de término.. ¡Gracias! 😉',
-        showConfirmButton: false,
-        timer: 3000
-      })
-      
-    } else {
-      setControlInforme(true);
-      setControlClick(true);
     }
   };
 
@@ -53,10 +69,25 @@ export const InformeCampana = () => {
           Informe por Campaña
         </Typography>
       </Box>
-
       <br />
+        <Autocomplete
+          value={valueCampana}
+          onChange={(event, newValue) => {
+            setValueCampana(newValue);
+            onSeleccionCampaña(newValue);
+          }}
+          inputValue={inputValueCampana}
+          onInputChange={(event, newInputValue) => {
+            setInputValueCampana(newInputValue);
+          }}
+          id="controllable-states-demo1"
+          options={campanaOptions}
+          sx={{ width: 1200 }}
+          renderInput={(params) => <TextField {...params} label="Selección de Campaña" />}
+        />
+        <br />
       <br />
-      <br />
+  
 
       <Grid container spacing={12} alignItems="center">
         <Grid item xs={3}>
