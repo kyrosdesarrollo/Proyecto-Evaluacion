@@ -41,7 +41,6 @@ const AsignaciónActividadViewDetalle = ( props ) => {
     let registrosActualizado = [];
     const plantilla = Object.assign({},formatos[j]);
     const identifico = plantilla.id;
-    console.log(plantilla)
    const handleClickOpen = () => {
         setOpen(true);
     };
