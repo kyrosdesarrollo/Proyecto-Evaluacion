@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import AuditoriaActividadView from './AuditoriaActividadView';
+import { useSelector } from 'react-redux';
+import { obtenerCampanaOptions } from '../../../utilities/utlidades';
 
 export default function ControlSeleccion({ opcion = '',  onSeleccionCampaña}) {
   const [value, setValue] = useState(null);
@@ -11,7 +13,10 @@ export default function ControlSeleccion({ opcion = '',  onSeleccionCampaña}) {
   const [inputValue, setInputValue] = useState('');
   const [options, setOptions] = useState([]);
   
-  const campana = ['FALABELLA', 'RIPLEY','CRM','SODIMAC'];
+  let campana = [];
+  const { campania } = useSelector(state => state.campania);
+  //Funcion para obtener nombre de campañas ir a ruta Utilities
+  campana = obtenerCampanaOptions(campania);
 
   useEffect(() => {
     setOptions(opcion || ['']);

@@ -37,7 +37,11 @@ export const CargaExcelImportar = (props) => {
     const dispatch = useDispatch();
 
     const options = ['PARLO 1 LINEA', 'PARLO FRAUDE','PARLO FRAUDE1','PARLO FRAUDE MONITOREO','PARLO EQUIPO ESP.','PARLO FIDELIZACION','PARLO VENTAS'];
-    const campana = ['FALABELLA', 'RIPLEY','CRM','SODIMAC'];
+    let campana = [];
+
+    const { campania } = useSelector(state => state.campania);
+    //Funcion para obtener nombre de campañas ir a ruta Utilities
+     campana = obtenerCampanaOptions(campania);
     //Extraer Nombres de funcionarios  tipo = 1 = Monitor
     //Posible problema al incorporar otro dato en maestros, debdio a que numero será distinto ***** verificar en redux
     const funcionariosRedux = useSelector(state => state.funcionario?.funcionario[1]?.funcionarios);

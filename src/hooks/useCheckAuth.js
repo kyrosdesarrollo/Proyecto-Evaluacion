@@ -47,6 +47,7 @@ import { startLoadingPautas } from "../store/pauta/thunks";
 import { startLoadingPerfil } from "../store/perfil";
 import { startLoadingFormatos } from "../store/formato";
 import { startLoadingFuncionarios } from "../store/funcionario/thunks";
+import { startLoadingCampanias } from "../store/campania/thunks";
 
 export const useCheckAuth = () => {
   const status = useSelector(state => state.auth);
@@ -67,6 +68,7 @@ export const useCheckAuth = () => {
         dispatch(startLoadingPautas());
         dispatch(startLoadingPerfil());
         dispatch(startLoadingFormatos());
+        dispatch(startLoadingCampanias());
       };
 
       // Cargar los datos inmediatamente al iniciar sesión

@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { authSlice } from './auth';
+import { campaniaSlice } from './campania/campaniaSlice';
 import { formatoSlice } from './formato/formatoSlice';
 import { funcionarioSlice } from './funcionario/funcionarioSlice';
 import { journalSlice } from './journal';
 import { menuSlice } from './menu';
 import { pautaexcelSlice } from './pauta/pautaSlice';
 import { perfilSlice } from './perfil/perfilSlice';
+
 
 
 export const store = configureStore({
@@ -17,5 +19,6 @@ export const store = configureStore({
      pauta   : pautaexcelSlice.reducer,  
      perfil  : perfilSlice.reducer,
      funcionario : funcionarioSlice.reducer,
+     campania: campaniaSlice.reducer,
   },
 });
