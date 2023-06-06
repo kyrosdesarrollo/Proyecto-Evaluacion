@@ -45,7 +45,7 @@ export const SideBarItem = ({ title = '', body, id , date, imageUrls = []}) => {
         {  newTitle == 'Acceso' ?            <SettingsApplicationsIcon  /> : '' }
         {  newTitle == 'Formulario' ?        <DescriptionIcon  /> : '' }
         {  newTitle == 'Funcionario' ?         <RecordVoiceOverIcon  /> : '' }
-        {  newTitle == 'Campañia' ?           <BroadcastOnPersonalIcon  /> : '' }
+        {  newTitle == 'Campaña' ?           <BroadcastOnPersonalIcon  /> : '' }
         {  newTitle == 'Carga Excel' ?       <CloudDownloadIcon  /> : '' }
         {  newTitle == 'Pauta' ?             <AccountTreeIcon  /> : '' }
         {  newTitle == 'Asignación' ?        <GroupAddIcon  /> : '' }

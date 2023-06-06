@@ -4,8 +4,6 @@ import MaterialTable from 'material-table';
 import { Grid, ThemeProvider, createTheme,Button } from '@mui/material';
 import { setAllCampanias } from '../../../store/campania/campaniaSlice';
 import { loadCampanias} from '../../../helpers/loadCampania';
-import { useState } from 'react';
-
 
 const VisualizarCampania = () => {
   const defaultMaterialTheme = createTheme();
@@ -20,12 +18,7 @@ const VisualizarCampania = () => {
 
   const dispatch = useDispatch();
   const {campania}  = useSelector(state => state.campania || {});
-  
-  console.log('Estado campania1:', campania);
-  
-  let campaniaArreglo= [];
- // const [data, setData] = useState(null);
-  
+      
    let  arregloCampania = campania.map((dato) => {
   
    return {
@@ -36,13 +29,6 @@ const VisualizarCampania = () => {
   });
  
 
-  /* useEffect(() => {
-    setData(campaniaArreglo) 
-   
-    
-  },[campaniaArreglo]);
- */
- // console.log("elemento:",data)
 
   useEffect(() => {
     const fetchCampanias = async () => {
@@ -61,11 +47,9 @@ const VisualizarCampania = () => {
 
   const handleRowUpdate = async (newData, oldData) => {
     try {
-      console.log("trae nueva data",newData)
       const updatedData = await updateCampania(newData); // Assuming updateCampania is a function that updates the campaign in Firebase
       const newDataArray = [...data];
       const index = newDataArray.indexOf(oldData);
-      console.log("trae old data",oldData)
       newDataArray[index] = updatedData;
 
       
@@ -124,17 +108,6 @@ const VisualizarCampania = () => {
       </ThemeProvider>
       <div></div>
       <p></p>
-  {/*    {/*    <Grid container spacing={3}>
-            <Grid item xs={3}>
-              <Button 
-                size='large'
-                variant="contained" 
-                onClick={handleGuardarInformacion}>
-                  Guardar
-              </Button>
-            </Grid> *
-                     
-        </Grid> */}
      </>
   );
 };

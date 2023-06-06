@@ -10,6 +10,7 @@ import { useSelector,useDispatch } from 'react-redux';
 import Swal from 'sweetalert2'
 import { Button, Autocomplete, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField, DialogContentText, Modal, Typography,Icon } from '@mui/material';
 import { startLoadingFormatos, startNewExcelFormato } from '../../../store/formato';
+import { obtenerCampanaOptions } from '../../../utilities/utlidades';
 
 
 export const CargaExcelImportar = (props) => {
@@ -98,7 +99,7 @@ const handleFile = async (e) => {
           confirmButtonColor: '#2196f3',
           icon: 'error',
           title: 'Formato | Campañia  | Extensión archivo',
-          text: 'Favor de seleccionar Formato y Campañia para poder agregar archivo Excel, recordar que extensión soportada XLSX y XLS. ',
+          text: 'Favor de seleccionar Formato y Campaña para poder agregar archivo Excel, recordar que extensión soportada XLSX y XLS. ',
         });
          return}
     const myFile = e.target.files[0];
@@ -196,7 +197,7 @@ const onGuardarExcel = () =>{
       confirmButtonColor: '#2196f3',
       icon: 'error',
       title: 'Formato | Campañia ',
-      text: 'Favor de seleccionar Formato o Campañia para poder guardar archivo Excel, recordar que extensión soportada XLSX y XLS. ',
+      text: 'Favor de seleccionar Formato o Campaña para poder guardar archivo Excel, recordar que extensión soportada XLSX y XLS. ',
     });
      return}
    //Controla campo Monitor dentro del archivo
@@ -274,7 +275,7 @@ const onGuardarExcel = () =>{
              xs={12}  sm={12} md={12}>
             <div className="mb-2">
                 {filename && <Label>Archivo Excel descargado { filename }</Label>}
-                {!filename && <Label>Adjuntar archivo Excel con Formato :   { selectComboName }  |  Campañia :   { selectComboNameCampania }</Label>}
+                {!filename && <Label>Adjuntar archivo Excel con Formato :   { selectComboName }  |  Campaña :   { selectComboNameCampania }</Label>}
             </div>
         </Grid>
         <Grid item 
