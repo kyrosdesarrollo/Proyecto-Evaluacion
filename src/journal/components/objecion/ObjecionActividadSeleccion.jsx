@@ -6,9 +6,6 @@ import CierreActividadView from './ObjecionActividadView';
 import { useSelector } from 'react-redux';
 import { obtenerCampanaOptions } from '../../../utilities/utlidades';
 
-
-
-
 export default function ControlSeleccion({ opcion = '' ,  onSeleccionCampaña}) {
   const [value, setValue] = useState(null);
   const [valueCampana, setValueCampana] = React.useState(null);
