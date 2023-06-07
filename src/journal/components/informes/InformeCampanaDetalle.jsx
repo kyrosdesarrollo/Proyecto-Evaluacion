@@ -3,14 +3,20 @@ import { ThemeProvider, createTheme } from '@mui/material';
 import MaterialTable from 'material-table';
 import { useSelector } from 'react-redux'
 
-export const InformeCampanaDetalle = ( { fechaInicio, fechaTermino, controlBotonClick}) => {
+export const InformeCampanaDetalle = ( { fechaInicio, fechaTermino, campana,controlBotonClick}) => {
   const defaultMaterialTheme = createTheme();
 
   const [titulo, setTitulo] = useState([])
   const [data, setData] = useState([])
   
+  console.log('Parametros')
+  console.log('Fecha Inicio : ' + fechaInicio)
+  console.log('Fecha Termino : '+ fechaTermino)
+  console.log('Campaña : '+ campana)
+  console.log('Control Boton : '+ controlBotonClick)
  //Extrae los formatos desde Redux
  const { formatos } = useSelector(state => state.formato);
+ console.log('Formatos :  ' + formatos)
 
 // useEffect(() => {
 //               if (controlBotonClick && fechaInicio && fechaTermino) {
@@ -49,30 +55,76 @@ export const InformeCampanaDetalle = ( { fechaInicio, fechaTermino, controlBoton
 useEffect(() => {
   if (controlBotonClick && fechaInicio && fechaTermino) {
     const detalleJsonCierre = [];
-    // Selección de formatos con estado Cierre y Finalizado
+    // Selección de formatos con estado Cierre y Finalizado = CAMPAÑA
     formatos.forEach(formato => {
-      const detalleJson = formato.detalleJson;
-      for (let i = 0; i < detalleJson.length; i++) {
-        if (detalleJson[i].Estado === 'Cierre' || detalleJson[i].Estado === 'Finalizado') {
-          console.log(detalleJson[i].respuestas)
-          const { respuestas, ...resto } = detalleJson[i]; // Utiliza desestructuración para omitir la propiedad "respuestas" en resto
-          console.log(detalleJson[i].respuestas[0])
-          let AlmacenaRespuesta = ''; // Variable para almacenar las respuestas
-          for (let j = 0; j < respuestas.length; j++) {
-            const campos = Object.keys(respuestas[j]); // Campos de Titulo
-            console.log(campos)
-            const respuestaString = JSON.stringify(respuestas[j]); // Convierte cada objeto en una cadena JSON
-            AlmacenaRespuesta += respuestaString + ", "; // Concatena cada respuesta en la variable AlmacenaRespuesta
+      if (formato.campania === campana) {
+        const detalleJson = formato.detalleJson;
+        console.log(detalleJson)
+        for (let i = 0; i < detalleJson.length; i++) {
+          
+          if (detalleJson[i].Estado === 'Cierre' || detalleJson[i].Estado === 'Finalizado') {
+            const { respuestas, ...resto } = detalleJson[i]; // Utiliza desestructuración para omitir la propiedad "respuestas" en resto
+            let AlmacenaRespuesta = []; // Array para almacenar las respuestas
+            let variableContiene = {}
+    
+            for (let j = 0; j < respuestas.length; j++) {
+              const campos = respuestas[j];
+              //console.log('Aqui viene respuesta de campos'+ respuestas[j])
+              let respuestaConcatenada = '';
+              let valorRegistro='';
+              for (let campo in campos) {
+                //console.log('Aqui van los campos '+ campo)
+                if (campo === 'CATEGORÍA') {
+                  const nombrePersonalizado = campos[campo]; // Asigna el valor de campos[campo] a una variable
+                  const {respuesta} = respuestas[j].respuesta; // Accede al valor del campo en respuestas[j].respuesta
+                  const { 
+                  "BLOQUES DE EVALUACIÓN": bloque,
+                  "CATEGORÍA": categoria,
+                  "CONDUCTA": pregunta,
+                  "CUMPLIMIENTO POR BLOQUES":porcentajeBloque,
+                  "CUMPLIMIENTO POR CATEGORIA":porcentajePregunta,
+                  "QUIEBRE":quiebre, } = respuestas[j];
+
+                  console.log('Tratando de extraer' + bloque)
+                  console.log('Tratando de extraer' + categoria)
+                  console.log('Tratando de extraer' + pregunta)
+                  console.log('Tratando de extraer' + porcentajeBloque)
+                  console.log('Tratando de extraer' + porcentajePregunta)
+                  console.log('Tratando de extraer' + quiebre)
+                    console.log(respuesta)
+                    if (respuesta === '' || respuesta === null || respuesta === undefined) {
+                      valorRegistro = ''
+                    }
+                    else{valorRegistro = respuesta}
+                    respuestaConcatenada += campo + ": " + respuesta + ", ";
+                    console.log(valorRegistro)
+                    variableContiene = { ...variableContiene, [nombrePersonalizado]: valorRegistro }; // Utiliza el operador spread para copiar las propiedades existentes y agregar la nueva propiedad
+                  }
+                //   respuestaConcatenada += campo + ": " + campos[campo] + ", ";
+
+                //   variableContiene = { ...variableContiene, [nombrePersonalizado]: respuestas[j].respuesta  }; //variableContiene = { ...variableContiene, [nombrePersonalizado]: respuestas[j].respuesta }; Utiliza el operador spread para copiar las propiedades existentes y agregar la nueva propiedad
+                // }
+              }
+              
+              
+              respuestaConcatenada = respuestaConcatenada.slice(0, -2); // Elimina la última coma y el espacio
+              AlmacenaRespuesta.push(respuestaConcatenada);
+            }
+            // console.log('Variable Contiene')
+            // console.log(variableContiene)
+            // console.log('Almacena Respuesta')
+            // console.log(AlmacenaRespuesta)
+        
+            const objetoModificado = { Nº: formato.numeroCorrelativo, campania: formato.campania, ...resto, ...variableContiene };
+            detalleJsonCierre.push(objetoModificado);
           }
-          console.log(AlmacenaRespuesta)
-          const objetoModificado = { Nº: formato.numeroCorrelativo, campania: formato.campania, ...resto };
-          detalleJsonCierre.push(objetoModificado);
         }
       }
     });
-
+    
+    
     const detalle = detalleJsonCierre.map(o => ({ ...o })); // Copia de cada objeto en el array
-    console.log(detalle)
+   // console.log(detalle)
     setData(detalle);
 
     const detalleJsonCierre0 = detalle[0]; // Accedes al primer elemento del arreglo detalle

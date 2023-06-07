@@ -57,6 +57,8 @@ export const useCheckAuth = () => {
     onAuthStateChanged(FirebaseAuth, async (user) => {
       if (!user) return dispatch(logout());
 
+      dispatch(startLoadingCampanias());
+      
       const { uid, email, displayName, photoURL } = user;
       dispatch(login({ uid, email, displayName, photoURL }));
 
@@ -68,7 +70,7 @@ export const useCheckAuth = () => {
         dispatch(startLoadingPautas());
         dispatch(startLoadingPerfil());
         dispatch(startLoadingFormatos());
-        dispatch(startLoadingCampanias());
+       
       };
 
       // Cargar los datos inmediatamente al iniciar sesión

@@ -36,6 +36,7 @@ export const InformeCampana = () => {
     console.log(nombreCampana)
     console.log(startDate)
     console.log(endDate)
+    setControlClick(false);
     let errorMessage;
     if (nombreCampana === "" || nombreCampana === null) {
       errorMessage = "Favor de seleccionar campaña ¡Gracias! 😉";
@@ -124,13 +125,17 @@ export const InformeCampana = () => {
      
       <br />
 
+ { 
+    controlClick &&
         <Box mt={4} display={controlInforme ? 'block' : 'none'}>
-          <InformeCampanaDetalle 
-            fechaInicio = {startDate}
-            fechaTermino = { endDate }
-            controlBotonClick = { controlClick }
-          />
+        <InformeCampanaDetalle 
+          fechaInicio = {startDate}
+          fechaTermino = { endDate }
+          campana = {nombreCampana}
+          controlBotonClick = { controlClick }
+        />
         </Box>
+ }
     </>
   );
 };
