@@ -33,9 +33,9 @@ export const InformeCampana = () => {
   };
 
   const handleAccept = () => {
-    console.log(nombreCampana)
-    console.log(startDate)
-    console.log(endDate)
+    // console.log(nombreCampana)
+    // console.log(startDate)
+    // console.log(endDate)
     setControlClick(false);
     let errorMessage;
     if (nombreCampana === "" || nombreCampana === null) {

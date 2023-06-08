@@ -9,65 +9,47 @@ export const InformeCampanaDetalle = ( { fechaInicio, fechaTermino, campana,cont
   const [titulo, setTitulo] = useState([])
   const [data, setData] = useState([])
   
-  console.log('Parametros')
-  console.log('Fecha Inicio : ' + fechaInicio)
-  console.log('Fecha Termino : '+ fechaTermino)
-  console.log('Campaña : '+ campana)
-  console.log('Control Boton : '+ controlBotonClick)
+  // console.log('Parametros')
+  // console.log('Fecha Inicio : ' + fechaInicio)
+  // console.log('Fecha Termino : '+ fechaTermino)
+  // console.log('Campaña : '+ campana)
+  // console.log('Control Boton : '+ controlBotonClick)
  //Extrae los formatos desde Redux
- const { formatos } = useSelector(state => state.formato);
- console.log('Formatos :  ' + formatos)
-
-// useEffect(() => {
-//               if (controlBotonClick && fechaInicio && fechaTermino) {
-//                       const detalleJsonCierre = [];
-//                       //Selección de formatos con estado Cierre y Finalizado
-//                       formatos.forEach(formato => {
-//                         const detalleJson = formato.detalleJson;
-//                         for (let i = 0; i < detalleJson.length; i++) {
-//                           if (detalleJson[i].Estado === 'Cierre' || detalleJson[i].Estado === 'Finalizado') {
-//                             const { respuestas, ...resto } = detalleJson[i]; // Utiliza desestructuración para omitir la propiedad "respuestas"
-//                             const objetoModificado = { Nº: formato.numeroCorrelativo,campania: formato.campania ,...resto}; // Crear un nuevo objeto con todas las propiedades existentes y agregar campania
-//                             detalleJsonCierre.push(objetoModificado);
-//                           }
-//                         }
-//                       });
-//                       const detalleJsonCierre0 = detalleJsonCierre[0]; // Accedes al primer elemento del arreglo detalleJsonCierre
-//                       const campos = Object.keys(detalleJsonCierre0); // Campos de Titulo
-                     
-//                       const nuevoTitulo = campos.map(campo => ({
-//                         title: campo,
-//                         field: campo,
-//                         align: "center",
-//                         headerStyle: { color: "#2196f3" }
-//                       }));
-                    
-//                       console.log('Aqui viene Todo')
-//                       console.log(detalleJsonCierre);
-//                       let detalle = detalleJsonCierre.map(o => ({ ...o }));
-//                       setData(detalle)
-//                       setTitulo(nuevoTitulo)
-                      
-                     
-//                   }
-  
-// }, [controlBotonClick, fechaInicio, fechaTermino])
+const { formatos } = useSelector(state => state.formato);
 useEffect(() => {
   if (controlBotonClick && fechaInicio && fechaTermino) {
     const detalleJsonCierre = [];
     // Selección de formatos con estado Cierre y Finalizado = CAMPAÑA
     formatos.forEach(formato => {
-      if (formato.campania === campana) {
+      if (formato.campania === campana) { //CONSIDERA SOLO SELECCION DE CAMPAÑA
         const detalleJson = formato.detalleJson;
-        console.log(detalleJson)
-        for (let i = 0; i < detalleJson.length; i++) {
-          
-          if (detalleJson[i].Estado === 'Cierre' || detalleJson[i].Estado === 'Finalizado') {
+        for (let i = 0; i < detalleJson.length; i++) { //RECORRE LAS LINEA CON ESTADO CIERRE Y FINALIZADO DE LA CAMPAÑA
+         
+         
+            const fechaEncuesta = new Date(detalleJson[i].fechaEncuesta);
+            if (typeof detalleJson[i].fechaEncuesta === 'undefined') {
+              continue; // Saltar al siguiente ciclo si fechaEncuesta es undefined
+            }
+            // console.log('registro : '+ i)
+            // console.log('Como viene : '+ detalleJson[i].fechaEncuesta)
+
+            const dia = fechaEncuesta.getDate().toString().padStart(2, '0');
+            const mes = (fechaEncuesta.getMonth() + 1).toString().padStart(2, '0');
+            const anio = fechaEncuesta.getFullYear();
+            const fechaEncuestaFormateada = `${anio}-${dia}-${mes}`;
+            //console.log('fechs de Encuesta  : '+fechaEncuesta)
+              // console.log('Fecha Encuesta :'+fechaEncuestaFormateada) ESTA RARO CONSIDERAN DIA COMO MES Y MES COMO DIA
+              // console.log('Fecha Inicio :'+ fechaInicio)
+              // console.log('Fecha Termino :'+ fechaTermino)
+          if (
+                  (detalleJson[i].Estado === 'Cierre' || detalleJson[i].Estado === 'Finalizado') &&
+                  (fechaEncuestaFormateada >= fechaInicio && fechaEncuestaFormateada <= fechaTermino)
+          ) {
             const { respuestas, ...resto } = detalleJson[i]; // Utiliza desestructuración para omitir la propiedad "respuestas" en resto
-            let AlmacenaRespuesta = []; // Array para almacenar las respuestas
             let variableContiene = {}
-    
-            for (let j = 0; j < respuestas.length; j++) {
+          
+           // if (fechaEncuestaFormateada >= fechaInicio && fechaEncuestaFormateada <= fechaTermino) {
+            for (let j = 0; j < respuestas.length; j++) { //RECORRE LAS RESPUESTAS DE LAS ENCUENTAS
               const campos = respuestas[j];
               //console.log('Aqui viene respuesta de campos'+ respuestas[j])
               let respuestaConcatenada = '';
@@ -85,30 +67,45 @@ useEffect(() => {
                   "CUMPLIMIENTO POR CATEGORIA":porcentajePregunta,
                   "QUIEBRE":quiebre, } = respuestas[j];
 
-                  console.log('Tratando de extraer' + bloque)
-                  console.log('Tratando de extraer' + categoria)
-                  console.log('Tratando de extraer' + pregunta)
-                  console.log('Tratando de extraer' + porcentajeBloque)
-                  console.log('Tratando de extraer' + porcentajePregunta)
-                  console.log('Tratando de extraer' + quiebre)
-                    console.log(respuesta)
+                  // console.log('Tratando de extraer' + bloque)
+                  // console.log('Tratando de extraer' + categoria)
+                  // console.log('Tratando de extraer' + pregunta)
+                  // console.log('Tratando de extraer' + porcentajeBloque)
+                  // console.log('Tratando de extraer' + porcentajePregunta)
+                  // console.log('Tratando de extraer' + quiebre)
+                  //   console.log(respuesta)
                     if (respuesta === '' || respuesta === null || respuesta === undefined) {
                       valorRegistro = ''
                     }
                     else{valorRegistro = respuesta}
-                    respuestaConcatenada += campo + ": " + respuesta + ", ";
-                    console.log(valorRegistro)
-                    variableContiene = { ...variableContiene, [nombrePersonalizado]: valorRegistro }; // Utiliza el operador spread para copiar las propiedades existentes y agregar la nueva propiedad
-                  }
-                //   respuestaConcatenada += campo + ": " + campos[campo] + ", ";
 
-                //   variableContiene = { ...variableContiene, [nombrePersonalizado]: respuestas[j].respuesta  }; //variableContiene = { ...variableContiene, [nombrePersonalizado]: respuestas[j].respuesta }; Utiliza el operador spread para copiar las propiedades existentes y agregar la nueva propiedad
-                // }
+                    respuestaConcatenada += campo + ": " + respuesta + ", ";
+                    //console.log(valorRegistro)
+                    if (bloque === 'INFORMACION GENERAL') { //SOLO PARA INFORMACION GENERAL CONSIDERA EXTRAER INFORMACION primerValor Y CONCATENA LA INFORMACIÓN
+                        let primerValor
+                        //console.log('Estoy en general : '+ JSON.stringify(respuestas[j].respuesta))
+                        const respuestaObjeto = respuestas[j].respuesta;
+                              const propiedades = Object.keys(respuestaObjeto);
+                              if (propiedades.length > 0) {
+                                const primerCampo = propiedades[0];
+                                primerValor = respuestaObjeto[primerCampo];
+                                // console.log('Campo: ' + primerCampo);
+                                // console.log('Valor: ' + primerValor);
+                              } else {
+                                console.log('No se encontraron propiedades en el objeto de respuesta');
+                              }
+                        variableContiene = { ...variableContiene, [pregunta]: primerValor }; // Utiliza el operador spread para copiar las propiedades existentes y agregar la nueva propiedad
+                      } else{
+                        //console.log(respuesta)
+                        if (valorRegistro === 'SI') { //CONTROL DE PREGUNTAS SI INCORPORA PORCENTAJES SI ES NO DEJA EN 0%
+                          let porcentajeFormateado = (porcentajePregunta * 100).toFixed(0) + '%';
+                          variableContiene = { ...variableContiene, [nombrePersonalizado]: porcentajeFormateado };
+                        }else{variableContiene = { ...variableContiene, [nombrePersonalizado]: '0%' };}
+                      }
+                    }
+              
               }
               
-              
-              respuestaConcatenada = respuestaConcatenada.slice(0, -2); // Elimina la última coma y el espacio
-              AlmacenaRespuesta.push(respuestaConcatenada);
             }
             // console.log('Variable Contiene')
             // console.log(variableContiene)
@@ -116,8 +113,12 @@ useEffect(() => {
             // console.log(AlmacenaRespuesta)
         
             const objetoModificado = { Nº: formato.numeroCorrelativo, campania: formato.campania, ...resto, ...variableContiene };
+            // console.log('Linea de registro')
+            // console.log(objetoModificado)
             detalleJsonCierre.push(objetoModificado);
-          }
+         // }
+
+        }
         }
       }
     });
@@ -128,7 +129,8 @@ useEffect(() => {
     setData(detalle);
 
     const detalleJsonCierre0 = detalle[0]; // Accedes al primer elemento del arreglo detalle
-    const campos = Object.keys(detalleJsonCierre0); // Campos de Titulo
+    const campos = detalleJsonCierre0 ? Object.keys(detalleJsonCierre0) : []; //Control por si no hay registros
+     // Campos de Titulo
     const nuevoTitulo = campos.map(campo => ({
       title: campo,
       field: campo,
@@ -136,13 +138,7 @@ useEffect(() => {
       headerStyle: { color: "#2196f3" }
     }));
 
-    // Agregar la columna "respuestas" al título y a los datos
-    nuevoTitulo.push({
-      title: "Respuestas",
-      field: "respuestas",
-      align: "center",
-      headerStyle: { color: "#2196f3" }
-    });
+    
     detalle.forEach(item => {
       if (item.respuestas && Array.isArray(item.respuestas)) {
         const respuestas = item.respuestas.map(respuesta => respuesta.texto); // Extraer solo la propiedad "texto" de cada objeto respuesta
@@ -150,13 +146,11 @@ useEffect(() => {
       }
     });
 
+    // console.log('TITULO')
+    // console.log(nuevoTitulo);
     setTitulo(nuevoTitulo);
   }
-}, [controlBotonClick, fechaInicio, fechaTermino]);
-
-
-
-
+}, [controlBotonClick, `${fechaInicio}-${fechaTermino}`,campana]);
 
   const getInitialExpandedState = () => {
     // Devuelve un objeto con el estado de expansión inicial para cada fila
@@ -168,20 +162,31 @@ useEffect(() => {
   };
 
   return (
-    <ThemeProvider theme={defaultMaterialTheme}>
-      <MaterialTable
-        title="Reporte por Campaña"
-        data={data}
-        columns={titulo}
-        options={{
-          search: true,
-          paging: true,
-          filtering: true,
-          exportButton: true,
-          exportAllData: true,
-          defaultExpanded: getInitialExpandedState, // Utiliza la función para establecer el estado de expansión inicial
-        }}
-      />
-    </ThemeProvider>
+    <>
+      <div style={{ width: '140%', height: '100%' }}>
+          <ThemeProvider theme={defaultMaterialTheme}>
+          <MaterialTable
+              title="Reporte por Campaña"
+              data={data}
+              columns={titulo}
+              options={{
+                search: true,
+                paging: true,
+                filtering: true,
+                exportButton: true,
+                exportAllData: true,
+                pageSize:10,
+                defaultExpanded: getInitialExpandedState,
+                rowStyle: rowData => ({
+                  backgroundColor: rowData.Nota === '0%' ? 'red' : 'inherit',
+                  color: rowData.Nota === '0%' ? 'white' : 'inherit',
+                  fontSize: 10,
+                }),
+              }}
+            />
+
+          </ThemeProvider>
+      </div>
+    </>
   );
 };
